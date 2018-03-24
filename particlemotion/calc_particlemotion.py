@@ -8,7 +8,8 @@ import matplotlib
 import numpy as np
 from  check_fw import is_record_in_fw0
 import sys
-sys.path.append("./miyopy/miyopy")
+sys.path.append("../../../lib/miyopy/miyopy")
+
 #from  miyopy.miyopy.mpio import fetch_data, dump, load
 from  mpio import fetch_data, dump, load
 
@@ -22,6 +23,7 @@ start = 1204969376 # 03/13 10:00:00 (UTC)
 duration = 23040 # sec
 #duration = 55872
 pickle_fname = './{0}_{1}_{2}.pickle'.format(start,duration,chlst_fname.split('.chlst')[0])
+pickle_fname = '../../data/{0}_{1}_{2}.pickle'.format(start,duration,chlst_fname.split('.chlst')[0])
 # get chlst
 with open(chlst_fname,'r') as f:
     chlst = f.read().splitlines()    
@@ -155,7 +157,8 @@ def main():
     ani.save("Sample.gif", writer = 'imagemagick')
     
 if __name__ == '__main__':
-    main()
+    plot_3seisNS_30secTimeseries()
+    #main()
     exit()
     #plot_3seisNS_30secTimeseries()
     #plot_particleMotion()
