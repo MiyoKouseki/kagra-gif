@@ -10,7 +10,6 @@ from  check_fw import is_record_in_fw0
 import sys
 sys.path.append("../../../lib/miyopy/miyopy")
 
-#from  miyopy.miyopy.mpio import fetch_data, dump, load
 from  mpio import fetch_data, dump, load
 
 #exit()
