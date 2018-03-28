@@ -1,5 +1,8 @@
 #
 #! coding:utf-8
+import matplotlib
+matplotlib.use('Agg')
+import os
 
 import numpy as np
 from check_fw import get_fw0_dataframe
@@ -21,7 +24,7 @@ def get_timeseriese(fname = './fw1-latest.txt'):
     for OK_gpstime_lst_ in OK_gpstime_lst:
         mask = np.in1d(NO_gpstime,OK_gpstime_lst_)
         NO_state[mask] = 1
-    print 'done'
+    print 'got timeseries data from '+fname
     return NO_gpstime,NO_state
 
 
@@ -43,7 +46,7 @@ def mpplot_fill(ax,x,y,xlabel='x',ylabel='y',legend='None'):
     xticks = np.arange(x[0],x[-1],60*60*12)
     xticklabels = gps2UTC(xticks)
     ax.set_xticks(xticks)
-    ax.set_xticklabels(xticklabels,rotation=5)
+    ax.set_xticklabels(xticklabels,rotation=10)
     return ax
 
 def subplot21_fill(data,fname):
@@ -71,10 +74,12 @@ def subplot21_fill(data,fname):
     plt.close()    
 
 if __name__=='__main__':
-    fw0_time,fw0_state = get_timeseriese('./fw0-latest.txt')
-    fw1_time,fw1_state = get_timeseriese('./fw1-latest.txt')
     #
-    start,end = [1206233295-3600*24*5,1206233295]
+    fw0_time,fw0_state = get_timeseriese('fw0-latest.txt')
+    fw1_time,fw1_state = get_timeseriese('fw1-latest.txt')
+    #
+    end = fw1_time[-1]
+    start = end-3600*24*5
     fw0_idx =  np.where((fw0_time>start)*(fw0_time<end)==True)
     fw0_time = fw0_time[fw0_idx]
     fw0_state = fw0_state[fw0_idx]
@@ -84,7 +89,7 @@ if __name__=='__main__':
     #
     subplot21_fill(
         data=[[fw0_time,fw0_state],[fw1_time,fw1_state]],
-        fname='lackofdata_fw0.png'
+        fname='lackofdata_fw.png'
     )
     
     

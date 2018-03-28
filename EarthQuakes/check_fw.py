@@ -2,8 +2,8 @@
 #! coding:utf-8
 import pandas as pd
 import datetime
-
-def get_fw0_dataframe(fname='/users/DGS/Frame/fw0-latest.txt',ascending=False):
+import platform
+def get_fw0_dataframe(fname='fw0-latest.txt',ascending=False):
     """
     山本さんが用意した、fw0のデータリストをpandasのDataFrameで読み出す。
     
@@ -21,8 +21,12 @@ def get_fw0_dataframe(fname='/users/DGS/Frame/fw0-latest.txt',ascending=False):
     --------
     >>> get_fw0_dataframe()
     <pandas.dataframe>
-    """    
-    df = pd.read_csv(fname,
+    """
+    if platform.system() == 'Linux':
+        prefix = '/users/DGS/Frame/'
+    elif platform.system() == 'Darwin':
+        prefix = './'            
+    df = pd.read_csv(prefix+fname,
         header = None,
         names = ('GPS_START', 'GPS_END', 'JST_START', 'DURATION'),
         sep = ' ',
@@ -55,7 +59,7 @@ def is_record_in_fw0(start,duration):
     [1205113088, 3600]
     """
     #df = get_fw0_dataframe() #for k1ctr
-    df = get_fw0_dataframe('./fw0-latest_0323.txt')  # for my mac
+    df = get_fw0_dataframe('./fw1-latest.txt')  # for my mac
     df = df[df['GPS_START']<=start]
     df = df[(start+duration)<=df['GPS_END']]
     if df.empty:
