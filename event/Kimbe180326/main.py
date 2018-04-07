@@ -1,22 +1,10 @@
 #
 #! coding:utf-8
 
-import matplotlib.pyplot as plt
-import scipy
+import sys 
 import numpy as np
-import matplotlib.animation as animation
-import matplotlib
-import numpy as np
-import sys
-from scipy import signal
-sys.path.append("../../../lib/miyopy/miyopy")
-from  check_fw import is_record_in_fw0
-import spectrum
-from mpio import fetch_data, dump, load
-import mpplot as mpp
-from _timeseries import *
-sys.path.append("../../../lib/miyopy/giflib")
-from gifio import read
+import miyopy.io.reader as reader
+import miyopy.plot as mpplot
 
 '''
 memo
@@ -33,14 +21,16 @@ EQ_name = {
     }
 
 def getKimbeDataGIFseis(name='Kimbe',option='P-Wave'):
-    gpsstart = EQ_name[name][0]
-    duration = EQ_name[name][1]
     if option=='P-Wave':
-        start,end = 400*16,500*16 # count = 2**4 sec
+        start,tlen = 400*16,100 # count = 2**4 sec
     elif option=='All':
-        start,end = 0,2**16
-    date_ = '2018-03-26 18:57:00'    
-    TR240_EW = read(date_,120,'X1500_TR240velEW')[40*200:140*200]*1.0/1196.5
+        start,tlen = 0,2**16        
+    date_ = '2018-03-26 18:57:00'
+    print start,tlen
+    print date_
+    EX1_NS = -1*reader.gif('2018-03-26 18:57:00',120,'X1500_TR240velEW')[40*200:140*200]*1.0/1196.5
+    exit()
+    TR240_EW = read(date_,120,'X1500_TR240velEW')
     TR240_NS = read(date_,120,'X1500_TR240velNS')[40*200:140*200]*1.0/1196.5
     TR_240_UD = read(date_,120,'X1500_TR240velUD')[40*200:140*200]*1.0/1196.5
     CMG3T_EW = read(date_,120,'X1500_CMG3TvelEW')[40*200:140*200]*1.0/2000.0
@@ -59,43 +49,45 @@ def getKimbeDataGIFseis(name='Kimbe',option='P-Wave'):
     duration = 1234
     return data,title,start,duration
     
-def getKimbeData3seis(name='Kimbe',option='P-Wave'):       
-    gpsstart = EQ_name[name][0]
-    duration = EQ_name[name][1]
-    pm = TimeSeries(gpsstart,duration)
-    data = pm.loadData_pickle()
-    #
-    if option=='P-Wave':
-        start,end = 400*16,500*16 # count = 2**4 sec
-    elif option=='All':
-        start,end = 0,2**16
-    EX1_NS = -1*data[pm.chdic['K1:PEM-EX1_SEIS_WE_SENSINF_OUT16']][start:end]
-    EY1_NS = -1*data[pm.chdic['K1:PEM-EY1_SEIS_NS_SENSINF_OUT16']][start:end]
-    IY0_NS = -1*data[pm.chdic['K1:PEM-IY0_SEIS_WE_SENSINF_OUT16']][start:end]
-    #
-    EX1_WE = -1*data[pm.chdic['K1:PEM-EX1_SEIS_NS_SENSINF_OUT16']][start:end]
-    EY1_WE = -1*data[pm.chdic['K1:PEM-EY1_SEIS_WE_SENSINF_OUT16']][start:end]
-    IY0_WE = -1*data[pm.chdic['K1:PEM-IY0_SEIS_NS_SENSINF_OUT16']][start:end]
-    #
-    EX1_Z = data[pm.chdic['K1:PEM-EX1_SEIS_Z_SENSINF_OUT16']][start:end]
-    EY1_Z = data[pm.chdic['K1:PEM-EY1_SEIS_Z_SENSINF_OUT16']][start:end]
-    IY0_Z = data[pm.chdic['K1:PEM-IY0_SEIS_Z_SENSINF_OUT16']][start:end]
+def get3seis3axis(start,tlen):
+    '''
+    3つの地震計の3つの軸の信号を取得してくる。
+    '''    
+    EX1_NS = -1*reader.kagra(start,tlen,'K1:PEM-EX1_SEIS_WE_SENSINF_OUT16')
+    EY1_NS = -1*reader.kagra(start,tlen,'K1:PEM-EY1_SEIS_NS_SENSINF_OUT16')
+    IY0_NS = -1*reader.kagra(start,tlen,'K1:PEM-IY0_SEIS_WE_SENSINF_OUT16')
+    EX1_WE = -1*reader.kagra(start,tlen,'K1:PEM-EX1_SEIS_NS_SENSINF_OUT16')
+    EY1_WE = -1*reader.kagra(start,tlen,'K1:PEM-EY1_SEIS_WE_SENSINF_OUT16')
+    IY0_WE = -1*reader.kagra(start,tlen,'K1:PEM-IY0_SEIS_NS_SENSINF_OUT16')
+    EX1_Z = 1*reader.kagra(start,tlen,'K1:PEM-EX1_SEIS_Z_SENSINF_OUT16')
+    EY1_Z = 1*reader.kagra(start,tlen,'K1:PEM-EY1_SEIS_Z_SENSINF_OUT16')
+    IY0_Z = 1*reader.kagra(start,tlen,'K1:PEM-IY0_SEIS_Z_SENSINF_OUT16')
     time = np.arange(len(EX1_NS))/16.0
     #
     data = [[time,EX1_NS],[time,EX1_WE],[time,EX1_Z],
             [time,IY0_NS],[time,IY0_WE],[time,IY0_Z],
             [time,EY1_NS],[time,EY1_WE],[time,EY1_Z]]    
-    title = ['EX1_NS','EX1_WE','EX1_Z',
+    label = ['EX1_NS','EX1_WE','EX1_Z',
              'IY0_NS','IY0_WE','IY0_Z',
              'EY1_NS','EY1_WE','EY1_Z']    
-    duration = (end-start)/16.0
-    start = gpsstart + start/16.0
-    return data,title,start,duration
+    return data,label
     
 if __name__ == '__main__':
-    name   = 'Kimbe'
-    option = 'P-Wave'
-    data,title,gpsstart,duration = getKimbeData3seis(name,option)
-    mpplot.subplot33(data,'3SEIS_{0}_{2}_{1}_{3}.png'.format(name,int(gpsstart),option,int(duration)),title)
-    data,title,gpsstart,duration = getKimbeDataGIFseis(name,option)
-    mpplot.subplot33(data,'GIFSEIS_{0}_{2}_{1}_{3}.png'.format(name,int(gpsstart),option,int(duration)),title)
+    argvs = sys.argv
+    if (len(argvs) != 3):
+        print 'Usage: # python %s <EQname> <WaveName>' % argvs[0]
+        quit()
+    elif(len(argvs) != 2):
+        name,option= argvs[1],argvs[2]        
+    if option=='P-Wave':
+        start,tlen = 1206093078+400,100 # count = 2**4 sec
+        title = '{0}_{1}_{2}_{3}'.format(name,option,start,tlen)
+    elif option=='All':
+        start,tlen = 0,2**16
+        title = '{0}_{1}_{2}_{3}'.format(name,option,start,tlen)
+    #
+    #data,label = get3seis3axis(start,tlen)
+    #mpplot.subplot33(data,'3SEIS_{0}.png'.format(title),label)
+    data,title,start,tlen = getKimbeDataGIFseis(name,option)
+    mpplot.subplot33(data,'GIF_{0}.png'.format(title),label)
+    
