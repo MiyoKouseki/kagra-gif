@@ -27,16 +27,6 @@ def get_timeseriese(fname = './fw1-latest.txt'):
     print 'got timeseries data from '+fname
     return NO_gpstime,NO_state
 
-
-def plot_fillgraph(time,value):
-    plt.plot(time,value)
-    plt.fill_between(time,value,where=value>0,alpha=0.5)
-    title = 'lack of data on the {0} from {1} to {2}'.format(fw,time[0],time[-1])
-    plt.title(title,fontsize=15)
-    plt.xlabel('Time',fontsize=15)
-    plt.ylabel('Value (0 or 1)',fontsize=15)
-    return 
-
 def mpplot_fill(ax,x,y,xlabel='x',ylabel='y',legend='None'):
     ax.plot(x,y,label=legend)
     ax.fill_between(x,y,where=y>0,alpha=0.5)

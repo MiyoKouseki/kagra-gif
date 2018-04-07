@@ -1,5 +1,7 @@
 #
 #! coding:utf-8
+from __future__ import print_function
+
 import pandas as pd
 import datetime
 import platform
@@ -63,7 +65,7 @@ def is_record_in_fw0(start,duration):
     df = df[df['GPS_START']<=start]
     df = df[(start+duration)<=df['GPS_END']]
     if df.empty:
-        print 'No data'
+        print('No data')
         exit()
     else:        
         start,duration = start,duration
