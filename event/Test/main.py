@@ -79,8 +79,7 @@ def get3seis3axis(start,tlen,option):
             [time,Yend_EW],[time,Yend_NS],[time,Yend_UD]]    
     label = ['Xend2F_EW','Xend1F_NS','Xend1F_UD',
              'Cent1F_EW','Cent1F_NS','Cent1F_UD',
-             'Yend2F_EW','Yend2F_NS','Yend2F_UD']
-        
+             'Yend2F_EW','Yend2F_NS','Yend2F_UD']        
     title = '{0}_{1}_{2}'.format(option,start,tlen)    
     fname = '3SEIS_{0}.png'.format(title)
     print fname
@@ -102,6 +101,7 @@ if __name__ == '__main__':
         'Example_MidNight2':[1207411218,2**10], # 4/10 25:00
         'Example_MidNight_Long':[1207234818,2**15], # 4/08 24:00        
         'Example_MidNight_Long2':[1207152018,2**16], # 4/08 24:00
+        'Example_Night_Long':[1207213218,2**15], # 4/08 24:00
     }
     #
     try:
@@ -120,7 +120,7 @@ if __name__ == '__main__':
         print '\n'.join(EQ_name.keys())
         exit()
     #
-    #data,label = get3seis3axis(start,tlen,option)
+    data,label = get3seis3axis(start,tlen,option)
     gif_data,label = getKimbeDataGIFseis(start, tlen,option)
     exit()
     #        
