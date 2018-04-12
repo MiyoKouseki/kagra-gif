@@ -29,7 +29,7 @@ def getKimbeDataGIFseis(start,tlen):
     time = np.arange(len(TR240_EW))/fs
     data = [[time,TR240_EW],[time,TR240_NS],[time,TR240_UD],
             #[time,GIF_X],[time,CLIO_LIN],[time,CLIO_SHR],
-            [time,GIF_X],[time,GIF_X],[time,GIF_X],
+            [time,GIF_SQ],[time,GIF_X],[time,GIF_X],
             [time,CMG3T_EW],[time,CMG3T_NS],[time,CMG3T_UD],
             ]
     label = ['X1500_TR240velEW','X1500_TR240velNS','X1500_TR240velUD',
@@ -85,7 +85,6 @@ if __name__ == '__main__':
         'Kimbe_P-Wave':[1206093078+440,2**7],
         'Kimbe_S-Wave':[1206093078+800,2**10],
         'Kimbe_S-Wave':[1206093078+1200,2**9],
-        'Kimbe_huge':[1206093078+1200,2**7],        
         'Kimbe_Other-Wave':[1206093078+1200,2**11],        
         'Saumlaki':[1206044105,32*2*32],
         'Hachijo-jima':[1206027402,32*2*64],
@@ -100,12 +99,12 @@ if __name__ == '__main__':
     start, tlen = EQ_name[option]
     title = '{0}_{1}_{2}'.format(option,start,tlen)
     #
-    ex1_ns = reader.kagra(start,tlen,'K1:PEM-EX1_SEIS_WE_SENSINF_OUT16')
-    ex1_ew = reader.kagra(start,tlen,'K1:PEM-EX1_SEIS_NS_SENSINF_OUT16')
-    ex1_z = reader.kagra(start,tlen,'K1:PEM-EX1_SEIS_Z_SENSINF_OUT16')
-    import matplotlib.pyplot as plt
-    plt.plot(ex1_ew,ex1_ns)
-    plt.xlim(-1e-4,1e-4)
-    plt.ylim(-1e-4,1e-4)
-    plt.savefig('{0}_particle.png'.format(title))
-    plt.close()
+    data,label = get3seis3axis(start,tlen)
+    fname = '3SEIS_{0}.png'.format(title)
+    print fname
+    mpplot.subplot33(data,fname,label)
+    #
+    data,label = getKimbeDataGIFseis(start, tlen)
+    fname = 'GIF_{0}.png'.format(title)    
+    mpplot.subplot33(data,fname,label)   
+    print fname
