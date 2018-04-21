@@ -103,7 +103,7 @@ def getGIFdata(start,tlen,title,option,theta=0.0,plot33=False,after_28Mar=True,a
     v2hPa = 1.0
     v2cdegree = 1.0
     #
-    Strain = reader.gif(start,tlen,'CALC_STRAIN',)*1.5e3
+    Strain = reader.gif(start,tlen,'CALC_STRAIN',)#*1.5e3
     Baro_x500 = reader.gif(start,tlen,'X500_BARO',)*v2hPa*-2e-8
     Baro_x2000 = reader.gif(start,tlen,'X2000_BARO',)*v2hPa*2e-8
     Temp_x500 = reader.gif(start,tlen,'X500_TEMP',)*v2cdegree
@@ -111,7 +111,7 @@ def getGIFdata(start,tlen,title,option,theta=0.0,plot33=False,after_28Mar=True,a
     TR240_SEIS = np.array([TR240_EW,TR240_NS,TR240_UD]).T
     if True:
         v = 5500.0
-        v = 1
+        #v = 1
         TR240_SEIS = TR240_SEIS/v/1196.5            
     TR240_NSEW = np.array(map(lambda x:np.dot(x,R(-30+theta)),TR240_SEIS))
     TR240_x, TR240_y, TR240_z = TR240_NSEW.T
@@ -133,10 +133,10 @@ def getGIFdata(start,tlen,title,option,theta=0.0,plot33=False,after_28Mar=True,a
     Temp_x500.get_psd(ave=8,plot=False)
     Temp_x2000.get_psd(ave=8,plot=False)
     CMRR.get_psd(ave=8,plot=False,integ=False)
-    TR240_x.get_psd(ave=8,plot=False,integ=True)
+    TR240_x.get_psd(ave=8,plot=False,integ=False,savefile=True)
     TR240_y.get_psd(ave=8,plot=False,integ=False)
     TR240_z.get_psd(ave=8,plot=False,integ=False)    
-    return Strain,TR240_x,Baro_x500,Baro_x2000,Temp_x500,Temp_x2000,CMRR,CMRR_
+    return Strain,TR240_x,Baro_x500,Baro_x2000,Temp_x500,Temp_x2000,CMRR
 
 
 def getKAGRAseismometer(start,tlen,title,option,theta=0.0,plot33=False,after_28Mar=True,after_12Mar=False,do_you_want_to_calib=True):    
@@ -207,7 +207,7 @@ def getKAGRAseismometer(start,tlen,title,option,theta=0.0,plot33=False,after_28M
         Cent_z.get_psd(ave=8,plot=False,integ=False)
         print 'get KAGRA data'
         return [[Xend_x,Yend_x,Cent_x],[Xend_y,Yend_y,Cent_y],[Xend_z,Yend_z,Cent_z]]
-
+    
 if __name__ == '__main__':
     start,tlen,title,option = main_getGPStime()
     theta = 0.0
@@ -218,14 +218,14 @@ if __name__ == '__main__':
     data = getGIFdata(start,tlen,title,option,theta=theta)
     Strain,TR240_x,Baro_x500,Baro_x2000,Temp_x500,Temp_x2000,CMRR = data
     #
-    if False:
+    if True:
         data = [Strain,TR240_x,Baro_x500,Baro_x2000]#,Xend_x,Cent_x]
         mpplot.LogLogPlot(data,
                         lim=([1e-3,4e0],[0.5e-13,1e-9]),
                         filename='{0}/XarmStrain_{1}_{2}_{3}'.format(title,start,tlen,option),
                         label=['Frequency [Hz]','Strain [1/rtHz]']
         )
-    if True:
+    if False:
         data = [Strain,TR240_x,CMRR]
         #data = [Xend_x]        
         mpplot.LogLogPlot(data,
