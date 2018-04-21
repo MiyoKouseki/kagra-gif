@@ -74,6 +74,7 @@ def main_getGPStime():
         '0417_17h00m':[1207987218,2**13], # OK,2**16 made
         '0417_20h00m':[1207998018,2**13], # OK ,2**16 made
         '0417_23h00m':[1208008818,2**13], # OK ,2**16 made
+        '0421chiba':[1208339257-2**10,2**12], 
         #'hoge':[1207440018,2**6], # 04/11 09:00, 18hour
     }
     try:
@@ -209,6 +210,7 @@ def getKAGRAseismometer(start,tlen,title,option,theta=0.0,plot33=False,after_28M
         return [[Xend_x,Yend_x,Cent_x],[Xend_y,Yend_y,Cent_y],[Xend_z,Yend_z,Cent_z]]
     
 if __name__ == '__main__':
+    
     start,tlen,title,option = main_getGPStime()
     theta = 0.0
     data = getKAGRAseismometer(start,tlen,title,option,theta=theta)
