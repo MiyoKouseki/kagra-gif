@@ -222,6 +222,4 @@ if __name__ == '__main__':
     plt.savefig('hoge.png')
     plt.close()
     #plt.plot(Yend_EW._time,Yend_EW.timeseries)
-    #plt.savefig('hoge.png')
-    
-    
+    #plt.savefig('hoge.png')       

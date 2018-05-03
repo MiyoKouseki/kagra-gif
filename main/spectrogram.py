@@ -5,7 +5,7 @@ import math as M
 
 import numpy as np
 from matplotlib import mlab
-from matplotlib.colors import Normalize
+from matplotlib.colors import Normalize,LogNorm
 
 from obspy.imaging.cm import obspy_sequential
 
@@ -99,22 +99,22 @@ def spectrogram(data, samp_rate, per_lap=0.9, wlen=None, log=False,
     nfft = int(_nearest_pow_2(wlen * samp_rate))
     if nfft > npts:
         nfft = int(_nearest_pow_2(npts / 8.0))
-        
+    #print 'nfft = {0}'.format(nfft)
     if mult is not None:
         mult = int(_nearest_pow_2(mult))
         mult = mult * nfft
-    nlap = int(nfft * float(per_lap))
-    
+    nlap = int(nfft * float(per_lap))    
     data = data - data.mean()
     end = npts / samp_rate
-    print True in data
+    #print True in data
     # Here we call not plt.specgram as this already produces a plot
     # matplotlib.mlab.specgram should be faster as it computes only the
     # arrays
     # XXX mlab.specgram uses fft, would be better and faster use rfft
     specgram, freq, time = mlab.specgram(data, Fs=samp_rate, NFFT=nfft,
                                          pad_to=mult, noverlap=nlap)
-    print specgram    
+    #specgram = np.sqrt(specgram)
+    #print specgram    
     # db scale and remove zero/offset for amplitude
     if dbscale:
         specgram = 10 * np.log10(specgram[1:, :])
@@ -127,10 +127,14 @@ def spectrogram(data, samp_rate, per_lap=0.9, wlen=None, log=False,
         msg = "Invalid parameters for clip option."
         raise ValueError(msg)
     _range = float(specgram.max() - specgram.min())
-    vmin = specgram.min() + vmin * _range
-    vmax = specgram.min() + vmax * _range
+    _range = float(1e-06-1e-13)
+    #print '_range = {0:4.1e}'.format(_range)
+    #vmin = specgram.min() + vmin * _range
+    #vmax = specgram.min() + vmax * _range
+    vmin = 1e-13 + vmin * _range
+    vmax = 1e-13 + vmax * _range
     norm = Normalize(vmin, vmax, clip=True)
-
+    norm = LogNorm(vmin, vmax,clip=True)
     if not axes:
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -154,7 +158,9 @@ def spectrogram(data, samp_rate, per_lap=0.9, wlen=None, log=False,
         # Log scaling for frequency values (y-axis)
         ax.set_yscale('log')
         # Plot times
-        ax.pcolormesh(time, freq, specgram, norm=norm, **kwargs)
+        pcm = ax.pcolormesh(time, freq, specgram, norm=norm, **kwargs)
+        cbar = fig.colorbar(pcm, ax=ax)
+        cbar.set_label(r'ASD [m/s /rtHz]')
     else:
         # this method is much much faster!
         specgram = np.flipud(specgram)
@@ -174,6 +180,7 @@ def spectrogram(data, samp_rate, per_lap=0.9, wlen=None, log=False,
 
     ax.set_xlabel('Time [s]')
     ax.set_ylabel('Frequency [Hz]')
+    ax.set_title(outfile)
     if title:
         ax.set_title(title)
 
@@ -182,9 +189,10 @@ def spectrogram(data, samp_rate, per_lap=0.9, wlen=None, log=False,
         with np.errstate(all='ignore'):
             plt.draw()
     if outfile:
-        if fmt:
+        if fmt:           
             fig.savefig(outfile, format=fmt)
         else:
+            print outfile
             fig.savefig(outfile)
     elif show:
         plt.show()

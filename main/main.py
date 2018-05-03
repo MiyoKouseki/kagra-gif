@@ -4,13 +4,13 @@
 import sys 
 import numpy as np
 from scipy import signal
-from miyopy.types import Seismometer
+from miyopy.types import Seismometer,Timeseries
 import miyopy.io.reader as reader
 import miyopy.plot.mpplot as mpplot
 import subprocess
 from scipy.signal import spectral
 from miyopy.parse.arg import get_gpstime
-
+import pickle
 
 EQ_name = {
     'Tottori':[1207240372,2**12],
@@ -50,217 +50,143 @@ EQ_name = {
     '0425_heavy_rain':[],
     '0425_00':[1208617218,2**16],
     '0424_23':[1208617218-3600,2**10],
+    '0424_18':[1208595618,2**17], # start 04-24-18:00
+    '0426_18':[1208769618,2**17], # start04-26-18:20               
+    '0428_09':[1208908938,2**17], # start04-28-09:02
+    #'0428_09_':[1208908938+92400,1000], # start04-28-09:02,
+    '0428_09_1':[1208908938,2**16], # start04-28-09:02,
+    '0428_09_2':[1208908938+93400,2**16], # start04-28-
+    '0428_09_2':[1208908938+93400,2**16], # start04-28-
+    # 1208908938+92400から200秒データがおかしい
+    # 2018-04-29 JST 10:42:00から200秒
+    #'0430_09_2':[1208908938,2**16], # start04-28-
+    #'0430_22':[1209128418,2**14] #[data] JST 04-30-22:00 many lockloss!
+    '0429_22':[1209042018,2**14], #[data] JST 04-29-22:00
+    '0418_00_STRAIN':[1208044818,2**20], #[data] JST   
     }
 
 
-def main():
-    t0,tlen,title = get_gpstime(EQ_name)
-    channels = ['K1:PEM-EX1_SEIS_NS_SENSINF_OUT16']
-    theta = 0
-    ave = 2**7
-    '''
-    for theta in range(0,180,1):
-        ex1 = Seismometer(t0,tlen,'EX1',theta=theta)
-        ey1 = Seismometer(t0,tlen,'EY1',theta=theta)
-        cen = Seismometer(t0,tlen,'IY0',theta=theta)
-        # Yend-Xend
-        ey1.x.get_coherence(ex1.x,ave=ave,plot=False)
-        fname = '{0}/Coherence_{1:03d}_Xarm_YendXend'.format(title,theta)
-        mpplot.CoherencePlot(ey1.x,fname,ave=ave,cl=99)
-        # Yend-Cent
-        ey1.x.get_coherence(cen.x,ave=ave,plot=False)
-        fname = '{0}/Coherence_{1:03d}_Xarm_YendCent'.format(title,theta)
-        mpplot.CoherencePlot(ey1.x,fname,ave=ave,cl=99)
-        # Xend-Cent
-        ex1.x.get_coherence(cen.x,ave=ave,plot=False)
-        fname = '{0}/Coherence_{1:03d}_Xarm_XendCent'.format(title,theta)
-        mpplot.CoherencePlot(ex1.x,fname,ave=ave,cl=99)
-'''
-    for theta in range(0,180,1):
-        ex1 = Seismometer(t0,tlen,'EX1',theta=theta)
-        ey1 = Seismometer(t0,tlen,'EY1',theta=theta)
-        cen = Seismometer(t0,tlen,'IY0',theta=theta)
-        # Yend-Xend
-        ey1.y.get_coherence(ex1.y,ave=ave,plot=False)
-        fname = '{0}/Coherence_{1:03d}_Yarm_YendXend'.format(title,theta)
-        mpplot.CoherencePlot(ey1.y,fname,ave=ave,cl=99)
-        # Yend-Cent
-        ey1.y.get_coherence(cen.y,ave=ave,plot=False)
-        fname = '{0}/Coherence_{1:03d}_Yarm_YendCent'.format(title,theta)
-        mpplot.CoherencePlot(ey1.y,fname,ave=ave,cl=99)
-        # Xend-Cent
-        ex1.y.get_coherence(cen.y,ave=ave,plot=False)
-        fname = '{0}/Coherence_{1:03d}_Yarm_XendCent'.format(title,theta)
-        mpplot.CoherencePlot(ex1.y,fname,ave=ave,cl=99)
-        
-    
-def main():
-    t0,tlen,title = get_gpstime(EQ_name)
-    print title
-    theta = 21
-    ave = 64
-    ex1 = Seismometer(t0,tlen,'EX1',theta=theta)
-    ey1 = Seismometer(t0,tlen,'EY1',theta=theta)
-    cen = Seismometer(t0,tlen,'IY0',theta=theta)
-    # Yend-Xend
-    ey1.x.get_coherence(ex1.x,ave=ave,plot=False)
-    fname = '{0}/Coherence_{1:03d}_Xarm_YendXend'.format(title,theta)
-    mpplot.CoherencePlot(ey1.x,fname,ave=ave,cl=99)
-    # 有意なところだけ抜きだす。
-    clfunc = lambda a: 1.0-(1.0-a/100.0)**(1./(ave-1))    
-    idx = np.where(ey1.x._coh>clfunc(99))
-    phase = np.rad2deg(ey1.x._cohphase[idx])
-    f = ey1.x._f[idx]
-    idx = np.where(f>1.0)
-    f = f[idx]
-    phase = phase[idx]
-    idx = np.where(f<2.0)
-    f = f[idx]
-    phase = phase[idx] #+ 180
-    # 
-    #
-    import matplotlib.pyplot as plt
-    from scipy.optimize import curve_fit    
-    f_ = np.logspace(-1,1,1e5)
-    w = 2.0*f_
-    def phasedelay(w,c):
-        tau = 3.0*np.sqrt(2.0)*np.cos(np.deg2rad(20.0))/c
-        #print tau*c
-        print c,tau
-        return np.angle(np.exp(-1j*tau*w))
-    phase_ = phasedelay(w,c=0.32)
-    phase_ = np.rad2deg(phase_)
-    phase__ = phasedelay(w,c=5.5)
-    phase__ = np.rad2deg(phase__)
-    plt.semilogx(f,phase,'ko')
-    plt.semilogx(f_,phase_,label='c=330 m/s')
-    plt.semilogx(f_,phase__,label='c=5500 m/s')
-    plt.legend(loc='upper left')
-    plt.xlabel('Freqency [Hz]')
-    plt.ylabel('Phase [degree]')
-    plt.xlim(1e-1,1e1)
-    plt.ylim(-180,180)
-    plt.savefig('hoge.png')
-    plt.close()    
-    
-def plot_spectrogram():
-    data = ey1.x.timeseries
-    samp_rate = ex1.x._fs
-    nfft = ex1.x._nlen/ave
-    mult=8.0 # 2**N 
-    per_lap=0.9
-    if mult is not None:
-        mult = int(_nearest_pow_2(mult))
-        mult = mult * nfft
-    nlap = int(nfft * float(per_lap))
-    from matplotlib import mlab
-    from matplotlib.colors import Normalize
-    specgram, freq, time = mlab.specgram(data, Fs=samp_rate, NFFT=nfft,
-                                         pad_to=mult, noverlap=nlap)
-    specgram = np.sqrt(specgram)
-    freq = freq[1:]
-    clip = [1e-10, 1e-2]
-    _range = float(specgram.max() - specgram.min())
-    vmin, vmax = clip
-    vmin = specgram.min() + vmin * _range
-    vmax = specgram.min() + vmax * _range
-    norm = Normalize(vmin, vmax, clip=True)
-    import matplotlib.pyplot as plt
-    if True:
-        halfbin_time = (time[1] - time[0]) / 2.0
-        halfbin_freq = (freq[1] - freq[0]) / 2.0
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        # pcolor expects one bin more at the right end
-        freq = np.concatenate((freq, [freq[-1] + 2 * halfbin_freq]))
-        time = np.concatenate((time, [time[-1] + 2 * halfbin_time]))
-        # center bin
-        time -= halfbin_time
-        freq -= halfbin_freq
-        # Log scaling for frequency values (y-axis)
-        ax.set_yscale('log')
-        # Plot times
-        zorder = None
-        end = len(data) / samp_rate
-        #kwargs = {k: v for k, v in (('cmap', 'jet'), ('zorder', zorder))
-        #        if v is not None}
-        #print kwargs
-        #from matplotlib.ticker import LogLocator        
-        pcm = ax.pcolormesh(time, freq, specgram, norm=norm)
-        #cb = fig.colorbar(pcm, ticks = LogLocator())
-        #cb.ax.minorticks_on()        
-        ax.axis('tight')
-        ax.set_xlim(0, end)
-        ax.grid(False)
-        ax.set_xlabel('Time [s]')
-        ax.set_ylabel('Frequency [Hz]')
-        plt.savefig('huge.png')   
-    #
-    
-def plot_spectrogram_():
-    from matplotlib import mlab
-    from matplotlib.colors import Normalize
-    import matplotlib.pyplot as plt
-    data = ey1.x.timeseries
-    samp_rate = ex1.x._fs
-    nfft = ex1.x._nlen/ave
-    specgram, freq, time = mlab.specgram(data,Fs=samp_rate,NFFT=nfft,)
-    specgram = np.sqrt(specgram)
-    #
-    clip=[1e-10, 1e-2]
-    _range = float(specgram.max() - specgram.min())
-    vmin, vmax = clip
-    vmin = specgram.min() + vmin * _range
-    vmax = specgram.min() + vmax * _range
-    norm = Normalize(vmin, vmax, clip=True)
-    #
-    fig = plt.figure()
-    ax = fig.add_subplot(111)        
-    ax.set_yscale('log')
-    pcm = ax.pcolormesh(time, freq, specgram, norm=norm)
-    print specgram
-    ax.axis('tight')
-    ax.grid(False)
-    ax.set_xlabel('Time [s]')
-    ax.set_ylabel('Frequency [Hz]')
-    plt.savefig('huge.png')       
-    
-    
-if __name__ == '__main__':
-    #main() # backup
-    #exit()
-    t0,tlen,title = get_gpstime(EQ_name)
+def main_plotSEismometerSepctrogram(*args):
     theta = 0
     ave = 16
-    ex1 = Seismometer(t0,tlen,'EX1',theta=theta)
+    ex1 = Seismometer(t0,tlen,'EX1',theta=theta)    
     ey1 = Seismometer(t0,tlen,'EY1',theta=theta)
     cen = Seismometer(t0,tlen,'IY0',theta=theta)
     # Yend-Xend
-    ex1.x.get_coherence(ex1.y,ave=ave,plot=False)
-    print ex1.x.psd.max()
-    print ex1.x.psd.min()
-    fname = '{0}/Coherence_{1:03d}_Xend_xy'.format(title,theta)
-    mpplot.CoherencePlot(ex1.x,fname,ave=ave,cl=99)
+    if True:
+        from spectrogram import spectrogram
+        sec = 1
+        wlen = 128
+        clip = [0,1]
+        print title
+        # Xend
+        spectrogram(ex1.x.timeseries,ex1.x._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ex1.x._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+        spectrogram(ex1.y.timeseries,ex1.y._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ex1.y._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+        spectrogram(ex1.z.timeseries,ex1.z._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ex1.z._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)        
+        # Yend
+        spectrogram(ey1.y.timeseries,ey1.y._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ey1.y._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+        spectrogram(ey1.x.timeseries,ey1.x._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ey1.x._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+        spectrogram(ey1.z.timeseries,ey1.z._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ey1.z._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)        
+        # Cent
+        spectrogram(cen.y.timeseries,cen.y._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,cen.y._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+        spectrogram(cen.x.timeseries,cen.x._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,cen.x._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+        spectrogram(cen.z.timeseries,cen.z._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,cen.z._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
+
+
+def main_Lock(*args):
+    channels = ['K1:VIS-BS_TM_OPLEV_SERVO_PIT_OFFSET',
+                #'K1:VIS-BS_TM_OPLEV_SERVO_YAW_OFFSET',
+                'K1:VIS-BS_IM_LOCK_L_OUT16',
+                'K1:GRD-LSC_MICH_STATE_N']
+    data = reader.kagra.readKAGRAdata(t0,tlen,channels)
+    label=['Time','Value']
+    filename = '{0}/TimeseriesMultPlot_{1}_{2}.png'.format(title,t0,tlen)
+    legend = [d_._name for d_ in data]
+    mpplot.MultiPlot_new(data,label,filename,legend)
+    
+
+def main_StrainmeterSignalBudjet(theta=0.0,*args):
+    MICH_CTRL_L = reader.kagra.readKAGRAdata(t0,tlen,
+                                             ['K1:VIS-BS_IM_LOCK_L_OUT16'],
+                                             plot=True,
+                                             detrend=True,
+                                             )[0]
+    X1500_TR_X = Seismometer(t0,tlen,
+                             'X1500_TR240',
+                             plot=True,
+                             detrend=True).x
+    GIF_X = reader.gif.readGIFdata(t0,tlen,
+                                   'CALC_STRAIN',
+                                   name='X_strainmeter',
+                                   plot=True,
+                                   detrend=True)
+    X500_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X500_BARO',
+                                       name='x500_pressure',
+                                       plot=True,detrend=True)
+    X2000_BARO = reader.gif.readGIFdata(t0,tlen,
+                                        'X2000_BARO',
+                                        name='x2000_pressure',
+                                        plot=True,detrend=True)
+    X500_TEMP = reader.gif.readGIFdata(t0,tlen,
+                                       'X500_TEMP',
+                                       name='x500_temperature',
+                                       plot=True,detrend=True)
+    # convert
+    X1500_TR_X = X1500_TR_X/5500.0/1196.5
+    X500_BARO = X500_BARO*2e-8
+    X2000_BARO = X2000_BARO*2e-8
+    MICH_CTRL_L = MICH_CTRL_L
+    # psd
+    ave = 4
+    MICH_CTRL_L.get_psd(ave=ave,plot=False)
+    GIF_X.get_psd(ave=ave,plot=False)
+    X1500_TR_X.get_psd(ave=ave,plot=False)
+    X500_BARO.get_psd(ave=ave,plot=False)
+    X500_TEMP.get_psd(ave=ave,plot=False)
+    X2000_BARO.get_psd(ave=ave,plot=False)
     #
-    from spectrogram import spectrogram
-    data = ex1.x.timeseries
-    samp_rate = ex1.x._fs
-    print data
-    print samp_rate
-    spectrogram(data, samp_rate, per_lap=0.9, wlen=None, log=True,
-                outfile=None, fmt=None, axes=None, dbscale=False,
-                mult=8.0, zorder=None, title=None,
-                show=True, sphinx=False, clip=[1e-10, 1e-2])
+    datalist = [GIF_X,
+                X1500_TR_X,
+                X500_BARO,
+                MICH_CTRL_L
+                ]
+    #mpplot.LogLogPlot(datalist,label=['Frequency [Hz]','Strain [1/rtHz]'],lim=(None,[1e-13,1e-8]),filename='./StrainmeterSignalBudjet_{0:03d}'.format(theta))
+    mpplot.LogLogPlot(datalist,label=['Frequency [Hz]','Strain [1/rtHz]'],lim=(None,None),filename='./StrainmeterSignalBudjet_{0:03d}'.format(theta))
+
+
+def main_strain(init=False,save=False,load=True):
+    EQ_name = {'0418_00_STRAIN':[1208044818,2**20]}
+    event = '0418_00_STRAIN'
+    t0,tlen = EQ_name[event]
+    title = '../event/{0}'.format(event)
     #
-    exit()
-    # 有意なところだけ抜きだす。
-    clfunc = lambda a: 1.0-(1.0-a/100.0)**(1./(ave-1))
-    idx = np.where(ey1.x._coh>clfunc(99))
-    phase = np.rad2deg(ey1.x._cohphase[idx])
-    f = ey1.x._f[idx]
-    idx = np.where(f>1.0)
-    f = f[idx]
-    phase = phase[idx]
-    idx = np.where(f<2.0)
-    f = f[idx]
-    phase = phase[idx] #+ 180
+    if init:
+        GIF_X = reader.gif.readGIFdata(t0,tlen,
+                                    'CALC_STRAIN',
+                                    name='X_strainmeter',
+                                    plot=True,
+                                    detrend=True)    
+    if save:
+        print 'saving...'
+        with open('0418_00_STRAIN.pickle', mode='wb') as f:
+            pickle.dump(GIF_X, f)
+    if load:
+        print 'loading...'
+        with open('0418_00_STRAIN.pickle', mode='rb') as f:
+            GIF_X = pickle.load(f)
+    #
+    gotic = reader.gotic.readGOTICdata(t0,tlen,'Xarm',plot=True,detrend=False)
+    #
+    import matplotlib.pyplot as plt
+    plt.plot(GIF_X._time,GIF_X.timeseries,label=GIF_X._name)
+    plt.plot(gotic._time,gotic.timeseries,label=gotic._name)
+    plt.savefig('hoge.png')
+    plt.close()
+    
+if __name__ == '__main__':
+    t0,tlen,title = get_gpstime(EQ_name)
+    #main_plotSEismometerSepctrogram(t0,tlen,title)
+    #main_Lock(t0,tlen,title)
+    #main_StrainmeterSignalBudjet(t0,tlen,title)   
+    main_strain()

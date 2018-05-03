@@ -1,0 +1,15 @@
+# tide.txt
+*********************[ Mandatory Cards ]**********************
+STAPOSD KAMIOKA, 137.31, 36.43, 358.0, 0.0
+#STAPOSD KAMIOKA, 137.31, 36.43, 358.0, 60.0
+#WAVE    ALL
+WAVE    MAJOR8
+#WAVE    M2
+KIND    ST
+**********************[ Option Cards ]************************
+#PREDICT 1, 201707211500, 201708081459, 1 # 7ap
+PREDICT 1, 201707011500, 201708301459, 1 # 7ap
+#PREDICT 1, 201708010000, 201708070000, 1 # 7ap
+PREFMT  3, 1
+UNIT20  tides.out
+END
