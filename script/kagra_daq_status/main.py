@@ -84,7 +84,8 @@ def main():
     
     
     '''
-    #    
+    #
+    #passwords = input('passwords for k1ctr9')
     cmd = 'scp controls@10.68.10.59:/users/DGS/Frame/fw0-latest.txt ./'
     ret  =  subprocess.check_call( cmd.split(" ") )
     cmd = 'scp controls@10.68.10.59:/users/DGS/Frame/fw1-latest.txt ./'

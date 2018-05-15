@@ -6,11 +6,12 @@ import numpy as np
 from scipy import signal
 from miyopy.types import Seismometer,Timeseries
 import miyopy.io.reader as reader
-import miyopy.plot.mpplot as mpplot
+import miyopy.plot as mpplot
 import subprocess
 from scipy.signal import spectral
 from miyopy.parse.arg import get_gpstime
 import pickle
+
 
 EQ_name = {
     'Tottori':[1207240372,2**12],
@@ -62,36 +63,48 @@ EQ_name = {
     #'0430_09_2':[1208908938,2**16], # start04-28-
     #'0430_22':[1209128418,2**14] #[data] JST 04-30-22:00 many lockloss!
     '0429_22':[1209042018,2**14], #[data] JST 04-29-22:00
-    '0418_00_STRAIN':[1208044818,2**20], #[data] JST   
+    '0418_00_STRAIN':[1208044818,2**20], #[data] JST
+    '0502_12':[1209267078,2**17], # [data] JST 05-02-12:31
+    '0502_15':[1209267078+3600*3,2**15], # [data] JST 05-02-12:31
+    '0502_10':[1209258738,2**13], # [data] JST 05-02-10:12
+    '0504_00':[1209427218,2**7], # [data] JST 05-04-09:00
+    '0502_09-10':[1209254418,2**13], # [data] JST 05-02-09:00 (include lack of data)
     }
+    
 
-
-def main_plotSEismometerSepctrogram(*args):
-    theta = 0
+def main_plotSeismometerSepctrogram(*args,**kwargs):
+    '''X,Y,Centerそれぞれの3軸についてスペクトログラムを描く。       
+    
+    Parameter
+    ---------
+    args : t0, tlen, title
+    
+    '''
+    from miyopy.plot.plotspectrogram import plotspectrogram
+    theta = 0.0
+    ex1 = Seismometer(t0,tlen,'EX1')    
+    ey1 = Seismometer(t0,tlen,'EY1')
+    cen = Seismometer(t0,tlen,'IY0')    
     ave = 16
-    ex1 = Seismometer(t0,tlen,'EX1',theta=theta)    
-    ey1 = Seismometer(t0,tlen,'EY1',theta=theta)
-    cen = Seismometer(t0,tlen,'IY0',theta=theta)
-    # Yend-Xend
-    if True:
-        from spectrogram import spectrogram
-        sec = 1
-        wlen = 128
-        clip = [0,1]
-        print title
-        # Xend
-        spectrogram(ex1.x.timeseries,ex1.x._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ex1.x._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-        spectrogram(ex1.y.timeseries,ex1.y._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ex1.y._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-        spectrogram(ex1.z.timeseries,ex1.z._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ex1.z._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)        
-        # Yend
-        spectrogram(ey1.y.timeseries,ey1.y._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ey1.y._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-        spectrogram(ey1.x.timeseries,ey1.x._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ey1.x._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-        spectrogram(ey1.z.timeseries,ey1.z._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,ey1.z._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)        
-        # Cent
-        spectrogram(cen.y.timeseries,cen.y._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,cen.y._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-        spectrogram(cen.x.timeseries,cen.x._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,cen.x._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-        spectrogram(cen.z.timeseries,cen.z._fs,outfile='{0}/Spectrogram_{1}_{2}_{3}.png'.format(title,t0,tlen,cen.z._name),wlen=wlen,log=True,clip=clip,per_lap=0.9)
-
+    ex1._rotate(theta)
+    ey1._rotate(theta)
+    cen._rotate(theta)
+    for seismo in [ex1,ey1,cen]:
+        for axis in ['x','y','z']:
+            fname_fmt = '{0}Spectrogram_{1}_{2}_{3}_{4:03d}.png'
+            fname = fname_fmt.format(title,
+                                     t0,
+                                     tlen,
+                                     getattr(seismo,axis)._name,
+                                     int(theta))
+            plotspectrogram(getattr(seismo,axis).timeseries,
+                            getattr(seismo,axis)._fs,
+                            outfile=fname,
+                            wlen=512,
+                            log=True,
+                            clip=[0,1],
+                            per_lap=0.9)
+                
 
 def main_Lock(*args):
     channels = ['K1:VIS-BS_TM_OPLEV_SERVO_PIT_OFFSET',
@@ -183,10 +196,66 @@ def main_strain(init=False,save=False,load=True):
     plt.plot(gotic._time,gotic.timeseries,label=gotic._name)
     plt.savefig('hoge.png')
     plt.close()
+
+
+def main_compare(*args):   
+    #data = reader.kagra.readKAGRAdata(t0,tlen,channels)
+    ex1 = Seismometer(t0,tlen,'EX1')
+    ex1.x.plot()
+
     
+def main_plotlongtime(*args):
+    print args
+    chname = ['K1:PEM-EX1_SEIS_NS_SENSINF_OUT16']
+    
+    ex1_ns_rms = reader.kagra.readKAGRAdata(t0,tlen,chname)[0]
+    ex1_ns_rms.plot()
+
+def main_CMMR(*args):
+    pass
+
+
+def main_cmrr(*args):
+    ex1 = Seismometer(t0,tlen,'EX1')
+    cen = Seismometer(t0,tlen,'IY0')
+    hoge = Seismometer(t0,tlen,'IY0')
+    hoge.x.timeseries = ex1.x.timeseries-cen.x.timeseries
+    hoge.x._name='Xend-Center'
+    gif_x = reader.gif.readGIFdata(t0,tlen,
+                                   'CALC_STRAIN',
+                                   name='X_strainmeter',
+                                   plot=True,
+                                   detrend=True)
+    X1500_TR_X = Seismometer(t0,tlen,
+                             'X1500_TR240',
+                             plot=True,
+                             detrend=True).x
+    X1500_TR_X = X1500_TR_X/1196.5
+    X500_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X500_BARO',
+                                       name='x500_pressure',
+                                       plot=True,detrend=True)
+    gif_x.timeseries = gif_x.timeseries*3000.0
+    #
+    ave = 16
+    #
+    hoge.x.get_psd(ave=ave,integ=True)
+    ex1.x.get_psd(ave=ave,integ=True)
+    cen.x.get_psd(ave=ave,integ=True)
+    X1500_TR_X.get_psd(ave=ave,integ=True)
+    gif_x.get_psd(ave=ave)
+    X500_BARO.get_psd(ave=ave)
+    #mpplot.plotspectrum([gif_x,hoge.x,X500_BARO],[None,None])
+    mpplot.plotspectrum([gif_x,hoge.x],[[1e-3,6],[1e-9,1e-5]],label=['Frequency [Hz]','Displacement [m/sqrt(Hz)]'])
+    #mpplot.plotspectrum([gif_x,X1500_TR_X],[[1e-3,6],[1e-9,1e-5]],label=['Frequency [Hz]','Displacement [m/sqrt(Hz)]'])
+
 if __name__ == '__main__':
     t0,tlen,title = get_gpstime(EQ_name)
-    #main_plotSEismometerSepctrogram(t0,tlen,title)
+    #main_plotSeismometerSepctrogram(t0,tlen,title,theta=0)
     #main_Lock(t0,tlen,title)
     #main_StrainmeterSignalBudjet(t0,tlen,title)   
-    main_strain()
+    #main_strain(t0,tlen,title)
+    #main_compare(t0,tlen,title)
+    #main_plotlongtime()
+    #main_CMMR(t0,tlen,title)
+    main_cmrr()
