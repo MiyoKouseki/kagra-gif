@@ -31,9 +31,16 @@ EQ_name = {
     'Example_Night_Long':[1207213218,2**15], # 4/08 24:00
     'Example_Long_1day':[1207440018,2**16], # 04/11 09:00, 18hour
     #'Example_Long_1day':[1207440018,2**10], # 04/11 09:00, 18hour
-    '0413_20h00m':[1207652418,2**14],
-    '0413_20h00m':[1207652418,2**13], # 2**13 Ok KAGRA,GIF, 2**16made
-    '0416_00h00m':[1207839618,2**13],        #2**15made
+    '0413_20h00m':[1207652418,2**16], # 04-13-20:00 - 
+    # - 28000,52000ごろにひずみが飛んでいる箇所がある。
+    # - 34000から50000なら歪は線形にみなせる。
+    '0413_20h00m_LinearTidal':[1207652418+34000,2**14], #
+    #
+    '0413_20h00m_Tidal':[1207652418,2**14], #
+    # ひずみは上に凸になっているけど、飛んでる箇所はない  
+    #'0413_20h00m':[1207652418,2**13], # 2**13 Ok KAGRA,GIF, 2**16made
+    # - 
+    '0416_00h00m':[1207839618,2**13], #2**15made
     '0416_13h00m':[1207886418,2**13], # 2**13 ok 
     '0416_16h00m':[1207897218,2**13], # OK
     '0416_19h00m':[1207908018,2**13], # OK
@@ -49,15 +56,43 @@ EQ_name = {
     '0421chiba':[1208339257-2**10,2**7],
     '0423shimane':[1208448078-2**6,2**9],
     '0425_heavy_rain':[],
-    '0425_00':[1208617218,2**16],
+    '0425_00':[1208617218,2**16], # 04-25-00:00
+    # - cRIO02_data/2018/04/25/10/1804251042.AD02 lack
+    # - cRIO02_data/2018/04/25/11/1804251109.AD02 lack
+    '0425_00_1':[1208617218,2**15], # 04-25-00:00    
+    '0425_00_1_LinearTidal':[1208617218+15000,2**14], # 04-25-00:00
+    # 
+    # 
     '0424_23':[1208617218-3600,2**10],
     '0424_18':[1208595618,2**17], # start 04-24-18:00
-    '0426_18':[1208769618,2**17], # start04-26-18:20               
+    # 大雨で地面が揺れ始めた頃のデータ
+    # - cRIO02_data/2018/04/25/10/1804251042.AD02 0が空
+    # - cRIO02_data/2018/04/25/11/1804251109.AD02 0が空
+    '0426_18':[1208769618,2**17], # start 04-26-18:20 
+    # - cRIO02_data/2018/04/26/20/1804262055.AD02 が空
+    # - cRIO02_data/2018/04/27/06/1804270627.AD02 が空
+    # - cRIO02_data/2018/04/27/07/1804270725.AD02 が空
+    # - cRIO02_data/2018/04/27/19/1804271943.AD02 が空
+    '0426_18_1':[1208769618,2**16], # start 04-26-18:20
+    # - cRIO02_data/2018/04/26/20/1804262055.AD02 が空
+    # - cRIO02_data/2018/04/27/06/1804270627.AD02 が空
+    # - cRIO02_data/2018/04/27/07/1804270725.AD02 が空    
+    #
+    '0426_18_2':[1208769618,2**15], # start 04-26-18:20
+    # - cRIO02_data/2018/04/26/20/1804262055.AD02 が空
+    #
+    '0426_18_3':[1208769618,2**13], # start 04-26-18:20
+    #
     '0428_09':[1208908938,2**17], # start04-28-09:02
     #'0428_09_':[1208908938+92400,1000], # start04-28-09:02,
     '0428_09_1':[1208908938,2**16], # start04-28-09:02,
-    '0428_09_2':[1208908938+93400,2**16], # start04-28-
-    '0428_09_2':[1208908938+93400,2**16], # start04-28-
+    # 大雨が過ぎた頃のデータ
+    # - cRIO03_data/2018/04/28/15/1804281554.AD00 が空
+    # - cRIO03_data/2018/04/28/15/1804281559.AD00 が空
+    '0428_09_2':[1208908938+93400,2**16], # JST start04-29-10:58
+    # 開始手前1000秒前から200秒間データがおかしい。DAQのメンテナンスが原因。
+    # - 欠損無し。
+    '0428_09_2_LinearTidal':[1208908938+93400+10000,2**14], # JST start04-29-10:58    
     # 1208908938+92400から200秒データがおかしい
     # 2018-04-29 JST 10:42:00から200秒
     #'0430_09_2':[1208908938,2**16], # start04-28-
@@ -69,9 +104,9 @@ EQ_name = {
     '0502_10':[1209258738,2**13], # [data] JST 05-02-10:12
     '0504_00':[1209427218,2**7], # [data] JST 05-04-09:00
     '0502_09-10':[1209254418,2**13], # [data] JST 05-02-09:00 (include lack of data)
+    'Phase1':[1208908818,2**20] # JST04-28-09:00 about 12days
     }
     
-
 def main_plotSeismometerSepctrogram(*args,**kwargs):
     '''X,Y,Centerそれぞれの3軸についてスペクトログラムを描く。       
     
@@ -119,53 +154,117 @@ def main_Lock(*args):
     
 
 def main_StrainmeterSignalBudjet(theta=0.0,*args):
-    MICH_CTRL_L = reader.kagra.readKAGRAdata(t0,tlen,
-                                             ['K1:VIS-BS_IM_LOCK_L_OUT16'],
-                                             plot=True,
-                                             detrend=True,
-                                             )[0]
-    X1500_TR_X = Seismometer(t0,tlen,
+    X1500_TR = Seismometer(t0,tlen,
                              'X1500_TR240',
                              plot=True,
-                             detrend=True).x
+                             detrend=True,
+                             title=title,
+                                 )
+    X1500_TR_X = X1500_TR.x
+    X1500_TR_Z = X1500_TR.z
     GIF_X = reader.gif.readGIFdata(t0,tlen,
                                    'CALC_STRAIN',
                                    name='X_strainmeter',
                                    plot=True,
-                                   detrend=True)
+                                   detrend=True,
+                                   title=title,
+                                       )
     X500_BARO = reader.gif.readGIFdata(t0,tlen,
                                        'X500_BARO',
                                        name='x500_pressure',
-                                       plot=True,detrend=True)
+                                       plot=True,detrend=True,
+                                       title=title,
+                                           )
     X2000_BARO = reader.gif.readGIFdata(t0,tlen,
                                         'X2000_BARO',
                                         name='x2000_pressure',
-                                        plot=True,detrend=True)
-    X500_TEMP = reader.gif.readGIFdata(t0,tlen,
-                                       'X500_TEMP',
-                                       name='x500_temperature',
-                                       plot=True,detrend=True)
+                                        plot=True,detrend=True,
+                                        title=title,
+                                            )
+    #
+    # 1. 0413_20h00m_LinearTidal
+    # 2. 0425_00_1_LinearTidal    
+    # 3. 0428_09_2_LinearTidal
     # convert
-    X1500_TR_X = X1500_TR_X/5500.0/1196.5
-    X500_BARO = X500_BARO*2e-8
-    X2000_BARO = X2000_BARO*2e-8
-    MICH_CTRL_L = MICH_CTRL_L
+    X1500_TR_X = X1500_TR_X/5500.0
+    X1500_TR_Z = X1500_TR_Z/5500.0
+    X500_BARO = X500_BARO*0.55e-9
+    X2000_BARO = X2000_BARO*0.55e-9
     # psd
-    ave = 4
-    MICH_CTRL_L.get_psd(ave=ave,plot=False)
+    ave = 16
     GIF_X.get_psd(ave=ave,plot=False)
-    X1500_TR_X.get_psd(ave=ave,plot=False)
+    X1500_TR_X.get_psd(ave=ave,plot=False,TF_240=True)
+    X1500_TR_Z.get_psd(ave=ave,plot=False,TF_240=True)
     X500_BARO.get_psd(ave=ave,plot=False)
-    X500_TEMP.get_psd(ave=ave,plot=False)
     X2000_BARO.get_psd(ave=ave,plot=False)
     #
     datalist = [GIF_X,
                 X1500_TR_X,
+                X1500_TR_Z,
                 X500_BARO,
-                MICH_CTRL_L
                 ]
-    #mpplot.LogLogPlot(datalist,label=['Frequency [Hz]','Strain [1/rtHz]'],lim=(None,[1e-13,1e-8]),filename='./StrainmeterSignalBudjet_{0:03d}'.format(theta))
-    mpplot.LogLogPlot(datalist,label=['Frequency [Hz]','Strain [1/rtHz]'],lim=(None,None),filename='./StrainmeterSignalBudjet_{0:03d}'.format(theta))
+    mpplot.plotspectrum(datalist,label=['Frequency [Hz]','Strain [1/rtHz]'],lim=([1e-3,6],[1e-13,1e-8]),filename='{0}StrainmeterSignalBudget_{1:03d}'.format(title,theta))
+    
+    
+def main_coherence(*args):
+    GIF_X = reader.gif.readGIFdata(t0,tlen,
+                                   'CALC_STRAIN',
+                                   name='X_strainmeter',
+                                   plot=True,
+                                   detrend=True,
+                                       title=title,                                   
+                                       )
+    X500_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X500_BARO',
+                                       name='x500_pressure',
+                                       plot=True,detrend=False,
+                                       title=title,
+                                           )                                           
+    X2000_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X2000_BARO',
+                                       name='x2000_pressure',
+                                       plot=True,detrend=True,
+                                       title=title,
+                                            )
+    X1500_TR_X = Seismometer(t0,tlen,
+                             'X1500_TR240',
+                             plot=True,
+                             detrend=True,
+                             title=title,
+                                 ).x    
+    GIF_X.get_coherence(X500_BARO,ave=16,plot=True,title=title)
+    GIF_X.get_coherence(X1500_TR_X,ave=16,plot=True,title=title)
+    X2000_BARO.get_coherence(X500_BARO,ave=16,plot=True,title=title)
+    X2000_BARO.get_coherence(X1500_TR_X,ave=16,plot=True,title=title)
+
+
+def main_GIFspectrogram(*args):
+    GIF_X = reader.gif.readGIFdata(t0,tlen,
+                                   'CALC_STRAIN',
+                                   name='X_strainmeter',
+                                   plot=False,
+                                   detrend=True)
+    X500_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X500_BARO',
+                                       name='x500_pressure',
+                                       plot=False,detrend=True)
+    for data in [GIF_X,X500_BARO]:
+        fname_fmt = '{0}Spectrogram_{1}_{2}_{3}.png'
+        fname = fname_fmt.format(title,
+                                 t0,
+                                 tlen,
+                                 data._name,
+                                    )
+        mpplot.plotspectrogram(data.timeseries,
+                               data._fs,
+                               outfile=fname,
+                               wlen=256,
+                               log=True,
+                               auto_frange=True,
+                                   clip=[0,1],
+                                   flim=[1e-13,1e-8],
+                                   per_lap=0.9)  
+    pass    
 
 
 def main_strain(init=False,save=False,load=True):
@@ -198,7 +297,7 @@ def main_strain(init=False,save=False,load=True):
     plt.close()
 
 
-def main_compare(*args):   
+def main_compare(*args):
     #data = reader.kagra.readKAGRAdata(t0,tlen,channels)
     ex1 = Seismometer(t0,tlen,'EX1')
     ex1.x.plot()
@@ -207,55 +306,95 @@ def main_compare(*args):
 def main_plotlongtime(*args):
     print args
     chname = ['K1:PEM-EX1_SEIS_NS_SENSINF_OUT16']
-    
     ex1_ns_rms = reader.kagra.readKAGRAdata(t0,tlen,chname)[0]
     ex1_ns_rms.plot()
 
+    
 def main_CMMR(*args):
     pass
 
 
 def main_cmrr(*args):
-    ex1 = Seismometer(t0,tlen,'EX1')
-    cen = Seismometer(t0,tlen,'IY0')
-    hoge = Seismometer(t0,tlen,'IY0')
+    ex1 = Seismometer(t0,tlen,'EX1',title=title)
+    cen = Seismometer(t0,tlen,'IY0',title=title)
+    hoge = Seismometer(t0,tlen,'IY0',title=title)
     hoge.x.timeseries = ex1.x.timeseries-cen.x.timeseries
     hoge.x._name='Xend-Center'
+    X500_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X500_BARO',
+                                       name='x500_pressure',
+                                       plot=True,detrend=False,
+                                       title=title,
+                                           )                                           
+    X2000_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X2000_BARO',
+                                       name='x2000_pressure',
+                                       plot=True,detrend=True,
+                                       title=title,
+                                            )    
     gif_x = reader.gif.readGIFdata(t0,tlen,
                                    'CALC_STRAIN',
                                    name='X_strainmeter',
                                    plot=True,
                                    detrend=True)
-    X1500_TR_X = Seismometer(t0,tlen,
+    X1500_TR = Seismometer(t0,tlen,
                              'X1500_TR240',
                              plot=True,
-                             detrend=True).x
-    X1500_TR_X = X1500_TR_X/1196.5
-    X500_BARO = reader.gif.readGIFdata(t0,tlen,
-                                       'X500_BARO',
-                                       name='x500_pressure',
-                                       plot=True,detrend=True)
+                             detrend=True)
+    X1500_TR_X = X1500_TR.x
+    X1500_TR_Z = X1500_TR.z 
+    X1500_TR_X = X1500_TR_X#/5500.0#*3000.0
+    ex1.x = ex1.x/5500.0
+    ex1.z = ex1.z/5500.0
+    cen.x = cen.x/5500.0
+    cen.z = cen.z/5500.0
+    X1500_TR_Z = X1500_TR_Z/5500.0#*3000.0
+    X500_BARO = X500_BARO*0.55e-9
+    X2000_BARO = X2000_BARO*0.55e-9    
     gif_x.timeseries = gif_x.timeseries*3000.0
+    hoge.x.timeseries = hoge.x.timeseries#/3000.0
     #
-    ave = 16
+    ave = 16    
     #
-    hoge.x.get_psd(ave=ave,integ=True)
-    ex1.x.get_psd(ave=ave,integ=True)
-    cen.x.get_psd(ave=ave,integ=True)
-    X1500_TR_X.get_psd(ave=ave,integ=True)
+    integ=True
+    hoge.x.get_psd(ave=ave,integ=integ)
+    ex1.x.get_psd(ave=ave,integ=integ,TF_120=True)
+    ex1.z.get_psd(ave=ave,integ=integ,TF_120=True)
+    cen.x.get_psd(ave=ave,integ=integ,TF_120=True)
+    cen.z.get_psd(ave=ave,integ=integ,TF_120=True)
+    X1500_TR_X.get_psd(ave=ave,integ=integ,TF_240=True)
+    X1500_TR_Z.get_psd(ave=ave,integ=integ,TF_240=True)
     gif_x.get_psd(ave=ave)
     X500_BARO.get_psd(ave=ave)
     #mpplot.plotspectrum([gif_x,hoge.x,X500_BARO],[None,None])
-    mpplot.plotspectrum([gif_x,hoge.x],[[1e-3,6],[1e-9,1e-5]],label=['Frequency [Hz]','Displacement [m/sqrt(Hz)]'])
-    #mpplot.plotspectrum([gif_x,X1500_TR_X],[[1e-3,6],[1e-9,1e-5]],label=['Frequency [Hz]','Displacement [m/sqrt(Hz)]'])
+    #mpplot.plotspectrum([gif_x,hoge.x,X1500_TR_X],[[1e-3,6],[1e-9,1e-5]],label=['Frequency [Hz]','Displacement [m/sqrt(Hz)]'])
+    filename = './Strain_GIF_Xend_Cent_x1500_x500'
+    mpplot.plotspectrum([gif_x,ex1.x,cen.x,ex1.z,cen.z,X1500_TR_X,X1500_TR_Z,X500_BARO],[[1e-3,6],[1e-13,1e-8]],label=['Frequency [Hz]','Strain [1/sqrt(Hz)]'],filename=filename)
+    filename = './Strain_GIF_Xend-Cent'
+    mpplot.plotspectrum([gif_x,hoge.x],[[1e-3,6],[1e-13,1e-8]],label=['Frequency [Hz]','Strain [1/sqrt(Hz)]'],filename=filename)
+    filename = './Displacement_GIF_x1500'
+    mpplot.plotspectrum([gif_x,hoge.x,X1500_TR_X],[[1e-3,6],[1e-9,1e-5]],label=['Frequency [Hz]','Displacement [m/sqrt(Hz)]'],filename=filename)
 
+
+
+def main_longterm(*args):
+    X2000_BARO = reader.gif.readGIFdata(t0,tlen,
+                                       'X2000_BARO',
+                                       name='x2000_pressure',
+                                       plot=True,detrend=True,
+                                       title=title,
+                                            )
+    
 if __name__ == '__main__':
     t0,tlen,title = get_gpstime(EQ_name)
     #main_plotSeismometerSepctrogram(t0,tlen,title,theta=0)
     #main_Lock(t0,tlen,title)
-    #main_StrainmeterSignalBudjet(t0,tlen,title)   
+    #main_GIFspectrogram(t0,tlen,title)
+    #exit()
+    #main_StrainmeterSignalBudjet(t0,tlen,title)
+    #main_coherence(t0,tlen,title)
     #main_strain(t0,tlen,title)
     #main_compare(t0,tlen,title)
     #main_plotlongtime()
-    #main_CMMR(t0,tlen,title)
-    main_cmrr()
+    #main_cmrr(t0,tlen,title)
+    main_longterm(t0,tlen,title)
