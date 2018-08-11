@@ -1,0 +1,184 @@
+\section{差動増幅システム}
+差動増幅システムは、2つの信号の差(逆相)を増幅して信号を取り出すシステムである。たとえば、Michelson干渉計は2本の腕の変位差$\Delta x$を$2\pi/\lambda$倍にして干渉信号として増幅するシステムであるし、PDH法をつかったFabry-Perot共振器長の取得システムは、2つの共振器鏡間の距離差をフィネスで増幅していると言える。
+
+このように差動増幅をつかうにはいくつかのメリットがある。
+
+
+\subsection{Common Mode Rejection Rate (CMRR)}
+元来、CMRRは差動増幅回路の逆相利得(差動利得)を同相利得で割っもの、つまり
+\begin{equation}
+  \boxed{\mathrm{CMRR} \equiv \frac{逆相利得}{同相利得}}
+\end{equation}
+で定義される。差動増幅回路の入力2つに、同相と逆相の単位信号を入力したときの伝達関数比である。理想的な差動増幅回路では、差動成分のみを増幅したいのでCMRRは無限大である。しかし実際には差成分は厳密には0にはならず、同相成分も増幅してCMRRは小さくなってしまう。
+
+
+
+
+
+\section{同相成分と逆相成分}
+\subsection{同相成分と逆相成分}
+2点での変位$x_{1}$と$x_{2}$について考える。これら2つの同相成分$x_{\mathrm{com}}$と逆相成分$x_\mathrm{diff}$を
+\begin{eqnarray}\label{eq:eq22}
+  x_{\mathrm{diff}} &\equiv& \frac{x_{1}-x_{2}}{\sqrt{2}}, \\
+  x_{\mathrm{com}}  &\equiv& \frac{x_{1}+x_{2}}{\sqrt{2}}
+\end{eqnarray}
+と定義する。パワーが保存するように、規格化定数は$\sqrt{2}$にしている。
+
+\subsection{Common Differential Rate (CDR)}
+2つの信号の同相成分と逆相成分の比、Common Differential Rate (CDR) を
+\begin{equation}
+  \boxed{\mathrm{CDR} \equiv \frac{同相成分のパワー}{逆相成分のパワー} = \frac{P_{\mathrm{com}}(\omega)}{P_{\mathrm{diff}}(\omega)}} \label{eq:eq23}
+\end{equation}
+と定義する。$P_{\mathrm{com}},P_{\mathrm{diff}}$は同相成分と逆相成分についてのパワースペクトル密度である。パワースペクトル密度は自己相関関数$C(\tau)$をフーリエ変換したものなので、まず自己相関関数$C_{\mathrm{diff}}$を求める。自己相関関数$C_{\mathrm{diff}}$は，
+\begin{eqnarray}
+  C_{\mathrm{diff}}(\tau) &=& \frac{1}{2}
+  \langle
+  \left[ x_{1}(t)-x_{2}(t) \right]   \left[ x_{1}(t+\tau)-x_{2}(t+\tau) \right]
+  \rangle \\
+  &=& \frac{1}{2}\left( C_{11}(\tau) - C_{12}(\tau) - C_{21}(\tau) + C_{22}(\tau) \right), \\
+ C_{ij} &\equiv& \langle x_{i}(t)x_{j}(t+\tau)\rangle 
+\end{eqnarray}
+となるので、これをフーリエ変換すれば逆相成分のパワースペクトル密度$P_{\mathrm{diff}}(\omega)$は
+\begin{eqnarray}
+  P_{\mathrm{diff}}(\omega) &=& \frac{1}{2}\left( P_{1}(\omega) + P_{2}(\omega) - X_{12}(\omega) - X_{12}^*(\omega) \right)\\
+  &=& \frac{1}{2} \sqrt{P_{1}P_{2}} \left( \sqrt{\frac{P_{1}}{P_{2}}}+ \sqrt{\frac{P_{2}}{P_{1}}} - 2\Re \left[\mathrm{coh} \right] \right) , 
+\mathrm{coh} \equiv \frac{X_{12}}{\sqrt{P_{1}P_{2}}} \label{eq:eq31}
+\end{eqnarray}
+となる。$P_{1}(\omega),P_{2}(\omega)$はパワースペクトル密度、$X_{12}(\omega)$はクロススペクトル密度、$\mathrm{coh}$はコヒーレンスである。
+
+
+さて、2つの信号$x_{1},x_{2}$のパワーが同じ、つまり$P_{1}=P_{2}\equiv P$の場合、式(\ref{eq:eq31})はさらに計算できて、結果として$P_{\mathrm{diff}}$は
+\begin{eqnarray}
+ P_{\mathrm{diff}}(\omega) = P \left(1 - \Re \left[\mathrm{coh} \right] \right) , 
+\end{eqnarray}
+となる。そして$\mathrm{CDR}$は定義式(\ref{eq:eq23})より、
+\begin{eqnarray}
+ \mathrm{CDR} = \frac{1 + \Re \left[\mathrm{coh} \right] }{1 - \Re \left[\mathrm{coh} \right]} \label{eq:eq33}
+\end{eqnarray}
+と書き表すことができる。
+式(\ref{eq:eq33})が示すように、同相成分と逆相成分のパワー比は2つの信号のコヒーレンスであらわすことができる。
+
+
+\subsubsection{XアームのCDR}
+XアームのCDRを求める。エンドとセンターの2階においた地震計の信号をつかった。
+
+
+
+図\ref{img:img2}に、2つの地震計を変位換算したASDを示す。地震計同士は0.2Hz付近の脈動では大きさが一致している。それ以上の周波数では、センターエリアに置いた地震計はADCノイズで埋もれているため、両者は一致していない。\footnote[1]{ちゃんとホワイトニング入れておこう。。}また低周波では、傾き成分のカップリングにより両者は一致していないこともわかる。\footnote[2]{傾きをみている，と言うには積極的な証拠がない。並進成分を見ていないというのならGIFと比較しているので言える。コーナキューブは鏡が傾いても平行にビームを返すので，原理的には傾き成分は並進にカップルしないはず。}
+
+
+図\ref{img:img3}に，2つの地震計のコヒーレンスを示す。コヒーレンスは0.2Hz付近で有意な値をもち、位相が0度であるため，2点が同相で動いていることを意味している。したがって，脈動の帯域では，同相成分のほうが逆相成分よりも大きいことを示唆する。
+
+
+さて，図\ref{img:img3}に式(\ref{eq:eq22})で定義した同相成分と逆相成分のASDを上図に、CDRを下図に示す。脈動ではCDRでは1以上になっており，同相成分が逆相成分よりも大きいことがわかる。
+
+
+図\ref{img:img3}の赤線はGIFのひずみ信号を変位換算したものである。GIFのひずみ計は1500m離れた2点間のひずみ差$\varepsilon_{\mathrm{gif}}$を測っている。そのため，3km離れた二点の地面振動の逆相成分$x_{\mathrm{diff(3000)}}$は，
+\begin{equation}
+  x_{\mathrm{diff(3000)}} = \Delta{}
+  \varepsilon_{\mathrm{gif}}\times \frac{3000}{\sqrt{2}}
+\end{equation}
+と換算した。\footnote[3]{数kmスケールのひずみ応答は数Hzまで平坦なので，脈動以下の周波数帯域でスケール換算する場合，妥当といえる。}
+
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=10cm]{asd.png}
+  \end{center}
+  \caption{Xエンドとセンターエリアにおいた地震計のXアーム方向のASD。エラーバーは95％の有意水準。0.1Hz-0.5Hzの帯域では振幅の大きさが同じである。}\label{img:img2}
+\end{figure}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=10cm]{coh_seismo.png}
+  \end{center}
+  \caption{Xエンドとセンターエリアにおいた地震計のXアーム方向同士のコヒーレンス。破線よりもコヒーレンスが上であれば95％の有意水準でコヒーレンスは0ではないと言える。0.2Hz付近にピークをもって有意にコヒーレンスがあることがわかる。}\label{img:img3}
+\end{figure}
+
+\begin{figure}[htbp]\label{img:img3}
+  \begin{center}
+    \includegraphics[width=10cm]{cmrr_xarm.png}
+  \end{center}
+  \caption{上図:3km離れた二点の地面振動の同相成分と逆相成分のASD。ひずみ計との比較のためにGIFは赤線で示している。脈動では同相成分のほうが逆相成分よりも大きい。GIFと逆相成分は脈動で等しい大きさになっている。　　下図:同相成分と逆相成分の比(CDR)。黒線は地震計をつかったCDR，赤線は逆相成分をGIFで置き換えたCDRである。破線は，位相速度$5500\, \mathrm{m/s}$平面波がアームを通過したと仮定した場合のモデル。脈動付近ではこのモデルとよく一致する。}
+\end{figure}
+
+
+脈動付近では，GIFと地震計による逆相成分は互いに一致している。
+
+
+平面波がXアームに入射したとする。そのときの変位は$u(x,t)=e^{i(\omega{t}-kx)}$となるので，速度とひずみはそれぞれ
+
+\begin{eqnarray}
+  v(x,t) &\equiv& \frac{\partial{u}}{\partial{t}} = i\omega{u(x,t)} \\
+  \epsilon(x,t) &\equiv& \frac{\partial{u}}{\partial{x}} = -ik{u(x,t)}
+\end{eqnarray}
+と表すことができるので，両者の振幅比は，
+\begin{equation}
+  \left| \frac{v(x,t)}{\epsilon(x,t)} \right|= c
+\end{equation}
+となって，位相速度$c$で表すことができる。
+
+さてここで，2つの地震計からもとめたCDRの分母をGIFで置き換えた値は，
+
+\begin{eqnarray}\label{eq:eq42}
+  \frac{P_{\mathrm{com}}}{P_{\mathrm{diff(1500)}}} = hoge 
+\end{eqnarray}
+となる。
+式(\label{eq:eq42})の位相速度に花崗岩の弾性波速度である5500m/sを代入して図\label{img:img3}の下図に破線で示す。脈動付近では，平面波のモデルとよく一致する。それ以外の帯域では，ノイズによって2点の地面振動の振幅がことなるため，一致しない。
+
+ところで，脈動よりも低周波では地震計とGIFでもとめた逆相成分は，最大で2桁も振幅が異なる。これは地震計の信号に地面の傾き成分がノイズとしてカップルしているためである。一方で，GIFは反射鏡にコーナーキューブを使用しているので，原理的には傾き成分は基線長伸縮の信号にはカップルしない。したがって，GIFは基線長モニターとして地震計よりも広帯域で基線長伸縮を測ることが可能である。
+
+
+\section{山の歪み}
+回転しない場合，ひずみテンソルは垂直ひずみ成分とせん断ひずみ成分に分けることができる。またさらに垂直ひずみ成分は，同相成分と逆相成分とに分けることができる。つまり，
+\begin{equation}\label{eq:eq43}
+  aa
+\end{equation}
+となる。
+
+
+\subsubsection{同相成分}
+同相成分は，すべての軸が同じ大きさで伸縮するひずみであり，体積ひずみや面積ひずみともよばれている。そのため，同相成分であれば，Xアームで計測したものはYアームでも同じになると言える。この同相成分はKAGRAのメインレーザーの周波数安定化に使われる。
+
+
+一様等方性を仮定すれば，同相成分はおもに大気圧による等方圧縮もしくは等方膨張からなる。\footnote[4]{しかし，一様等方な岩盤であれば同相成分のみに寄与するが，非等方性がある山の中の場合，他の逆相成分やせん断ひずみ成分にもカップリングすると思われる。そのた有限要素法で地形をモデリングする必要がある。これは最低限D論の内容にふくめたい。他の成分に}
+
+
+図（）に大気圧とGIFのコヒーレンスを示す。
+およそ数10mHz以下ではコヒーレンスは有意であり，大気圧応答をみていると考えられる。このときの気圧ひずみ応答の係数は○○であり，▲▲と矛盾しない結果となっ。したがって，この帯域ではYアームの推定に使える。
+
+
+
+\subsubsection{逆相成分}
+逆相成分は，ある一方の軸が膨張したとき，他方の面が同じ大きさで伸縮するひずみである。逆相成分には重力波信号が含まれている。
+
+
+岩盤の非一様性や非等方性などにより，他の同相成分やせん断ひずみ成分からカップルする。
+
+
+\subsubsection{せん断成分}
+せん断成分は，干渉計の基線長変化には影響しない。鏡の角度揺れに対応するが，多分影響はちいさいので無視する。\footnote[4]{ほんとうか？}
+
+\subsubsection{}
+
+
+本質的に，自由度が1つしかないので，逆相成分はわからない。
+
+
+自由度が1つしかないので，せいぜい$\sqrt{2}$程度しか低減できない。（とはいってもGIFのノイズレベルまで小さくできるはず。変位換算で$10^{-10}\, \mathrm{m}$までは。）
+
+
+まずは，Xアームの安定化を考える。
+
+\section{Xアームの安定化}
+\subsection{アーム安定化の必要性}
+
+和泉さんのD論の引き込みに必要な要求値をここで議論する。
+逆相成分でどれだけ揺れを小さくしないといけないか，ここで明記する。
+
+
+\subsection{制御設計}
+
+GIFでは測った逆相信号をそのままITMXとETMXにもどす。その時の制御設計は，LuciaのD論を参考にする。
+
+
+\end{document}

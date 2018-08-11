@@ -1,0 +1,18 @@
+%\documentclass[a4paper,11pt]{jsarticle}
+\documentclass[a4paper,11pt]{jsbook}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+%\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{graphicx,color}
+\usepackage[top=30truemm,bottom=30truemm,left=40truemm,right=40truemm]{geometry}
+\usepackage{physics}
+
+\title{No Title}
+\author{三代浩世希}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\input{./ifo/ifo.tex}
+\input{./cmrr/cmrr.tex}
+\end{document}

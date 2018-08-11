@@ -1,23 +1,27 @@
 #
 #! coding: utf-8
-
-import miyopy.io.reader as reader
-#import miyopy.io
+from miyopy.gif import findfiles
+from astropy import units as u
+import numpy as np
+import sys
 
 def main():
-    hoge = {
-        '0417_17h00m':[1207000000,2**13],
-        '0413_19h00m':[1207652418-3600,2**14], # lack in 04-13-19:52 AD02 file
-        }
-    t0,tlen = hoge['0413_19h00m']
-    chname = 'X1500_TR240velNS'
-    fnames = reader.gif.findFiles(t0,tlen,chname)
-    print len(fnames)*60, tlen
-    t_lack = reader.gif.check_filesize(fnames,chname)
-    data = reader.gif.fromfiles(fnames,chname)
-    data = reader.gif.check_nan(data,fnames,chname)
-
-if __name__ == '__main__':
-    main()
+    argvs = sys.argv
+    chname = argvs[1]
+    t0 = 1198800018*u.second # 2018-01-01 00:00:00 UTC    
+    tlen = 1211846417*u.second - t0 # till 2018-05-31 23:59:59 UTC
+    tlen = 3600*24*16*u.second
+    #
+    fnames = findfiles.findFiles(t0,tlen,chname)
+    size = findfiles.check_filesize(fnames,chname)
+    array2d = np.c_[fnames,size]
+    #
+    fmt = '%s %s'
+    fname = '{2}_{0}_{1}.csv'.format(int(t0.value),int(tlen.value),chname)
+    print 'Save csv data in "{0}"'.format(fname)            
+    np.savetxt(fname,array2d,fmt=fmt)
 
     
+if __name__ == '__main__':
+    main()
+   
