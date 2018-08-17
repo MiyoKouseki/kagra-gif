@@ -25,11 +25,12 @@ except:
         
 
 def plot_asd(ax,datalist,fname='asd',labels=None,
-             ave=None,tlen=None,
+             ave=None,
+             tlen=None,
              disp=True,model=None,adcnoise=True,
-             unit='um',selfnoiseplot=True,trillium=None,
+             unit=None,selfnoiseplot=True,trillium=None,
              linestyle=['r-','b-','g-'],**kwargs):
-
+    
     ax.set_xlim([1e-3, 1e2])
     ax.set_ylim([1e-12, 1e-5])    
     if unit=='strain':
@@ -37,14 +38,17 @@ def plot_asd(ax,datalist,fname='asd',labels=None,
     elif unit == 'm':
         ax.set_ylabel('ASD [m/sqrtHz]')   
     else:
-        raise ValueError('invalid unit; {}'.format(unit))
-        
+        raise ValueError('Unit is not defined. unit; {}'.format(unit))
 
+    if tlen==None:
+        raise ValueError('tlen is not defined. tlen {}'.format(tlen))
+    
     plotOK = [True,True,False]
     integ = [True,True,False]
-    
+
     for i,data in enumerate(datalist):
-        f,Asd = asd(np.array(data),fs=len(data)/tlen,integ=integ[i],**kwargs)
+        f,Asd = asd(np.array(data),fs=len(data)/tlen,integ=integ[i],ave=ave,**kwargs)
+        print(i)
         if i < 2:
             #f,Asd = V2Vel(f, Asd, trillium=trillium)
             ax.loglog(f, Asd, linestyle[i], label=labels[i], linewidth=2)            
@@ -192,9 +196,10 @@ def plot_coh_deg(ax,data,tlen=None,fname='cdmr',labels=None,disp=True,**kwargs):
     return ax
 
 
-def plot21_cdmr(data,fname='cdmr',start=None,tlen=None,title='No title',labels1=None,labels2=None,**kwargs):
+def plot21_cdmr(data,fname='cdmr',start=None,tlen=None,
+                title='No title',labels1=None,labels2=None,**kwargs):
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, dpi=640)
-    ax1 = plot_asd(ax1,data,labels=labels1,ave=32,tlen=tlen,disp=True,**kwargs)
+    ax1 = plot_asd(ax1,data,labels=labels1,ave=32,tlen=tlen,disp=True,unit='m',**kwargs)
     ax2 = plot_cdmr(ax2,data,labels=labels2,ave=32,tlen=tlen,disp=True,**kwargs)
     plt.subplots_adjust(hspace=0.1,top=0.92)
     xticklabels = ax1.get_xticklabels()
@@ -206,14 +211,19 @@ def plot21_cdmr(data,fname='cdmr',start=None,tlen=None,title='No title',labels1=
     ax2.yaxis.set_label_coords(-0.1,0.5)    
     plt.savefig('{0}.png'.format(fname))
     plt.close()
+    print('plot {}.png'.format(fname))
+    
 
-def plot(data,fname='cdmr',title='No title',labels1=None,labels2=None,**kwargs):
+def plot(data,fname='NoTile',title='No title',
+         labels1=None,labels2=None,
+         tlen=None,**kwargs):
+    
     fig, ax1 = plt.subplots(1, 1, sharex=True, dpi=640)
     start = kwargs.get('start',None)
-    ax1 = plot_asd(ax1,data,labels=labels1,ave=32,disp=True,**kwargs)
+    ax1 = plot_asd(ax1,data,labels=labels1,ave=32,disp=True,tlen=tlen,**kwargs)
     plt.subplots_adjust(hspace=0.1,top=0.92)
     ax_pos = ax1.get_position()
-    fig.text(ax_pos.x1*1.01, ax_pos.y0,'GPS:{0}\nHanning,ovlp=50%'.format(start),rotation=90,verticalalignment='bottom')    
+    fig.text(ax_pos.x1*1.01, ax_pos.y0,'GPS:{0}\nHanning,ovlp=50%'.format(start),rotation=90,verticalalignment='bottom')
     ax_pos = ax1.get_position()
     fig.suptitle(title,fontsize=12)
     ax1.yaxis.set_label_coords(-0.1,0.5)
@@ -221,6 +231,7 @@ def plot(data,fname='cdmr',title='No title',labels1=None,labels2=None,**kwargs):
     #ax2.yaxis.set_label_coords(-0.1,0.5)    
     plt.savefig('{0}.png'.format(fname))
     plt.close()
+    print('plot {}.png'.format(fname))    
 
 
 def plot_timeseries(data,fname='No Title',

@@ -85,7 +85,7 @@ def readDiaggui_PSD(filename):
     return f,psd
 
 
-def V2Vel(f,Asd,trillium=None,flat=True):
+def V2Vel(f,Asd,trillium=None,flat=False):
     ''' Convert from Voltage to Velocity
         
     Parameter

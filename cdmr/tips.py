@@ -11,6 +11,153 @@ from scipy import signal, interpolate
 from control import matlab
 from trillium import selfnoise
 
+from miyopy.timeseries import TimeSeries as ts
+
+try:
+    import nds2
+    import gwpy    
+    from gwpy.timeseries import TimeSeries
+except:
+    pass
+
+
+def remove_nandata(data_fname):
+    '''Nanを含むDumpファイルを消す関数。
+
+    読み込んだDumpファイルにNanが入っている場合，そのファイルを消す。
+
+    Parameter
+    ---------
+    data_fname : str
+    
+    '''
+    print('Finding nan data file...')
+    for fname in data_fname:
+        with open(prefix+fname,'rb') as f:
+            data = np.load(f)
+            if True in np.isnan(data):
+                os.remove(prefix+fname)
+                print('remove {}'.format(prefix+fname))
+    print('Done.')
+
+    
+def does_data_exist(start,end,startlist,endlist):
+    if start not in startlist:
+        errortxt = 'Invalid start time; {0}\n'\
+                   'Please choose start time in \n {1}'\
+                   .format(start,(startlist))
+        raise ValueError(errortxt)
+    if end not in endlist or end<start:
+        endlist = filter(lambda x:x>start,endlist)
+        errortxt = 'Invalid end time; {0}\n'\
+                   'Please choose end time in \n {1}'\
+                   .format(end,(endlist))
+        raise ValueError(errortxt)
+    if end-start!=2**13:
+        raise UserWarning('tlen is not 2**13.')
+    
+    return start,end
+        
+    
+def get_time(remove_nandata=False):
+    list = os.listdir(prefix)
+    data_fname = filter(lambda x :re.match("121.*121.",x) ,list)
+    start_end = np.array(map(lambda x:re.findall('[0-9]{10}',x),data_fname),
+                         dtype=np.int32)
+    startlist = np.unique(start_end[:,0])
+    startlist = np.sort(startlist)
+    endlist = np.unique(start_end[:,1])   
+    endlist = np.sort(endlist)    
+    if len(startlist)!=len(endlist):
+        raise UserWarning('!')
+    
+    if remove_nandata:
+        remove_nandata(data_fname)
+
+    argvs = sys.argv  
+    argc = len(argvs)
+    if (argc == 3):
+        start = int(argvs[1])
+        end = int(argvs[2])
+    else:
+        raise ValueError('Usage:python {} <starttime> <endtime>'.format(argvs[0]))
+    
+    start, end = does_data_exist(start,end,startlist,endlist)
+    return start,end
+
+
+def download_gifdata(start,end,chname='CALC_STRAIN',
+                     prefix=None,prefix_gif=None,**kwargs):
+    print('taking data from gif')
+    data = ts.read(start,end-start,chname,prefix=prefix_gif,**kwargs)
+    value = data.value
+    print('done')
+    print('saving data')
+    fname = prefix+'{0}_{1}_{2}'.format(start,end,chname[3:])
+    print(fname)
+    with open(fname,'w') as f:
+        np.save(f,value)
+    print('done')
+    return value
+
+    
+def download_kagradata(start,end,chname=None,prefix=None,**kwargs):
+    '''
+    '''
+    
+    if chname==None:
+        raise ValueError('Invalid chname name; {}'.format(chname))
+
+    fname = prefix+'{0}_{1}_{2}'.format(start,end,chname[3:])
+    print('data taking {}'.format(chname))
+    data = TimeSeries.fetch(chname,
+                            start, end,
+                            host='10.68.10.121', port=8088)
+    data =  data.value 
+    print('done')
+    print('save')
+
+    fname = prefix+'{0}_{1}_{2}'.format(start,end,chname[3:])        
+    with open(fname,'w') as f:
+        np.save(f,data)
+    return data
+
+
+def read(start,end,chname,**kwargs):
+    import platform
+    import socket    
+    system = platform.system()
+    hostname = socket.gethostname()    
+    if system=='Darwin':
+        prefix='/Users/miyo/Dropbox/KagraData/dump/'
+        prefix_gif='/Users/miyo/Dropbox/KagraData/gif/'
+        prefix_kagra='./'
+    elif system=='Linux':
+        if hostname=='z400-001':
+            prefix='/home/miyo/Dropbox/KagraData/dump/'
+            prefix_gif='/home/miyo/Dropbox/KagraData/gif/'
+        else:
+            prefix = './'
+            prefix_gif = './'
+            prefix_kagra='./'                    
+    else:
+        raise UserWarning('Invalid computer system; {}'.format(system))
+
+
+    try:
+        fname = prefix+'{0}_{1}_{2}'.format(start,end,chname[3:])
+        with open(fname,'rb') as f:
+            value = np.load(f)
+    except Exception as e:
+        print(e)
+        if 'K1' not in chname:
+            value = download_gifdata(start,end,chname=chname,prefix=prefix,prefix_gif=prefix_gif,**kwargs)
+        else:
+            value = download_kagradata(start,end,chname=chname,prefix=prefix_kagra)
+    return value
+
+
+
 
 def _bandpass(data, lowcut, highcut, fs, order=3, w=None,plot=False,**kwargs):
     nyq = 0.5 * fs
@@ -209,12 +356,16 @@ def H(asd):
 
 def asd(data1,fs,ave=None,integ=False,gif=False,
         psd='asd',scaling='density',window='hanning',**kwargs):
+    
+    if ave==None:
+        raise ValueError('Average is not defined. ave; {}'.format(ave))
+    
     f, Pxx_den = signal.welch(data1,
                               fs,
                               nperseg=len(data1)/ave,
                               window=window,
                               scaling=scaling,
-                              **kwargs
+                              #**kwargs
                               )
     f = f[1:]
     Pxx_den = Pxx_den[1:]
