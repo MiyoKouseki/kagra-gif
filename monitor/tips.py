@@ -1,6 +1,7 @@
 #
 #! coding:utf-8
 from __future__ import print_function
+import os
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 mpl.rcParams['agg.path.chunksize'] = 1000000
@@ -19,6 +20,63 @@ try:
     from gwpy.timeseries import TimeSeries
 except:
     pass
+
+
+def bandpass(data, lowcut, highcut, fs, order=None, w=None,**kwargs):
+    '''時系列データをバンドパスする関数
+
+
+    Parameter
+    ---------
+    data : 
+        バンドパスされる時系列データ。
+    lowcut:
+        
+
+
+    Return
+    ------
+
+    '''
+    nyq = 0.5 * fs
+    if highcut==None:
+        low = lowcut / nyq
+        b, a = butter(order, low, btype='low',analog=False)
+    elif lowcut==None:
+        low = lowcut / nyq                
+        b, a = butter(order, high, btype='high',analog=False)
+    else:
+        low = lowcut / nyq
+        high = highcut / nyq        
+        b, a = butter(order, [low, high], btype='band',analog=False)    
+    y = lfilter(b, a, data)
+    return y,b,a
+
+
+def fetch(chname,start,end,ndsserver='10.68.10.121'):
+    try:
+        print('Loading data from nds server... It may take few minutes..')
+        print('ChannelName : {}'.format(chname))        
+        data = TimeSeries.fetch(chname,start, end, host=ndsserver, port=8088)
+        print('Done.')
+        return data        
+    except RuntimeError as e:
+        print('[Error]',e)
+        print('[Error] Faild to establish a connection to NDSserver({})'.format(ndsserver))
+        print('[Error] Please check the connection with "ping {}"'.format(ndsserver))
+        print('[Error] Exit..')
+        exit()
+    except ImportError as e:
+        print('[Error] {}. Please execute "source ~/.bash_profile"'.format(e))
+        exit()
+
+
+def makedirs(newdir):
+    try:
+        os.makedirs(newdir)
+    except OSError as e:
+        if e.args[0]==17:
+            print('[Attention] Oops! {} {}. So, skip mkdir'.format(e.args[1],newdir))
 
 
 def remove_nandata(data_fname):

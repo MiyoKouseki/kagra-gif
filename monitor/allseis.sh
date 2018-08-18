@@ -1,16 +1,38 @@
-#! /bin/sh
+#! /bin/bash
 
 
-python main.py 1218380417 1218466817 K1:PEM-EXV_SEIS_WE_SENSINF_INMON
-python main.py 1218380417 1218466817 K1:PEM-EXV_SEIS_NS_SENSINF_INMON
-python main.py 1218380417 1218466817 K1:PEM-EXV_SEIS_Z_SENSINF_INMON
+usage_exit() {
+    echo "Usage: $0 [-a] [-d dir] item ..." 1>&2
+    exit 1
+}
 
-python main.py 1218380417 1218466817 K1:PEM-IXV_SEIS_WE_SENSINF_INMON
-python main.py 1218380417 1218466817 K1:PEM-IXV_SEIS_NS_SENSINF_INMON
-python main.py 1218380417 1218466817 K1:PEM-IXV_SEIS_Z_SENSINF_INMON 
+while getopts ad:h OPT
+do
+    case $OPT in
+	a)  FLAG_A=$OPTARG
+	    ;;
+	d)  VALUE_D=$OPTARG
+	    ;;
+	h)  usage_exit
+	    ;;
+	\?) usage_exit
+	    ;;
+    esac
+done
 
-python main.py 1218380417 1218466817 K1:PEM-EYV_SEIS_WE_SENSINF_INMON
-python main.py 1218380417 1218466817 K1:PEM-EYV_SEIS_NS_SENSINF_INMON
-python main.py 1218380417 1218466817 K1:PEM-EYV_SEIS_Z_SENSINF_INMON
+
+shift $((OPTIND - 1))
 
 
+
+GST=1218466818
+GET=1218553217
+DATATYPE=INMON
+PLACE_LIST=("EXV" "EYV" "IXV")
+AXIS_LIST=('WE' 'NS' 'Z')
+for PLACE in "${PLACE_LIST[@]}" ; do
+    for AXIS in "${AXIS_LIST[@]}" ; do
+	echo python main.py $GST $GET K1:PEM-${PLACE}_SEIS_${AXIS}_SENSINF_${DATATYPE}
+	python main.py $GST $GET K1:PEM-${PLACE}_SEIS_${AXIS}_SENSINF_${DATATYPE}	
+    done
+done
