@@ -6,7 +6,7 @@ def main(start,chname):
     if start%(3600*24)==54018: # 00h00m00sの条件        
         plotBandPassTimeseries(start,start+24*3600,
                                chname,
-                               imgdir='./diary/{0}/'.format(start))
+                               imgdir='./daily/{0}/'.format(start))
     else:
         raise ValueError('start time dose not match "00h00m00s". start:{}' \
                          .format(start))
