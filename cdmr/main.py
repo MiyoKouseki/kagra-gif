@@ -223,7 +223,8 @@ if __name__ == '__main__':
     start,end = 1217926818, 1217926818+2**13
     start,end = 1217935011, 1217943203
     start,end = 1217257218, 1217257218+2**13
-    start,end = 1217170818, 1217170818+2**13    
+    start,end = 1217170818, 1217170818+2**13
+    start,end = 1219309218, 1219309218+2**13  # JST 2018-08-26T18:00:00
     
     exx = read(start,end,chname_dict['exx'])*deGain_120QA*c2V # Volt
     exy = read(start,end,chname_dict['exy'])*deGain_120QA*c2V # Volt
