@@ -50,6 +50,7 @@ def plotBandPassTimeseries(start,end,chname,
     plot_timeseries : Bool
         もしTrueなら、Timeseriesのグラフを描く。デフォルトはTrue。
     '''
+    
     makedirs(imgdir)
     data = []
     data.append(fetch(chname,start,end).value)

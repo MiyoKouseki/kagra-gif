@@ -3,16 +3,17 @@
 from __future__ import print_function
 import matplotlib.pyplot as plt
 import numpy as np
-from trillium import selfnoise,V2Vel
+#from trillium import selfnoise,V2Vel
 from tips import *
-from plot import *
+#from plot import *
 import re
-
+from miyopy.plot import plotBandPassTimeseries,plotASD
+from miyopy.utils.trillium import trillium120QA
+#exit()
 
 c2V = 10.0/2**15
 deGain_compact = 10.0**(-45.0/20.0)
 deGain_120QA = 10.0**(-30.0/20.0)
-tlen = 2**13
 chname_dict = {'gifx':'CALC_STRAIN',
                'exx':'K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ',
                'exy':'K1:PEM-EXV_SEIS_NS_SENSINF_IN1_DQ',
@@ -29,14 +30,35 @@ chname_dict = {'gifx':'CALC_STRAIN',
                'mcex':'K1:PEM-IMC_SEIS_MCE_WE_SENSINF_IN1_DQ',
                'mcey':'K1:PEM-IMC_SEIS_MCE_NS_SENSINF_IN1_DQ',
                'mcez':'K1:PEM-IMC_SEIS_MCE_Z_SENSINF_IN1_DQ',
+                }
+fs = 2048.0
+'''
+chname_dict = {'gifx':'CALC_STRAIN',
+               'exx':'K1:PEM-EXV_SEIS_WE_SENSINF_INMON',
+               'exy':'K1:PEM-EXV_SEIS_NS_SENSINF_INMON',
+               'exz':'K1:PEM-EXV_SEIS_Z_SENSINF_INMON',
+               'eyx':'K1:PEM-EYV_SEIS_WE_SENSINF_INMON',
+               'eyy':'K1:PEM-EYV_SEIS_NS_SENSINF_INMON',
+               'eyz':'K1:PEM-EYV_SEIS_Z_SENSINF_INMON',
+               'ixx':'K1:PEM-IXV_SEIS_WE_SENSINF_INMON',
+               'ixy':'K1:PEM-IXV_SEIS_NS_SENSINF_INMON',
+               'ixz':'K1:PEM-IXV_SEIS_Z_SENSINF_INMON',
+               'mcix':'K1:PEM-IMC_SEIS_MCI_WE_SENSINF_INMON',
+               'mciy':'K1:PEM-IMC_SEIS_MCI_NS_SENSINF_INMON',
+               'mciz':'K1:PEM-IMC_SEIS_MCI_Z_SENSINF_INMON',
+               'mcex':'K1:PEM-IMC_SEIS_MCE_WE_SENSINF_INMON',
+               'mcey':'K1:PEM-IMC_SEIS_MCE_NS_SENSINF_INMON',
+               'mcez':'K1:PEM-IMC_SEIS_MCE_Z_SENSINF_INMON',
                 }        
-
-def main_xarm_seis_timeseries(start,tlen,exx,ixx):
-    plot41_blrms_timeseries(exx,
-                            fname='Timeseries-EXV',
-                            title='No title',
-                            tlen=tlen,start=tlen,
-                            )    
+fs = 16.0
+'''
+def main_xarm_seis_timeseries(start,tlen,exx,ixx):    
+    plotBandPassTimeseries(exx,start,end,'K1:PEM-EXV_SEIS_WE_SENSINF_INMON',
+                           ylabel='Velocity [m/sec]',
+                           xlabel='Time [Minutes]')
+    plotBandPassTimeseries(ixx,start,end,'K1:PEM-IXV_SEIS_WE_SENSINF_INMON',
+                           ylabel='Velocity [m/sec]',
+                           xlabel='Time [Minutes]')
     
 
 def main_xarm_comdiff(start,tlen,diff,comm,gifx):
@@ -60,19 +82,29 @@ def main_xarm_comdiff(start,tlen,diff,comm,gifx):
 
     
 def main_xarm_seis_asd(start,tlen,exx,ixx,**kwargs):
-    data1 = [exx,ixx] # [V, V, m] に注意
-    plot(data1,
-         start=start,             
-         tlen=tlen,
-         title='Seismometer at the EXV and IXV, and GIFx',
-         fname='ASD-EXV_IXV_GIFX',
-         labels1=['exx','ixx'],
-         adcnoise=True,
-         selfnoise=True,
-         trillium='120QA',
-         unit='m'
-         )
-    
+    data1 = [exx,ixx]
+    '''
+    data1 = [exx,
+             trillium120QA.bandpass(exx,0.01,None,fs,3),
+             trillium120QA.bandpass(exx,0.01,0.05,fs,3),
+             trillium120QA.bandpass(exx,0.05,0.3,fs,3),
+             trillium120QA.bandpass(exx,0.3,1,fs,3)
+            ] '''
+    plotASD(data1,
+            start=start,             
+            tlen=tlen,
+            title='Seismometer at the EXV and IXV, and GIFx',
+            fname='ASD-EXV_IXV_GIFX',
+            #labels1=['exx','ixx'],
+            labels1=['exx','ixx','low','mid','high'],
+            #labels1=['exx','dc','low','mid','high'],
+            linestyle=['k-','r--','b--','g--','m--'],
+            ylim=[1e-9,1e-6],
+            adcnoise=True,
+            selfnoise=True,
+            text='GPS:{0}\nHanning,ovlp=50%\n' \
+                 'chname:{1}'.format(start,''),
+            )    
 
 def main_xarm_disp():
     # Xアームの基線長伸縮を比較するためのデータセット
@@ -172,7 +204,7 @@ def main_yarm_seis():
                      labels2=labels62,
                      adcnoise=True,            
                     )            
-
+    
     
 def main_imc_seis():    
     # MCi,MCeの地震計
@@ -190,8 +222,8 @@ def main_imc_seis():
                     labels1=labels41,
                     labels2=labels42,
                     )
-
-
+    
+    
     plot(data4,
          start=start,             
          tlen=tlen,
@@ -220,12 +252,14 @@ def main_imc_seis():
     
 if __name__ == '__main__':
     #start,end = get_time()
-    start,end = 1217926818, 1217926818+2**13
+    tlen = 2**13
+    start,end = 1217926818, 1217926818+tlen
     start,end = 1217935011, 1217943203
-    start,end = 1217257218, 1217257218+2**13
-    start,end = 1217170818, 1217170818+2**13
-    start,end = 1219309218, 1219309218+2**13  # JST 2018-08-26T18:00:00
-    
+    start,end = 1217257218, 1217257218+tlen
+    start,end = 1217170818, 1217170818+tlen
+    start,end = 1219309218, 1219309218+tlen  # JST 2018-08-26T18:00:00
+    #start,end = 1219309218, 1219309218+2**12  # JST 2018-08-26T18:00:00
+    #
     exx = read(start,end,chname_dict['exx'])*deGain_120QA*c2V # Volt
     exy = read(start,end,chname_dict['exy'])*deGain_120QA*c2V # Volt
     exz = read(start,end,chname_dict['exz'])*deGain_120QA*c2V # Volt
@@ -243,13 +277,17 @@ if __name__ == '__main__':
     mciz = read(start,end,chname_dict['mciz'])*deGain_compact*c2V # Volt
     gifx = read(start,end,chname_dict['gifx']) # strain
     diff = (exx-ixx)/np.sqrt(2.0) # Volt
-    comm = (exx+ixx)/np.sqrt(2.0) # Volt            
+    comm = (exx+ixx)/np.sqrt(2.0) # Volt
+    #
+    #
+    exx = trillium120QA.V2Vel(exx)
     #
     # main
     #
     #main_xarm_comdiff(start,tlen,diff,comm,gifx)
     main_xarm_seis_asd(start,tlen,exx,ixx)
-    main_xarm_seis_timeseries(start,tlen,exx,ixx)
+    #main_xarm_seis_timeseries(start,tlen,exx,ixx)
+    
     exit()
     main_xarm_disp()        
     main_yarm_seis()

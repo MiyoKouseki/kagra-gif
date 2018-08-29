@@ -20,7 +20,8 @@ try:
     from gwpy.timeseries import TimeSeries
 except:
     pass
-        
+
+
 def plot_bode(ax0,ax1,b,a,fs,label):
     mpl.rcParams['lines.linewidth'] = 3    
     w, h = freqz(b, a, worN=8000)

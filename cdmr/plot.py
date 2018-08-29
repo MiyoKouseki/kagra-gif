@@ -240,7 +240,7 @@ def plot_timeseries(data,fname='No Title',
     
     fig, ax1 = plt.subplots(1, 1, sharex=True, dpi=640)
     for i in range(len(data))[:1]:
-        time = np.arange(len(data[i]))/(float(len(data[i]))/tlen)        
+        time = np.arange(len(data[i]))/(float(len(data[i]))/tlen)
         ax1.plot(time,data[i],label=labels1[i])
     plt.subplots_adjust(hspace=0.1,top=0.92)
     plt.legend()
