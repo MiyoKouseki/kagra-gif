@@ -6,15 +6,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 n = 8
-# JST 2018-08-27T00:00:00
-tlen = 2**13
-gst = 1219330818+tlen*n
-get = gst+tlen
-
 # JST 2018-08-28T00:00:00
-#tlen = 2**13
-#gst = 1219417218+tlen*n
-#get = gst+tlen
+tlen = 2**13
+gst = 1219417218+tlen*n
+get = gst+tlen
 
 chname1 = 'K1:PEM-EXV_SEIS_NS_SENSINF_INMON'
 data1 = readdump(gst,get,chname1) # Count
