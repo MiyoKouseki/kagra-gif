@@ -1,4 +1,5 @@
-\section{脈動の逆相成分はXアームでどれだけ低減されているのか？}
+
+\section{Xアームの基線長伸縮}
 この文章は，道村さんからの4月19日のメール「KAGRA micro seismのコヒーレンス」に対する回答になる。質問の内容は，「脈動では，数kmのXアームはどれだけ同相成分を含んでいて，どれだけ逆相成分を低減できているか」というもの。経験的に，IMCのような数10mスケールの基線長では，よく逆相成分が低減されているいることが知られている。なので，基線長が長くなると同相成分と逆相成分の比がどう変わるのか。それを評価した。
 
 
@@ -108,7 +109,7 @@ GIFと地震計を比較するために、式\ref{eq:eq23}の逆相成分をGIF�
 となる。
 
 
-
+\begin{comment}
 \subsubsection{ノイズを含んで測定している場合}\footnote[15]{これは，後述するIMCの測定結果が，SNが悪いせいでモデルと一致しないだろうと思ったので計算した。まだこれをこのDocumentに反映していないので，この項は読み飛ばしても問題ない。}
 
 
@@ -143,6 +144,113 @@ GIFと地震計を比較するために、式\ref{eq:eq23}の逆相成分をGIF�
 \end{equation}
 の条件のとき，位相は0度になり同相成分のみの変化になることがわかる。この条件から波長が変化すると，次第に同相成分が減り，逆相成分が増え始める。最終的に，nが半整数のとき，逆相成分のみになる。また振幅については，SNRで表すことができる。\footnote[16]{これを逆につかえば，実測したコヒーレンスをつかって，SNRがわかり，そこからノイズを求めることができる。}\footnote[17]{ちなみに，式\ref{eq:eq33}を逆に読めば，コヒーレンスはCDMRで表せることを意味している。つまりSNがよくても，CDMRが悪いとコヒーレンスは小さくなる場合がある。（Xアームはその例。）}
 
+\end{comment}
+
+\subsection{地震計のノイズ}\label{nm}
+\subsubsection{コヒーレンスをつかったノイズ評価}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8.5cm]{./noisemeasurement.png}
+  \end{center}
+  \caption{ノイズ測定のための地震計の配置。IXVには2台の地震計を隣接して設置し、EXVには1台の地震計を設置する。それぞれの地震計のSelfNoiseは$n_1,n_2,n_3$で表し、ローカルな環境ノイズは$b_1,b_2,b_3$で表す。互いに3km離れたIXVとEXVで相関をもつようなグローバルな地面振動を$x$とする。基本的にSelfNoiseとローカルな環境ノイズはそれぞれすべて無相関だが、IXVにある地震計2つは隣接しているので$b_1=b_2=b$とする。
+  }\label{img:img_noisemeasurement}
+\end{figure}
+
+複数台の地震計のコヒーレンスからSelfNoiseを求める方法がある\cite{peterson1980test}。ノイズは無相関であることが多いので2台を横に並べてコヒーレンスをとれば地面振動と区別することができる。しかし地震計はローカルな環境ノイズカップリングがあるので、横に並べて設置していると、環境ノイズは互いにコヒーレンスをもって信号としてあらわれてしまう。そのため、一方でローカルな環境ノイズが無相関になるよう十分に2台の地震計を離してコヒーレンスをとる。そうすることで地面振動と環境ノイズを区別することができ、地面振動・環境ノイズ・SelfNoiseらを評価することができる。
+
+Trillium120QAのノイズ評価のための実験セットアップを図\ref{img:img_noisemeasurement}に示す。IXV・EXV・EYVに置いてある地震計のうちYエンドをセンターに運び、IXVに2台、EXVに1台用意する。これら地震計はコヒーレンスをもった地面振動を測定しており、それを$x$とする。さらにSelfNoiseを$n_i$、ローカルな環境の外乱を$b_i$とする。添字の$i$は(IXV,EYV,EXV)の順番で対応する。IXVの2台は隣接しておいているので環境ノイズ$b_1,b_2$を
+\begin{equation}
+  b_1=b_2\left(\equiv b\right)
+\end{equation}
+とする。
+さらに3台とも同じTrillium120QAを使うので、SelfNoiseを
+\begin{equation}
+  n_1=n_2=n_3\left(\equiv n\right)
+\end{equation}
+として、信号を$x,\,b,\,b_3,\,n$の4つ減らすことができる。
+
+
+さしあたりSelfNoise$n$と地面振動$x$を知りたいので、以下のような2種類の測定を行い$x,\,b,\,n$を評価する。
+\begin{itembox}[l]{測定}
+  測定A  
+  \begin{itemize}
+  \item IXVにある地震計1と地震計2のコヒーレンスを求める。
+  \item SelfNoise$n$と信号（地面振動$x$と環境ノイズ$b$）を評価できる。
+  \item 地面振動$x$と環境ノイズ$b$は区別できない。
+  \end{itemize}
+  測定B
+  \begin{itemize}
+  \item IXVにある地震計1とEXVにある地震計3のコヒーレンスを求める。
+  \item 環境ノイズ$b,b_3$はコヒーレンスを持たないので地面振動$x$と区別できる。
+  \item なので地面振動$x$だけを評価できる。
+  \end{itemize}  
+\end{itembox}
+もしEXVの環境ノイズ$b_3$を評価したい場合は、EXVにEYVもしくはIXVの地震計を運び、IXVに1台EXVに2台の状態にして同様の測定を行えばよい。EYVの場合も同じである。
+
+\subsubsection{測定A:SelfNoiseの評価}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8.5cm]{./testA.png}
+  \end{center}
+  \caption{
+  }\label{img:img_testA}
+\end{figure}
+
+測定Aでは隣接した地震計2つのコヒーレンスを求める。ブロック図を図\ref{img:img_testA}に示す。このときの地震計の出力信号はそれぞれ、
+\begin{eqnarray}
+  Y_{1}(\omega) &=& \left| H_{1}(i\omega)\right|^{2}\left[X(\omega)+B(\omega)+N(\omega) \right] \label{eq:eq_nm1} \\ 
+  Y_{2}(\omega) &=& \left| H_{2}(i\omega)\right|^{2}\left[X(\omega)+B(\omega)+N(\omega) \right] \label{eq:eq_nm2}
+\end{eqnarray}
+となる。$Y(\omega),\,X(\omega),\,B(\omega),\,N(\omega)$はそれぞれ$y(t),\,x(t),\,b(t),\,n(t)$のパワースペクトル密度関数であり、$H_1(i\omega),\,H_2(i\omega)$はそれぞれ地震計1,2の伝達関数である。
+SelfNoiseは無相関なので、地震計1,2のクロススペクトル密度関数$Y_{12}$は、
+\begin{eqnarray}
+Y_{12}(i\omega) &=& H_{1}(i\omega)H_{2}^{*}(i\omega)\left[X(\omega)+B(\omega) \right] 
+\end{eqnarray}
+のように表すことができ、2乗コヒーレンス$\gamma_{12}^{2}$は,
+\begin{eqnarray}
+  \gamma_{12}^{2} &=& \frac{\left| Y_{12}(i\omega)\right|^{2}}{Y_1(\omega)Y_1({\omega})}\\
+  &=& \frac{\left | H_{1}(i\omega)H_{2}^{*}(i\omega)\left[X(\omega)+B(\omega) \right] \right |^{2}}{\left| H_{1}(i\omega)^{2}\right|\left|H_{2}(i\omega)\right|^{2}\left[X(\omega)+B(\omega)+N(\omega) \right]^{2}}\\
+  &=& \left( \frac{X(\omega)+B(\omega)}{X(\omega)+B(\omega)+N(\omega)} \right)^{2}\\
+    &=& \left( \frac{\mathrm{SNR}}{1+\mathrm{SNR}} \right)^{2}\label{eq:eq_nm3}
+\end{eqnarray}
+となる。
+ここで$\mathrm{SNR}$は信号雑音比であり、$\mathrm{SNR}\equiv \frac{X(\omega)+B(\omega)}{N{\omega}}$と定義した。このSNRはコヒーレンスがある信号とコヒーレンスがない信号の比になっている。式(\ref{eq:eq_nm3})より$\mathrm{SNR}$は2乗コヒーレンス$\gamma^{2}_{12}$で求めることができる。
+
+式(\ref{eq:eq_nm1})を用いると、コヒーレンスがないSelfNoise成分とコヒーレンスがある信号成分が以下のように求まる。
+\begin{eqnarray}
+  N(\omega) &=& \frac{Y_{1}(\omega)}{\left| H_{1}(i\omega) \right|}\frac{1}{1+\mathrm{SNR}} \label{eq:eq_nm4}\\
+  X(\omega) + B(\omega) &=& \frac{Y_{1}(\omega)}{\left| H_{1}(i\omega) \right|}\frac{1}{(1+\mathrm{SNR})\mathrm{SNR}} \label{eq:eq_nm5}
+\end{eqnarray}
+測定Aではローカルな環境ノイズ$B(\omega)$がコヒーレンスを持っているためグローバルな地面振動$X({\omega})$と区別ができない。そのため環境ノイズがコヒーレンスを持たないよう十分離れた位置にある地震計とコヒーレンスを取り、地面振動と環境ノイズを分離する必要がある。これを測定Bとする。
+
+
+\subsubsection{測定B:ローカルな環境ノイズの評価}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8.5cm]{./testB.png}
+  \end{center}
+  \caption{
+  }\label{img:img_testB}
+\end{figure}
+
+測定BではIXVにおいた地震計1とEXVにおいた地震計3のコヒーレンスを求める。図\ref{img:img_testB}にブロック図を示す。測定Aとは異なり、ローカルな環境ノイズは相関を持たないため地震計1と地震計3のクロススペクトル密度関数$Y_{12}(i\omega)$は
+\begin{eqnarray}
+Y_{13}(i\omega) &=& H_{1}(i\omega)H_{3}^{*}(i\omega)\left[X(\omega) \right] \\ 
+\end{eqnarray}
+となる。したがって2乗コヒーレンス$\gamma_{13}^{2}$は,
+\begin{eqnarray}
+  \gamma_{13}^{2} &=& \frac{\left| Y_{13}(i\omega)\right|^{2}}{Y_1(\omega)Y_3({\omega})}\\
+  &=& \frac{\left | H_{1}(i\omega)H_{3}^{*}(i\omega)\right|^{2}X(\omega)^{2}}{Y_1(\omega)Y_3({\omega})}\label{eq:eq_nm6}
+\end{eqnarray}
+となる。したがって、$X(\omega)$は
+\begin{eqnarray}
+  X(\omega) &=& \frac{\gamma_{13}}{\left | H_{1}(i\omega)H_{3}^{*}(i\omega)\right|}
+  \sqrt{Y_1(\omega)Y_3({\omega})} \label{eq:eq_nm7}
+\end{eqnarray}
+となる。式(\ref{eq:eq_num7})と式(\ref{eq:eq_num5})より、$B(\omega)$が求まる。
+
+
+以上のようにして、地面振動$X(\omega)$とSelfNoise$N(\omega)$を区別することができる。
 
 
 \subsection{XアームのCDMR}
@@ -269,3 +377,6 @@ MCiとMCeにTrilliumCompactを置き，基線長方向の信号をつかってCD
 \appendix
 \section{スペクトルの誤差}
 \section{コヒーレンスの有意水準}
+
+
+\bibliography{./cdmr_reference}
