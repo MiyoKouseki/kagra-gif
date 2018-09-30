@@ -1,6 +1,6 @@
 
 \section{Xアームの基線長伸縮}
-この文章は，道村さんからの4月19日のメール「KAGRA micro seismのコヒーレンス」に対する回答になる。質問の内容は，「脈動では，数kmのXアームはどれだけ同相成分を含んでいて，どれだけ逆相成分を低減できているか」というもの。経験的に，IMCのような数10mスケールの基線長では，よく逆相成分が低減されているいることが知られている。なので，基線長が長くなると同相成分と逆相成分の比がどう変わるのか。それを評価した。
+
 
 
 \subsection{同相成分と逆相成分}
@@ -14,7 +14,7 @@
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./xarm.png}
+    %\includegraphics[width=11.5cm]{./xarm.png}
   \end{center}
   \caption{Xアーム上の２点の変位。それぞれの位置を$x_1,\,x_2$とすれば変位はそれぞれ$u(x_1,t),\,u(x_2,t)$となる。}\label{img:img_diffcomm}
 \end{figure}
@@ -25,7 +25,8 @@
 \begin{equation}
   \boxed{\mathrm{CDMR} \equiv \sqrt{\frac{同相成分のパワー}{逆相成分のパワー}} = \sqrt{\frac{P_{\mathrm{com}}(\omega)}{P_{\mathrm{diff}}(\omega)}}} \label{eq:eq23}
 \end{equation}
-と定義する。$P_{\mathrm{com}},P_{\mathrm{diff}}$は同相成分と逆相成分についてのパワースペクトル密度である。パワースペクトル密度は自己相関関数$C(\tau)$をフーリエ変換したものなので、まず自己相関関数$C_{\mathrm{diff}}$を求める。自己相関関数$C_{\mathrm{diff}}$は，各々の自己相関を$ C_{ij} \equiv \langle x_{i}(t)x_{j}(t+\tau)\rangle,\, (i=1,2,\,j=1,2)$と定義すれば， 
+と定義する。\footnote[0]{きっかけは道村さんからの4月19日のメール「KAGRA micro seismのコヒーレンス」に対する回答になる。質問の内容は，「脈動では，数kmのXアームはどれだけ同相成分を含んでいて，どれだけ逆相成分を低減できているか」というもの。経験的に，IMCのような数10mスケールの基線長では，よく逆相成分が低減されているいることが知られている。なので，基線長が長くなると同相成分と逆相成分の比がどう変わるのか。それを評価した。}
+$P_{\mathrm{com}},P_{\mathrm{diff}}$は同相成分と逆相成分についてのパワースペクトル密度である。パワースペクトル密度は自己相関関数$C(\tau)$をフーリエ変換したものなので、まず自己相関関数$C_{\mathrm{diff}}$を求める。自己相関関数$C_{\mathrm{diff}}$は，各々の自己相関を$ C_{ij} \equiv \langle x_{i}(t)x_{j}(t+\tau)\rangle,\, (i=1,2,\,j=1,2)$と定義すれば， 
 \begin{eqnarray}
   C_{\mathrm{diff}}(\tau) &=& \frac{1}{2}
   \langle
@@ -109,88 +110,32 @@ GIFと地震計を比較するために、式\ref{eq:eq23}の逆相成分をGIF�
 となる。
 
 
-\begin{comment}
-\subsubsection{ノイズを含んで測定している場合}\footnote[15]{これは，後述するIMCの測定結果が，SNが悪いせいでモデルと一致しないだろうと思ったので計算した。まだこれをこのDocumentに反映していないので，この項は読み飛ばしても問題ない。}
-
-
-ノイズが同じ測定器でこの信号を測定すれば，変位はそれぞれ
-\begin{eqnarray}
-  x_1 = u(x_1,t) + n(t) \\
-  x_2 = u(x_2,t) + n(t)
-\end{eqnarray}
-のように表すことができる。このときの$x_1$と$x_2$の相互相関関数$C_{12}$は，ノイズは信号と無相関になるので，
-\begin{eqnarray}
-  C_{12} = C_{u_1,u_2}
-\end{eqnarray}
-のように信号同士の相互相関関数で簡単に表すことできる。つまりコヒーレンスは
-\begin{eqnarray}
-  \mathrm{coh} \equiv \frac{X_{12}}{\sqrt{P_1P_2}} &=&
-  \frac{X_{u_1,u_2}}{\sqrt{(P_{u1}+P_n)(P_{u2}+P_n)}} \\
-  &=& \frac{X_{u_1,u_2}}{P_s + P_n}\\
-  &=& \frac{X_{u_1,u_2}}{P_s}\frac{P_s}{P_s + P_n}\\
-  &=& \frac{X_{u_1,u_2}}{P_s}\frac{\mathrm{SNR}}{1 + \mathrm{SNR}}\\ \label{eq:eq_planenoisecoh}
-\end{eqnarray}
-となる。振幅が減衰しない平面波が通過しているので，ここで$P_{u1}=P_{u2}=P_s$とした。また，信号雑音比$\mathrm{SNR}$を$\mathrm{SNR}=\frac{P_s}{P_n}$と定義した。
-さてノイズのない平面波を測定した場合，変位を$u(x,t)=e^{i(\omega{t}-kx)}$とすると，コヒーレンスは$\mathrm{coh} = e^{ikL}$となる。したがって，式(\ref{eq:eq_planenoisecoh})に代入すると，
-\begin{eqnarray}
-  \mathrm{coh} = \frac{\mathrm{SNR}}{1 + \mathrm{SNR}}e^{ikL}\\ \label{eq:eq_planenoisecoh2}
-\end{eqnarray}
-となる。
-
-
-式(\ref{eq:eq_planenoisecoh2})より，$kL=2\pi{n},\, (n=0,1,2,..) $のとき，つまり弾性波の波長$\lambda$が
-\begin{equation}
-  \lambda = {{L}}{n} , \, (n=0,1,2,...)
-\end{equation}
-の条件のとき，位相は0度になり同相成分のみの変化になることがわかる。この条件から波長が変化すると，次第に同相成分が減り，逆相成分が増え始める。最終的に，nが半整数のとき，逆相成分のみになる。また振幅については，SNRで表すことができる。\footnote[16]{これを逆につかえば，実測したコヒーレンスをつかって，SNRがわかり，そこからノイズを求めることができる。}\footnote[17]{ちなみに，式\ref{eq:eq33}を逆に読めば，コヒーレンスはCDMRで表せることを意味している。つまりSNがよくても，CDMRが悪いとコヒーレンスは小さくなる場合がある。（Xアームはその例。）}
-
-\end{comment}
-
 \subsection{地震計のノイズ}\label{nm}
 \subsubsection{コヒーレンスをつかったノイズ評価}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=8.5cm]{./noisemeasurement.png}
+    %\includegraphics[width=8.5cm]{./noisemeasurement.png}
   \end{center}
-  \caption{ノイズ測定のための地震計の配置。IXVには2台の地震計を隣接して設置し、EXVには1台の地震計を設置する。それぞれの地震計のSelfNoiseは$n_1,n_2,n_3$で表し、ローカルな環境ノイズは$b_1,b_2,b_3$で表す。互いに3km離れたIXVとEXVで相関をもつようなグローバルな地面振動を$x$とする。基本的にSelfNoiseとローカルな環境ノイズはそれぞれすべて無相関だが、IXVにある地震計2つは隣接しているので$b_1=b_2=b$とする。
+  \caption{ノイズ測定のための地震計の配置。IXVには2台の地震計を隣接して設置し、EXVには1台の地震計を設置する。$n_1,n_2,n_3$は地震計のSelfNoise、$b_1,b_2,b_3$はローカルな環境ノイズ。$x$は地面振動。IXVにある地震計2つは隣接しているので$b_1=b_2=b$とする。また今回の足的では同じTrillium120QAを使っているので、$n_1=n_2=n_3=n$とした。
   }\label{img:img_noisemeasurement}
 \end{figure}
 
-複数台の地震計のコヒーレンスからSelfNoiseを求める方法がある\cite{peterson1980test}。ノイズは無相関であることが多いので2台を横に並べてコヒーレンスをとれば地面振動と区別することができる。しかし地震計はローカルな環境ノイズカップリングがあるので、横に並べて設置していると、環境ノイズは互いにコヒーレンスをもって信号としてあらわれてしまう。そのため、一方でローカルな環境ノイズが無相関になるよう十分に2台の地震計を離してコヒーレンスをとる。そうすることで地面振動と環境ノイズを区別することができ、地面振動・環境ノイズ・SelfNoiseらを評価することができる。
-
-Trillium120QAのノイズ評価のための実験セットアップを図\ref{img:img_noisemeasurement}に示す。IXV・EXV・EYVに置いてある地震計のうちYエンドをセンターに運び、IXVに2台、EXVに1台用意する。これら地震計はコヒーレンスをもった地面振動を測定しており、それを$x$とする。さらにSelfNoiseを$n_i$、ローカルな環境の外乱を$b_i$とする。添字の$i$は(IXV,EYV,EXV)の順番で対応する。IXVの2台は隣接しておいているので環境ノイズ$b_1,b_2$を
-\begin{equation}
-  b_1=b_2\left(\equiv b\right)
-\end{equation}
-とする。
-さらに3台とも同じTrillium120QAを使うので、SelfNoiseを
-\begin{equation}
-  n_1=n_2=n_3\left(\equiv n\right)
-\end{equation}
-として、信号を$x,\,b,\,b_3,\,n$の4つ減らすことができる。
+地震計のノイズは低周波になればなるほど増大するため、とくに静かなサイトでは、ノイズが地面振動を上回ってしまい計測を制限する。
 
 
-さしあたりSelfNoise$n$と地面振動$x$を知りたいので、以下のような2種類の測定を行い$x,\,b,\,n$を評価する。
-\begin{itembox}[l]{測定}
-  測定A  
-  \begin{itemize}
-  \item IXVにある地震計1と地震計2のコヒーレンスを求める。
-  \item SelfNoise$n$と信号（地面振動$x$と環境ノイズ$b$）を評価できる。
-  \item 地面振動$x$と環境ノイズ$b$は区別できない。
-  \end{itemize}
-  測定B
-  \begin{itemize}
-  \item IXVにある地震計1とEXVにある地震計3のコヒーレンスを求める。
-  \item 環境ノイズ$b,b_3$はコヒーレンスを持たないので地面振動$x$と区別できる。
-  \item なので地面振動$x$だけを評価できる。
-  \end{itemize}  
-\end{itembox}
-もしEXVの環境ノイズ$b_3$を評価したい場合は、EXVにEYVもしくはIXVの地震計を運び、IXVに1台EXVに2台の状態にして同様の測定を行えばよい。EYVの場合も同じである。
+信号とノイズを区別する方法としてコヒーレンスを用いたものがある\cite{peterson1980test}。この方法はランダムノイズとコモンモードノイズを区別する場合に有効であり、地震計に限らず他のセンサーに適用することができる\cite{barzilai1998technique}。たとえば2台の同一の地震計を隣接して置けば、地面振動はコモンモードノイズとして現れ、地震計内部から生じるSelfNoiseはインコヒーレントなノイズなので、両者を区別することができる。しかし隣接して設置するとローカルな環境ノイズもコモンモードノイズとして現れるため、地面振動と区別することができない。そこでローカルな環境ノイズがインコヒーレントになるよう、半れた場所に地震計を置くと、環境ノイズと地面振動は区別できる。このようにすれば、地面振動と環境ノイズ、SelfNoiseを区別し評価することができる。
+
+
+Trillium120QAのノイズ評価のための実験セットアップを図\ref{img:img_noisemeasurement}に示す。Yエンドの地震計をセンターに運び、センターに2台、Xエンドに1台用意する。このとき、低周波地面振動はセンターとXエンドでコヒーレントな信号であり、$x$とする。さらにSelfNoiseを$n_i$、ローカルな環境の外乱を$b_i$とする。添字の$i$は(IXV,EYV,EXV)に対応する。センターの2台は隣接しているので環境ノイズはコモンモードノイズとなり$b_1=b_2\equiv b$とする。さらに同一の測定装置で計測するので$n_1=n_2\equiv n$とする。一方でXエンドはADCノイズで高周波が制限されないよう30dbのプリアンプを通しているので、SelfNoiseの入力換算ノイズはIXVとEYVと異なり、$n_3\neq n_1,n_3\neq n_2$である。
+
+
+上述したように、地面振動と環境ノイズ、SelfNoiseを互いに区別するためには少なくとも2つの測定を行わなければならない。それらを測定A、測定Bとして後述する。
+
 
 \subsubsection{測定A:SelfNoiseの評価}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=8.5cm]{./testA.png}
+    %\includegraphics[width=8.5cm]{./testA.png}
   \end{center}
   \caption{
   }\label{img:img_testA}
@@ -219,7 +164,7 @@ Y_{12}(i\omega) &=& H_{1}(i\omega)H_{2}^{*}(i\omega)\left[X(\omega)+B(\omega) \r
 式(\ref{eq:eq_nm1})を用いると、コヒーレンスがないSelfNoise成分とコヒーレンスがある信号成分が以下のように求まる。
 \begin{eqnarray}
   N(\omega) &=& \frac{Y_{1}(\omega)}{\left| H_{1}(i\omega) \right|}\frac{1}{1+\mathrm{SNR}} \label{eq:eq_nm4}\\
-  X(\omega) + B(\omega) &=& \frac{Y_{1}(\omega)}{\left| H_{1}(i\omega) \right|}\frac{1}{(1+\mathrm{SNR})\mathrm{SNR}} \label{eq:eq_nm5}
+  X(\omega) + B(\omega) &=& \frac{Y_{1}(\omega)}{\left| H_{1}(i\omega) \right|}\frac{1}{(1+\mathrm{SNR})\mathrm{SNR}} \label{eq:eq_num5}
 \end{eqnarray}
 測定Aではローカルな環境ノイズ$B(\omega)$がコヒーレンスを持っているためグローバルな地面振動$X({\omega})$と区別ができない。そのため環境ノイズがコヒーレンスを持たないよう十分離れた位置にある地震計とコヒーレンスを取り、地面振動と環境ノイズを分離する必要がある。これを測定Bとする。
 
@@ -227,7 +172,7 @@ Y_{12}(i\omega) &=& H_{1}(i\omega)H_{2}^{*}(i\omega)\left[X(\omega)+B(\omega) \r
 \subsubsection{測定B:ローカルな環境ノイズの評価}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=8.5cm]{./testB.png}
+    %\includegraphics[width=8.5cm]{./testB.png}
   \end{center}
   \caption{
   }\label{img:img_testB}
@@ -240,12 +185,12 @@ Y_{13}(i\omega) &=& H_{1}(i\omega)H_{3}^{*}(i\omega)\left[X(\omega) \right] \\
 となる。したがって2乗コヒーレンス$\gamma_{13}^{2}$は,
 \begin{eqnarray}
   \gamma_{13}^{2} &=& \frac{\left| Y_{13}(i\omega)\right|^{2}}{Y_1(\omega)Y_3({\omega})}\\
-  &=& \frac{\left | H_{1}(i\omega)H_{3}^{*}(i\omega)\right|^{2}X(\omega)^{2}}{Y_1(\omega)Y_3({\omega})}\label{eq:eq_nm6}
+  &=& \frac{\left | H_{1}(i\omega)H_{3}^{*}(i\omega)\right|^{2}X(\omega)^{2}}{Y_1(\omega)Y_3({\omega})}\label{eq:eq_num6}
 \end{eqnarray}
 となる。したがって、$X(\omega)$は
 \begin{eqnarray}
   X(\omega) &=& \frac{\gamma_{13}}{\left | H_{1}(i\omega)H_{3}^{*}(i\omega)\right|}
-  \sqrt{Y_1(\omega)Y_3({\omega})} \label{eq:eq_nm7}
+  \sqrt{Y_1(\omega)Y_3({\omega})} \label{eq:eq_num7}
 \end{eqnarray}
 となる。式(\ref{eq:eq_num7})と式(\ref{eq:eq_num5})より、$B(\omega)$が求まる。
 
@@ -261,7 +206,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./asd.png}
+    %\includegraphics[width=11.5cm]{./asd.png}
   \end{center}
   \caption{Xエンドとセンターエリアにおいた地震計のXアーム方向のASD。速度出力の地震計の信号を$2\pi{f}$で割って変位に換算している。エラーバーは95％の信頼区間。時系列データは2018/07/05 00:00:00 (JST)から$2^{13}$秒(2.3時間)分をつかった。平均回数は64回で，窓関数はHanning窓をつかった。}\label{img:img1}
 \end{figure}
@@ -270,7 +215,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 \subsubsection{地震計のコヒーレンス}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./coh_seismo.png}
+    %\includegraphics[width=11.5cm]{./coh_seismo.png}
   \end{center}
   \caption{Xエンドとセンターエリアにおいた地震計のXアーム方向同士のコヒーレンス。破線より上にあれば，5％の有意水準でコヒーレンスがないという帰無仮説を棄却でき，コヒーレンスがあると言える。}\label{img:img2}
 \end{figure}
@@ -282,7 +227,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 \subsubsection{$\mathrm{CDMR_{seis}}$}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./cmrr_xarm.png}
+    %\includegraphics[width=11.5cm]{./cmrr_xarm.png}
   \end{center}
   \caption{上図:3km離れた二点の地面振動の同相成分と逆相成分のASD。0.1-0.2Hz付近にピークをもつ脈動では同相成分のほうが逆相成分よりも大きい。下図:同相成分と逆相成分の比(CDMR)。緑色の破線は，位相速度$5500\, \mathrm{m/s}$平面波がXアームを伝搬した場合のCDMRを示す。青色の破線は，相関がない場合のCMDRを示す。脈動はコヒーレンスがあり，波長はKAGRAの基線長よりも長いので，同相雑音が低減されている。}\label{img:img3}
 \end{figure}
@@ -293,7 +238,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 \subsubsection{$\mathrm{CDMR_{gif}}$}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./cmrr_xarm_gif.png}
+    %\includegraphics[width=11.5cm]{./cmrr_xarm_gif.png}
   \end{center}
   \caption{図\ref{img:img3}にGIFで推定した逆相成分を加えて比較。上図:変位のASD。下図：逆相成分をGIFに置き換えた$\mathrm{CDMR_{gif}}$を赤線でプロット。
   }\label{img:img4}
@@ -314,7 +259,7 @@ MCiとMCeにTrilliumCompactを置き，基線長方向の信号をつかってCD
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./ASD-MCi_MCe.png}
+    %\includegraphics[width=11.5cm]{./ASD-MCi_MCe.png}
   \end{center}
   \caption{MCiとMCeのASD。時系列データは2018/08/02 07:10:09 (JST)から$2^{13}$秒(2.3時間)分をつかった。平均回数は64回で，窓関数はHanning窓をつかった。}\label{img:img_asd_imc}
 \end{figure}
@@ -326,7 +271,7 @@ MCiとMCeにTrilliumCompactを置き，基線長方向の信号をつかってCD
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./Coherence-MCi_MCe.png}
+    %\includegraphics[width=11.5cm]{./Coherence-MCi_MCe.png}
   \end{center}
   \caption{MCiとMCeのコヒーレンス。}\label{img:img_coherence_imc}
 \end{figure}
@@ -338,7 +283,7 @@ MCiとMCeにTrilliumCompactを置き，基線長方向の信号をつかってCD
 \subsubsection{$\mathrm{CDMR_{seis}}$}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./cdmr_imc.png}
+    %\includegraphics[width=11.5cm]{./cdmr_imc.png}
   \end{center}
   \caption{aa}\label{img:img_cdmr_imc}
 \end{figure}
@@ -347,23 +292,6 @@ MCiとMCeにTrilliumCompactを置き，基線長方向の信号をつかってCD
 
 
 
-
-\begin{comment}
-\subsection{長期データ}
-長期間の基線長伸縮スペクトルをここでのべる。今後KAGRAの基線長伸縮として引用できるようなもの。一年をとおしてデータを解析してみる。平均的なスペクトルを知りたいので地震や台風のときは除く、もしくは「うるさいとき」という感じで、スペクトルを乗せる。
-
-
-\subsection{環境変動によるXアームの基線長伸縮}
-波浪や地震、気圧・水圧などの環境変化によって基線長伸縮がどう影響をうけるか述べる。
-
-\subsubsection{波浪}
-
-\subsubsection{地震}
-
-\subsubsection{気圧}
-
-\subsubsection{水圧}
-\end{comment}
 
 
 \subsection{まとめ}
