@@ -1,12 +1,17 @@
 #
 #! coding:utf-8
 from plotTimeseries import plotBandPassTimeseries
+from miyopy.io import read
 
 def main(start,chname):
-    if start%(3600*24)==54018: # 00h00m00sの条件        
-        plotBandPassTimeseries(start,start+24*3600,
-                               chname,
-                               imgdir='./daily/{0}/'.format(start))
+    if start%(3600*24)==54018: # 00h00m00sの条件
+        end = start + 3600*24
+        data = read(start,end,chname,fmt='nds')
+        plotBandPassTimeseries(data)
+        
+        #plotBandPassTimeseries(start,start+24*3600,
+        #                       chname,
+        #                       imgdir='./daily/{0}/'.format(start))
     else:
         raise ValueError('start time dose not match "00h00m00s". start:{}' \
                          .format(start))
