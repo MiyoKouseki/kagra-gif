@@ -7,7 +7,7 @@ import numpy as np
 from tips import *
 #from plot import *
 import re
-from miyopy.plot import plotBandPassTimeseries,plotASD
+from miyopy.plot import plotBandPassTimeseries,asdplot
 from miyopy.utils.trillium import trillium120QA
 #exit()
 
@@ -66,7 +66,7 @@ def main_xarm_comdiff(start,tlen,diff,comm,gifx):
     data1 = [diff,comm,gifx*3.0e3/np.sqrt(2.0)] # [V, V, m] に注意
     plot21_cdmr(data1,
                 start=start,
-                tlen=tlen,            
+                tlen=tlen,
                 title='Common Differential Mode Rate (CDMR) on the X-Arm Bedrock',
                 fname='cdmr_xarm_gifx',
                 labels1=['(Xend-Center)/sqrt(2) : Diff',
@@ -90,6 +90,7 @@ def main_xarm_seis_asd(start,tlen,exx,ixx,**kwargs):
              trillium120QA.bandpass(exx,0.05,0.3,fs,3),
              trillium120QA.bandpass(exx,0.3,1,fs,3)
             ] '''
+    '''
     plotASD(data1,
             start=start,             
             tlen=tlen,
@@ -104,8 +105,15 @@ def main_xarm_seis_asd(start,tlen,exx,ixx,**kwargs):
             selfnoise=True,
             text='GPS:{0}\nHanning,ovlp=50%\n' \
                  'chname:{1}'.format(start,''),
-            )    
-
+            )        
+'''
+    asdplot(data1,fname='ASD-EXV_IXV_GIFX',
+            title='Seismometer at the EXV and IXV, and GIFx',
+            labels1=['exx','ixx','low','mid','high'],
+            linestyle=['k-','r--','b--','g--','m--'],
+            ylim=[1e-9,1e-6],            
+            **kwargs)
+    
 def main_xarm_disp():
     # Xアームの基線長伸縮を比較するためのデータセット
     data9 = [exx/5500,ixx/5500,gifx] # [V, V, m] に注意
@@ -280,13 +288,13 @@ if __name__ == '__main__':
     comm = (exx+ixx)/np.sqrt(2.0) # Volt
     #
     #
-    exx = trillium120QA.V2Vel(exx)
+    #exx = trillium120QA.V2Vel(exx)
     #
     # main
     #
     #main_xarm_comdiff(start,tlen,diff,comm,gifx)
-    main_xarm_seis_asd(start,tlen,exx,ixx)
-    #main_xarm_seis_timeseries(start,tlen,exx,ixx)
+    #main_xarm_seis_asd(start,tlen,exx,ixx)
+    main_xarm_seis_timeseries(start,tlen,exx,ixx)
     
     exit()
     main_xarm_disp()        
@@ -294,3 +302,4 @@ if __name__ == '__main__':
     main_yarm_comdiff()
     main_imc_comdiff()
     main_imc_seis()
+
