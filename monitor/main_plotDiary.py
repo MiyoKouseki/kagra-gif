@@ -1,6 +1,6 @@
 #
 #! coding:utf-8
-#from plotTimeseries import plotBandPassTimeseries
+
 from miyopy.io import read
 from miyopy.io.read import save_to_dump,DumpFileException
 from miyopy.plot import plotBandPassTimeseries
@@ -15,7 +15,7 @@ def main(start,chname):
             data = read(start,end,[chname],fmt='nds')
             value = data[0].data            
             save_to_dump(value,start,end,chname)
-        plotBandPassTimeseries(value,start,end,chname,imgdir='./{0}/'.format(start))
+        plotBandPassTimeseries(value,start,end,chname,imgdir='./daily/{0}/'.format(start))
     else:
         raise ValueError('start time dose not match "00h00m00s". start:{}' \
                          .format(start))
