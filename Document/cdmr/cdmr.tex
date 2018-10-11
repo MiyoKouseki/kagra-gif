@@ -14,7 +14,7 @@
 
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./xarm.png}
+    %\includegraphics[width=11.5cm]{./img_cdmr_xarm.png}
   \end{center}
   \caption{Xアーム上の２点の変位。それぞれの位置を$x_1,\,x_2$とすれば変位はそれぞれ$u(x_1,t),\,u(x_2,t)$となる。}\label{img:img_diffcomm}
 \end{figure}
@@ -114,7 +114,7 @@ GIFと地震計を比較するために、式\ref{eq:eq23}の逆相成分をGIF�
 \subsubsection{コヒーレンスをつかったノイズ評価}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=8.5cm]{./noisemeasurement.png}
+    %\includegraphics[width=8.5cm]{./img_noisemeasurement.png}
   \end{center}
   \caption{ノイズ測定のための地震計の配置。IXVには2台の地震計を隣接して設置し、EXVには1台の地震計を設置する。$n_1,n_2,n_3$は地震計のSelfNoise、$b_1,b_2,b_3$はローカルな環境ノイズ。$x$は地面振動。IXVにある地震計2つは隣接しているので$b_1=b_2=b$とする。また今回の足的では同じTrillium120QAを使っているので、$n_1=n_2=n_3=n$とした。
   }\label{img:img_noisemeasurement}
@@ -135,7 +135,7 @@ Trillium120QAのノイズ評価のための実験セットアップを図\ref{im
 \subsubsection{測定A:SelfNoiseの評価}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=8.5cm]{./testA.png}
+    %\includegraphics[width=8.5cm]{./img_noisemeasurement_testa.png}
   \end{center}
   \caption{
   }\label{img:img_testA}
@@ -172,7 +172,7 @@ Y_{12}(i\omega) &=& H_{1}(i\omega)H_{2}^{*}(i\omega)\left[X(\omega)+B(\omega) \r
 \subsubsection{測定B:ローカルな環境ノイズの評価}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=8.5cm]{./testB.png}
+    %\includegraphics[width=8.5cm]{./img_noisemeasurement_testb.png}
   \end{center}
   \caption{
   }\label{img:img_testB}
@@ -206,7 +206,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./asd.png}
+    %\includegraphics[width=11.5cm]{./img_asd_exvixv.png}
   \end{center}
   \caption{Xエンドとセンターエリアにおいた地震計のXアーム方向のASD。速度出力の地震計の信号を$2\pi{f}$で割って変位に換算している。エラーバーは95％の信頼区間。時系列データは2018/07/05 00:00:00 (JST)から$2^{13}$秒(2.3時間)分をつかった。平均回数は64回で，窓関数はHanning窓をつかった。}\label{img:img1}
 \end{figure}
@@ -215,7 +215,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 \subsubsection{地震計のコヒーレンス}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./coh_seismo.png}
+    %\includegraphics[width=11.5cm]{./img_coh_exvixv.png}
   \end{center}
   \caption{Xエンドとセンターエリアにおいた地震計のXアーム方向同士のコヒーレンス。破線より上にあれば，5％の有意水準でコヒーレンスがないという帰無仮説を棄却でき，コヒーレンスがあると言える。}\label{img:img2}
 \end{figure}
@@ -227,7 +227,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 \subsubsection{$\mathrm{CDMR_{seis}}$}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./cmrr_xarm.png}
+    %\includegraphics[width=11.5cm]{./img_cdmr_xarm.png}
   \end{center}
   \caption{上図:3km離れた二点の地面振動の同相成分と逆相成分のASD。0.1-0.2Hz付近にピークをもつ脈動では同相成分のほうが逆相成分よりも大きい。下図:同相成分と逆相成分の比(CDMR)。緑色の破線は，位相速度$5500\, \mathrm{m/s}$平面波がXアームを伝搬した場合のCDMRを示す。青色の破線は，相関がない場合のCMDRを示す。脈動はコヒーレンスがあり，波長はKAGRAの基線長よりも長いので，同相雑音が低減されている。}\label{img:img3}
 \end{figure}
@@ -238,7 +238,7 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 \subsubsection{$\mathrm{CDMR_{gif}}$}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./cmrr_xarm_gif.png}
+    %\includegraphics[width=11.5cm]{./img_cdmr_xarm_gif.png}
   \end{center}
   \caption{図\ref{img:img3}にGIFで推定した逆相成分を加えて比較。上図:変位のASD。下図：逆相成分をGIFに置き換えた$\mathrm{CDMR_{gif}}$を赤線でプロット。
   }\label{img:img4}
@@ -252,38 +252,38 @@ XアームのCDMRを求める。エンドとセンターの2階においた地�
 
 \subsection{IMCのCDMR}
 IMCのCDMRを求める。%図\ref{img:img_imcseis}のように，
-MCiとMCeにTrilliumCompactを置き，基線長方向の信号をつかってCDMRをもとめた。
+MCiとMCerrreにTrilliumCompactを置き，基線長方向の信号をつかってCDMRをもとめた。
 
 
 \subsubsection{地震計のスペクトル}
 
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./ASD-MCi_MCe.png}
+    %\includegraphics[width=11.5cm]{./img_asd_mcimce.png}
   \end{center}
-  \caption{MCiとMCeのASD。時系列データは2018/08/02 07:10:09 (JST)から$2^{13}$秒(2.3時間)分をつかった。平均回数は64回で，窓関数はHanning窓をつかった。}\label{img:img_asd_imc}
+  \caption{MCiとMCerrreのASD。時系列データは2018/08/02 07:10:09 (JST)から$2^{13}$秒(2.3時間)分をつかった。平均回数は64回で，窓関数はHanning窓をつかった。}\label{img:img_asd_imc}
 \end{figure}
 
-図\ref{img:img_asd_imc}にMCiとMCeにおいた地震計のASDを示す。エラーバーは95％の信頼区間を示す。0.2Hzから1Hzで2点は同じ地面振動レベルを示している。1-10Hzの帯域では，それぞれADCノイズに埋もれている。MCiの地震計は33倍のアンプを入れているのでADCノイズの換算雑音は小さい。
+図\ref{img:img_asd_imc}にMCiとMCerrreにおいた地震計のASDを示す。エラーバーは95％の信頼区間を示す。0.2Hzから1Hzで2点は同じ地面振動レベルを示している。1-10Hzの帯域では，それぞれADCノイズに埋もれている。MCiの地震計は33倍のアンプを入れているのでADCノイズの換算雑音は小さい。
 
 
 \subsubsection{地震計のコヒーレンス}
 
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./Coherence-MCi_MCe.png}
+    %\includegraphics[width=11.5cm]{./img_coh_mcimce.png}
   \end{center}
-  \caption{MCiとMCeのコヒーレンス。}\label{img:img_coherence_imc}
+  \caption{MCiとMCerrreのコヒーレンス。}\label{img:img_coherence_imc}
 \end{figure}
 
-図\ref{img:img_coherence_imc}にMCiとMCeのコヒーレンスを示す。0.2Hzから10Hzまで有意にコヒーレンスをもっている。とくに0.2−1Hzの帯域では非常にコヒーレンスが高い。また位相差が0となっているため，2点は同相で動いていることがわかる。
+図\ref{img:img_coherence_imc}にMCiとMCerrreのコヒーレンスを示す。0.2Hzから10Hzまで有意にコヒーレンスをもっている。とくに0.2−1Hzの帯域では非常にコヒーレンスが高い。また位相差が0となっているため，2点は同相で動いていることがわかる。
 
 
 
 \subsubsection{$\mathrm{CDMR_{seis}}$}
 \begin{figure}[H]
   \begin{center}
-    %\includegraphics[width=11.5cm]{./cdmr_imc.png}
+    %\includegraphics[width=11.5cm]{./img_cdmr_imc.png}
   \end{center}
   \caption{aa}\label{img:img_cdmr_imc}
 \end{figure}
