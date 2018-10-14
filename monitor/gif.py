@@ -4,12 +4,13 @@
 from miyopy.io.reader import gif
 from miyopy.signal import asd
 
+prefix = '/Users/miyo/Dropbox/KagraData/gif/'
+
 
 
 if __name__=='__main__':
     start = 1223251218
-    tlen = 3600*3
-    prefix = '/Users/miyo/Dropbox/KagraData/gif/'
+    tlen = 3600*2
     x500 = gif.read(start,tlen,'X500_BARO',prefix=prefix)
     x2000 = gif.read(start,tlen,'X2000_BARO',prefix=prefix)
 
