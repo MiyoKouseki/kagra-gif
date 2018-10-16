@@ -13,10 +13,12 @@ if __name__=='__main__':
                              start=1223478018,
                              format='gif')
 
+
+    # plot timeseries
     plot = strain.plot(title='GIF strain data',
                        ylabel='Strain amplitude',
                        )
-    plot.savefig('strain.png')
+    plot.savefig('timeseries.png')
     plot.close()
 
     
