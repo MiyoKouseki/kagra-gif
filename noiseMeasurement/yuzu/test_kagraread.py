@@ -12,7 +12,7 @@ class TestKagraRead(unittest.TestCase):
         self.start = 1224028818 # UTC 2018-10-20T00:00:00
         self.end = 1224029418 # UTC 2018-10-20T00:10:00
         self.ch = 'K1:PEM-EXV_SEIS_NS_SENSINF_INMON'
-        self.source = './K-K1_C-1224029408-32.gwf'
+        self.source = './K-K1_C-1224029408-32_forTest.gwf'
 
         
     def test_read_nds2_buffer(self):
@@ -29,7 +29,7 @@ class TestKagraRead(unittest.TestCase):
         expected = TimeSeries
         actual = fetch(self.start,self.end,self.ch)
         self.assertIsInstance(actual,expected)
-
+        
         
     def test_read(self):
         '''Test `kagraread.read` constructor
@@ -38,8 +38,6 @@ class TestKagraRead(unittest.TestCase):
         actual = read(self.source,self.start,self.end,self.ch)
         self.assertIsInstance(actual,expected)
 
-
         
 if __name__ == '__main__':
-    unittest.main()
-    
+    unittest.main()   
