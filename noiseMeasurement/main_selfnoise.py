@@ -1,17 +1,28 @@
 #
 #! coding:utf-8
 import numpy as np
-
+import matplotlib as mpl
+mpl.use('Agg')
 #from miyopy.utils.tips import read
 from miyopy.io import read 
 from miyopy.signal import coherence,asd
 from miyopy.plot import coherenceplot,asdplot
 #import matplotlib.pyplot as plt
 from miyopy.utils.trillium import H120QA,TRselfnoise
+import sys
+#sys.path.insert(0,'~/gwpy')
+#import gwpy
+#print(gwpy.__version__)
 from gwpy.timeseries import TimeSeries
+from gwpy.time import tconvert
+from gwpy.plot import Plot
+
+import glue
+#print(glue.__file__)
 
 c2V = 10.0/2**15
 deGain = 10**(-30.0/20.0)
+
 
 def coh2snr(coh):
     '''
@@ -124,27 +135,67 @@ def plot_asd_all(t1,t2,t3,start,end,fs,ave=32):
             fname='selfnoise')    
 
    
+def dump(chname,start,tlen):    
+    end = start + tlen
+    from glue.lal import Cache
+    from gwpy.timeseries import TimeSeries
+
+    gwf_cache = 'K-K1_C.Oct1-Oct21.cache'
+    with open(gwf_cache, 'r') as fobj:
+        cache = Cache.fromfile(fobj)
+        
+    data = TimeSeries.read(cache,chname,start=start, end=end,verbose=True,nproc=8)
+    data.write('{start}_{tlen}_{ch}.gwf'.format(ch=chname,start=start,tlen=tlen)
+                ,format='gwf.lalframe')
     
 
 if __name__ == "__main__":
-    tlen = 2**13
-    start = 1220194818
-    start = 1221922818
-    end = start+tlen
-    #
-    #
-    t1_ns = read(start,end,'K1:PEM-IXV_SEIS_NS_SENSINF_IN1_DQ')*c2V
-    ch = 'K1:PEM-IXV_SEIS_NS_SENSINF_IN1_DQ'
-    t1_ns = TimeSeries.fetch(ch, start, end, host="k1nds0", port=8088)
+    tlen = 2**16
+    start = 1222354818 # UTC 2018-09-30T15:00:00
+    end = start+tlen    
+    # dump('K1:PEM-IXV_SEIS_NS_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-IXV_SEIS_WE_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-IXV_SEIS_Z_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-EXV_SEIS_NS_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-EXV_SEIS_Z_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-IXV_SEIS_TEST_NS_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-IXV_SEIS_TEST_WE_SENSINF_IN1_DQ',start,tlen)
+    # dump('K1:PEM-IXV_SEIS_TEST_Z_SENSINF_IN1_DQ',start,tlen)
+    chname = 'K1:PEM-IXV_SEIS_NS_SENSINF_IN1_DQ'
+    dumped_gwf_fmt = '{start}_{tlen}_{chname}.gwf'
+    t1_ns = TimeSeries.read(
+        dumped_gwf_fmt.format(start=start,tlen=tlen,chname=chname),
+        chname, start, end, verbose=True ,nproc=8)*c2V    
+
+    sg = t1_ns.spectrogram2(fftlength=2**7, overlap=2, window='hanning') ** (1/2.)
+    median = sg.percentile(50)
+    low = sg.percentile(5)
+    high = sg.percentile(95)
+    plot = Plot()
+    ax = plot.gca(xscale='log', xlim=(1e-3, 200), xlabel='Frequency [Hz]',
+                  yscale='log', #ylim=(3e-24, 2e-20),
+                  ylabel=r' [m/sec/\rtHz]')
+    ax.plot_mmm(median, low, high, color='gwpy:ligo-hanford')
+    ax.set_title('LIGO-Hanford strain noise variation around GW170817',
+             fontsize=16)
+    plot.savefig('huge.png')
+    plot.close()
+    print(t1_ns)
+    print('aaa')
     exit()
-    t1_we = read(start,end,'K1:PEM-IXV_SEIS_WE_SENSINF_IN1_DQ')*c2V
-    t1_zz = read(start,end,'K1:PEM-IXV_SEIS_Z_SENSINF_IN1_DQ')*c2V
-    t3_ns = read(start,end,'K1:PEM-EXV_SEIS_NS_SENSINF_IN1_DQ')*c2V*deGain
-    t3_we = read(start,end,'K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ')*c2V*deGain
-    t3_zz = read(start,end,'K1:PEM-EXV_SEIS_Z_SENSINF_IN1_DQ')*c2V*deGain
-    t2_ns = read(start,end,'K1:PEM-IXV_SEIS_TEST_NS_SENSINF_IN1_DQ')*c2V
-    t2_we = read(start,end,'K1:PEM-IXV_SEIS_TEST_WE_SENSINF_IN1_DQ')*c2V
-    t2_zz = read(start,end,'K1:PEM-IXV_SEIS_TEST_Z_SENSINF_IN1_DQ')*c2V
+    #
+    #
+    #
+    specgram = t1_ns.spectrogram(2**11, fftlength=2**9, overlap=.5) ** (1/2.)
+    plot = specgram.imshow(norm='log')
+    ax = plot.gca()
+    ax.set_yscale('log')
+    ax.set_ylim(1e-3, 200)
+    ax.colorbar(
+        label=r'Gravitational-wave amplitude [strain/$\sqrt{\mathrm{Hz}}$]')
+    plot.savefig('poyo.png')
+    exit()
     # init
     tlen = end - start
     fs = len(t1_we)/tlen
@@ -154,6 +205,9 @@ if __name__ == "__main__":
     t3 = [t3_we,t3_ns,t3_zz]
     #
     # plot
+    print(t1_ns)
+    exit()
+
     huge(t1,t2,t3,start,end,fs,ave=ave)
     plot_asd_all(t1,t2,t3,start,end,fs,ave=ave)
     #plot_sensor_noise(t1,t2,t3,)
