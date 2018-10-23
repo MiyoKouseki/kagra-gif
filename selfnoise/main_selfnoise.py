@@ -23,6 +23,22 @@ import glue
 c2V = 10.0/2**15
 deGain = 10**(-30.0/20.0)
 
+__dumped_gwf_fmt = './data/{start}_{tlen}_{chname}.gwf'
+dumped_gwf_fmt = './data/{start}_{end}_{chname}.gwf'
+
+channels = ['K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean',
+            'K1:PEM-IXV_SEIS_WE_SENSINF_INMON.mean',
+            'K1:PEM-IXV_SEIS_Z_SENSINF_INMON.mean',
+            'K1:PEM-EXV_SEIS_NS_SENSINF_INMON.mean',
+            'K1:PEM-EXV_SEIS_WE_SENSINF_INMON.mean',
+            'K1:PEM-EXV_SEIS_Z_SENSINF_INMON.mean',
+            'K1:PEM-EYV_SEIS_NS_SENSINF_INMON.mean',
+            'K1:PEM-EYV_SEIS_WE_SENSINF_INMON.mean',
+            'K1:PEM-EYV_SEIS_Z_SENSINF_INMON.mean',
+            'K1:PEM-IXV_SEIS_TEST_NS_SENSINF_INMON.mean',
+            'K1:PEM-IXV_SEIS_TEST_WE_SENSINF_INMON.mean',
+            'K1:PEM-IXV_SEIS_TEST_Z_SENSINF_INMON.mean']
+
 
 def coh2snr(coh):
     '''
@@ -112,8 +128,7 @@ def plot_asd_all(t1,t2,t3,start,end,fs,ave=32):
     f, coh13_wewe, deg13_wewe = coherence(t1_we,t3_we,fs,ave=ave)
     f, coh12_wewe, deg12_wewe = coherence(t1_we,t2_we,fs,ave=ave)
     #
-    asd_x,asd_n,asd_xb = sensor_noise(coh12_wewe,coh13_wewe,
-                                      asd1_we,asd2_we,asd3_we)
+    asd_x,asd_n,asd_xb = sensor_noise(coh12_wewe,coh13_wewe,asd1_we,asd2_we,asd3_we)
     #
     snr13_wewe = coh2snr(coh13_wewe)
     snr12_wewe = coh2snr(coh12_wewe)
@@ -150,88 +165,115 @@ def dump(chname,start,tlen):
     data = TimeSeries.read(cache,chname,verbose=True,nproc=8,pad=np.nan)
     data.write('{start}_{tlen}_{ch}.gwf'.format(ch=chname,start=start,tlen=tlen)
                ,format='gwf.lalframe')
-    
 
-if __name__ == "__main__":
-    tlen = 2**10
-    tlen = 600
-    start = 1222354818 # UTC 2018-09-30T15:00:00
-    start = 1219762818 
-    end = start+tlen
-    dump('K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean',start,tlen)    
+
+
+def main_dump(start,end):
+    for channel in channels:
+        dump(channel,start,tlen)
     exit()
-    dump('K1:PEM-IXV_SEIS_WE_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-IXV_SEIS_Z_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-EXV_SEIS_NS_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-EXV_SEIS_WE_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-EXV_SEIS_Z_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-IXV_SEIS_TEST_NS_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-IXV_SEIS_TEST_WE_SENSINF_INMON.mean',start,tlen)
-    dump('K1:PEM-IXV_SEIS_TEST_Z_SENSINF_INMON.mean',start,tlen)
-    #
-    #
-    chname = 'K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean'
-    dumped_gwf_fmt = '{start}_{tlen}_{chname}.gwf'
+
+
+
+def main(channel,start,end):
+
     data = TimeSeries.read(
-        dumped_gwf_fmt.format(start=start,tlen=tlen,chname=chname),
-        chname, verbose=True ,nproc=8)*c2V    
-    #chname, start=start, end=end, verbose=True ,nproc=8)*c2V    
-    plot = data.plot(ylim=(-1e-3,0))
-    plot.savefig('None.png')
-    #plot.show()
-    print data
-    exit()
-    #
-    #
-    sg = t1_ns.spectrogram2(fftlength=2**7, overlap=2, window='hanning') ** (1/2.)
-    median = sg.percentile(50)
-    low = sg.percentile(5)
-    high = sg.percentile(95)
-    plot = Plot()
-    ax = plot.gca(xscale='log', xlim=(1e-3, 200), xlabel='Frequency [Hz]',
-                  yscale='log', #ylim=(3e-24, 2e-20),
-                  ylabel=r' [m/sec/\rtHz]')
-    ax.plot_mmm(median, low, high, color='gwpy:ligo-hanford')
-    ax.set_title('LIGO-Hanford strain noise variation around GW170817',
-             fontsize=16)
-    plot.savefig('huge.png')
+        dumped_gwf_fmt.format(start=start,end=end,chname=channel),
+        channel, verbose=True ,nproc=8)
+    
+    timeseriesplot_fname_fmt = 'TimeSeries_{channel}.png'
+    spectrogramplot_fname_fmt = 'Spectrogram_{channel}.png'
+    asdplot_fname_fmt = 'ASD_{channel}.png'
+
+    # Filtering
+    from gwpy.signal import filter_design
+    bp_high = filter_design.highpass(0.3, data.sample_rate)
+    bp_mid = filter_design.bandpass(0.05, 0.3, data.sample_rate)
+    bp_low = filter_design.lowpass(0.05, data.sample_rate)
+
+    data_high = data.filter(bp_high, filtfilt=True)
+    data_high = data_high.crop(*data_high.span.contract(1))
+    data_mid = data.filter(bp_mid, filtfilt=True)
+    data_mid = data_mid.crop(*data_mid.span.contract(1))
+    data_low = data.filter(bp_low, filtfilt=True)
+    data_low = data_low.crop(*data_low.span.contract(1))
+
+    
+    # Plot TimeSeries
+    title = channel[3:].replace('_',' ')
+    labels = ['No filt', 'High (300mHz-)', 'Mid (50mHz-300mHz)', 'Low (-50mHz)']
+    if data.unit == ' ':
+        yaxis_label = 'Count'
+    else:
+        yaxis_label = data.unit
+
+    from gwpy.plot import Plot    
+    data_set = [data,data_high, data_mid, data_low]
+    plot = Plot(*data_set,
+                separate=True, sharex=True, sharey=True,
+                color='gwpy:ligo-livingston',
+                figsize=[10,10])
+    
+    axes = plot.get_axes()
+    for i,ax in enumerate(axes):
+        ax.legend([labels[i]],loc='upper left')
+
+    plot.text(0.04, 0.5, yaxis_label, va='center', rotation='vertical',fontsize=16)
+    #plot.text(0.5, 0.93, title, va='center',ha='center',rotation='horizontal',fontsize=16)
+    axes[0].set_title(title,fontsize=16)
+    axes[-1].set_xscale('Hours', epoch=start)
+    plot.savefig(timeseriesplot_fname_fmt.format(channel=channel))
     plot.close()
-    print(t1_ns)
-    print('aaa')
-    exit()
-    #
-    #
-    #
-    specgram = t1_ns.spectrogram(2**11, fftlength=2**9, overlap=.5) ** (1/2.)
+
+
+    # Plot ASD
+    fftlen = 2**7
+    specgram = data.spectrogram2(fftlength=fftlen, 
+                                 overlap=2, 
+                                 window='hanning') ** (1/2.)
+    median = specgram.percentile(50)
+    low = specgram.percentile(5)
+    high = specgram.percentile(95)
+    plot = Plot()
+    ylabel_fmt = r'{yaxis_label} [{yaxis_label}/\rtHz]'
+    ax = plot.gca(xscale='log', xlim=(1e-3, 10), 
+                  xlabel='Frequency [Hz]',
+                  yscale='log', #ylim=(3e-24, 2e-20),
+                  ylabel=ylabel_fmt.format(yaxis_label=yaxis_label))
+    ax.plot_mmm(median, low, high, color='gwpy:ligo-livingston')
+    ax.set_title(title,fontsize=16)
+    plot.savefig(asdplot_fname_fmt.format(channel=channel))
+    plot.close()
+
+    # Plot Spectrogram
+    specgram = data.spectrogram(fftlen*2, fftlength=fftlen, overlap=.5) ** (1/2.)
     plot = specgram.imshow(norm='log')
     ax = plot.gca()
     ax.set_yscale('log')
-    ax.set_ylim(1e-3, 200)
-    ax.colorbar(
-        label=r'Gravitational-wave amplitude [strain/$\sqrt{\mathrm{Hz}}$]')
-    plot.savefig('poyo.png')
-    exit()
-    # init
-    tlen = end - start
-    fs = len(t1_we)/tlen
-    ave = 64
-    t1 = [t1_we,t1_ns,t1_zz]
-    t2 = [t2_we,t2_ns,t2_zz]
-    t3 = [t3_we,t3_ns,t3_zz]
+    ax.set_ylim(1e-3, 10)
+    ax.set_title(title,fontsize=16)
+    ax.colorbar(label=ylabel_fmt.format(yaxis_label=yaxis_label))
+    plot.savefig(spectrogramplot_fname_fmt.format(channel=channel))
+
+
+if __name__ == "__main__":
+    tlen = 2**16
+    #start = 1222354818 # UTC 2018-09-30T15:00:00
+    if False:
+        start, end = 'Sep30 15:00:00', 'Oct20 15:00:00'
+    if True:
+        start,end = 'Sep30 15:00:00', 'Oct01 09:12:16'
+
+    start = tconvert(start)
+    end = tconvert(end)
+    channel = 'K1:PEM-IXV_SEIS_NS_SENSINF_INMON'    
+    
+    # --------------------
+    # 
+    #main_dump(start,tlen)
+
+    # --------------------
     #
-    # plot
-    print(t1_ns)
-    exit()
-
-    huge(t1,t2,t3,start,end,fs,ave=ave)
-    plot_asd_all(t1,t2,t3,start,end,fs,ave=ave)
-    #plot_sensor_noise(t1,t2,t3,)
-    #plot_Coherence_SameAxis(t1,t2,t3,'1_23',start,end,fs,ave)
-    #plot_Coherence_SameAxis(t1,t2,t3,'2_13',start,end,fs,ave)
-    #plot_Coherence_DifferentAxis(t1,t1,'11',start,end,fs,ave)
-    #plot_Coherence_DifferentAxis(t2,t2,'22',start,end,fs,ave)
-    #plot_Coherence_DifferentAxis(t3,t3,'33',start,end,fs,ave)    
-    #plot_Coherence_DifferentAxis(t1,t2,'12',start,end,fs,ave)
-    #plot_Coherence_DifferentAxis(t1,t3,'13',start,end,fs,ave)
-    #plot_Coherence_DifferentAxis(t2,t3,'23',start,end,fs,ave)
-
+    main(channel,start,end)
+    
+    
