@@ -141,33 +141,48 @@ def dump(chname,start,tlen):
     from gwpy.timeseries import TimeSeries
 
     gwf_cache = 'K-K1_C.Oct1-Oct21.cache'
+    gwf_cache = 'trend_Oct1-Oct21.cache'
+    gwf_cache = 'trend_Sep1-Oct21.cache'
     with open(gwf_cache, 'r') as fobj:
         cache = Cache.fromfile(fobj)
-        
-    data = TimeSeries.read(cache,chname,start=start, end=end,verbose=True,nproc=8)
+    #print cache
+    #cache = '/data//trend/minute/12228/K-K1_M-1222801200-3600.gwf'    
+    data = TimeSeries.read(cache,chname,verbose=True,nproc=8,pad=np.nan)
     data.write('{start}_{tlen}_{ch}.gwf'.format(ch=chname,start=start,tlen=tlen)
-                ,format='gwf.lalframe')
+               ,format='gwf.lalframe')
     
 
 if __name__ == "__main__":
-    tlen = 2**16
+    tlen = 2**10
+    tlen = 600
     start = 1222354818 # UTC 2018-09-30T15:00:00
-    end = start+tlen    
-    # dump('K1:PEM-IXV_SEIS_NS_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-IXV_SEIS_WE_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-IXV_SEIS_Z_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-EXV_SEIS_NS_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-EXV_SEIS_Z_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-IXV_SEIS_TEST_NS_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-IXV_SEIS_TEST_WE_SENSINF_IN1_DQ',start,tlen)
-    # dump('K1:PEM-IXV_SEIS_TEST_Z_SENSINF_IN1_DQ',start,tlen)
-    chname = 'K1:PEM-IXV_SEIS_NS_SENSINF_IN1_DQ'
+    start = 1219762818 
+    end = start+tlen
+    dump('K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean',start,tlen)    
+    exit()
+    dump('K1:PEM-IXV_SEIS_WE_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-IXV_SEIS_Z_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-EXV_SEIS_NS_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-EXV_SEIS_WE_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-EXV_SEIS_Z_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-IXV_SEIS_TEST_NS_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-IXV_SEIS_TEST_WE_SENSINF_INMON.mean',start,tlen)
+    dump('K1:PEM-IXV_SEIS_TEST_Z_SENSINF_INMON.mean',start,tlen)
+    #
+    #
+    chname = 'K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean'
     dumped_gwf_fmt = '{start}_{tlen}_{chname}.gwf'
-    t1_ns = TimeSeries.read(
+    data = TimeSeries.read(
         dumped_gwf_fmt.format(start=start,tlen=tlen,chname=chname),
-        chname, start, end, verbose=True ,nproc=8)*c2V    
-
+        chname, verbose=True ,nproc=8)*c2V    
+    #chname, start=start, end=end, verbose=True ,nproc=8)*c2V    
+    plot = data.plot(ylim=(-1e-3,0))
+    plot.savefig('None.png')
+    #plot.show()
+    print data
+    exit()
+    #
+    #
     sg = t1_ns.spectrogram2(fftlength=2**7, overlap=2, window='hanning') ** (1/2.)
     median = sg.percentile(50)
     low = sg.percentile(5)
