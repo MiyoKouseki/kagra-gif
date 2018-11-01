@@ -35,56 +35,63 @@ channels = ['K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean',
             'K1:PEM-IXV_SEIS_TEST_Z_SENSINF_INMON.mean']
 
 
+def plot_dfilt(num,den):
+    print num,den
+    exit()
+
 
 def main(channel,start,end):
     data = TimeSeries.read(
         dumped_gwf_fmt.format(start=start,end=end,chname=channel),
         channel, verbose=True ,nproc=8)
 
-
     # Make Filter
-    dnumden_120qa = trillium.tf_120qa(analog=False,
+    dnumden_120qa = trillium.tf_120qa(analog=True,
                                       sample_rate=2048/2,
                                       Hz=False,
-                                      normalize=True)
-    #
+                                      normalize=False)
+
+    # 
     filters = [dnumden_120qa]
+    
+    #plot_dfilt(*dnumden_120qa)
+    
     
     # Plot Bodeplot
     plot = BodePlot(*filters,
                     frequencies=numpy.logspace(-3,3,1e5),
                     dB=False,sample_rate=2048/2,
-                    unwrap=False,analog=False,
+                    unwrap=False,analog=True,
                     title='filter')
-
+    
     axes = plot.get_axes()
     labels = ['Trillium120QA','TrilliumCompact']
     for i,ax in enumerate(axes):
         ax.legend(labels,loc='lower left')
-
+        
     #axes[0].set_yscale('log')
-    #axes[0].set_ylim(1e-1,2e0)
+    axes[0].set_ylim(1e-3,1e8)
     #axes[0].set_ylim(-40,2)
     #axes[-1].set_xlim(5e-3,3e0)
     axes[-1].set_ylim(-200,200)
     plot.savefig('Bodeplot_Trillium120QA.png')
     plot.close()
-
+    
     exit()
     # Filtering
     data_calib = data.filter(zpk_trillium120qa, filtfilt=True,analog=False)
-
+    
     # crop
     data_calib = data_low.crop(*data_calib.span.contract(1))
         
     # Plot TimeSeries        
-    from gwpy.plot import Plot    
+    from gwpy.plot import Plot
     data_set = [data_calib]
     plot = Plot(*data_set,
                 separate=True, sharex=True, sharey=True,
                 color='gwpy:ligo-livingston',
                 figsize=[10,10])
-
+    
     # Add text, and save figure
     title = channel[3:].replace('_',' ')
     labels = ['No filt', 'High (300mHz-)', 'Mid (50mHz-300mHz)', 'Low (-50mHz)']
