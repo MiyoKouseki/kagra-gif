@@ -1,78 +1,22 @@
 #
 #! coding:utf-8
-import numpy
-import matplotlib as mpl
-mpl.use('Agg')
 
 from gwpy.timeseries import TimeSeries
 from gwpy.time import tconvert
+from gwpy.plot import Plot, BodePlot
 from gwpy.signal import filter_design
-from gwpy.plot import Plot,BodePlot
+from scipy import signal
 
-#from miyopy.utils import trillium
+import numpy
 
-c2V = 10.0/2**15
-deGain = 10**(-30.0/20.0)
-
-__dumped_gwf_fmt = './data/{start}_{tlen}_{chname}.gwf'
-dumped_gwf_fmt = './data/{start}_{end}_{chname}.gwf'
 dumped_gwf_fmt = './data/{start}_{end}_{chname}.gwf'
 timeseriesplot_fname_fmt = 'TimeSeries_{channel}.png'
 spectrogramplot_fname_fmt = 'Spectrogram_{channel}.png'
 asdplot_fname_fmt = 'ASD_{channel}.png'
 
-channels = ['K1:PEM-IXV_SEIS_NS_SENSINF_INMON.mean',
-            'K1:PEM-IXV_SEIS_WE_SENSINF_INMON.mean',
-            'K1:PEM-IXV_SEIS_Z_SENSINF_INMON.mean',
-            'K1:PEM-EXV_SEIS_NS_SENSINF_INMON.mean',
-            'K1:PEM-EXV_SEIS_WE_SENSINF_INMON.mean',
-            'K1:PEM-EXV_SEIS_Z_SENSINF_INMON.mean',
-            'K1:PEM-EYV_SEIS_NS_SENSINF_INMON.mean',
-            'K1:PEM-EYV_SEIS_WE_SENSINF_INMON.mean',
-            'K1:PEM-EYV_SEIS_Z_SENSINF_INMON.mean',
-            'K1:PEM-IXV_SEIS_TEST_NS_SENSINF_INMON.mean',
-            'K1:PEM-IXV_SEIS_TEST_WE_SENSINF_INMON.mean',
-            'K1:PEM-IXV_SEIS_TEST_Z_SENSINF_INMON.mean']
-
-
-   
-def _dump(chname,start,tlen):    
-    '''Dump large gwf file to small single channels gwf file
-    
-    Returns
-    -------
-    chname : `str`
-        Channel name
-    start : 'int'
-        start gps time
-    tlen : `int`
-        end gps time
-    '''
-    end = start + tlen
-    from glue.lal import Cache
-    from gwpy.timeseries import TimeSeries
-
-    gwf_cache = 'K-K1_C.Oct1-Oct21.cache'
-    gwf_cache = 'trend_Oct1-Oct21.cache'
-    gwf_cache = 'trend_Sep1-Oct21.cache'
-    with open(gwf_cache, 'r') as fobj:
-        cache = Cache.fromfile(fobj)
-    #print cache
-    #cache = '/data//trend/minute/12228/K-K1_M-1222801200-3600.gwf'    
-    data = TimeSeries.read(cache,chname,verbose=True,nproc=8,pad=np.nan)
-    data.write('{start}_{tlen}_{ch}.gwf'.format(ch=chname,start=start,tlen=tlen)
-               ,format='gwf.lalframe')
-
-
-
-def main_dump(start,end):
-    for channel in channels:
-        dump(channel,start,tlen)
-    exit()
-
-
 
 def main(channel,start,end):
+
     data = TimeSeries.read(
         dumped_gwf_fmt.format(start=start,end=end,chname=channel),
         channel, verbose=True ,nproc=8)
@@ -145,39 +89,9 @@ def main(channel,start,end):
     axes[-1].set_xscale('Hours', epoch=start)
     plot.savefig(timeseriesplot_fname_fmt.format(channel=channel))
     plot.close()
-
-    # Plot ASD
-    fftlen = 2**7
-    specgram = data.spectrogram2(fftlength=fftlen, overlap=2, 
-                                 window='hanning') ** (1/2.)
-    median = specgram.percentile(50)
-    low = specgram.percentile(5)
-    high = specgram.percentile(95)
-    plot = Plot()
-    ylabel_fmt = r'{yaxis_label} [{yaxis_label}/\rtHz]'
-    ax = plot.gca(xscale='log', xlim=(1e-3, 10), 
-                  xlabel='Frequency [Hz]',
-                  yscale='log', #ylim=(3e-24, 2e-20),
-                  ylabel=ylabel_fmt.format(yaxis_label=yaxis_label))
-    ax.plot_mmm(median, low, high, color='gwpy:ligo-livingston')
-    ax.set_title(title,fontsize=16)
-    plot.savefig(asdplot_fname_fmt.format(channel=channel))
-    plot.close()
-
-    # Plot Spectrogram
-    specgram = data.spectrogram(fftlen*2, fftlength=fftlen, overlap=.5) ** (1/2.)
-    plot = specgram.imshow(norm='log')
-    ax = plot.gca()
-    ax.set_yscale('log')
-    ax.set_ylim(1e-3, 10)
-    ax.set_title(title,fontsize=16)
-    ax.colorbar(label=ylabel_fmt.format(yaxis_label=yaxis_label))
-    plot.savefig(spectrogramplot_fname_fmt.format(channel=channel))
-
-
+    
+    
 if __name__ == "__main__":
-    tlen = 2**16
-    #start = 1222354818 # UTC 2018-09-30T15:00:00
     if False:
         start, end = 'Sep30 15:00:00', 'Oct20 15:00:00'
     if True:
@@ -185,14 +99,6 @@ if __name__ == "__main__":
 
     start = tconvert(start)
     end = tconvert(end)
-    channel = 'K1:PEM-IXV_SEIS_NS_SENSINF_INMON'    
-    
-    # --------------------
-    # 
-    #main_dump(start,tlen)
+    channel = 'K1:PEM-IXV_SEIS_NS_SENSINF_INMON'
 
-    # --------------------
-    #
     main(channel,start,end)
-    
-    
