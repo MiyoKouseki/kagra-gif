@@ -129,7 +129,7 @@ def main(channel,start,end):
                 separate=True, sharex=True, sharey=True,
                 color='gwpy:ligo-livingston',
                 figsize=[10,10])
-
+    
     # Add text, and save figure
     title = channel[3:].replace('_',' ')
     labels = ['No filt', 'High (300mHz-)', 'Mid (50mHz-300mHz)', 'Low (-50mHz)']
