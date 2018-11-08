@@ -27,33 +27,35 @@ def main():
     #plot_arrivals(eventid=10944928)
 
 
-    
-if __name__=='__main__':
-    #main()
-    df = pd.read_csv('Sep01-Nov01_M6_pwave.csv')
-    hoge = df.loc[:,['EventTime[UTC]','PwaveFirstArrivalGPS']]
-    pwave_gps = df['PwaveFirstArrivalGPS']
-    gps = pwave_gps[0]
+def hoge(gps):
+    if np.isnan(gps):
+        return None
     from gwpy.time import tconvert
-    print tconvert(gps)
-    #print hoge
-    #import matplotlib
-    #matplotlib.use('Agg')
+    #print tconvert(gps)
     from gwpy.timeseries import TimeSeries
     from glue.lal import Cache
-    channel = 'K1:PEM-EXV_SEIS_NS_SENSINF_IN1_DQ'
-    start = gps -5*60
-    end = gps -5*60
+    channel = 'K1:PEM-EXV_SEIS_Z_SENSINF_OUT_DQ'
+    start = gps #- 5*60
+    end = gps + 30*60
     gwf_cache = 'full_Sep01-Nov01.cache'
     with open(gwf_cache, 'r') as fobj:
         cache = Cache.fromfile(fobj)
-    print cache
-    #data = TimeSeries.read(cache,channel,start=start,end=end,verbose=True,nproc=8,pad=np.nan)
-    data = TimeSeries.read('/data/full/12202/K-K1_C-1220294944-32.gwf',channel,verbose=True,nproc=8,pad=np.nan)
-    
+    #print cache
+    data = TimeSeries.read(cache,channel,start=start,end=end,verbose=True,nproc=2,pad=np.nan,format='gwf.lalframe')    
     plot = data.plot(
         title = 'hoge'
         #ylabel='Strain amplitude',
     )
-    plot.savefig('huge.png')
+    plot.savefig('{0}.png'.format(gps))
     plot.close()
+
+
+    
+if __name__=='__main__':
+    #main()
+    df = pd.read_csv('Sep01-Nov01_M6_pwave.csv')
+    #hoge = df.loc[:,['EventTime[UTC]','PwaveFirstArrivalGPS','EventMagnitude']]
+    pwave_gps = df['PwaveFirstArrivalGPS']
+    for gps in pwave_gps.__iter__():
+        print gps
+        hoge(gps)
