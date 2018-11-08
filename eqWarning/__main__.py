@@ -25,6 +25,8 @@ def main():
     #df = make_eventcsv(start_str,end_str,to_csv=True,phase_list=['P'],**kwargs)
     #print df
     #plot_arrivals(eventid=10944928)
+
+
     
 if __name__=='__main__':
     #main()
@@ -34,12 +36,12 @@ if __name__=='__main__':
     gps = pwave_gps[0]
     print hoge
 
-    #from gwpy.timeseries import TimeSeries
-    import nds2
-    conn = nds2.connection('10.68.10.121', 8088) # nds0
-    chlst = ['K1:PEM-EXV_SEIS_NS_SENSINF_DQ_IN1_DQ']
-    start = gps - 5*60
-    end = gps + 5*60
-    buffers = conn.fetch(start,end,chlst)
-    #data = TimeSeries.from_nds2_buffer(buffers[0])   
-    
+    from gwpy.timeseries import TimeSeries
+    channel = 'K1:PEM-EXV_SEIS_NS_SENSINF_DQ_IN1_DQ'
+    start = gps -5*60
+    end = gps -5*60
+    gwf_cache = 'K-K1_C.Oct1-Oct21.cache'
+    with open(gwf_cache, 'r') as fobj:
+        cache = Cache.fromfile(fobj)
+    data = TimeSeries.read(cache,chname,start,end,verbose=True,nproc=8,pad=np.nan)
+
