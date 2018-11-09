@@ -1,6 +1,7 @@
 import sys
-sys.path.insert(0,'/Users/miyo/Dropbox/Kagra/Git/gwpy/')
+sys.path.insert(0,'/Users/miyo/Dropbox/Git/gwpy/')
 sys.path.insert(0,'/Users/miyo/Dropbox/Git/miyopy/')
+#print sys.path
 
 import numpy
 from astropy import units as u 
@@ -8,7 +9,7 @@ import matplotlib.pyplot as plt
 
 from gwpy.timeseries import TimeSeries
 
-from miyopy.gif import (GifData,KagraStrain,gps2datestr)
+from miyopy.gif import (GifData,KagraStrain)#,gps2datestr)
 from gwpy.plot import Plot
 
 start = 1223996418-3600*24*4
