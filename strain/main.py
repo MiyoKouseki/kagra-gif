@@ -9,38 +9,34 @@ import matplotlib.pyplot as plt
 
 from gwpy.timeseries import TimeSeries
 
-from miyopy.gif import (GifData,KagraStrain,gps2datestr)
+from miyopy.gif import (GifData,KagraGoticStrain,gps2datestr)
 from gwpy.plot import Plot
 
 start = 1223996418-3600*24*4
-tlen = 3600*24*5
+start = 1223996418
+tlen = 3600*24 - 60
 end = start + tlen
 
-# -- kagra gif x -----------------------
-segments = GifData.findfiles(start,tlen,'CALC_STRAIN',
-                             prefix='/Users/miyo/Dropbox/KagraData/gif/')
-
-allfiles = [path for files in segments for path in files]
+# gif data
+segments = GifData.findfiles(start,tlen,'CALC_STRAIN',prefix='/Users/miyo/Dropbox/KagraData/gif/') # segment is not support in gwpy.timeseries.read
+allfiles = [path for files in segments for path in files] 
 strain = TimeSeries.read(source=allfiles,
                          name='CALC_STRAIN',
                          format='gif',
                          pad=numpy.nan,
                          nproc=2)
-#
 strain = strain.detrend('linear')
-#
-# -- gotic -------------
-gifx = KagraStrain(start,end).x
+
+
+# gotic data
+gifx = KagraGoticStrain(start,end).x
 gifx = gifx.detrend('linear')
-gifx = gifx*0.9
-#
-# -- plot  -----------------------
-print(gifx)
-print(strain)
+gifx = gifx*0.9 
+
+
 #plot = gifx.plot()
 plot = Plot(gifx,strain,xscale='auto-gps')
-#plot.auto_gps_label()
-#plot.legend()
+plot.legend()
 plot.subplots_adjust(right=.86)
 plot.savefig('x_.png')
 plot.close()
