@@ -18,7 +18,7 @@ tlen = 3600*24 - 60
 end = start + tlen
 
 # gif data
-segments = GifData.findfiles(start,tlen,'CALC_STRAIN',prefix='/Users/miyo/Dropbox/KagraData/gif/') # segment is not support in gwpy.timeseries.read
+segments = GifData.findfiles(start,end,'CALC_STRAIN',prefix='/Users/miyo/Dropbox/KagraData/gif/') # segment is not support in gwpy.timeseries.read
 allfiles = [path for files in segments for path in files] 
 strain = TimeSeries.read(source=allfiles,
                          name='CALC_STRAIN',
