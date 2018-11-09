@@ -17,14 +17,15 @@ if StrictVersion(_basemap_version) <= StrictVersion('1.1.0'):
 
 
 from event import get_arrivals    
-    
-def plot_eqmap(events,lat_0=36.43,lon_0=137.31,radius=None,title='None',**kwargs):
+
+
+def plot_eqmap(catalog,lat_0=36.43,lon_0=137.31,radius=None,title='None',**kwargs):
     '''
 
     Parameters
     ----------
-    events : `obspy.core.event.catalog.Catalog'
-        events.
+    catalog : `obspy.core.event.catalog.Catalog'
+        catalog.
     
 
     lat_0 : float, optional
@@ -39,12 +40,13 @@ def plot_eqmap(events,lat_0=36.43,lon_0=137.31,radius=None,title='None',**kwargs
     
     
     '''
-    # get data from events
-    origin = events[0].origins[0]
-    eq_lat = [event.origins[0].latitude for event in events]
-    eq_lon = [event.origins[0].longitude for event in events]
-    eq_depth = asarray([event.origins[0].depth for event in events])/1e3 # km
-    eq_mag = asarray([event.magnitudes[0].mag for event in events])
+    # get data from catalog
+    #origin = catalog[0].origins[0]
+    eq_lat = [event.origins[0].latitude for event in catalog]
+    eq_lon = [event.origins[0].longitude for event in catalog]
+    eq_depth = asarray([event.origins[0].depth for event in catalog])/1e3 # km
+    eq_mag = asarray([event.magnitudes[0].mag for event in catalog])
+    #print len(eq_lat),len(eq_lon),len(eq_depth),len(eq_mag)
     
     # setup figure, axes
     fig,ax1 = plt.subplots(1,1,figsize=(8,8))
@@ -73,7 +75,7 @@ def plot_eqmap(events,lat_0=36.43,lon_0=137.31,radius=None,title='None',**kwargs
 
     # plot earthquake event
     xpt_eq, ypt_eq = bmap(eq_lon,eq_lat)
-    scattersize = lambda mag: 5**(mag-5.0)*15
+    scattersize = lambda mag: 5.0**(mag-5.0)*15.0
     sc = ax1.scatter(xpt_eq, ypt_eq, s=scattersize(eq_mag), c=eq_depth, zorder=2,
                      alpha=0.7, cmap='Dark2')
 
@@ -152,6 +154,7 @@ def main_plot_eqmap(start_str,end_str,**kwargs):
     '''
     from event import get_catalog
     catalog = get_catalog(start_str,end_str,**kwargs)
+    #print catalog
     lat_kamioka=36.43
     lon_kamioka=137.31
     title = 'Azimuthal Equidistant Projection \n'\

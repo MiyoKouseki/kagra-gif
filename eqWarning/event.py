@@ -39,7 +39,7 @@ def get_catalog(starttime,endtime,base_url='IRIS',_catalog='NEIC PDE',**kwargs):
     '''
     client = Client(base_url)
     starttime = UTCDateTime(starttime)
-    endtime = UTCDateTime(endtime)       
+    endtime = UTCDateTime(endtime)
     catalog = client.get_events(starttime=starttime,
                                 endtime=endtime,
                                 catalog=_catalog,**kwargs)
