@@ -12,31 +12,42 @@ from gwpy.timeseries import TimeSeries
 from miyopy.gif import (GifData,KagraGoticStrain,gps2datestr)
 from gwpy.plot import Plot
 
-start = 1223996418-3600*24*4
-start = 1223996418
-tlen = 3600*24 - 60
-end = start + tlen
-
-# gif data
-segments = GifData.findfiles(start,end,'CALC_STRAIN',prefix='/Users/miyo/Dropbox/KagraData/gif/') # segment is not support in gwpy.timeseries.read
-allfiles = [path for files in segments for path in files] 
-strain = TimeSeries.read(source=allfiles,
-                         name='CALC_STRAIN',
-                         format='gif',
-                         pad=numpy.nan,
-                         nproc=2)
-strain = strain.detrend('linear')
+import warnings
+warnings.filterwarnings("ignore")
+# because scipy/signal/signaltools.py omit warning .
 
 
-# gotic data
-gifx = KagraGoticStrain(start,end).x
-gifx = gifx.detrend('linear')
-gifx = gifx*0.9 
+def main_compare_gif_gotic2():
+    start = 'Oct 19 2018 16:00:00'
+    end = 'Oct 20 2018 13:59:59'
+
+    # gif data
+    pfx = '/Users/miyo/Dropbox/KagraData/gif/'
+    segments = GifData.findfiles(start,end,'CALC_STRAIN',prefix=pfx)
+    allfiles = [path for files in segments for path in files]
+    strain = TimeSeries.read(source=allfiles,
+                             name='CALC_STRAIN',
+                             format='gif',
+                             pad=numpy.nan,
+                             nproc=2)
+    strain = strain.detrend('linear')
 
 
-#plot = gifx.plot()
-plot = Plot(gifx,strain,xscale='auto-gps')
-plot.legend()
-plot.subplots_adjust(right=.86)
-plot.savefig('x_.png')
-plot.close()
+    
+    # gotic data
+    source = '201810191500_201810201459.gotic'
+    gifx = KagraGoticStrain.read(source,start=start,end=end).x
+    gifx = gifx.detrend('linear')
+    gifx = gifx*0.9 
+
+    
+    # plot 
+    plot = Plot(gifx,strain,xscale='auto-gps')
+    plot.legend()
+    plot.subplots_adjust(right=.86)
+    plot.savefig('result.png')
+    plot.close()
+
+
+if __name__ == '__main__':
+    main_compare_gif_gotic2()
