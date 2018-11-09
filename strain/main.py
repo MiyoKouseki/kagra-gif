@@ -18,8 +18,8 @@ warnings.filterwarnings("ignore")
 
 
 def main_compare_gif_gotic2():
-    start = 'Oct 19 2018 16:00:00'
-    end = 'Oct 20 2018 13:59:59'
+    start = 'Oct 15 2018 00:00:00'
+    end = 'Oct 21 2018 00:00:00'
 
     # gif data
     pfx = '/Users/miyo/Dropbox/KagraData/gif/'
@@ -35,7 +35,7 @@ def main_compare_gif_gotic2():
 
     
     # gotic data
-    source = '201810191500_201810201459.gotic'
+    source = '201805010000_201811010000.gotic'
     gifx = KagraGoticStrain.read(source,start=start,end=end).x
     gifx = gifx.detrend('linear')
     gifx = gifx*0.9 
