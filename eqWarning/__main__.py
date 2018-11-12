@@ -29,6 +29,7 @@ def main():
     #print df
     #plot_arrivals(eventid=10944928)
 
+    
 
 def hoge(gps):
     if np.isnan(gps):
@@ -52,6 +53,7 @@ def hoge(gps):
     plot.savefig('{0}.png'.format(gps))
     plot.close()
 
+    
 def main_hoge():
     df = pd.read_csv('Sep01-Nov01_M6_pwave.csv')
     #hoge = df.loc[:,['EventTime[UTC]','PwaveFirstArrivalGPS','EventMagnitude']]
@@ -59,6 +61,7 @@ def main_hoge():
     for gps in pwave_gps.__iter__():
         print gps
         hoge(gps)    
-    
+
+        
 if __name__=='__main__':
     main()   
