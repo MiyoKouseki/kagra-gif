@@ -1,3 +1,5 @@
+#
+#! coding:utf-8
 import sys
 sys.path.insert(0,'/Users/miyo/Dropbox/Git/gwpy/')
 import gwpy
@@ -17,8 +19,10 @@ from _file import (get_timeseries,get_specgram,get_csd_specgram,
 from _plot import (plot_asd,plot_coherence,plot_spectrogram)                
 
 def plot_coherence_with_scipy(data1,data2,fftlength=2**7,**kwargs):
-    print data1    
-    
+    data1
+    # ちゃんとASDとCSDが計算できているかテストプログラムを書いてから
+    #ここにくる。
+    exit()
 
 
 if __name__ == '__main__':
@@ -41,17 +45,21 @@ if __name__ == '__main__':
     kwargs['start'] = start
     kwargs['end'] = end
 
-    timeseries1 = get_timeseries(chname1,remake=False,fftlength=2**6,**kwargs)
-    timeseries2 = get_timeseries(chname2,remake=False,fftlength=2**6,**kwargs)    
-    specgram1 = get_specgram(chname1,remake=False,fftlength=2**6,**kwargs)
-    specgram2 = get_specgram(chname2,remake=False,fftlength=2**6,**kwargs)
-    cds_specgram = get_csd_specgram(chname1,chname2,remake=False,
+    timeseries1 = get_timeseries(chname1,remake=True,fftlength=2**6,**kwargs)
+    timeseries2 = get_timeseries(chname2,remake=True,fftlength=2**6,**kwargs)    
+    specgram1 = get_specgram(chname1,remake=True,fftlength=2**6,**kwargs)
+    specgram2 = get_specgram(chname2,remake=True,fftlength=2**6,**kwargs)
+    cds_specgram = get_csd_specgram(chname1,chname2,remake=True,
                                     fftlength=2**6,**kwargs)
-    
-    plot_asd(specgram1,replot=False,**kwargs)
-    plot_asd(specgram2,replot=False,**kwargs)
-    plot_spectrogram(specgram1,replot=False,**kwargs)
-    plot_spectrogram(specgram2,replot=False,**kwargs)
-    #plot_coherence(cds_specgram,specgram1,specgram2,fftlength=2**7,**kwargs)
+
+    print specgram1.unit
+    print specgram1.unit
+    print cds_specgram.unit
+    plot_asd(specgram1,replot=True,**kwargs)
+    plot_asd(specgram2,replot=True,**kwargs)
+    plot_spectrogram(specgram1,replot=True,**kwargs)
+    plot_spectrogram(specgram2,replot=True,**kwargs)
+    plot_coherence(cds_specgram,specgram1,specgram2,fftlength=2**7,**kwargs)
     #plot_coherence(chname1,chname2,fftlength=2**7,**kwargs)    
-    plot_coherence_with_scipy(timeseries1,timeseries2,fftlength=2**7,**kwargs)
+    #plot_coherence_with_scipy(timeseries1,timeseries2,fftlength=2**7,**kwargs)
+    

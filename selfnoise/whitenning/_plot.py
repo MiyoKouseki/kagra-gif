@@ -19,22 +19,22 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,**kwargs):
 
     if isinstance(data,TimeSeries):
         chname = data.name            
-        specgram = data.spectrogram2(fftlength=fftlength,
+        psd_specgram = data.spectrogram2(fftlength=fftlength,
                                      overlap=fftlength/2.0,
-                                     window='hanning') ** (1/2.)    
+                                     window='hanning')
     elif isinstance(data,Spectrogram):
         chname = data.name
-        specgram = data
+        psd_specgram = data
         
     c2v = 10.0/2**15
     v2vel = 1./1208
-    specgram = specgram*c2v*v2vel
+    specgram = psd_specgram*c2v*v2vel ** (1/2.)    
     
     pngfname = to_pngfname(chname,ftype='Spectrogram')
     if not replot and os.path.exists(pngfname):
         print('Skip plot {0}'.format(pngfname))
-        return None    
-
+        return None
+    
     plot, (ax0,ax1) = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))    
     ax0.imshow(specgram,norm='log', vmin=1e-9, vmax=1e-6, cmap='viridis')  
     ax0.set_ylim(1e-2, 400)
@@ -60,13 +60,13 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,**kwargs):
 def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
     if isinstance(data,TimeSeries):
         chname = data.name            
-        specgram = data.spectrogram2(fftlength=fftlength,
+        psd_specgram = data.spectrogram2(fftlength=fftlength,
                                      overlap=fftlength/2.0,
-                                     window='hanning') ** (1/2.)    
+                                     window='hanning')
         
     elif isinstance(data,Spectrogram):
         chname = data.name
-        specgram = data
+        psd_specgram = data
 
         
     pngfname = to_pngfname(chname,ftype='ASD')
@@ -74,7 +74,7 @@ def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
         print('Skip plot {0}'.format(pngfname))
         return None
     
-    
+    specgram = psd_specgram ** (1/2.)        
     median = specgram.percentile(50)
     low = specgram.percentile(5)
     high = specgram.percentile(95)
@@ -84,7 +84,7 @@ def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
     high = count2vel(high)
     
     _f, _selfnoise = trillium.selfnoise(trillium='120QA',psd='ASD',unit='velo')    
-
+    
     plot = Plot()
     ax = plot.gca(xscale='log', xlim=(1e-3, 3e2), xlabel='Frequency [Hz]',
                   yscale='log', ylim=(1e-11, 3e-6),
@@ -102,15 +102,19 @@ def plot_coherence(*args,**kwargs):
     N = len(args)
     if N==3:
         warnings.warn('! Dont use specgram')
-        csd_specgram,specgram1,specgram2 = args
+        csd_specgram,psd_specgram1,psd_specgram2 = args
         #print csd_specgram.unit
         #print specgram1
-        coh = csd_specgram/specgram1/specgram2
-        angle = coh.angle().mean(axis=0)*180.0/np.pi
-        mag = coh.abs().mean(axis=0)
+        print csd_specgram.unit
+        print psd_specgram1.unit
+        #exit()
+        angle = csd_specgram.mean(axis=0).angle().rad2deg()
+        psd_specgram1 = psd_specgram1.mean(axis=0)
+        psd_specgram2 = psd_specgram2.mean(axis=0)
+        csd_mag = csd_specgram.mean(axis=0).abs()
+        mag = csd_mag/psd_specgram1**(1/2.0)/psd_specgram2**(1/2.)
         plot, (ax_mag,ax_angle) = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))
         ax_mag.plot(mag)
-        #ax_mag.set_ylim(0,1)
         ax_mag.set_xscale('log')
         ax_mag.set_ylabel('Coherence')        
         ax_angle.plot(angle)

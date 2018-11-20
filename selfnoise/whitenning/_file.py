@@ -38,7 +38,7 @@ def get_specgram(chname,remake=False,fftlength=2**6,**kwargs):
         specgram = timeseries.spectrogram(stride=fftlength,
                                            fftlength=fftlength,
                                            overlap=0,
-                                           window='hanning') ** (1/2.)            
+                                           window='hanning')# ** (1/2.)            
         specgram.write(hdf5fname)
         return specgram
     else:
