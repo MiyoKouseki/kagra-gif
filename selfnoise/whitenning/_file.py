@@ -36,9 +36,9 @@ def get_specgram(chname,remake=False,fftlength=2**6,**kwargs):
             os.remove(hdf5fname)        
         timeseries = get_timeseries(chname,from_nds=False,**kwargs)
         specgram = timeseries.spectrogram(stride=fftlength,
-                                           fftlength=fftlength,
-                                           overlap=0,
-                                           window='hanning')# ** (1/2.)            
+                                          fftlength=fftlength,
+                                          overlap=0,
+                                          window='hanning')
         specgram.write(hdf5fname)
         return specgram
     else:
@@ -108,6 +108,9 @@ def to_hdf5fname(*args,**kwargs):
 
 
 def to_pngfname(chname,ftype,prefix='./'):
+    if not chname:
+        return  'None.png'
+    
     m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
     try:
         fname = prefix + ftype + '_' + m.group(1).lower() + '.png'

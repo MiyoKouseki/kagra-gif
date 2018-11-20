@@ -15,7 +15,7 @@ from _file import (get_timeseries,get_specgram,get_csd_specgram,
                    to_gwffname,to_pngfname,to_hdf5fname)
 from _calibration import count2vel
     
-def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,**kwargs):
+def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**kwargs):
 
     if isinstance(data,TimeSeries):
         chname = data.name            
@@ -28,15 +28,20 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,**kwargs):
         
     c2v = 10.0/2**15
     v2vel = 1./1208
-    specgram = psd_specgram*c2v*v2vel ** (1/2.)    
+    specgram = psd_specgram*c2v*v2vel #** (1/2.)    
     
     pngfname = to_pngfname(chname,ftype='Spectrogram')
     if not replot and os.path.exists(pngfname):
         print('Skip plot {0}'.format(pngfname))
         return None
     
-    plot, (ax0,ax1) = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))    
-    ax0.imshow(specgram,norm='log', vmin=1e-9, vmax=1e-6, cmap='viridis')  
+    plot, (ax0,ax1) = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))
+    if normlog:
+        ax0.imshow(specgram,norm='log', vmin=1e-9, vmax=1e-5, cmap='viridis')
+    else:
+        #ax0.imshow(specgram,norm='log', vmin=1e-2, vmax=1.0, cmap='viridis')
+        ax0.imshow(specgram, vmin=0, vmax=1.0, cmap='viridis')
+        
     ax0.set_ylim(1e-2, 400)
     ax0.set_yscale('log')
     ax0.set_ylabel('Frequency [Hz]')
@@ -49,11 +54,11 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,**kwargs):
     ax1.set_xscale('auto-gps')
     plt.setp(ax0.get_xticklabels(),visible=False)    
     ax1.colorbar(label='Count ASD [count/$\sqrt{\mathrm{Hz}}$]')
-    plt.suptitle(chname.replace('_',' '))
+    if not chname:
+        plt.suptitle('None')
+    else:
+        plt.suptitle(chname.replace('_',' '))
     plot.savefig(pngfname)
-    if show:
-        print('show')
-        plot.show()
     print 'plot in ', pngfname
     #return plot
     
@@ -103,11 +108,6 @@ def plot_coherence(*args,**kwargs):
     if N==3:
         warnings.warn('! Dont use specgram')
         csd_specgram,psd_specgram1,psd_specgram2 = args
-        #print csd_specgram.unit
-        #print specgram1
-        print csd_specgram.unit
-        print psd_specgram1.unit
-        #exit()
         angle = csd_specgram.mean(axis=0).angle().rad2deg()
         psd_specgram1 = psd_specgram1.mean(axis=0)
         psd_specgram2 = psd_specgram2.mean(axis=0)
