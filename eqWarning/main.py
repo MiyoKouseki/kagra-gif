@@ -8,7 +8,7 @@ import numpy as np
 
 
 
-def make_eventcsv(start_str,end_str,**kwargs):
+def make_eventcsv(catalog,**kwargs):
     '''
 
     Parameters
@@ -25,7 +25,7 @@ def make_eventcsv(start_str,end_str,**kwargs):
     phase_list = kwargs.pop('phase_list','P')
     
     # get catalog
-    catalog = get_catalog(start_str,end_str,**kwargs)
+    #catalog = get_catalog(start_str,end_str,**kwargs)
     
     # get some information from catalog
     eventids = get_eventids(catalog)
