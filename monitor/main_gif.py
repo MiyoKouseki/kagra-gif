@@ -23,3 +23,4 @@ if __name__=='__main__':
     print x500_baro
     plot = x500_baro.plot()
     plot.savefig('hoge.png')
+    
