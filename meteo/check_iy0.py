@@ -1,3 +1,5 @@
+#
+#! coding:utf-8
 import warnings
 import numpy as np
 import matplotlib
@@ -41,12 +43,14 @@ def v2baro(v,**kwargs):
 
 
 start = tconvert('Nov 26 2018 11:10:00 JST')
-end = tconvert('Nov 26 2018 17:20:00 JST')
+end = tconvert('Nov 26 2018 20:30:00 JST')
 
-chname_wether = 'K1:PEM-IY0_SENSOR*_INMON'
+chname_wether = 'K1:PEM-IY0_SENSOR5_INMON*'
 chlst = ChannelList.query_nds2([chname_wether],host='10.68.10.121',port=8088)
 chlst = [ ch.name for ch in chlst]
+print chlst
 data = TimeSeriesDict.fetch(chlst,start,end,host='10.68.10.121',port=8088,verbose=True,pad=np.nan)
+print data
 no4_temp = v2temp(data['K1:PEM-IY0_SENSOR5_INMON']*c2V)
 no4_humd = v2humd(data['K1:PEM-IY0_SENSOR6_INMON']*c2V)
 no4_baro = v2baro(data['K1:PEM-IY0_SENSOR7_INMON']*c2V)
