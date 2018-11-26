@@ -1,6 +1,7 @@
-
 from astropy.units import Quantity
 from astropy import units as u
+
+c2V = 2.0*(10.0/2**15)
 
 def v2temp(v,gif=False,**kwargs):
     if not v.unit == 'V':
@@ -28,7 +29,7 @@ def v2baro(v,**kwargs):
         raise ValueError('!')
     if v < 0.0:
         v = -v        
-    val = v/2.0/5.0*(1100.0-800.0)*(u.Pa/u.V)+800.0*u.Pa
+    val = v/2.0/5.0*(1100.0-800.0)*(u.hPa/u.V)+800.0*u.hPa
     return val
 
 
@@ -44,6 +45,11 @@ x500_sub = {'temp':8.37*u.V, # OK?
             'humd':4.66*u.V, # OK
             'baro':6.29*u.V} # OK
 
+x500_sub_iy0 = {'temp':14170*c2V*u.V, # OK?
+                'humd':5765*c2V*u.V, # OK
+                'baro':9830*c2V*u.V} # OK
+   
+    
 no4 = {'temp': 8.34*u.V, # OK?
        'humd': 12.9*u.V, # 
        'baro': 0.00*u.V} # 
@@ -51,6 +57,10 @@ no4 = {'temp': 8.34*u.V, # OK?
 no5 = {'temp':8.35*u.V, # OK?
        'humd':-3.92*u.V, # OK
        'baro':6.39*u.V} # OK
+
+no5_iy0 = {'temp':14160*c2V*u.V, # OK?
+           'humd':-5880*c2V*u.V, # OK
+           'baro':9860*c2V*u.V} # OK
     
 
 def printall(dict,**kwargs):
@@ -59,16 +69,23 @@ def printall(dict,**kwargs):
     print 'Baro : {0:+7.2f}'.format(v2baro(dict['baro'],**kwargs))
 
     
-print('x500')
-printall(x500,gif=True)
+#print('x500')
+#printall(x500,gif=True)
 
 #printall(x2000)
 
-print('x500_sub')
-printall(x500_sub)
+#print('x500_sub')
+#printall(x500_sub)
 
-print('no4')
-printall(no4)
+#print('no4')
+#printall(no4)
 
-print('no5')
-printall(no5) 
+#print('no5')
+#printall(no5) 
+
+print('no5_iy0')
+printall(no5_iy0) 
+
+print('x500_sub_iy0')
+printall(x500_sub_iy0)
+
