@@ -33,7 +33,7 @@ def get_specgram(chname,remake=False,fftlength=2**6,**kwargs):
 
     if remake:
         if os.path.exists(hdf5fname):
-            os.remove(hdf5fname)        
+            os.remove(hdf5fname)            
         timeseries = get_timeseries(chname,from_nds=False,**kwargs)
         specgram = timeseries.spectrogram(stride=fftlength,
                                           fftlength=fftlength,
@@ -79,7 +79,7 @@ def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):
 
 def to_gwffname(chname,prefix='./'):
     print(chname)
-    m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+    m = re.search(r'K1:PEM-(.*)_SENSINF_(.*)',chname)
     try:
         fname = prefix + m.group(1).lower() + '.gwf'
     except Exception as e:
@@ -93,12 +93,12 @@ def to_hdf5fname(*args,**kwargs):
     N = len(args)
     if N==2:
         chname1,chname2 = args
-        m1 = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname1)
-        m2 = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname2)
+        m1 = re.search(r'K1:PEM-(.*)_SENSINF_(.*)',chname1)
+        m2 = re.search(r'K1:PEM-(.*)_SENSINF_(.*)',chname2)
         fname = prefix + m1.group(1).lower() + '-' + m2.group(1).lower() + '.hdf5'
     elif N==1:
         chname = args[0]
-        m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+        m = re.search(r'K1:PEM-(.*)_SENSINF_(.*)',chname)
         try:
             fname = prefix + m.group(1).lower() + '.hdf5'
         except Exception as e:
@@ -111,7 +111,7 @@ def to_pngfname(chname,ftype,prefix='./'):
     if not chname:
         return  'None.png'
     
-    m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+    m = re.search(r'K1:PEM-(.*)_SENSINF_(.*)',chname)
     try:
         fname = prefix + ftype + '_' + m.group(1).lower() + '.png'
     except Exception as e:
