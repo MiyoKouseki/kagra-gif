@@ -1,0 +1,23 @@
+Opening new connection to 10.68.10.121... connected
+Checking channels list against NDS2 database... done
+Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |##5                                                | 30.0/600.0 (  5%) ETA 00:04 Downloading data: |##########################5                       | 318.0/600.0 ( 53%) ETA 00:01 Downloading data: |##################################################| 600.0/600.0 (100%) ETA 00:00 
+['VIS-ETMX IP BLEND LVDTL INMON', 'PEM-EXV SEIS WE SENSINF IN1 DQ']
+Opening new connection to 10.68.10.121... connected
+Checking channels list against NDS2 database... done
+Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |##5                                                | 30.0/600.0 (  5%) ETA 00:04 Downloading data: |##########################5                       | 318.0/600.0 ( 53%) ETA 00:01 Downloading data: |##################################################| 600.0/600.0 (100%) ETA 00:00 
+['VIS-ETMX IP BLEND LVDTL INMON', 'PEM-EXV SEIS WE SENSINF IN1 DQ']
+Opening new connection to 10.68.10.121... connected
+Checking channels list against NDS2 database... done
+Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |##5                                                | 30.0/600.0 (  5%) ETA 00:04 Downloading data: |#############################1                    | 350.0/600.0 ( 58%) ETA 00:01 Downloading data: |##################################################| 600.0/600.0 (100%) ETA 00:00 
+Opening new connection to 10.68.10.121... connected
+Checking channels list against NDS2 database... done
+Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |##5                                                | 30.0/600.0 (  5%) ETA 00:05 Downloading data: |##########################5                       | 318.0/600.0 ( 53%) ETA 00:01 Downloading data: |##################################################| 600.0/600.0 (100%) ETA 00:00 
+K1:VIS-ETMX\_IP\_BLEND\_LVDTL\_INMON
+K1:PEM-EXV\_SEIS\_WE\_SENSINF\_IN1\_DQ
+Opening new connection to 10.68.10.121... connected
+Checking channels list against NDS2 database... done
+Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |##5                                                | 30.0/600.0 (  5%) ETA 00:04 Downloading data: |#############################1                    | 350.0/600.0 ( 58%) ETA 00:01 Downloading data: |##################################################| 600.0/600.0 (100%) ETA 00:00 
+Opening new connection to 10.68.10.121... connected
+Checking channels list against NDS2 database... done
+Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |                                                      | 0/600.0 (  0%) ETA ?     Downloading data: |##5                                                | 30.0/600.0 (  5%) ETA 00:04 Downloading data: |##################################5               | 414.0/600.0 ( 69%) ETA 00:00 Downloading data: |##################################################| 600.0/600.0 (100%) ETA 00:00 
+['VIS-ETMX IP BLEND LVDTL INMON', 'PEM-EXV SEIS WE SENSINF IN1 DQ']
