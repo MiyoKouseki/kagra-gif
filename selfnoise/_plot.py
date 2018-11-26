@@ -19,25 +19,26 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**
 
     if isinstance(data,TimeSeries):
         chname = data.name            
-        psd_specgram = data.spectrogram2(fftlength=fftlength,
+        specgram = data.spectrogram2(fftlength=fftlength,
                                      overlap=fftlength/2.0,
                                      window='hanning')
     elif isinstance(data,Spectrogram):
         chname = data.name
-        psd_specgram = data
+        specgram = data
         
     c2v = 10.0/2**15
     v2vel = 1./1208
-    specgram = psd_specgram*c2v*v2vel #** (1/2.)    
-    
+    specgram = specgram*c2v*v2vel #** (1/2.)    
+    #specgram = psd_specgram
     pngfname = to_pngfname(chname,ftype='Spectrogram')
     if not replot and os.path.exists(pngfname):
         print('Skip plot {0}'.format(pngfname))
         return None
     
-    plot, (ax0,ax1) = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))
+    #plot, ax0 = plt.subplots(nrows=1, sharex=True, figsize=(15, 6))
+    plot, (ax0,ax1) = plt.subplots(nrows=2, sharex=True, figsize=(15, 9))    
     if normlog:
-        ax0.imshow(specgram,norm='log', vmin=1e-9, vmax=1e-5, cmap='viridis')
+        ax0.imshow(specgram,norm='log', vmin=1e-12, vmax=1e-4, cmap='viridis')
     else:
         #ax0.imshow(specgram,norm='log', vmin=1e-2, vmax=1.0, cmap='viridis')
         ax0.imshow(specgram, vmin=0, vmax=1.0, cmap='viridis')
@@ -45,22 +46,24 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**
     ax0.set_ylim(1e-2, 400)
     ax0.set_yscale('log')
     ax0.set_ylabel('Frequency [Hz]')
-    ax0.colorbar(label='Count ASD [count/$\sqrt{\mathrm{Hz}}$]')
+    ax0.colorbar(label='ASD [m/sec/$\sqrt{\mathrm{Hz}}$]')
+    #ax0.set_xscale('auto-gps')    
     specgram = specgram.ratio('median')
     ax1.imshow(specgram,norm='log', vmin=1e-3, vmax=1e3, cmap='Spectral_r')
     ax1.set_ylim(1e-2, 400)
     ax1.set_ylabel('Frequency [Hz]')    
     ax1.set_yscale('log')
-    ax1.set_xscale('auto-gps')
+    ax1.set_xscale('auto-gps')    
     plt.setp(ax0.get_xticklabels(),visible=False)    
-    ax1.colorbar(label='Count ASD [count/$\sqrt{\mathrm{Hz}}$]')
+    ax1.colorbar(label='Relative ASD [m/sev/$\sqrt{\mathrm{Hz}}$]')
     if not chname:
         plt.suptitle('None')
     else:
-        plt.suptitle(chname.replace('_',' '))
+        plt.suptitle(chname.replace('_',' '),fontsize=30)
     plot.savefig(pngfname)
     print 'plot in ', pngfname
     #return plot
+    
     
 def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
     if isinstance(data,TimeSeries):
@@ -71,7 +74,7 @@ def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
         
     elif isinstance(data,Spectrogram):
         chname = data.name
-        psd_specgram = data
+        specgram = data
 
         
     pngfname = to_pngfname(chname,ftype='ASD')
@@ -79,7 +82,6 @@ def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
         print('Skip plot {0}'.format(pngfname))
         return None
     
-    specgram = psd_specgram ** (1/2.)        
     median = specgram.percentile(50)
     low = specgram.percentile(5)
     high = specgram.percentile(95)
@@ -87,7 +89,7 @@ def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
     median = count2vel(median)
     low = count2vel(low)
     high = count2vel(high)
-    
+
     _f, _selfnoise = trillium.selfnoise(trillium='120QA',psd='ASD',unit='velo')    
     
     plot = Plot()
