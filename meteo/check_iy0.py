@@ -77,17 +77,17 @@ start = tconvert('Nov 29 2018 06:00:00 JST') # rename iyc
 start = tconvert('Nov 28 2018 20:00:10 JST') # restart daq after rename
 #start = tconvert('Nov 29 2018 09:00:10 JST') # 
 start = tconvert('Nov 27 2018 15:00:00 JST') # mounted time iyc
-start = tconvert('Nov 26 2018 12:00:00 JST') # installed time
-end = tconvert('Nov 26 2018 21:00:00 JST')
+start = tconvert('Nov 26 2018 17:00:00 JST') # installed time
+end = tconvert('Nov 27 2018 02:00:00 JST')
 
 chlst = [
-    'K1:PEM-IY0_SENSOR5_OUT16',
-    'K1:PEM-IY0_SENSOR6_OUT16',
-    'K1:PEM-IY0_SENSOR7_OUT16',
-    'K1:PEM-IY0_SENSOR8_OUT16',
-    'K1:PEM-IY0_SENSOR9_OUT16',
-    'K1:PEM-IY0_SENSOR10_OUT16',
-    'K1:PEM-IY0_SENSOR11_OUT16',
+    'K1:PEM-IY0_SENSOR5_OUT_DQ',
+    'K1:PEM-IY0_SENSOR6_OUT_DQ',
+    'K1:PEM-IY0_SENSOR7_OUT_DQ',
+    'K1:PEM-IY0_SENSOR8_OUT_DQ',
+    'K1:PEM-IY0_SENSOR9_OUT_DQ',
+    'K1:PEM-IY0_SENSOR10_OUT_DQ',
+    'K1:PEM-IY0_SENSOR11_OUT_DQ',
     'K1:FEC-99_STATE_WORD_FE',    
     'K1:FEC-121_STATE_WORD_FE'
     ]
@@ -97,11 +97,11 @@ kwargs = {}
 kwargs['verbose'] = True
 kwargs['pad'] = np.nan
 kwargs['format'] = 'gwf.lalframe'
-kwargs['nproc'] = 2
+kwargs['nproc'] = 6
 kwargs['start'] = start
 kwargs['end'] = end
 
-if False:
+if True:
     data = TimeSeriesDict.read(cache,chlst,**kwargs)
     data.write('./weather_iy0.gwf',format='gwf.lalframe')
 if True:
@@ -110,12 +110,12 @@ if True:
 
 daq_iy0 = data['K1:FEC-99_STATE_WORD_FE']
 daq_ix1 = data['K1:FEC-121_STATE_WORD_FE']
-no5_temp = data['K1:PEM-IY0_SENSOR5_OUT16']
-no5_humd = data['K1:PEM-IY0_SENSOR6_OUT16']
-no5_baro = data['K1:PEM-IY0_SENSOR7_OUT16']
-no6_temp = data['K1:PEM-IY0_SENSOR9_OUT16']
-no6_humd = data['K1:PEM-IY0_SENSOR10_OUT16']
-no6_baro = data['K1:PEM-IY0_SENSOR11_OUT16']
+no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ']
+no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ']
+no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ']
+no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ']
+no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ']
+no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ']
 no5_temp.override_unit('ct')
 no5_humd.override_unit('ct')
 no5_baro.override_unit('ct')
