@@ -54,10 +54,10 @@ if __name__ == '__main__':
     gst = tconvert('Nov 27 12:00:00 2018 JST')
     get = tconvert('Nov 28 09:00:00 2018 JST')
     gst = tconvert('Nov 26 2018 12:00:00 JST') # installed time
-    get = tconvert('Nov 27 2018 00:00:00 JST')
+    get = tconvert('Nov 27 2018 09:00:00 JST')
     cachefile = './WEATHER_IY0.cache'
     basedir = '/frame0' # in cds computer
-    basedir = '/gpfs/data/' # in kashiwa computer
+    basedir = '/data/' # in kashiwa computer
     cachelist = get_cachelist(gst,get,basedir=basedir)
     with open(cachefile,'w') as f:
         f.write('\n'.join(cachelist)+'\n')
