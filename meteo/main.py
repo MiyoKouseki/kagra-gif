@@ -89,3 +89,7 @@ printall(no5_iy0)
 print('x500_sub_iy0')
 printall(x500_sub_iy0)
 
+
+
+# remove
+print v2temp(1e-2*c2V*u.V)
