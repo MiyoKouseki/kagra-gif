@@ -159,7 +159,7 @@ ax1.loglog(asd_no6_humd,label='No6(IYC)')
 ax2.loglog(asd_no5_baro,label='No5(IXV)')
 ax2.loglog(asd_no6_baro,label='No6(IYC)')
 fs = no5_temp.sample_rate.value
-xlimmax = fs/2.0#/2.0
+xlimmax = fs#/2.0#/2.0
 xlimmin = asd_no5_baro.frequencies[1].value
 ax0.set_xlim(xlimmin,xlimmax)
 ax1.set_xlim(xlimmin,xlimmax)
