@@ -4,6 +4,7 @@
 from os import listdir
 import numpy as np
 import re
+from gwpy.time import tconvert
 
 is_this_gomi = lambda _fname: (_fname[0] == '.' ) or (_fname[-3]!='gwf')
 
@@ -28,14 +29,19 @@ def get_cachelist(gst,get,basedir='/data',cachelist=[]):
         cache list.
     
     '''
-    gpsdir =  [s for s in listdir(basedir+'full') if re.match('[0-9]{5}', s)]
+    gpsdir = sorted([s for s in listdir(basedir+'full') if re.match('[0-9]{5}', s)])
+    gpsdir = gpsdir[gpsdir.index(str(gst)[:5]):]
     for _dir in sorted(gpsdir):
         _start = int(_dir) * DT
         _stop  = _start + DT
         fnames = sorted(listdir(basedir+'full/'+_dir))
         fnames = filter(is_this_gomi,fnames)
         for fname in fnames:
-            f_start = int(fname.split('-')[-2])
+            try:
+                f_start = int(fname.split('-')[-2])
+            except:
+                print fname
+                exit()
             if (f_start < _start) or (f_start > _stop):
                 break
             else:
@@ -45,9 +51,13 @@ def get_cachelist(gst,get,basedir='/data',cachelist=[]):
 
 if __name__ == '__main__':
     # from
-    gst = 1227322818
-    get = 1227398418    
+    gst = tconvert('Nov 27 12:00:00 2018 JST')
+    get = tconvert('Nov 28 09:00:00 2018 JST')
+    gst = tconvert('Nov 26 2018 12:00:00 JST') # installed time
+    get = tconvert('Nov 27 2018 00:00:00 JST')
     cachefile = './WEATHER_IY0.cache'
-    cachelist = get_cachelist(gst,get,basedir='/frame0/')
+    basedir = '/frame0' # in cds computer
+    basedir = '/gpfs/data/' # in kashiwa computer
+    cachelist = get_cachelist(gst,get,basedir=basedir)
     with open(cachefile,'w') as f:
         f.write('\n'.join(cachelist)+'\n')

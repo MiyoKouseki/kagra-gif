@@ -8,11 +8,16 @@ import matplotlib.pyplot as plt
 from astropy import units as u
 from astropy.units import Unit
 from gwpy.detector import ChannelList
-from gwpy.timeseries import TimeSeriesDict
+from gwpy.timeseries import TimeSeriesDict,TimeSeries
 from gwpy.time import tconvert
 #from gwpy.plotter import TimeSeriesPlot,Plot,text
 from gwpy.plot import Plot,text
+from gwpy.plotter import text as plotter_text
 from matplotlib.artist import setp
+from gwpy.plot import Plot
+from matplotlib.artist import setp
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
 
 '''
 好きな時間の気象計のデータをプロットする。
@@ -43,58 +48,6 @@ def v2baro(v,**kwargs):
     val = v/2.0/5.0*(1100.0-800.0)*(u.hPa/u.V)+800.0*u.hPa
     return val
 
-
-
-start = tconvert('Nov 26 2018 11:10:00 JST') # installed time
-start = tconvert('Nov 27 2018 09:35:00 JST') # open door time
-start = tconvert('Nov 27 2018 11:15:00 JST') # mounted time iyc
-start = tconvert('Nov 27 2018 12:10:00 JST') #
-start = tconvert('Nov 27 2018 16:35:00 JST') #
-start = tconvert('Nov 27 2018 23:00:00 JST') # rename iyc
-start = tconvert('Nov 29 2018 06:00:00 JST') # rename iyc
-start = tconvert('Nov 28 2018 20:00:10 JST') # restart daq after rename
-#start = tconvert('Nov 29 2018 09:00:10 JST') # 
-end = tconvert('Nov 29 2018 11:01:00 JST')
-
-chlst = [
-    'K1:PEM-IY0_SENSOR5_OUTMON',
-    'K1:PEM-IY0_SENSOR6_OUTMON',
-    'K1:PEM-IY0_SENSOR7_OUTMON',
-    'K1:PEM-IY0_SENSOR8_OUTMON',
-    'K1:PEM-IY0_SENSOR9_OUTMON',
-    'K1:PEM-IY0_SENSOR10_OUTMON',
-    'K1:PEM-IY0_SENSOR11_OUTMON',
-    'K1:FEC-99_STATE_WORD_FE',    
-    'K1:FEC-121_STATE_WORD_FE',
-    ]
-    
-cache = './hoge'
-data = TimeSeriesDict.read(source,channels,start,end,verbose=True,pad=np.nan,format='gwf.lalframe',nproc=2)
-
-daq_iy0 = data['K1:FEC-99_STATE_WORD_FE']
-daq_ix1 = data['K1:FEC-121_STATE_WORD_FE']
-no5_temp = data['K1:PEM-IXV_SENSOR5_OUTMON']
-no5_humd = data['K1:PEM-IXV_SENSOR6_OUTMON']
-no5_baro = data['K1:PEM-IXV_SENSOR7_OUTMON']
-no6_temp = data['K1:PEM-IXV_SENSOR9_OUTMON']
-no6_humd = data['K1:PEM-IXV_SENSOR10_OUTMON']
-no6_baro = data['K1:PEM-IXV_SENSOR11_OUTMON']
-
-daq_iy0_ok = daq_iy0 == 0
-segments_daq_iy0_ok = daq_iy0_ok.to_dqflag(round=False)
-daq_ix1_ok = daq_ix1 == 0
-segments_daq_ix1_ok = daq_ix1_ok.to_dqflag(round=False)
-#sdf_iy0_ok = sdf == 0
-#segments_sdf_iy0_ok = sdf_iy0_ok.to_dqflag(round=False)
-#sdf_ix1_ok = sdf == 0
-#segments_sdf_ix1_ok = sdf_ix1_ok.to_dqflag(round=False)
-
-
-# TimeSeries_temp.png
-from gwpy.plot import Plot
-from matplotlib.artist import setp
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-
 def plot_timeseries(*data,**kwargs):
     title = kwargs.pop('title',None)
     ylim = kwargs.pop('ylim',None)
@@ -113,6 +66,74 @@ def plot_timeseries(*data,**kwargs):
     plot.savefig(fname)
     plot.close()
 
+
+start = tconvert('Nov 26 2018 11:10:00 JST') # installed time
+start = tconvert('Nov 27 2018 09:35:00 JST') # open door time
+start = tconvert('Nov 27 2018 11:15:00 JST') # mounted time iyc
+start = tconvert('Nov 27 2018 12:10:00 JST') #
+start = tconvert('Nov 27 2018 16:35:00 JST') #
+start = tconvert('Nov 27 2018 23:00:00 JST') # rename iyc
+start = tconvert('Nov 29 2018 06:00:00 JST') # rename iyc
+start = tconvert('Nov 28 2018 20:00:10 JST') # restart daq after rename
+#start = tconvert('Nov 29 2018 09:00:10 JST') # 
+start = tconvert('Nov 27 2018 15:00:00 JST') # mounted time iyc
+start = tconvert('Nov 26 2018 12:00:00 JST') # installed time
+end = tconvert('Nov 26 2018 21:00:00 JST')
+
+chlst = [
+    'K1:PEM-IY0_SENSOR5_OUT_DQ',
+    'K1:PEM-IY0_SENSOR6_OUT_DQ',
+    'K1:PEM-IY0_SENSOR7_OUT_DQ',
+    'K1:PEM-IY0_SENSOR8_OUT_DQ',
+    'K1:PEM-IY0_SENSOR9_OUT_DQ',
+    'K1:PEM-IY0_SENSOR10_OUT_DQ',
+    'K1:PEM-IY0_SENSOR11_OUT_DQ',
+    'K1:FEC-99_STATE_WORD_FE',    
+    'K1:FEC-121_STATE_WORD_FE'
+    ]
+
+cache = './WEATHER_IY0.cache'
+kwargs = {}
+kwargs['verbose'] = True
+kwargs['pad'] = np.nan
+kwargs['format'] = 'gwf.lalframe'
+kwargs['nproc'] = 2
+kwargs['start'] = start
+kwargs['end'] = end
+
+if True:
+    data = TimeSeriesDict.read(cache,chlst,**kwargs)
+    data.write('./weather_iy0.gwf',format='gwf.lalframe')
+if True:
+    data = TimeSeriesDict.read('./weather_iy0.gwf',chlst,**kwargs)
+
+daq_iy0 = data['K1:FEC-99_STATE_WORD_FE']
+daq_ix1 = data['K1:FEC-121_STATE_WORD_FE']
+no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ']
+no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ']
+no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ']
+no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ']
+no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ']
+no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ']
+no5_temp.override_unit('ct')
+no5_humd.override_unit('ct')
+no5_baro.override_unit('ct')
+no6_temp.override_unit('ct')
+no6_humd.override_unit('ct')
+no6_baro.override_unit('ct')
+no5_temp = v2temp(no5_temp*c2V)
+no5_humd = v2humd(no5_humd*c2V)
+no5_baro = v2baro(no5_baro*c2V)
+no6_temp = v2temp(no6_temp*c2V)
+no6_humd = v2humd(no6_humd*c2V)
+no6_baro = v2baro(no6_baro*c2V)
+
+daq_iy0_ok = daq_iy0 == 0
+segments_daq_iy0_ok = daq_iy0_ok.to_dqflag(round=False)
+daq_ix1_ok = daq_ix1 == 0
+segments_daq_ix1_ok = daq_ix1_ok.to_dqflag(round=False)
+
+
 if True:
     plot_timeseries(no5_temp,no6_temp,ylim=[25,30],
                     fname='TimeSeries_temp.png',title='Temperature')
@@ -120,9 +141,8 @@ if True:
                     fname='TimeSeries_humd.png',title='Humidity')
     plot_timeseries(no5_baro,no6_baro,ylim=[970,980],
                     fname='TimeSeries_baro.png',title='Air Pressure')
-    
-exit()
-ASD.png
+
+
 fftlength = 2**11
 asd_no5_temp = no5_temp.asd(fftlength=fftlength)
 asd_no6_temp = no6_temp.asd(fftlength=fftlength)
@@ -143,11 +163,14 @@ xlimmin = asd_no5_baro.frequencies[1].value
 ax0.set_xlim(xlimmin,xlimmax)
 ax1.set_xlim(xlimmin,xlimmax)
 ax2.set_xlim(xlimmin,xlimmax)
+ax0.axhline(1e-4,xlimmin,xlimmax)
+ax1.axhline(1e-4,xlimmin,xlimmax)
+ax2.axhline(1e-4,xlimmin,xlimmax)
 ax0.legend()
 ax1.legend()
 ax2.legend()
-ax0.set_ylabel(text.unit_as_label(no5_temp.unit))
-ax1.set_ylabel(text.unit_as_label(no5_humd.unit))
-ax2.set_ylabel(text.unit_as_label(no5_baro.unit))
+ax0.set_ylabel('Temperature [V/rtHz]')
+ax1.set_ylabel('Humidity [V/rtHz]')
+ax2.set_ylabel('Airpressure [V/rtHz]')
 ax2.set_xlabel('Frequency [Hz]')
 plot.savefig('ASD.png')
