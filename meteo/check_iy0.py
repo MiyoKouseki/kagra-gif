@@ -81,13 +81,13 @@ start = tconvert('Nov 26 2018 12:00:00 JST') # installed time
 end = tconvert('Nov 26 2018 21:00:00 JST')
 
 chlst = [
-    'K1:PEM-IY0_SENSOR5_OUT_DQ',
-    'K1:PEM-IY0_SENSOR6_OUT_DQ',
-    'K1:PEM-IY0_SENSOR7_OUT_DQ',
-    'K1:PEM-IY0_SENSOR8_OUT_DQ',
-    'K1:PEM-IY0_SENSOR9_OUT_DQ',
-    'K1:PEM-IY0_SENSOR10_OUT_DQ',
-    'K1:PEM-IY0_SENSOR11_OUT_DQ',
+    'K1:PEM-IY0_SENSOR5_OUT16',
+    'K1:PEM-IY0_SENSOR6_OUT16',
+    'K1:PEM-IY0_SENSOR7_OUT16',
+    'K1:PEM-IY0_SENSOR8_OUT16',
+    'K1:PEM-IY0_SENSOR9_OUT16',
+    'K1:PEM-IY0_SENSOR10_OUT16',
+    'K1:PEM-IY0_SENSOR11_OUT16',
     'K1:FEC-99_STATE_WORD_FE',    
     'K1:FEC-121_STATE_WORD_FE'
     ]
@@ -101,20 +101,21 @@ kwargs['nproc'] = 2
 kwargs['start'] = start
 kwargs['end'] = end
 
-if True:
+if False:
     data = TimeSeriesDict.read(cache,chlst,**kwargs)
     data.write('./weather_iy0.gwf',format='gwf.lalframe')
 if True:
     data = TimeSeriesDict.read('./weather_iy0.gwf',chlst,**kwargs)
+    print('loaded')
 
 daq_iy0 = data['K1:FEC-99_STATE_WORD_FE']
 daq_ix1 = data['K1:FEC-121_STATE_WORD_FE']
-no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ']
-no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ']
-no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ']
-no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ']
-no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ']
-no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ']
+no5_temp = data['K1:PEM-IY0_SENSOR5_OUT16']
+no5_humd = data['K1:PEM-IY0_SENSOR6_OUT16']
+no5_baro = data['K1:PEM-IY0_SENSOR7_OUT16']
+no6_temp = data['K1:PEM-IY0_SENSOR9_OUT16']
+no6_humd = data['K1:PEM-IY0_SENSOR10_OUT16']
+no6_baro = data['K1:PEM-IY0_SENSOR11_OUT16']
 no5_temp.override_unit('ct')
 no5_humd.override_unit('ct')
 no5_baro.override_unit('ct')
@@ -135,13 +136,13 @@ segments_daq_ix1_ok = daq_ix1_ok.to_dqflag(round=False)
 
 
 if True:
-    plot_timeseries(no5_temp,no6_temp,ylim=[25,30],
+    plot_timeseries(no5_temp,no6_temp,ylim=[25,40],
                     fname='TimeSeries_temp.png',title='Temperature')
-    plot_timeseries(no5_humd,no6_humd,ylim=[30,50],
+    plot_timeseries(no5_humd,no6_humd,ylim=[20,50],
                     fname='TimeSeries_humd.png',title='Humidity')
-    plot_timeseries(no5_baro,no6_baro,ylim=[970,980],
+    plot_timeseries(no5_baro,no6_baro,ylim=[970,990],
                     fname='TimeSeries_baro.png',title='Air Pressure')
-
+    
 
 fftlength = 2**11
 asd_no5_temp = no5_temp.asd(fftlength=fftlength)
