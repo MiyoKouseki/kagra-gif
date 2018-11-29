@@ -77,8 +77,8 @@ start = tconvert('Nov 29 2018 06:00:00 JST') # rename iyc
 start = tconvert('Nov 28 2018 20:00:10 JST') # restart daq after rename
 #start = tconvert('Nov 29 2018 09:00:10 JST') # 
 start = tconvert('Nov 27 2018 15:00:00 JST') # mounted time iyc
-start = tconvert('Nov 26 2018 12:00:00 JST') # installed time
-end = tconvert('Nov 26 2018 21:00:00 JST')
+start = tconvert('Nov 26 2018 17:00:00 JST') # installed time
+end = tconvert('Nov 27 2018 02:00:00 JST')
 
 chlst = [
     'K1:PEM-IY0_SENSOR5_OUT_DQ',
@@ -97,11 +97,11 @@ kwargs = {}
 kwargs['verbose'] = True
 kwargs['pad'] = np.nan
 kwargs['format'] = 'gwf.lalframe'
-kwargs['nproc'] = 2
+kwargs['nproc'] = 6
 kwargs['start'] = start
 kwargs['end'] = end
 
-if False:
+if True:
     data = TimeSeriesDict.read(cache,chlst,**kwargs)
     data.write('./weather_iy0.gwf',format='gwf.lalframe')
 if True:
