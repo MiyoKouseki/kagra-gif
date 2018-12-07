@@ -12,7 +12,7 @@ from gwpy.timeseries import TimeSeriesDict,TimeSeries
 from gwpy.time import tconvert
 #from gwpy.plotter import TimeSeriesPlot,Plot,text
 from gwpy.plot import Plot,text
-from gwpy.plotter import text as ptext
+from gwpy.plotter import text as plotter_text
 from matplotlib.artist import setp
 from gwpy.plot import Plot
 from matplotlib.artist import setp
@@ -38,63 +38,15 @@ def v2humd(v,**kwargs):
         raise ValueError('!')
     if  np.nanmean(v)<0:
         v = -v
-    val = v/5.0/2.0*(100.0*u.pct/u.V)
+    val = v/2.0/(5.0*u.V)*(100.0*u.pct)
     return val
 
 
 def v2baro(v,**kwargs):
     if not v.unit == 'V':
         raise ValueError('!')
-    val = v/2.0/5.0*(1100.0-800.0)*(u.hPa/u.V)+800.0*u.hPa
+    val = v/2.0/(5.0*u.V)*(1100.0-800.0)*(u.hPa)+800.0*u.hPa
     return val
-
-
-def plot_spectrogram(*data,**kwargs):
-    '''
-    '''
-    segmentslist = kwargs.pop('segmentslist',None)
-    fftlen = kwargs.pop('fftlength',2**10)
-    imkwargs={}
-
-    n = len(data)
-
-    if n==2:
-        data1,data2 = data
-        specgram = data1.coherence_spectrogram(data2,
-                                               stride=2*fftlen,
-                                               fftlength=fftlen,
-                                               overlap=fftlen/2)        
-        chnames = map(text.to_string,[data1.name,data2.name])        
-        title = 'Coherencegram \n {0} vs {1}'.format(*chnames)
-        fname = 'Coherencegram_{0}_{1}.png'.format(data1.name,data2.name)
-        cbarlabel = r'Magnitude-squared Coherence'
-        imkwargs['vmin'] = 0.0
-        imkwargs['vmax'] = 1.0        
-    else:
-        data = data[0]
-        specgram = data.spectrogram(stride=2*fftlen,
-                                    fftlength=fftlen,
-                                    overlap=fftlen/2) ** (1/2.)
-        fname = 'Spectrogram_{0}.png'.format(data.name)
-        title = 'Spectrogram \n{0}'.format(text.to_string(data.name))          
-        cbarlabel = 'Amplitude Spectrum Density\n'+r'{0}'.format(ptext.unit_as_label(data.unit).replace(']','/rtHz]'))
-        imkwargs['vmin'] = specgram.min().value
-        imkwargs['vmax'] = specgram.max().value        
-        
-    plot = specgram.imshow(figsize=(18,10),**imkwargs)
-    ax = plot.gca()
-    ax.set_yscale('log')
-    ax.set_ylim(1e-3,1e2)
-    
-    cbar = ax.colorbar()
-    cbar.set_label(label=cbarlabel)    
-    plot.suptitle(title,fontsize=20)
-
-    if segmentslist:
-        for segments in segmentslist:
-            plot.add_state_segments(segments,label='DAQ Status')
-            
-    plot.savefig(fname)
 
 
 def plot_timeseries(*data,**kwargs):
@@ -126,7 +78,6 @@ start = tconvert('Nov 29 2018 06:00:00 JST') # rename iyc
 start = tconvert('Nov 28 2018 20:00:10 JST') # restart daq after rename
 #start = tconvert('Nov 29 2018 09:00:10 JST') # 
 start = tconvert('Nov 27 2018 15:00:00 JST') # mounted time iyc
-#
 start = tconvert('Nov 26 2018 17:00:00 JST') # installed time
 end = tconvert('Nov 27 2018 02:00:00 JST')
 
@@ -156,51 +107,69 @@ if False:
     data.write('./weather_iy0.gwf',format='gwf.lalframe')
 if True:
     data = TimeSeriesDict.read('./weather_iy0.gwf',chlst,**kwargs)
+    #data = TimeSeriesDict.read('./weather_iy0_long.gwf',chlst,**kwargs)
     print('loaded')
 
 daq_iy0 = data['K1:FEC-99_STATE_WORD_FE']
 daq_ix1 = data['K1:FEC-121_STATE_WORD_FE']
-no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ']
-no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ']
-no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ']
-no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ']
-no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ']
-no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ']
+no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ'] # ct
+no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ'] # ct
+no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ'] # ct
+no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ'] # ct
+no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ'] # ct
+no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ'] # ct
 no5_temp.override_unit('ct')
 no5_humd.override_unit('ct')
 no5_baro.override_unit('ct')
 no6_temp.override_unit('ct')
 no6_humd.override_unit('ct')
 no6_baro.override_unit('ct')
-no5_temp = v2temp(no5_temp*c2V)
-no5_humd = v2humd(no5_humd*c2V)
-no5_baro = v2baro(no5_baro*c2V)
-no6_temp = v2temp(no6_temp*c2V)
-no6_humd = v2humd(no6_humd*c2V)
-no6_baro = v2baro(no6_baro*c2V)
+print('override unit')
+# no5_temp = v2temp(no5_temp*c2V)
+# no5_humd = v2humd(no5_humd*c2V)
+# no5_baro = v2baro(no5_baro*c2V)
+# no6_temp = v2temp(no6_temp*c2V)
+# no6_humd = v2humd(no6_humd*c2V)
+# no6_baro = v2baro(no6_baro*c2V)
+no5_temp = no5_temp*c2V
+no5_humd = no5_humd*c2V
+no5_baro = no5_baro*c2V
+no6_temp = no6_temp*c2V
+no6_humd = no6_humd*c2V
+no6_baro = no6_baro*c2V
+print('convert ')
 
-daq_iy0_ok = daq_iy0 == 0
-segments_daq_iy0_ok = daq_iy0_ok.to_dqflag(round=False)
-daq_ix1_ok = daq_ix1 == 0
-segments_daq_ix1_ok = daq_ix1_ok.to_dqflag(round=False)
+segments_daq_iy0_ok = (daq_iy0 == 0).to_dqflag(round=False)
+segments_daq_ix1_ok = (daq_ix1 == 0).to_dqflag(round=False)
 
 
-if True:
-    plot_timeseries(no5_temp,no6_temp,ylim=[30,34],
+if False:
+    plot_timeseries(no5_temp,no6_temp,ylim=[25,40],
                     fname='TimeSeries_temp.png',title='Temperature')
-    plot_timeseries(no5_humd,no6_humd,ylim=[27,32],
+    plot_timeseries(no5_humd,no6_humd,ylim=[20,50],
                     fname='TimeSeries_humd.png',title='Humidity')
-    plot_timeseries(no5_baro,no6_baro,ylim=[977.5,982.5],
+    plot_timeseries(no5_baro,no6_baro,ylim=[970,990],
                     fname='TimeSeries_baro.png',title='Air Pressure')
+    print('plot timeseries')
     
 
-fftlength = 2**10
+fftlength = 2**11
 asd_no5_temp = no5_temp.asd(fftlength=fftlength)
 asd_no6_temp = no6_temp.asd(fftlength=fftlength)
 asd_no5_humd = no5_humd.asd(fftlength=fftlength)
 asd_no6_humd = no6_humd.asd(fftlength=fftlength)
 asd_no5_baro = no5_baro.asd(fftlength=fftlength)
 asd_no6_baro = no6_baro.asd(fftlength=fftlength)
+def save_asd(asd,fname):
+    asd.write(fname,format='hdf5')
+save_asd(asd_no5_temp,'asd_no5_temp.hdf5')
+save_asd(asd_no5_humd,'asd_no5_humd.hdf5')
+save_asd(asd_no5_baro,'asd_no5_baro.hdf5')
+save_asd(asd_no6_temp,'asd_no6_temp.hdf5')
+save_asd(asd_no6_humd,'asd_no6_humd.hdf5')
+save_asd(asd_no6_baro,'asd_no6_baro.hdf5')
+    
+print('calced asd')
 plot, (ax0,ax1,ax2) = plt.subplots(nrows=3, figsize=(8, 10), sharex=True)
 ax0.loglog(asd_no5_temp,label='No5(IXV)')
 ax0.loglog(asd_no6_temp,label='No6(IYC)')
@@ -214,9 +183,12 @@ xlimmin = asd_no5_baro.frequencies[1].value
 ax0.set_xlim(xlimmin,xlimmax)
 ax1.set_xlim(xlimmin,xlimmax)
 ax2.set_xlim(xlimmin,xlimmax)
-ax0.axhline(1e-4,1,xlimmax,linestyle='--',color='k')
-ax1.axhline(1e-4,1,xlimmax,linestyle='--',color='k')
-ax2.axhline(1e-4,1,xlimmax,linestyle='--',color='k')
+ax0.axhline(1e-4,xlimmin,xlimmax)
+ax1.axhline(1e-4,xlimmin,xlimmax)
+ax2.axhline(1e-4,xlimmin,xlimmax)
+ax0.set_ylim(1e-5,1e0)
+ax1.set_ylim(1e-5,1e0)
+ax2.set_ylim(1e-5,1e0)
 ax0.legend()
 ax1.legend()
 ax2.legend()
@@ -225,14 +197,3 @@ ax1.set_ylabel('Humidity [V/rtHz]')
 ax2.set_ylabel('Airpressure [V/rtHz]')
 ax2.set_xlabel('Frequency [Hz]')
 plot.savefig('ASD.png')
-
-
-plot_spectrogram(no5_baro,no6_baro,segmentslist=[daq_iy0_ok,daq_ix1_ok])
-plot_spectrogram(no5_baro,segmentslist=[daq_ix1_ok])
-plot_spectrogram(no6_baro,segmentslist=[daq_iy0_ok])
-plot_spectrogram(no5_temp,no6_temp,segmentslist=[daq_iy0_ok,daq_ix1_ok])
-plot_spectrogram(no5_temp,segmentslist=[daq_ix1_ok])
-plot_spectrogram(no6_temp,segmentslist=[daq_iy0_ok])
-plot_spectrogram(no5_humd,no6_humd,segmentslist=[daq_iy0_ok,daq_ix1_ok])
-plot_spectrogram(no5_humd,segmentslist=[daq_ix1_ok])
-plot_spectrogram(no6_humd,segmentslist=[daq_iy0_ok])
