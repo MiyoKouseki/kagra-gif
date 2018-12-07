@@ -149,11 +149,12 @@ def plot_spectrogram(*data,**kwargs):
 if __name__=='__main__':    
     start = tconvert('Nov 28 2018 18:00:00 JST') # before daq killed
     #start = tconvert('Nov 28 2018 21:30:10 JST') # after daq killed
-    start = tconvert('Nov 28 2018 22:00:00 JST') # data stable
+    start = tconvert('Nov 28 2018 22:00:00 JST') # data stable !!!
     end = tconvert('Nov 29 2018 13:00:00 JST')    
     #start = tconvert('Nov 30 2018 09:00:00 JST') # hukkatsu
     #end = tconvert('Nov 30 2018 12:00:00 JST') # stable continuously
-
+    start = tconvert('Dec 01 2018 09:00:00 JST') 
+    end = tconvert('Dec 03 2018 09:00:00 JST') 
     
     chlst = [
         'K1:PEM-IXV_WEATHER_TEMP_OUT_DQ',
