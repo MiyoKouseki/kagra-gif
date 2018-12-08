@@ -13,7 +13,7 @@ from miyopy.utils import trillium
 
 from _file import (get_timeseries,get_specgram,get_csd_specgram,
                    to_gwffname,to_pngfname,to_hdf5fname)
-from _calibration import count2vel
+from _calibration import count2vel,vel2vel
     
 def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**kwargs):
 
@@ -28,7 +28,8 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**
         
     c2v = 10.0/2**15
     v2vel = 1./1208
-    specgram = psd_specgram*c2v*v2vel #** (1/2.)    
+    #specgram = psd_specgram*c2v*v2vel #** (1/2.)
+    specgram = psd_specgram
     
     pngfname = to_pngfname(chname,ftype='Spectrogram')
     if not replot and os.path.exists(pngfname):
@@ -37,7 +38,8 @@ def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**
     
     plot, (ax0,ax1) = plt.subplots(nrows=2, sharex=True, figsize=(8, 6))
     if normlog:
-        ax0.imshow(specgram,norm='log', vmin=1e-9, vmax=1e-5, cmap='viridis')
+        #ax0.imshow(specgram,norm='log', vmin=1e-9, vmax=1e-5, cmap='viridis')
+        ax0.imshow(specgram,norm='log', vmin=1e-5, vmax=1e2, cmap='viridis')
     else:
         #ax0.imshow(specgram,norm='log', vmin=1e-2, vmax=1.0, cmap='viridis')
         ax0.imshow(specgram, vmin=0, vmax=1.0, cmap='viridis')
@@ -84,15 +86,17 @@ def plot_asd(data,replot=False,fftlength=2**7,show=False,**kwargs):
     low = specgram.percentile(5)
     high = specgram.percentile(95)
     
-    median = count2vel(median)
-    low = count2vel(low)
-    high = count2vel(high)
+    median = vel2vel(median)
+    low = vel2vel(low)
+    high = vel2vel(high)
     
     _f, _selfnoise = trillium.selfnoise(trillium='120QA',psd='ASD',unit='velo')    
+    _selfnoise = _selfnoise*1e6
     
     plot = Plot()
     ax = plot.gca(xscale='log', xlim=(1e-3, 3e2), xlabel='Frequency [Hz]',
-                  yscale='log', ylim=(1e-11, 3e-6),
+                  #yscale='log', ylim=(1e-11, 3e-6),
+                  yscale='log', ylim=(1e-5, 3e-0),
                   ylabel=r'Velocity [m/sec/\rtHz]')
     ax.plot(_f,_selfnoise,'-',linewidth=1,color='gray')
     ax.plot_mmm(median, low, high, color='gwpy:ligo-livingston')
