@@ -49,11 +49,14 @@ def get_specgram(chname,remake=False,fftlength=2**6,**kwargs):
 
 
 
-def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):    
+def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):
     fname = to_gwffname(chname)
     start = kwargs.pop('start')
-    end = kwargs.pop('end')    
+    end = kwargs.pop('end')
     if not from_nds and os.path.exists(fname):
+        #print('!')
+        #print fname
+        #exit()
         print('Skip fetch from nds {0}'.format(fname))
         data = TimeSeries.read(fname,chname,start,end,
                                 format='gwf.lalframe',
@@ -62,6 +65,8 @@ def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):
         
         return data
     else:
+        #print('!')
+        #exit()
         data = TimeSeries.fetch(chname, start, end,
                                 verbose=True,
                                 host='10.68.10.121', port=8088,
@@ -79,7 +84,8 @@ def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):
 
 def to_gwffname(chname,prefix='./'):
     print(chname)
-    m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+    #m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+    m = re.search(r'K1:PEM-(.*)_OUT_DQ',chname)    
     try:
         fname = prefix + m.group(1).lower() + '.gwf'
     except Exception as e:
@@ -93,12 +99,15 @@ def to_hdf5fname(*args,**kwargs):
     N = len(args)
     if N==2:
         chname1,chname2 = args
-        m1 = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname1)
-        m2 = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname2)
+        #m1 = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname1)
+        #m2 = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname2)
+        m1 = re.search(r'K1:PEM-(.*)_OUT_DQ',chname1)
+        m2 = re.search(r'K1:PEM-(.*)_OUT_DQ',chname2)        
         fname = prefix + m1.group(1).lower() + '-' + m2.group(1).lower() + '.hdf5'
     elif N==1:
         chname = args[0]
-        m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+        #m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+        m = re.search(r'K1:PEM-(.*)_OUT_DQ',chname)        
         try:
             fname = prefix + m.group(1).lower() + '.hdf5'
         except Exception as e:
@@ -111,7 +120,8 @@ def to_pngfname(chname,ftype,prefix='./'):
     if not chname:
         return  'None.png'
     
-    m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
+    #m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname) old
+    m = re.search(r'K1:PEM-(.*)_OUT_DQ',chname)
     try:
         fname = prefix + ftype + '_' + m.group(1).lower() + '.png'
     except Exception as e:
