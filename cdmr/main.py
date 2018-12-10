@@ -4,9 +4,10 @@ from __future__ import print_function
 import matplotlib.pyplot as plt
 import numpy as np
 #from trillium import selfnoise,V2Vel
-from tips import *
+#from tips import *
 #from plot import *
-import re
+from miyopy.io import read
+import re 
 from miyopy.plot import plotBandPassTimeseries,asdplot
 from miyopy.utils.trillium import trillium120QA
 #exit()
@@ -129,8 +130,8 @@ def main_xarm_disp():
          adcnoise=True,
          selfnoise=True,
          unit='strain',
-         trillium='120QA'                        
-         )    
+         trillium='120QA'
+         )
     
 
 def main_yarm_comdiff():
@@ -155,6 +156,7 @@ def main_yarm_comdiff():
                 selfnoiseplot=True,
                 trillium='120QA',           
                 )
+
 
     
 def main_imc_comdiff():    
@@ -261,13 +263,12 @@ def main_imc_seis():
 if __name__ == '__main__':
     #start,end = get_time()
     tlen = 2**13
-    start,end = 1217926818, 1217926818+tlen
-    start,end = 1217935011, 1217943203
-    start,end = 1217257218, 1217257218+tlen
-    start,end = 1217170818, 1217170818+tlen
-    start,end = 1219309218, 1219309218+tlen  # JST 2018-08-26T18:00:00
-    #start,end = 1219309218, 1219309218+2**12  # JST 2018-08-26T18:00:00
-    #
+    start,end = 1217926818, 1217926818+tlen # No.3
+    start,end = 1217935011, 1217943203      # No.4
+    start,end = 1217257218, 1217257218+tlen # No.2
+    start,end = 1217170818, 1217170818+tlen # No.1
+    #start,end = 1219309218, 1219309218+tlen # No.5    
+    #    
     exx = read(start,end,chname_dict['exx'])*deGain_120QA*c2V # Volt
     exy = read(start,end,chname_dict['exy'])*deGain_120QA*c2V # Volt
     exz = read(start,end,chname_dict['exz'])*deGain_120QA*c2V # Volt
