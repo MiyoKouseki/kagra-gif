@@ -86,7 +86,7 @@ def get_specgram(*chname,**kwargs):
     hdf5fname = to_hdf5fname(chname)        
     if remake:
         if os.path.exists(hdf5fname):
-            os.remove(hdf5fname)        
+            os.remove(hdf5fname)            
         timeseries = get_timeseries(chname,from_nds=False,**kwargs)
         specgram = timeseries.spectrogram(stride=fftlength*2,
                                           fftlength=fftlength,

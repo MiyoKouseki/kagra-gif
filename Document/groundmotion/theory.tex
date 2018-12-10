@@ -1,0 +1,72 @@
+\section{地面振動}
+
+\subsection{P波とS波}
+
+等方弾性体中では変位$\bm{u}$は以下の波動方程式に従う。
+\begin{eqnarray}\label{eq:eq_1}
+  \rho{\bm{\ddot{u}}} = (\lambda+2\mu)\nabla(\nabla\cdot\bm{u}) - \mu\nabla\times(\nabla\times\bm{u})
+\end{eqnarray}
+ここで$\rho$は媒質の密度、$\lambda,\,\mu$はラメ定数である。
+
+この波動方程式は縦波であるP波と横波であるS波について解くことができる。そのためにまず Helmholtz decomposition をつかって変位$\bm{u}$を発散成分$\bm{u}_{\mathrm{div}}$と回転成分$\bm{u}_{\mathrm{rot}}$で表す。つまり、
+\begin{eqnarray}
+  \bm{u}_{\mathrm{div}}&=&\nabla\phi \label{eq:eq_2}\\
+  \bm{u}_{\mathrm{rot}}&=&\nabla\times\psi \label{eq:eq_3}
+\end{eqnarray}
+となるスカラーポテンシャル$\phi$とベクトルポテンシャル$\bm{\psi}$が存在し、変位$\bm{u}$は
+\begin{eqnarray} 
+  \bm{u} &=& \nabla\phi + \nabla\times\psi \label{eq:eq_4}
+\end{eqnarray}
+と表すことができる。式(\ref{eq:eq_1})に式(\ref{eq:eq_4})を代入し、かつベクトル解析の公式、$\nabla\times(\nabla\times\bm{A})=\nabla(\nabla\cdot\bm{A})-\nabla^2{\bm{A}}$を使うと、
+\begin{eqnarray}
+  \ddot{\phi} &=& v_{L}^2\nabla^2\phi \label{eq:eq_5}\\
+  \ddot{\psi} &=& v_{T}^2\nabla^2\psi \label{eq:eq_6}
+\end{eqnarray} 
+のように2つの波動方程式を得る。ここで$v_{L},\,v_{T}$は、
+\begin{eqnarray}
+  v_{L} = \sqrt{\frac{\lambda+2\mu}{\rho}},\,v_{T} = \sqrt{\frac{\mu}{\rho}} \label{eq:eq_7}
+\end{eqnarray} 
+である。
+
+$v_{L},v_{T}$らはそれぞれ縦波と横波の位相速度を表しているが、これを示す。まずスカラーポテンシャルとベクトルポテンシャルは式(\ref{eq:eq_5})、式(\ref{eq:eq_6})の波動方程式に従うので、これらの一般解は
+\begin{eqnarray}
+  \phi &=& \phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_8}\\
+  \bm{\psi} &=& \bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_9}
+\end{eqnarray}
+で表すことができる。ここで$\omega,\,\bm{k}$は各周波数と波数ベクトルである。発散成分である$\bm{u}_{\mathrm{div}}$は式(\ref{eq:eq_2})に式(\ref{eq:eq_8})を代入して、
+\begin{eqnarray}
+  \bm{u}_{\mathrm{div}} = \nabla{\phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}{\phi}
+\end{eqnarray}
+となるので、変位の向きは波数ベクトルと平行である。つまり縦波でありP波に相当する。一方で回転成分である$\bm{u}_{\mathrm{rot}}$は式(\ref{eq:eq_3})に式(\ref{eq:eq_9})を代入して、
+\begin{eqnarray}
+  \bm{u}_{\mathrm{rot}} = \nabla\times{\bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}\times{\bm{\psi}}
+\end{eqnarray}
+となるので、変位の向きは波数ベクトルと直行している。つまり横波でありS波に相当する。したがって$v_{L},v_{T}$はそれぞれ縦波と横波の位相速度を示していることがわかった。また$\lambda$と$\mu$は正の定数なので、
+\begin{eqnarray}
+  v_{L} > v_{T}
+\end{eqnarray}
+となって、縦波のほうが横波よりも速い。
+
+
+CLIOでの弾性定数測定によると、P波(Longitudinal Wave)とS波(Transverse Wave)それぞれの速度は、$v_{L}=5.54\pm{0.05} \mathrm{km/sec},v_{T}=3.05\pm{0.05} \mathrm{km/sec}$であった。さらに鉱山会社から報告されている岩石の密度$\rho=2.7 \mathrm{g/cm^3}$に基づくと、表\ref{table:table_1}のように弾性定数が得られる。\cite{竹本2003}
+\begin{table}[h]
+  \caption{CLIOサイトの弾性定数}
+  \label{table:table_1}
+  \centering
+  \begin{tabular}{cll}
+    \Hline    
+    弾性定数 & 計算値 & 単位  \\
+    \hline
+    ラメ定数 $\lambda$ & $3.27\times10^11$ & $\mathrm{dyn/cm^2}$  \\
+    剛性率 $\mu$ & $2.51\times10^11$ & $\mathrm{dyn/cm^2}$  \\
+    ポアソン比 $\sigma$ & $0.283$ &   \\
+    \Hline
+  \end{tabular}
+\end{table}
+
+
+\subsection{Rayleigh波}
+
+
+
+\bibliography{./groundmotion_reference}
