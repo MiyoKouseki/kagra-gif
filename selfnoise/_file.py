@@ -7,7 +7,7 @@ from gwpy.frequencyseries import FrequencySeries
 from gwpy.timeseries import TimeSeries
 from gwpy.spectrogram import Spectrogram
 
-def get_csd_specgram(chname1,chname2,remake=True,fftlength=2**6,**kwargs):
+def get_csd_specgram(chname1,chname2,remake=True,fftlength=2**6,overlap=0.0,**kwargs):
     hdf5fname = to_hdf5fname(chname1,chname2)
     if remake:
         if os.path.exists(hdf5fname):
@@ -15,41 +15,94 @@ def get_csd_specgram(chname1,chname2,remake=True,fftlength=2**6,**kwargs):
         timeseries1 = get_timeseries(chname1,from_nds=False,**kwargs)
         timeseries2 = get_timeseries(chname2,from_nds=False,**kwargs)
         specgram = timeseries1.csd_spectrogram(timeseries2,
-                                               stride=fftlength,
+                                               stride=fftlength*2,
                                                fftlength=fftlength,
-                                               overlap=0,
+                                               overlap=overlap,
                                                window='hanning',
                                                nproc=2)
         specgram.write(hdf5fname)
         return specgram
     else:
-        warnings.warn('Dont use fftlength option..')
+        #warnings.warn('Dont use fftlength option..')
         specgram = Spectrogram.read(hdf5fname)
         return specgram
 
 
-def get_specgram(chname,remake=False,fftlength=2**6,**kwargs):
-    hdf5fname = to_hdf5fname(chname)
+def get_asd(chname,**kwargs):
+    fftlength = kwargs.pop('fftlength',2**7)
+    remake = kwargs.pop('remake',False)
+    overlap = kwargs.pop('overlap',None)    
+    timeseries = get_timeseries(chname,from_nds=False,**kwargs)    
+    asd = timeseries.asd(fftlength=fftlength,
+                         overlap=overlap,
+                         window='hanning')
+    return asd
 
+def get_csd(chname1,chname2,**kwargs):
+    fftlength = kwargs.pop('fftlength',2**7)
+    remake = kwargs.pop('remake',False)
+    overlap = kwargs.pop('overlap',None)    
+    timeseries1 = get_timeseries(chname1,from_nds=False,**kwargs)
+    timeseries2 = get_timeseries(chname2,from_nds=False,**kwargs)    
+    csd = timeseries1.csd(timeseries2,
+                          fftlength=fftlength,
+                          overlap=overlap,
+                          window='hanning')
+    return csd
+
+
+def get_coherence(chname1,chname2,**kwargs):
+    fftlength = kwargs.pop('fftlength',2**7)
+    remake = kwargs.pop('remake',False)
+    overlap = kwargs.pop('overlap',None)    
+    timeseries1 = get_timeseries(chname1,from_nds=False,**kwargs)
+    timeseries2 = get_timeseries(chname2,from_nds=False,**kwargs)    
+    coherence = timeseries1.coherence(timeseries2,
+                                      fftlength=fftlength,
+                                      overlap=overlap,
+                                      window='hanning')
+    return coherence
+
+    
+def get_specgram(*chname,**kwargs):
+    fftlength = kwargs.pop('fftlength',2**7)
+    remake = kwargs.pop('remake',False)
+    overlap = kwargs.pop('overlap',None)
+    #print chname
+    n = len(chname)
+    if n==2:
+        chname1,chname2 = chname
+        specgram = get_csd_specgram(chname1,chname2,
+                                    remake=remake,
+                                    overlap=overlap,
+                                    fftlength=fftlength,**kwargs)
+        return specgram
+    elif n==1:
+        chname = chname[0]
+    else:
+        raise ValueError('Wrong chname arguments')
+
+    
+    hdf5fname = to_hdf5fname(chname)        
     if remake:
         if os.path.exists(hdf5fname):
             os.remove(hdf5fname)        
         timeseries = get_timeseries(chname,from_nds=False,**kwargs)
-        specgram = timeseries.spectrogram(stride=fftlength,
+        specgram = timeseries.spectrogram(stride=fftlength*2,
                                           fftlength=fftlength,
-                                          overlap=0,
+                                          overlap=overlap,
                                           window='hanning')
         specgram.write(hdf5fname)
         return specgram
     else:
-        warnings.warn('Dont use fftlength option..')
+        #warnings.warn('Dont use fftlength option..')
         specgram = Spectrogram.read(hdf5fname)
         return specgram
 
 
 
 
-def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):
+def get_timeseries(chname,prefix='./data',from_nds=False,**kwargs):
     fname = to_gwffname(chname)
     start = kwargs.pop('start')
     end = kwargs.pop('end')
@@ -79,10 +132,7 @@ def get_timeseries(chname,prefix='./',from_nds=False,**kwargs):
 
 
 
-
-
-
-def to_gwffname(chname,prefix='./'):
+def to_gwffname(chname,prefix='./data/'):
     print(chname)
     #m = re.search(r'K1:PEM-(.*)_SENSINF_IN1_DQ',chname)
     m = re.search(r'K1:PEM-(.*)_OUT_DQ',chname)    
@@ -95,7 +145,7 @@ def to_gwffname(chname,prefix='./'):
 
 
 def to_hdf5fname(*args,**kwargs):
-    prefix = kwargs.pop('prefix','./')
+    prefix = kwargs.pop('prefix','./data/')
     N = len(args)
     if N==2:
         chname1,chname2 = args

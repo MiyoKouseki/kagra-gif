@@ -16,7 +16,6 @@ from _file import (get_timeseries,get_specgram,get_csd_specgram,
 from _calibration import count2vel,vel2vel
     
 def plot_spectrogram(data,replot=False,fftlength=2**7,show=False,normlog=True,**kwargs):
-
     if isinstance(data,TimeSeries):
         chname = data.name            
         psd_specgram = data.spectrogram2(fftlength=fftlength,
