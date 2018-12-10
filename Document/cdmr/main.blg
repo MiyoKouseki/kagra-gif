@@ -1,0 +1,52 @@
+This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: main.aux
+The style file: junsrt.bst
+Database file #1: ./cdmr_reference.bib
+Repeated entry---line 19 of file ./cdmr_reference.bib
+ : @article{barzilai1998technique
+ :                               ,
+I'm skipping whatever remains of this entry
+You've used 2 entries,
+            2270 wiz_defined-function locations,
+            552 strings with 4423 characters,
+and the built_in function-call counts, 682 in all, are:
+= -- 56
+> -- 20
+< -- 3
++ -- 8
+- -- 6
+* -- 36
+:= -- 91
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 3
+chr.to.int$ -- 0
+cite$ -- 2
+duplicate$ -- 40
+empty$ -- 59
+format.name$ -- 12
+if$ -- 163
+int.to.chr$ -- 0
+int.to.str$ -- 2
+missing$ -- 1
+newline$ -- 13
+num.names$ -- 2
+pop$ -- 10
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 34
+stack$ -- 0
+substring$ -- 40
+swap$ -- 14
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 5
+width$ -- 3
+write$ -- 24
+is.kanji.str$ -- 23
+(There was 1 error message)
