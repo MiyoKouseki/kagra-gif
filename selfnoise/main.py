@@ -127,10 +127,9 @@ if __name__ == '__main__':
     plot.savefig('ASD.png')
     print 'plot in ASD.png'
     
-    # plot
-    exit()
-    plot_asd(psd_specgram1,replot=True,**kwargs)
-    plot_asd(psd_specgram2,replot=True,plot=plot,**kwargs)
-    plot_spectrogram(psd_specgram1,replot=True,**kwargs)
-    plot_spectrogram(psd_specgram2,replot=True,**kwargs)
-    
+    plot_asd(specgram1,replot=True,**kwargs)
+    plot_asd(specgram2,replot=True,**kwargs)
+    plot_spectrogram(specgram1,replot=True,**kwargs)
+    plot_spectrogram(specgram2,replot=True,**kwargs)
+    plot_spectrogram(coherence_mag_specgram,replot=True,normlog=False,**kwargs)
+    plot_coherence(csd_specgram,specgram1,specgram2,fftlength=fftlength,**kwargs)    
