@@ -39,7 +39,7 @@ def vel2vel(fseries):
     f = w/np.pi/2.0
     func = interp1d(f,mag)
     _f = fseries.frequencies.value
-    if True:
+    if False:
         plt.loglog(f,abs(mag),'o-')
         #plt.loglog(_f,_mag)
         plt.savefig('hoge.png')
