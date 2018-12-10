@@ -38,15 +38,16 @@ def v2humd(v,**kwargs):
         raise ValueError('!')
     if  np.nanmean(v)<0:
         v = -v
-    val = v/5.0/2.0*(100.0*u.pct/u.V)
+    val = v/2.0/(5.0*u.V)*(100.0*u.pct)
     return val
 
 
 def v2baro(v,**kwargs):
     if not v.unit == 'V':
         raise ValueError('!')
-    val = v/2.0/5.0*(1100.0-800.0)*(u.hPa/u.V)+800.0*u.hPa
+    val = v/2.0/(5.0*u.V)*(1100.0-800.0)*(u.hPa)+800.0*u.hPa
     return val
+
 
 def plot_timeseries(*data,**kwargs):
     title = kwargs.pop('title',None)
@@ -101,47 +102,55 @@ kwargs['nproc'] = 6
 kwargs['start'] = start
 kwargs['end'] = end
 
-if True:
+if False:
     data = TimeSeriesDict.read(cache,chlst,**kwargs)
     data.write('./weather_iy0.gwf',format='gwf.lalframe')
 if True:
     data = TimeSeriesDict.read('./weather_iy0.gwf',chlst,**kwargs)
+    #data = TimeSeriesDict.read('./weather_iy0_long.gwf',chlst,**kwargs)
     print('loaded')
 
 daq_iy0 = data['K1:FEC-99_STATE_WORD_FE']
 daq_ix1 = data['K1:FEC-121_STATE_WORD_FE']
-no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ']
-no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ']
-no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ']
-no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ']
-no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ']
-no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ']
+no5_temp = data['K1:PEM-IY0_SENSOR5_OUT_DQ'] # ct
+no5_humd = data['K1:PEM-IY0_SENSOR6_OUT_DQ'] # ct
+no5_baro = data['K1:PEM-IY0_SENSOR7_OUT_DQ'] # ct
+no6_temp = data['K1:PEM-IY0_SENSOR9_OUT_DQ'] # ct
+no6_humd = data['K1:PEM-IY0_SENSOR10_OUT_DQ'] # ct
+no6_baro = data['K1:PEM-IY0_SENSOR11_OUT_DQ'] # ct
 no5_temp.override_unit('ct')
 no5_humd.override_unit('ct')
 no5_baro.override_unit('ct')
 no6_temp.override_unit('ct')
 no6_humd.override_unit('ct')
 no6_baro.override_unit('ct')
-no5_temp = v2temp(no5_temp*c2V)
-no5_humd = v2humd(no5_humd*c2V)
-no5_baro = v2baro(no5_baro*c2V)
-no6_temp = v2temp(no6_temp*c2V)
-no6_humd = v2humd(no6_humd*c2V)
-no6_baro = v2baro(no6_baro*c2V)
+print('override unit')
+# no5_temp = v2temp(no5_temp*c2V)
+# no5_humd = v2humd(no5_humd*c2V)
+# no5_baro = v2baro(no5_baro*c2V)
+# no6_temp = v2temp(no6_temp*c2V)
+# no6_humd = v2humd(no6_humd*c2V)
+# no6_baro = v2baro(no6_baro*c2V)
+no5_temp = no5_temp*c2V
+no5_humd = no5_humd*c2V
+no5_baro = no5_baro*c2V
+no6_temp = no6_temp*c2V
+no6_humd = no6_humd*c2V
+no6_baro = no6_baro*c2V
+print('convert ')
 
-daq_iy0_ok = daq_iy0 == 0
-segments_daq_iy0_ok = daq_iy0_ok.to_dqflag(round=False)
-daq_ix1_ok = daq_ix1 == 0
-segments_daq_ix1_ok = daq_ix1_ok.to_dqflag(round=False)
+segments_daq_iy0_ok = (daq_iy0 == 0).to_dqflag(round=False)
+segments_daq_ix1_ok = (daq_ix1 == 0).to_dqflag(round=False)
 
 
-if True:
+if False:
     plot_timeseries(no5_temp,no6_temp,ylim=[25,40],
                     fname='TimeSeries_temp.png',title='Temperature')
     plot_timeseries(no5_humd,no6_humd,ylim=[20,50],
                     fname='TimeSeries_humd.png',title='Humidity')
     plot_timeseries(no5_baro,no6_baro,ylim=[970,990],
                     fname='TimeSeries_baro.png',title='Air Pressure')
+    print('plot timeseries')
     
 
 fftlength = 2**11
@@ -151,6 +160,16 @@ asd_no5_humd = no5_humd.asd(fftlength=fftlength)
 asd_no6_humd = no6_humd.asd(fftlength=fftlength)
 asd_no5_baro = no5_baro.asd(fftlength=fftlength)
 asd_no6_baro = no6_baro.asd(fftlength=fftlength)
+def save_asd(asd,fname):
+    asd.write(fname,format='hdf5')
+save_asd(asd_no5_temp,'asd_no5_temp.hdf5')
+save_asd(asd_no5_humd,'asd_no5_humd.hdf5')
+save_asd(asd_no5_baro,'asd_no5_baro.hdf5')
+save_asd(asd_no6_temp,'asd_no6_temp.hdf5')
+save_asd(asd_no6_humd,'asd_no6_humd.hdf5')
+save_asd(asd_no6_baro,'asd_no6_baro.hdf5')
+    
+print('calced asd')
 plot, (ax0,ax1,ax2) = plt.subplots(nrows=3, figsize=(8, 10), sharex=True)
 ax0.loglog(asd_no5_temp,label='No5(IXV)')
 ax0.loglog(asd_no6_temp,label='No6(IYC)')
@@ -167,6 +186,9 @@ ax2.set_xlim(xlimmin,xlimmax)
 ax0.axhline(1e-4,xlimmin,xlimmax)
 ax1.axhline(1e-4,xlimmin,xlimmax)
 ax2.axhline(1e-4,xlimmin,xlimmax)
+ax0.set_ylim(1e-5,1e0)
+ax1.set_ylim(1e-5,1e0)
+ax2.set_ylim(1e-5,1e0)
 ax0.legend()
 ax1.legend()
 ax2.legend()
