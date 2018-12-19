@@ -3,9 +3,8 @@ from gwpy.time import tconvert
 import numpy as np
 
 
-start = tconvert('Nov 29 00:00:00 JST')
-#start = tconvert('Dec 11 23:00:00 JST')
-end = tconvert('Dec 12 00:00:00 JST')
+start = tconvert('Dec 12 00:00:00 JST')
+end = tconvert('Dec 19 00:00:00 JST')
 
 
 '''
@@ -16,13 +15,11 @@ end = tconvert('Dec 12 00:00:00 JST')
 
 
 chname = [
-    #'K1:PEM-IXV_WEATHER_PRES_OUT16.mean,m-trend',
-    
+    #'K1:PEM-IXV_WEATHER_PRES_OUT16.mean,m-trend',    
     #'K1:PEM-IXV_GND_TR120Q_X_OUT16.mean,s-trend',
     #'K1:PEM-IXV_GND_TR120Q_X_OUT16.max,s-trend',
     #'K1:PEM-IXV_GND_TR120Q_X_OUT16.min,s-trend',
     'K1:PEM-IXV_GND_TR120Q_X_OUT16.rms,s-trend',
-
     #'K1:PEM-IXV_GND_TR120Q_X_OUT16.mean,m-trend',
     #'K1:PEM-IXV_GND_TR120Q_X_OUT16.max,m-trend',
     #'K1:PEM-IXV_GND_TR120Q_X_OUT16.min,m-trend',
@@ -37,6 +34,3 @@ plot = data.plot()
 ax = plot.gca()
 ax.set_ylim(0,5)
 plot.savefig('ixv_tr120q.png')
-#ax.set_ylim(960,990)
-#plot.savefig('ixv_baro.png')
-
