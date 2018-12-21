@@ -2,6 +2,7 @@
 #! coding:utf-8
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from gwpy.frequencyseries import FrequencySeries
 from gwpy.timeseries import TimeSeries
@@ -56,6 +57,16 @@ if __name__ == '__main__':
     
     print('get data')    
     asd1 = get_asd(chname1,**kwargs)
+    fseries = asd1
+    c2V = 10.0/2**15
+    V2vel = 1/1202.5
+    adc_noise = np.ones(len(fseries))*1e-2*c2V*V2vel*1e6*10**(-30.0/20.0)
+    f0 = fseries.f0
+    df = fseries.df   
+    adc = FrequencySeries(adc_noise,df=df,f0=f0+df)
+    #print adc_noise
+    #print asd1
+    #exit()
     asd2 = get_asd(chname2,**kwargs)
     asd3 = get_asd(chname3,**kwargs)
     csd12 = get_csd(chname1,chname2,**kwargs)
@@ -106,23 +117,28 @@ if __name__ == '__main__':
     # convert with tf
     asd1 = vel2vel(asd1)
     asd2 = vel2vel(asd2)
+    asd3 = vel2vel(asd3)
+    adc = vel2vel(adc)
     noise12 = vel2vel(noise12)
     noise13 = vel2vel(noise13)
     signal12 = vel2vel(signal12)
     signal13 = vel2vel(signal13)    
     print('convert with tf')
-    
+
     # plot psd with noise    
     plot = Plot()
     ax = plot.gca(xscale='log', xlim=(1e-3, 3e2), xlabel='Frequency [Hz]',
                   yscale='log', ylim=(1e-5, 3e-0),
-                  ylabel=r'Velocity [m/sec/\rtHz]')
+                  ylabel=r'Velocity [um/sec/\rtHz]')
     ax.plot(_f,_selfnoise,'-',linewidth=1,color='gray')
-    ax.plot(asd1,label='IXV',color='black',linewidth=3)
-    ax.plot(noise13,'o',label='Noise13 : IXV*(1-coh13) ',markersize=1)
-    ax.plot(noise12,'o',label='Noise12 : IXV*(1-coh12) ',markersize=1)
-    #ax.plot(signal13,label='Global Signal')
-    #ax.plot(signal12,label='Global Signal + Local Signal')
+    ax.plot(asd1,label='1',color='black',linewidth=3)
+    #ax.plot(asd2,label='2',color='red',linewidth=1)
+    #ax.plot(asd3,label='3',color='blue',linewidth=1)
+    #ax.plot(adc,label='adc',color='green',linewidth=1)
+    #ax.plot(noise13,'o',label='Noise13 : IXV*(1-coh13) ',markersize=1)
+    #ax.plot(noise12,'o',label='Noise12 : IXV*(1-coh12) ',markersize=1)
+    ax.plot(signal13,label='Signal13 : IXV*coh13 ',markersize=1)
+    ax.plot(signal12,label='Signal12 : IXV*coh12 ',markersize=1)
     #ax.plot(signal_local,label='Local Signal')    
     ax.legend()
     plot.savefig('ASD.png')
