@@ -3,9 +3,9 @@ from gwpy.time import tconvert
 import numpy as np
 
 
-start = tconvert('Nov 29 00:00:00 JST')
-#start = tconvert('Dec 11 23:00:00 JST')
-end = tconvert('Dec 12 00:00:00 JST')
+start = tconvert('Dec 01 00:00:00 JST')
+#start = tconvert('Dec 23 00:00:00 JST')
+end = tconvert('Dec 24 00:00:00 JST')
 
 
 '''
@@ -16,26 +16,35 @@ end = tconvert('Dec 12 00:00:00 JST')
 
 
 chname = [
-    #'K1:PEM-IXV_WEATHER_PRES_OUT16.mean,m-trend',
+    #'K1:PEM-IXV_WEATHER_PRES_OUT_DQ.mean,m-trend',
     
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.mean,s-trend',
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.max,s-trend',
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.min,s-trend',
-    'K1:PEM-IXV_GND_TR120Q_X_OUT16.rms,s-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.mean,s-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.max,s-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.min,s-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.rms,s-trend',
 
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.mean,m-trend',
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.max,m-trend',
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.min,m-trend',
-    #'K1:PEM-IXV_GND_TR120Q_X_OUT16.rms,m-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.mean,m-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.max,m-trend',
+    #'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ.min,m-trend',
+    #'K1:PEM-EXV_GND_TR120Q_X_OUT_DQ.mean,m-trend',
+    #'K1:PEM-EXV_GND_TR120Q_Y_OUT_DQ.mean,m-trend',
+    #'K1:PEM-EXV_GND_TR120Q_Z_OUT_DQ.mean,m-trend',
+    'K1:PEM-IMC_GND_TR120C_MCI_X_OUT_DQ.rms,m-trend',
+    'K1:PEM-IMC_GND_TR120C_MCI_Y_OUT_DQ.rms,m-trend',
+    'K1:PEM-IMC_GND_TR120C_MCI_Z_OUT_DQ.rms,m-trend',
     ]
     
 data = TimeSeriesDict.fetch(chname,start,end,
                             host='10.68.10.122',port=8088,
                             verbose=True,pad=np.nan)
-print data
-plot = data.plot()
+labelname = [c.replace('_',' ')for c in chname]
+epoch = data.values()[0].epoch
+plot = data.plot(epoch=start)
+#plot = data.plot()
 ax = plot.gca()
-ax.set_ylim(0,5)
+#ax.set_ylim(-2,2)
+ax.set_ylabel('Ground Velocity [um/s]')
+ax.legend(labelname)
 plot.savefig('ixv_tr120q.png')
 #ax.set_ylim(960,990)
 #plot.savefig('ixv_baro.png')
