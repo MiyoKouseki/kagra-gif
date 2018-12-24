@@ -11,39 +11,73 @@ from gwpy.spectrogram import Spectrogram
 from gwpy.time import tconvert
 from gwpy.plot import Plot
 
-from _file import (get_timeseries,get_specgram,get_csd_specgram,
+from miyopy.files import (get_timeseries,get_specgram,get_csd_specgram,
                    to_gwffname,to_pngfname,to_hdf5fname,
                    get_asd,get_csd,get_coherence)
 
-from _plot import (plot_asd,plot_coherence,plot_spectrogram)
+from miyopy.plot import (plot_asd,plot_coherence,plot_spectrogram)
 
 from miyopy.utils import trillium    
-from _calibration import vel2vel
+from miyopy.calibration import vel2vel
+
+c2V = 10.0/2**15
+V2vel = 1/1202.5
+deGain = 10**(-30/20.)
 
 
 if __name__ == '__main__':    
-    start = tconvert('Dec 6 12:00:00 JST')
-    fftlength = 2**9
-    ave = 256
+    fftlength = 2**7
     overlap = 0.5
-    end = start + fftlength*(ave*(1.0-overlap))
-    
+
     kwargs = {}
+    prefix = './data/Dec06_12h00_2e9/' # 18h
+    prefix = './data/Nov12_0h0m_10h0m/'# 9h
+    prefix = './'
+    kwargs['prefix'] = prefix
+
+    if prefix == './data/Nov12_0h0m_10h0m/':
+        chname1 = 'K1:PEM-IXV_SEIS_WE_SENSINF_IN1_DQ'
+        chname2 = 'K1:PEM-IXV_SEIS_TEST_WE_SENSINF_IN1_DQ'
+        chname3 = 'K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ'
+        start,end = tconvert('Nov 12 03:00:00 UTC'),tconvert('Nov 12 10:00:00 UTC')
+        calib = deGain*c2V*V2vel*1e6
+    elif prefix == './data/Dec06_12h00_2e9/':        
+        chname1 = 'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ'
+        chname2 = 'K1:PEM-IXV_GND_TR120QTEST_X_OUT_DQ'
+        chname3 = 'K1:PEM-EXV_GND_TR120Q_X_OUT_DQ'
+        start,end = tconvert('Dec 6 12:00:00 JST'),tconvert('2018-12-06 21:12:16')
+        calib = 1.0
+    elif prefix == './data/Dec06_12h00_19h00/':        
+        chname1 = 'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ'
+        chname2 = 'K1:PEM-IXV_GND_TR120QTEST_X_OUT_DQ'
+        chname3 = 'K1:PEM-EXV_GND_TR120Q_X_OUT_DQ'
+        start,end = tconvert('Dec 24 12:00:00 JST'),tconvert('2018-12-24 19:00:00 JST')
+        calib = 1.0
+    elif prefix == './':
+        chname1 = 'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ'
+        chname2 = 'K1:PEM-IXV_GND_TR120QTEST_X_OUT_DQ'
+        chname3 = 'K1:PEM-EXV_GND_TR120Q_X_OUT_DQ'
+        start,end = tconvert('Dec 24 12:00:00 JST'),tconvert('2018-12-24 13:00:00 JST')
+        calib = 1.0        
+    else:
+        raise ValueError('!')
+
     kwargs['start'] = start
     kwargs['end'] = end
     kwargs['nds'] = True
     kwargs['overlap'] = fftlength*overlap
     kwargs['remake'] = True
     kwargs['fftlength'] = fftlength
-    kwargs['nproc'] = 2    
+    kwargs['nproc'] = 2
+    kwargs['replot'] = True
 
-    # get data
-    chname1 = 'K1:PEM-IXV_GND_TR120Q_X_OUT_DQ'
-    chname2 = 'K1:PEM-IXV_GND_TR120QTEST_X_OUT_DQ'
-    chname3 = 'K1:PEM-EXV_GND_TR120Q_X_OUT_DQ'
-    # psd_specgram1 = get_specgram(chname1,**kwargs)
-    # psd_specgram2 = get_specgram(chname2,**kwargs)
-    # psd_specgram3 = get_specgram(chname3,**kwargs)
+    psd_specgram1 = get_specgram(chname1,**kwargs)*calib
+    #exit()
+    psd_specgram2 = get_specgram(chname2,**kwargs)*calib
+    psd_specgram3 = get_specgram(chname3,**kwargs)*calib
+    plot_spectrogram(psd_specgram1,**kwargs)
+    plot_spectrogram(psd_specgram2,**kwargs)
+    plot_spectrogram(psd_specgram3,**kwargs)
     # csd_specgram12 = get_specgram(chname1,chname2,**kwargs)
     # csd_specgram13 = get_specgram(chname1,chname3,**kwargs)
     # calc mean
@@ -58,11 +92,9 @@ if __name__ == '__main__':
     print('get data')    
     asd1 = get_asd(chname1,**kwargs)
     fseries = asd1
-    c2V = 10.0/2**15
-    V2vel = 1/1202.5
-    adc_noise = np.ones(len(fseries))*1e-2*c2V*V2vel*1e6*10**(-30.0/20.0)
+    adc_noise = np.ones(len(fseries))*1e-2*c2V*V2vel*1e6*deGain
     f0 = fseries.f0
-    df = fseries.df   
+    df = fseries.df
     adc = FrequencySeries(adc_noise,df=df,f0=f0+df)
     #print adc_noise
     #print asd1
