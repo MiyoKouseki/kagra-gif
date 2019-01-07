@@ -215,7 +215,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.638"
+    ComputedModelVersion    "1.644"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -226,12 +226,6 @@ Model {
     IsExportFunctionModel   0
     NumParameterArguments   0
     NumExternalFileReferences 78
-    ExternalFileReference {
-      Reference		      "mnNb_Lib/RTS/ADC"
-      Path		      "GREEN_CARM_DARM/ADC"
-      SID		      "2099"
-      Type		      "LIBRARY_BLOCK"
-    }
     ExternalFileReference {
       Reference		      "cstblocks/LTI System"
       Path		      "GREEN_CARM_DARM/AOM VCO Actuator V//sqrt(HZ)-->Hz//sqrt(Hz)"
@@ -269,15 +263,27 @@ Model {
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
+      Reference		      "mnNb_Lib/RTS/ADC"
+      Path		      "GREEN_CARM_DARM/CARM_LOOP/ADC"
+      SID		      "2099"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
       Reference		      "mnNb_Lib/Servo/Common Mode Servo"
-      Path		      "GREEN_CARM_DARM/CARM Servo"
+      Path		      "GREEN_CARM_DARM/CARM_LOOP/CARM Servo"
       SID		      "2092"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "cstblocks/LTI System"
-      Path		      "GREEN_CARM_DARM/CARM summing node/PDH Sum"
+      Path		      "GREEN_CARM_DARM/CARM_LOOP/CARM summing node/PDH Sum"
       SID		      "2091"
+      Type		      "LIBRARY_BLOCK"
+    }
+    ExternalFileReference {
+      Reference		      "cstblocks/LTI System"
+      Path		      "GREEN_CARM_DARM/CARM_LOOP/MCL"
+      SID		      "2003"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
@@ -446,12 +452,6 @@ Model {
       Reference		      "cstblocks/LTI System"
       Path		      "GREEN_CARM_DARM/MCE_SUS/MCE SUS"
       SID		      "2039"
-      Type		      "LIBRARY_BLOCK"
-    }
-    ExternalFileReference {
-      Reference		      "cstblocks/LTI System"
-      Path		      "GREEN_CARM_DARM/MCL"
-      SID		      "2003"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
@@ -723,7 +723,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [757.0, -1016.0, 1440.0, 873.0]
+      Location		      [717.0, -1057.0, 1920.0, 1057.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -732,7 +732,7 @@ Model {
 	DockPosition		"Left"
 	Width			[50]
 	Height			[50]
-	Filter			[9]
+	Filter			[8]
       }
       Object {
 	$PropName		"ExplorerBarInfo"
@@ -747,9 +747,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1402.0, 697.0]
-	ZoomFactor		[2.0]
-	Offset			[1417.4976190476191, -353.5]
+	Extents			[1882.0, 881.0]
+	ZoomFactor		[1.75]
+	Offset			[1078.1883391493209, 275.07091277931823]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -769,7 +769,7 @@ Model {
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
       "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAAByAP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAALgD///8AAAWgAAAC9AAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "QBjAHQAbwByAAAAAAD/////AAAALgD///8AAAeAAAADrAAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAACE/////wAAAAAAAAAA/////wEAAAD2/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAF6/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAPE/////wAAAAAAAAAA/"
@@ -783,9 +783,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "miyo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 07 19:55:31 2019"
-  RTWModifiedTimeStamp	  468792313
-  ModelVersionFormat	  "1.%<AutoIncrement:638>"
+  LastModifiedDate	  "Mon Jan 07 20:43:44 2019"
+  RTWModifiedTimeStamp	  468794921
+  ModelVersionFormat	  "1.%<AutoIncrement:644>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1813,7 +1813,7 @@ Model {
   }
   System {
     Name		    "GREEN_CARM_DARM"
-    Location		    [757, -1016, 2197, -143]
+    Location		    [717, -1057, 2637, 0]
     Open		    on
     PortBlocksUseCompactNotation off
     ModelBrowserVisibility  off
@@ -1826,9 +1826,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "200"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "2425"
+    SIDHighWatermark	    "2444"
     Block {
       BlockType		      Inport
       Name		      "In1"
@@ -1904,9 +1904,9 @@ Model {
     Block {
       BlockType		      Inport
       Name		      "In8"
-      SID		      "1980"
-      Position		      [1690, 1163, 1720, 1177]
-      ZOrder		      574
+      SID		      "2436"
+      Position		      [1605, 968, 1635, 982]
+      ZOrder		      2174
       BlockMirror	      on
       BackgroundColor	      "green"
       NamePlacement	      "alternate"
@@ -1916,9 +1916,9 @@ Model {
     Block {
       BlockType		      Inport
       Name		      "In9"
-      SID		      "2052"
-      Position		      [1190, 1048, 1220, 1062]
-      ZOrder		      1770
+      SID		      "2437"
+      Position		      [1605, 1018, 1635, 1032]
+      ZOrder		      2177
       BlockMirror	      on
       BackgroundColor	      "green"
       NamePlacement	      "alternate"
@@ -1928,9 +1928,9 @@ Model {
     Block {
       BlockType		      Inport
       Name		      "In10"
-      SID		      "2056"
-      Position		      [1200, 1273, 1230, 1287]
-      ZOrder		      1774
+      SID		      "2438"
+      Position		      [1605, 1068, 1635, 1082]
+      ZOrder		      2181
       BlockMirror	      on
       BackgroundColor	      "green"
       NamePlacement	      "alternate"
@@ -2156,27 +2156,6 @@ Model {
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "ADC"
-      SID		      "2099"
-      Ports		      [3, 1]
-      Position		      [1315, 1239, 1380, 1371]
-      ZOrder		      1881
-      BlockMirror	      on
-      BackgroundColor	      "[0.125490, 1.000000, 1.000000]"
-      NamePlacement	      "alternate"
-      LibraryVersion	      "1.78"
-      LinkData {
-	BlockName		"gain"
-	DialogParameters {
-	  Gain			  "2"
-	}
-      }
-      SourceBlock	      "mnNb_Lib/RTS/ADC"
-      SourceType	      "SubSystem"
-      ContentPreviewEnabled   off
     }
     Block {
       BlockType		      Demux
@@ -2598,38 +2577,30 @@ Model {
       IC		      "[]"
     }
     Block {
-      BlockType		      Reference
-      Name		      "CARM Servo"
-      SID		      "2092"
-      Ports		      [3, 6]
-      Position		      [1435, 1057, 1570, 1328]
-      ZOrder		      1874
-      BlockMirror	      on
-      ForegroundColor	      "red"
-      BackgroundColor	      "yellow"
-      DropShadow	      on
-      NamePlacement	      "alternate"
-      LibraryVersion	      "1.78"
-      SourceBlock	      "mnNb_Lib/Servo/Common Mode Servo"
-      SourceType	      ""
-      ContentPreviewEnabled   off
-      CMS_Elec		      "CMS_Elec_CARM"
-      CMS_SW		      "CMS_SW_CARM"
+      BlockType		      Gain
+      Name		      "CARM2"
+      SID		      "2308"
+      Position		      [825, 745, 865, 765]
+      ZOrder		      2046
+      BackgroundColor	      "gray"
+      Gain		      "1/2"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      SubSystem
-      Name		      "CARM summing node"
-      SID		      "2319"
-      Ports		      [2, 1]
-      Position		      [1815, 1165, 1855, 1225]
-      ZOrder		      -128
+      Name		      "CARM_LOOP"
+      SID		      "2429"
+      Ports		      [5, 5]
+      Position		      [1405, 947, 1545, 1203]
+      ZOrder		      2146
       BlockMirror	      on
-      NamePlacement	      "alternate"
       RequestExecContextInheritance off
       Variant		      off
       System {
-	Name			"CARM summing node"
-	Location		[757, -1016, 2197, -143]
+	Name			"CARM_LOOP"
+	Location		[717, -1057, 2637, 0]
 	Open			off
 	PortBlocksUseCompactNotation off
 	ModelBrowserVisibility	off
@@ -2642,161 +2613,665 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"80"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In8"
+	  SID			  "1980"
+	  Position		  [340, 293, 370, 307]
+	  ZOrder		  2171
+	  BackgroundColor	  "green"
+	  NamePlacement		  "alternate"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "In9"
+	  SID			  "2052"
+	  Position		  [795, 153, 825, 167]
+	  ZOrder		  2176
+	  BackgroundColor	  "green"
+	  NamePlacement		  "alternate"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "In10"
+	  SID			  "2056"
+	  Position		  [875, 398, 905, 412]
+	  ZOrder		  2180
+	  BackgroundColor	  "green"
+	  NamePlacement		  "alternate"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "X"
-	  SID			  "2320"
-	  Position		  [20, 18, 50, 32]
-	  ZOrder		  2051
+	  SID			  "2432"
+	  Position		  [15, 328, 45, 342]
+	  ZOrder		  2189
+	  Port			  "4"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "Y"
-	  SID			  "2321"
-	  Position		  [20, 618, 50, 632]
-	  ZOrder		  2052
-	  Port			  "2"
+	  SID			  "2433"
+	  Position		  [15, 358, 45, 372]
+	  ZOrder		  2190
+	  Port			  "5"
 	  IconDisplay		  "Port number"
 	}
 	Block {
-	  BlockType		  Gain
-	  Name			  "CARM1"
-	  SID			  "2309"
-	  Position		  [90, 1180, 110, 1220]
-	  ZOrder		  2047
-	  BlockRotation		  270
-	  BlockMirror		  on
-	  BackgroundColor	  "gray"
+	  BlockType		  Reference
+	  Name			  "ADC"
+	  SID			  "2099"
+	  Ports			  [3, 1]
+	  Position		  [725, 394, 790, 526]
+	  ZOrder		  2188
+	  BackgroundColor	  "[0.125490, 1.000000, 1.000000]"
 	  NamePlacement		  "alternate"
-	  Gain			  "Sensing(1,2)"
-	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "CARM3"
-	  SID			  "2310"
-	  Position		  [205, 1180, 225, 1220]
-	  ZOrder		  2048
-	  BlockRotation		  270
-	  BlockMirror		  on
-	  BackgroundColor	  "gray"
-	  NamePlacement		  "alternate"
-	  Gain			  "Sensing(1,1)"
-	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
-	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
-	  SaturateOnIntegerOverflow off
+	  LibraryVersion	  "1.78"
+	  LinkData {
+	    BlockName		    "gain"
+	    DialogParameters {
+	      Gain		      "2"
+	    }
+	  }
+	  SourceBlock		  "mnNb_Lib/RTS/ADC"
+	  SourceType		  "SubSystem"
+	  ContentPreviewEnabled	  off
 	}
 	Block {
 	  BlockType		  Reference
-	  Name			  "PDH Sum"
-	  SID			  "2091"
-	  Ports			  [1, 1]
-	  Position		  [77, 1310, 123, 1400]
-	  ZOrder		  1873
-	  BlockRotation		  270
-	  BlockMirror		  on
-	  BackgroundColor	  "cyan"
+	  Name			  "CARM Servo"
+	  SID			  "2092"
+	  Ports			  [3, 6]
+	  Position		  [500, 212, 635, 483]
+	  ZOrder		  2182
+	  ForegroundColor	  "red"
+	  BackgroundColor	  "yellow"
 	  DropShadow		  on
 	  NamePlacement		  "alternate"
+	  LibraryVersion	  "1.78"
+	  SourceBlock		  "mnNb_Lib/Servo/Common Mode Servo"
+	  SourceType		  ""
+	  ContentPreviewEnabled	  off
+	  CMS_Elec		  "CMS_Elec_CARM"
+	  CMS_SW		  "CMS_SW_CARM"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CARM summing node"
+	  SID			  "2319"
+	  Ports			  [2, 1]
+	  Position		  [190, 320, 230, 380]
+	  ZOrder		  2168
+	  NamePlacement		  "alternate"
+	  RequestExecContextInheritance	off
+	  Variant		  off
+	  System {
+	    Name		    "CARM summing node"
+	    Location		    [757, -1016, 2197, -143]
+	    Open		    off
+	    PortBlocksUseCompactNotation off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "80"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "X"
+	      SID		      "2320"
+	      Position		      [20, 18, 50, 32]
+	      ZOrder		      2051
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Y"
+	      SID		      "2321"
+	      Position		      [20, 618, 50, 632]
+	      ZOrder		      2052
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "CARM1"
+	      SID		      "2309"
+	      Position		      [90, 1180, 110, 1220]
+	      ZOrder		      2047
+	      BlockRotation	      270
+	      BlockMirror	      on
+	      BackgroundColor	      "gray"
+	      NamePlacement	      "alternate"
+	      Gain		      "Sensing(1,2)"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "CARM3"
+	      SID		      "2310"
+	      Position		      [205, 1180, 225, 1220]
+	      ZOrder		      2048
+	      BlockRotation	      270
+	      BlockMirror	      on
+	      BackgroundColor	      "gray"
+	      NamePlacement	      "alternate"
+	      Gain		      "Sensing(1,1)"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "PDH Sum"
+	      SID		      "2091"
+	      Ports		      [1, 1]
+	      Position		      [77, 1310, 123, 1400]
+	      ZOrder		      1873
+	      BlockRotation	      270
+	      BlockMirror	      on
+	      BackgroundColor	      "cyan"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      LibraryVersion	      "1.338"
+	      SourceBlock	      "cstblocks/LTI System"
+	      SourceType	      "LTI Block"
+	      SourceProductName	      "Control System Toolbox"
+	      SourceProductBaseCode   "CT"
+	      ContentPreviewEnabled   off
+	      sys		      "Filt_sum"
+	      IC		      "[]"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum47"
+	      SID		      "2318"
+	      Ports		      [2, 1]
+	      Position		      [90, 1265, 110, 1285]
+	      ZOrder		      2050
+	      BlockRotation	      270
+	      BlockMirror	      on
+	      BackgroundColor	      "red"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      InputSameDT	      off
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      SID		      "2322"
+	      Position		      [45, 1558, 75, 1572]
+	      ZOrder		      2053
+	      BlockMirror	      on
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      ZOrder		      1
+	      SrcBlock		      "CARM1"
+	      SrcPort		      1
+	      DstBlock		      "Sum47"
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      2
+	      SrcBlock		      "Y"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "CARM1"
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      3
+	      SrcBlock		      "X"
+	      SrcPort		      1
+	      Points		      [41, 0; 0, 72; 119, 0]
+	      DstBlock		      "CARM3"
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      4
+	      SrcBlock		      "Sum47"
+	      SrcPort		      1
+	      DstBlock		      "PDH Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      ZOrder		      5
+	      SrcBlock		      "CARM3"
+	      SrcPort		      1
+	      Points		      [0, 50]
+	      DstBlock		      "Sum47"
+	      DstPort		      2
+	    }
+	    Line {
+	      ZOrder		      6
+	      SrcBlock		      "PDH Sum"
+	      SrcPort		      1
+	      Points		      [0, 160]
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground2"
+	  SID			  "2093"
+	  Position		  [435, 250, 455, 270]
+	  ZOrder		  2183
+	  NamePlacement		  "alternate"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground3"
+	  SID			  "2094"
+	  Position		  [345, 430, 365, 450]
+	  ZOrder		  2184
+	  NamePlacement		  "alternate"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "MCL"
+	  SID			  "2003"
+	  Ports			  [1, 1]
+	  Position		  [1035, 440, 1115, 480]
+	  ZOrder		  2173
+	  BackgroundColor	  "cyan"
+	  DropShadow		  on
 	  LibraryVersion	  "1.338"
 	  SourceBlock		  "cstblocks/LTI System"
 	  SourceType		  "LTI Block"
 	  SourceProductName	  "Control System Toolbox"
 	  SourceProductBaseCode	  "CT"
 	  ContentPreviewEnabled	  off
-	  sys			  "Filt_sum"
+	  sys			  "Filt_MCL"
 	  IC			  "[]"
 	}
 	Block {
+	  BlockType		  Gain
+	  Name			  "SW4"
+	  SID			  "1981"
+	  Position		  [340, 335, 370, 365]
+	  ZOrder		  2169
+	  BackgroundColor	  "gray"
+	  Gain			  "SW(4)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "SW5"
+	  SID			  "2053"
+	  Position		  [795, 220, 825, 250]
+	  ZOrder		  2174
+	  BackgroundColor	  "gray"
+	  Gain			  "SW(5)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "SW6"
+	  SID			  "2057"
+	  Position		  [875, 445, 905, 475]
+	  ZOrder		  2178
+	  BackgroundColor	  "gray"
+	  Gain			  "SW(6)"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
 	  BlockType		  Sum
-	  Name			  "Sum47"
-	  SID			  "2318"
+	  Name			  "Sum19"
+	  SID			  "1982"
 	  Ports			  [2, 1]
-	  Position		  [90, 1265, 110, 1285]
-	  ZOrder		  2050
-	  BlockRotation		  270
-	  BlockMirror		  on
-	  BackgroundColor	  "red"
-	  NamePlacement		  "alternate"
+	  Position		  [380, 340, 400, 360]
+	  ZOrder		  2170
 	  ShowName		  off
+	  FontSize		  18
 	  IconShape		  "round"
-	  Inputs		  "|++"
+	  Inputs		  "++|"
 	  InputSameDT		  off
 	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
 	  SaturateOnIntegerOverflow off
 	}
 	Block {
+	  BlockType		  Sum
+	  Name			  "Sum24"
+	  SID			  "2054"
+	  Ports			  [2, 1]
+	  Position		  [875, 225, 895, 245]
+	  ZOrder		  2175
+	  ShowName		  off
+	  FontSize		  18
+	  IconShape		  "round"
+	  Inputs		  "++|"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum26"
+	  SID			  "2058"
+	  Ports			  [2, 1]
+	  Position		  [960, 450, 980, 470]
+	  ZOrder		  2179
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  FontSize		  18
+	  IconShape		  "round"
+	  Inputs		  "++|"
+	  InputSameDT		  off
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator3"
+	  SID			  "2095"
+	  Position		  [665, 315, 685, 335]
+	  ZOrder		  2185
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator4"
+	  SID			  "2096"
+	  Position		  [665, 360, 685, 380]
+	  ZOrder		  2186
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator5"
+	  SID			  "2097"
+	  Position		  [665, 270, 685, 290]
+	  ZOrder		  2187
+	}
+	Block {
 	  BlockType		  Outport
-	  Name			  "Out1"
-	  SID			  "2322"
-	  Position		  [45, 1558, 75, 1572]
-	  ZOrder		  2053
-	  BlockMirror		  on
+	  Name			  "Out8"
+	  SID			  "1983"
+	  Position		  [295, 403, 325, 417]
+	  ZOrder		  2172
+	  BackgroundColor	  "green"
+	  NamePlacement		  "alternate"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out9"
+	  SID			  "2055"
+	  Position		  [795, 293, 825, 307]
+	  ZOrder		  2177
+	  BackgroundColor	  "green"
+	  NamePlacement		  "alternate"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out10"
+	  SID			  "2059"
+	  Position		  [875, 528, 905, 542]
+	  ZOrder		  2181
+	  BackgroundColor	  "green"
+	  NamePlacement		  "alternate"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out_MCL"
+	  SID			  "2442"
+	  Position		  [1160, 453, 1190, 467]
+	  ZOrder		  2191
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out_IMC_In2"
+	  SID			  "2444"
+	  Position		  [1025, 228, 1055, 242]
+	  ZOrder		  2192
+	  Port			  "5"
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  1725
-	  SrcBlock		  "CARM1"
+	  ZOrder		  31
+	  SrcBlock		  "SW4"
 	  SrcPort		  1
-	  DstBlock		  "Sum47"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  1729
-	  SrcBlock		  "Y"
-	  SrcPort		  1
-	  Points		  [45, 0]
-	  DstBlock		  "CARM1"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  1728
-	  SrcBlock		  "X"
-	  SrcPort		  1
-	  Points		  [41, 0; 0, 72; 119, 0]
-	  DstBlock		  "CARM3"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  1727
-	  SrcBlock		  "Sum47"
-	  SrcPort		  1
-	  DstBlock		  "PDH Sum"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  1726
-	  SrcBlock		  "CARM3"
-	  SrcPort		  1
-	  Points		  [0, 50]
-	  DstBlock		  "Sum47"
+	  DstBlock		  "Sum19"
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  1730
-	  SrcBlock		  "PDH Sum"
+	  ZOrder		  34
+	  SrcBlock		  "CARM summing node"
 	  SrcPort		  1
-	  Points		  [0, 160]
-	  DstBlock		  "Out1"
+	  Points		  [39, 0]
+	  Branch {
+	    ZOrder		    65
+	    Points		    [0, 60]
+	    DstBlock		    "Out8"
+	    DstPort		    1
+	  }
+	  Branch {
+	    ZOrder		    63
+	    DstBlock		    "SW4"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  ZOrder		  35
+	  SrcBlock		  "CARM Servo"
+	  SrcPort		  4
+	  DstBlock		  "Terminator4"
 	  DstPort		  1
 	}
+	Line {
+	  ZOrder		  36
+	  SrcBlock		  "Sum19"
+	  SrcPort		  1
+	  DstBlock		  "CARM Servo"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  37
+	  SrcBlock		  "CARM Servo"
+	  SrcPort		  5
+	  DstBlock		  "ADC"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  40
+	  SrcBlock		  "ADC"
+	  SrcPort		  1
+	  Points		  [36, 0]
+	  Branch {
+	    ZOrder		    73
+	    DstBlock		    "SW6"
+	    DstPort		    1
+	  }
+	  Branch {
+	    ZOrder		    39
+	    Points		    [0, 75]
+	    DstBlock		    "Out10"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  ZOrder		  41
+	  SrcBlock		  "In9"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  DstBlock		  "Sum24"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  44
+	  SrcBlock		  "CARM Servo"
+	  SrcPort		  1
+	  Points		  [86, 0]
+	  Branch {
+	    ZOrder		    66
+	    Points		    [0, 65]
+	    DstBlock		    "Out9"
+	    DstPort		    1
+	  }
+	  Branch {
+	    ZOrder		    42
+	    DstBlock		    "SW5"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  ZOrder		  45
+	  SrcBlock		  "In8"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Sum19"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  46
+	  SrcBlock		  "CARM Servo"
+	  SrcPort		  6
+	  DstBlock		  "ADC"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  47
+	  SrcBlock		  "SW5"
+	  SrcPort		  1
+	  DstBlock		  "Sum24"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  48
+	  SrcBlock		  "Ground2"
+	  SrcPort		  1
+	  DstBlock		  "CARM Servo"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  49
+	  SrcBlock		  "CARM Servo"
+	  SrcPort		  3
+	  DstBlock		  "Terminator3"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  52
+	  SrcBlock		  "Ground3"
+	  SrcPort		  1
+	  Points		  [104, 0]
+	  Branch {
+	    ZOrder		    72
+	    Points		    [0, 65]
+	    DstBlock		    "ADC"
+	    DstPort		    3
+	  }
+	  Branch {
+	    ZOrder		    69
+	    DstBlock		    "CARM Servo"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  ZOrder		  53
+	  SrcBlock		  "In10"
+	  SrcPort		  1
+	  Points		  [60, 0]
+	  DstBlock		  "Sum26"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  54
+	  SrcBlock		  "SW6"
+	  SrcPort		  1
+	  DstBlock		  "Sum26"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  55
+	  SrcBlock		  "CARM Servo"
+	  SrcPort		  2
+	  DstBlock		  "Terminator5"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  56
+	  SrcBlock		  "Sum26"
+	  SrcPort		  1
+	  DstBlock		  "MCL"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  80
+	  SrcBlock		  "MCL"
+	  SrcPort		  1
+	  DstBlock		  "Out_MCL"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  78
+	  SrcBlock		  "X"
+	  SrcPort		  1
+	  DstBlock		  "CARM summing node"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  79
+	  SrcBlock		  "Y"
+	  SrcPort		  1
+	  DstBlock		  "CARM summing node"
+	  DstPort		  2
+	}
+	Line {
+	  ZOrder		  97
+	  SrcBlock		  "Sum24"
+	  SrcPort		  1
+	  DstBlock		  "Out_IMC_In2"
+	  DstPort		  1
+	}
+	Annotation {
+	  SID			  "2393"
+	  Name			  "CARM loop"
+	  Position		  [110, 188, 953, 573]
+	  InternalMargins	  [0, 0, 0, 0]
+	  FixedHeight		  on
+	  FixedWidth		  on
+	  HorizontalAlignment	  "left"
+	  VerticalAlignment	  "top"
+	  ForegroundColor	  "[0.952941, 0.952941, 0.952941]"
+	  BackgroundColor	  "[0.952941, 0.952941, 0.952941]"
+	  DropShadow		  on
+	  AnnotationType	  "area_annotation"
+	  ZOrder		  98
+	  FontSize		  12
+	}
       }
-    }
-    Block {
-      BlockType		      Gain
-      Name		      "CARM2"
-      SID		      "2308"
-      Position		      [825, 745, 865, 765]
-      ZOrder		      2046
-      BackgroundColor	      "gray"
-      Gain		      "1/2"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      Reference
@@ -3383,24 +3858,6 @@ Model {
     }
     Block {
       BlockType		      Ground
-      Name		      "Ground2"
-      SID		      "2093"
-      Position		      [1640, 1095, 1660, 1115]
-      ZOrder		      1875
-      BlockMirror	      on
-      NamePlacement	      "alternate"
-    }
-    Block {
-      BlockType		      Ground
-      Name		      "Ground3"
-      SID		      "2094"
-      Position		      [1665, 1275, 1685, 1295]
-      ZOrder		      1876
-      BlockMirror	      on
-      NamePlacement	      "alternate"
-    }
-    Block {
-      BlockType		      Ground
       Name		      "Ground4"
       SID		      "2357"
       Position		      [2325, -140, 2345, -120]
@@ -3413,7 +3870,7 @@ Model {
       SID		      "2422"
       Tag		      "NbNoiseSource"
       Ports		      [0, 1]
-      Position		      [1550, 377, 1575, 393]
+      Position		      [1555, 337, 1580, 353]
       ZOrder		      2141
       BlockMirror	      on
       BackgroundColor	      "orange"
@@ -3436,7 +3893,7 @@ Model {
       SID		      "2423"
       Tag		      "NbNoiseSource"
       Ports		      [0, 1]
-      Position		      [1545, -223, 1570, -207]
+      Position		      [1575, -263, 1600, -247]
       ZOrder		      2142
       BlockMirror	      on
       BackgroundColor	      "orange"
@@ -4210,25 +4667,6 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "MCL"
-      SID		      "2003"
-      Ports		      [1, 1]
-      Position		      [1055, 1285, 1135, 1325]
-      ZOrder		      793
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Filt_MCL"
-      IC		      "[]"
-    }
-    Block {
-      BlockType		      Reference
       Name		      "Mass actuator\nV/sqrt(HZ)-->Hz/sqrt(Hz)\n"
       SID		      "1881"
       Ports		      [1, 1]
@@ -4949,45 +5387,6 @@ Model {
     }
     Block {
       BlockType		      Gain
-      Name		      "SW4"
-      SID		      "1981"
-      Position		      [1710, 1180, 1740, 1210]
-      ZOrder		      572
-      BlockMirror	      on
-      BackgroundColor	      "gray"
-      Gain		      "SW(4)"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Gain
-      Name		      "SW5"
-      SID		      "2053"
-      Position		      [1210, 1065, 1240, 1095]
-      ZOrder		      1768
-      BlockMirror	      on
-      BackgroundColor	      "gray"
-      Gain		      "SW(5)"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Gain
-      Name		      "SW6"
-      SID		      "2057"
-      Position		      [1220, 1290, 1250, 1320]
-      ZOrder		      1772
-      BlockMirror	      on
-      BackgroundColor	      "gray"
-      Gain		      "SW(6)"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Gain
       Name		      "SW7"
       SID		      "2061"
       Position		      [930, 1035, 960, 1065]
@@ -5699,22 +6098,6 @@ Model {
     }
     Block {
       BlockType		      Sum
-      Name		      "Sum19"
-      SID		      "1982"
-      Ports		      [2, 1]
-      Position		      [1665, 1185, 1685, 1205]
-      ZOrder		      573
-      BlockMirror	      on
-      ShowName		      off
-      FontSize		      18
-      IconShape		      "round"
-      Inputs		      "++|"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Sum
       Name		      "Sum2"
       SID		      "1864"
       Ports		      [2, 1]
@@ -5781,22 +6164,6 @@ Model {
     }
     Block {
       BlockType		      Sum
-      Name		      "Sum24"
-      SID		      "2054"
-      Ports		      [2, 1]
-      Position		      [1165, 1070, 1185, 1090]
-      ZOrder		      1769
-      BlockMirror	      on
-      ShowName		      off
-      FontSize		      18
-      IconShape		      "round"
-      Inputs		      "++|"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Sum
       Name		      "Sum25"
       SID		      "2004"
       Ports		      [2, 1]
@@ -5808,22 +6175,6 @@ Model {
       ShowName		      off
       IconShape		      "round"
       Inputs		      "|++"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Sum
-      Name		      "Sum26"
-      SID		      "2058"
-      Ports		      [2, 1]
-      Position		      [1175, 1295, 1195, 1315]
-      ZOrder		      1773
-      BlockMirror	      on
-      ShowName		      off
-      FontSize		      18
-      IconShape		      "round"
-      Inputs		      "++|"
       InputSameDT	      off
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
@@ -6327,30 +6678,6 @@ Model {
     }
     Block {
       BlockType		      Terminator
-      Name		      "Terminator3"
-      SID		      "2095"
-      Position		      [1380, 1160, 1400, 1180]
-      ZOrder		      1877
-      BlockMirror	      on
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator4"
-      SID		      "2096"
-      Position		      [1380, 1205, 1400, 1225]
-      ZOrder		      1878
-      BlockMirror	      on
-    }
-    Block {
-      BlockType		      Terminator
-      Name		      "Terminator5"
-      SID		      "2097"
-      Position		      [1380, 1115, 1400, 1135]
-      ZOrder		      1879
-      BlockMirror	      on
-    }
-    Block {
-      BlockType		      Terminator
       Name		      "Terminator6"
       SID		      "2358"
       Position		      [2075, -140, 2095, -120]
@@ -6696,9 +7023,9 @@ Model {
     Block {
       BlockType		      Outport
       Name		      "Out8"
-      SID		      "1983"
-      Position		      [1730, 1163, 1760, 1177]
-      ZOrder		      575
+      SID		      "2439"
+      Position		      [1315, 968, 1345, 982]
+      ZOrder		      2182
       BlockMirror	      on
       BackgroundColor	      "green"
       NamePlacement	      "alternate"
@@ -6708,9 +7035,9 @@ Model {
     Block {
       BlockType		      Outport
       Name		      "Out9"
-      SID		      "2055"
-      Position		      [1230, 1048, 1260, 1062]
-      ZOrder		      1771
+      SID		      "2440"
+      Position		      [1315, 1018, 1345, 1032]
+      ZOrder		      2183
       BlockMirror	      on
       BackgroundColor	      "green"
       NamePlacement	      "alternate"
@@ -6720,9 +7047,9 @@ Model {
     Block {
       BlockType		      Outport
       Name		      "Out10"
-      SID		      "2059"
-      Position		      [1240, 1273, 1270, 1287]
-      ZOrder		      1775
+      SID		      "2441"
+      Position		      [1315, 1068, 1345, 1082]
+      ZOrder		      2184
       BlockMirror	      on
       BackgroundColor	      "green"
       NamePlacement	      "alternate"
@@ -7283,37 +7610,6 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      931
-      SrcBlock		      "SW4"
-      SrcPort		      1
-      DstBlock		      "Sum19"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      1335
-      SrcBlock		      "CARM Servo"
-      SrcPort		      1
-      Points		      [-148, 0]
-      Branch {
-	ZOrder			1242
-	Points			[0, -25]
-	DstBlock		"Out9"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			1241
-	DstBlock		"SW5"
-	DstPort			1
-      }
-    }
-    Line {
-      ZOrder		      933
-      SrcBlock		      "In8"
-      SrcPort		      1
-      DstBlock		      "Sum19"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      965
       SrcBlock		      "CARM Cavity Pole"
       SrcPort		      1
@@ -7355,14 +7651,6 @@ Model {
       SrcPort		      1
       Points		      [280, 0]
       DstBlock		      "Sum11"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      1362
-      SrcBlock		      "MCL"
-      SrcPort		      1
-      Points		      [-500, 0]
-      DstBlock		      "Sum23"
       DstPort		      2
     }
     Line {
@@ -7419,34 +7707,6 @@ Model {
       Points		      [-10, 0]
       DstBlock		      "Sum25"
       DstPort		      2
-    }
-    Line {
-      ZOrder		      1174
-      SrcBlock		      "SW5"
-      SrcPort		      1
-      DstBlock		      "Sum24"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      1176
-      SrcBlock		      "In9"
-      SrcPort		      1
-      DstBlock		      "Sum24"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1179
-      SrcBlock		      "SW6"
-      SrcPort		      1
-      DstBlock		      "Sum26"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      1181
-      SrcBlock		      "In10"
-      SrcPort		      1
-      DstBlock		      "Sum26"
-      DstPort		      1
     }
     Line {
       ZOrder		      1196
@@ -7571,109 +7831,12 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1349
-      SrcBlock		      "Sum24"
-      SrcPort		      1
-      DstBlock		      "IMC servo"
-      DstPort		      2
-    }
-    Line {
       ZOrder		      2590
       SrcBlock		      "ETMX_Seism_TM"
       SrcPort		      1
       Points		      [-100, 0]
       DstBlock		      "Sum13"
       DstPort		      2
-    }
-    Line {
-      ZOrder		      1352
-      SrcBlock		      "Ground2"
-      SrcPort		      1
-      DstBlock		      "CARM Servo"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1351
-      SrcBlock		      "Sum19"
-      SrcPort		      1
-      DstBlock		      "CARM Servo"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      1334
-      SrcBlock		      "Ground3"
-      SrcPort		      1
-      Points		      [-65, 0]
-      Branch {
-	ZOrder			1895
-	DstBlock		"CARM Servo"
-	DstPort			3
-      }
-      Branch {
-	ZOrder			1361
-	Points			[0, 65]
-	DstBlock		"ADC"
-	DstPort			3
-      }
-    }
-    Line {
-      ZOrder		      1358
-      SrcBlock		      "ADC"
-      SrcPort		      1
-      Points		      [-21, 0]
-      Branch {
-	ZOrder			1897
-	Points			[0, -25]
-	DstBlock		"Out10"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			1359
-	DstBlock		"SW6"
-	DstPort			1
-      }
-    }
-    Line {
-      ZOrder		      1339
-      SrcBlock		      "CARM Servo"
-      SrcPort		      3
-      DstBlock		      "Terminator3"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1355
-      SrcBlock		      "CARM Servo"
-      SrcPort		      2
-      DstBlock		      "Terminator5"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1341
-      SrcBlock		      "CARM Servo"
-      SrcPort		      4
-      DstBlock		      "Terminator4"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1356
-      SrcBlock		      "CARM Servo"
-      SrcPort		      6
-      DstBlock		      "ADC"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      1357
-      SrcBlock		      "CARM Servo"
-      SrcPort		      5
-      DstBlock		      "ADC"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1363
-      SrcBlock		      "Sum26"
-      SrcPort		      1
-      DstBlock		      "MCL"
-      DstPort		      1
     }
     Line {
       ZOrder		      1364
@@ -8160,23 +8323,6 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1730
-      SrcBlock		      "CARM summing node"
-      SrcPort		      1
-      Points		      [-39, 0]
-      Branch {
-	ZOrder			1894
-	Points			[0, -25]
-	DstBlock		"Out8"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			1893
-	DstBlock		"SW4"
-	DstPort			1
-      }
-    }
-    Line {
       ZOrder		      1736
       SrcBlock		      "Actuator"
       SrcPort		      1
@@ -8292,10 +8438,10 @@ Model {
       ZOrder		      651
       SrcBlock		      "AOM VCO Filter\n"
       SrcPort		      1
-      Points		      [-26, 0]
+      Points		      [-9, 0]
       Branch {
-	ZOrder			1871
-	Points			[-45, 0]
+	ZOrder			3146
+	Points			[0, 42; -62, 0; 0, -42]
 	Branch {
 	  ZOrder		  1838
 	  Points		  [0, -25]
@@ -8309,52 +8455,9 @@ Model {
 	}
       }
       Branch {
-	ZOrder			1870
-	Points			[0, 113; 300, 0; 0, 557]
-	DstBlock		"CARM summing node"
-	DstPort			1
-      }
-      Branch {
 	ZOrder			1859
-	Points			[0, -85]
+	Points			[0, -55; -27, 0; 0, -30]
 	DstBlock		"Goto5"
-	DstPort			1
-      }
-    }
-    Line {
-      ZOrder		      1666
-      SrcBlock		      "AOM VCO Filter\n1"
-      SrcPort		      1
-      Points		      [-22, 0]
-      Branch {
-	ZOrder			1889
-	Points			[-1, 0]
-	Branch {
-	  ZOrder		  1888
-	  Points		  [-47, 0]
-	  Branch {
-	    ZOrder		    1839
-	    Points		    [0, -25]
-	    DstBlock		    "Goto12"
-	    DstPort		    1
-	  }
-	  Branch {
-	    ZOrder		    1686
-	    DstBlock		    "SW10"
-	    DstPort		    1
-	  }
-	}
-	Branch {
-	  ZOrder		  1881
-	  Points		  [0, 100; 308, 0; 0, 1200]
-	  DstBlock		  "CARM summing node"
-	  DstPort		  2
-	}
-      }
-      Branch {
-	ZOrder			1855
-	Points			[0, -85]
-	DstBlock		"Goto6"
 	DstPort			1
       }
     }
@@ -8732,7 +8835,6 @@ Model {
       ZOrder		      2610
       SrcBlock		      "Horizontal seismic arm length\nm/sqrt(Hz)1"
       SrcPort		      1
-      Points		      [-5, 0]
       DstBlock		      "m/sqrt(Hz)-->Hz/sqrt(Hz)3"
       DstPort		      1
     }
@@ -8755,9 +8857,99 @@ Model {
       ZOrder		      3118
       SrcBlock		      "Horizontal seismic arm length\nm/sqrt(Hz)"
       SrcPort		      1
-      Points		      [-15, 0]
       DstBlock		      "m/sqrt(Hz)-->Hz/sqrt(Hz)"
       DstPort		      1
+    }
+    Line {
+      ZOrder		      3135
+      SrcBlock		      "CARM_LOOP"
+      SrcPort		      4
+      Points		      [-166, 0; 0, 45; -684, 0]
+      DstBlock		      "Sum23"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      3136
+      SrcBlock		      "CARM_LOOP"
+      SrcPort		      3
+      DstBlock		      "Out10"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      3137
+      SrcBlock		      "CARM_LOOP"
+      SrcPort		      1
+      DstBlock		      "Out8"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      3138
+      SrcBlock		      "CARM_LOOP"
+      SrcPort		      2
+      DstBlock		      "Out9"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      3139
+      SrcBlock		      "In8"
+      SrcPort		      1
+      DstBlock		      "CARM_LOOP"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      3140
+      SrcBlock		      "In9"
+      SrcPort		      1
+      DstBlock		      "CARM_LOOP"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      3141
+      SrcBlock		      "In10"
+      SrcPort		      1
+      DstBlock		      "CARM_LOOP"
+      DstPort		      3
+    }
+    Line {
+      ZOrder		      1666
+      SrcBlock		      "AOM VCO Filter\n1"
+      SrcPort		      1
+      Points		      [-22, 0]
+      Branch {
+	ZOrder			3144
+	Points			[0, 128; 303, 0; 0, 1137]
+	DstBlock		"CARM_LOOP"
+	DstPort			5
+      }
+      Branch {
+	ZOrder			1889
+	Points			[-48, 0]
+	Branch {
+	  ZOrder		  1839
+	  Points		  [0, -25]
+	  DstBlock		  "Goto12"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  1686
+	  DstBlock		  "SW10"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	ZOrder			1855
+	Points			[0, -85]
+	DstBlock		"Goto6"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      3145
+      SrcBlock		      "CARM_LOOP"
+      SrcPort		      5
+      Points		      [-337, 0; 0, -95]
+      DstBlock		      "IMC servo"
+      DstPort		      2
     }
     Annotation {
       SID		      "2048"
@@ -8772,7 +8964,7 @@ Model {
       BackgroundColor	      "[0.968627, 0.925490, 0.976471]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3316
+      ZOrder		      3584
       FontSize		      12
     }
     Annotation {
@@ -8788,11 +8980,8 @@ Model {
       BackgroundColor	      "[0.956863, 0.980392, 0.921569]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3315
-      FontName		      "Helvetica"
+      ZOrder		      3583
       FontSize		      12
-      FontWeight	      "normal"
-      FontAngle		      "normal"
     }
     Annotation {
       SID		      "2050"
@@ -8807,7 +8996,7 @@ Model {
       BackgroundColor	      "[0.901961, 0.901961, 1.000000]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3318
+      ZOrder		      3586
       FontSize		      12
     }
     Annotation {
@@ -8823,7 +9012,7 @@ Model {
       BackgroundColor	      "[0.992157, 0.937255, 0.913725]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3317
+      ZOrder		      3585
       FontSize		      12
     }
     Annotation {
@@ -8839,7 +9028,7 @@ Model {
       BackgroundColor	      "[0.968627, 0.925490, 0.976471]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3313
+      ZOrder		      3581
       FontSize		      12
     }
     Annotation {
@@ -8855,7 +9044,7 @@ Model {
       BackgroundColor	      "[0.956863, 0.980392, 0.921569]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3312
+      ZOrder		      3580
       FontSize		      12
     }
     Annotation {
@@ -8935,22 +9124,6 @@ Model {
       FontWeight	      "bold"
     }
     Annotation {
-      SID		      "2393"
-      Name		      "CARM loop"
-      Position		      [1045, 1003, 1888, 1388]
-      InternalMargins	      [0, 0, 0, 0]
-      FixedHeight	      on
-      FixedWidth	      on
-      HorizontalAlignment     "left"
-      VerticalAlignment	      "top"
-      ForegroundColor	      "[0.952941, 0.952941, 0.952941]"
-      BackgroundColor	      "[0.952941, 0.952941, 0.952941]"
-      DropShadow	      on
-      AnnotationType	      "area_annotation"
-      ZOrder		      3319
-      FontSize		      12
-    }
-    Annotation {
       SID		      "2394"
       Name		      "DARM loop"
       Position		      [1900, -172, 2558, -57]
@@ -8963,7 +9136,7 @@ Model {
       BackgroundColor	      "[0.952941, 0.952941, 0.952941]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3314
+      ZOrder		      3582
       FontSize		      12
     }
   }
