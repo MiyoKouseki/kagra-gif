@@ -280,7 +280,7 @@ SW(7) = 1;
 
 %% Plot expected TFs
 
-if plot_TFs
+%if plot_TFs
 
 %%%% to create a bode plot with the freqeuncy axis in Hz %%%%
 set(cstprefs.tbxprefs,'FrequencyUnits','Hz')
@@ -313,517 +313,517 @@ fprintf(fileID,'%6.10f %.16e %12.30f \r\n',data');
 fclose(fileID);
 clear data
 
-figure(100)
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-aaaa=tfs(1,2);
-bode(aaaa)
-grid on
-legend('TM disp. contribution')
-
-SW(1) = 0; 
-SW(7) = 0;
-
-figure(101)
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-aaaa=tfs(2,3);
-bode((1/aaaa)-1)
-grid on
-legend('PLL gain')
-
-figure(102)
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-aaaa=tfs(3,4);
-bode(aaaa)
-grid on
-legend('PLL follow')
-
-SW(1) = 1; 
-SW(7) = 1;
-
-figure(103)
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-aaaa=tfs(1,4);
-bode(aaaa)
-grid on
-legend('contribution from PSL')
-
-%figure(104)
-
-
-%figure(105)
-
-
-% DOF Switches
-loopNames = {'total','SUSP','AOM','IR total','Add','MCL','IMC_AOM'};
-SW = ones(1,length(loopNames));    % turn on the loops
-swtot = 1;  % switches for the total loop
-swact = 3:4;  % switches for each actuator loop
-
-OLTF=[];
-% OLTF for total loop
-SW(swtot) = zeros(1,length(swtot));
-SW(swact) = ones(1,length(swact));
-[A,B,C,D]=linmod('GREEN_CARM_DARM');
-systm=ss(A,B,C,D);
-OLTF=[OLTF,-1*systm(swtot+4,swtot+4,:)];
-% OLTF for each actuator loop
-
-%SW = zeros(1,length(loopNames));
-SW(swtot) = ones(1,length(swtot));
-SW(swact) = zeros(1,length(swact));
-[A,B,C,D]=linmod('GREEN_CARM_DARM');
-for kk=swact
-systm=ss(A,B,C,D);
-    OLTF=[OLTF,-1*systm(kk+4,kk+4,:)];
-end
-
-% Common green lock loop
-
-set(0, 'DefaultAxesFontSize',10);
-figure(110)
-plotbode(freq,OLTF);
-subplot(2,1,1)
-ylim([1e-1,1e5]);
-%xlim([freq(1),freq(end)]);
-xlim([0.1,1e6]);
-legend(loopNames{swtot},loopNames{swact});
-set(gca,'YTick',logspace(-1,5,7));
-set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
-subplot(2,1,2)
-%xlim([freq(1),freq(end)]);
-xlim([0.1,1e6]);
-set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
-legend(loopNames{swtot},loopNames{swact});
-saveas(gcf,'./results/green_OLTF.png')
-
-SW = ones(1,length(loopNames));
-SW(swact) = ones(1,length(swact));
-
-
-%%%%% IR path, additive offset and MCL path
-swtot = 4;  
-swact = 5:6; 
-%Filt_GR1 = myzpk('zpk',[],[4;100e3],1e-6);
-
-OLTF=[];
-% OLTF for total loop
-SW(swtot) = zeros(1,length(swtot));
-SW(swact) = ones(1,length(swact));
-[A,B,C,D]=linmod('GREEN_CARM_DARM');
-systm=ss(A,B,C,D);
-OLTF=[OLTF,-1*systm(swtot+4,swtot+4,:)];
-% OLTF for each actuator loop
-
-%SW = zeros(1,length(loopNames));
-SW(swtot) = ones(1,length(swtot));
-SW(swact) = zeros(1,length(swact));
-[A,B,C,D]=linmod('GREEN_CARM_DARM');
-for kk=swact
-systm=ss(A,B,C,D);
-    OLTF=[OLTF,-1*systm(kk+4,kk+4,:)];
-end
-
-set(0, 'DefaultAxesFontSize',10);
-figure(111)
-plotbode(freq,OLTF);
-subplot(2,1,1)
-ylim([1e-1,1e9]);
-%xlim([freq(1),freq(end)]);
-xlim([0.1,1e5]);
-legend(loopNames{swtot},loopNames{swact});
-set(gca,'YTick',logspace(-1,11,13));
-set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
-subplot(2,1,2)
-%xlim([freq(1),freq(end)]);
-xlim([0.1,1e5]);
-set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
-legend(loopNames{swtot},loopNames{swact});
-saveas(gcf,'./results/ALS_CARM_TF.png')
-
-SW = ones(1,length(loopNames));
-SW(swact) = ones(1,length(swact));
-
-
-% Differential green lock loop
-figure(113)
-SW(1) = 0;
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-D_green_tot = tfs(14,15);
-SW(1) = 1;
-
-SW(2) = 0;
-SW(3) = 0;
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-D_green_AOM = tfs(15,16);
-D_green_susp = tfs(6,6);
-SW(2) = 1;
-SW(3) = 1;
-opts = bodeoptions('cstprefs');
-opts.YLimMode = 'Manual';
-ylims{1} = [-20 60];
-ylims{2} = [-180 180];
-opts.YLim = ylims;
-hold on
-bodeplot(-1*D_green_tot,opts)
-bodeplot(-1*D_green_AOM,opts)
-bodeplot(-1*D_green_susp,opts)
-grid on
-legend('DARM_total','AOM','susp')
-xlim([0.1 1e6]);
-
-% DARM loop TFs
-figure(114)
-%Filt_darm = myzpk('zpk',[10],[100],1)*myzpk('zpk',[.3],[3],.10);
-%Filt_GR1 = myzpk('zpk',[],[4;100e3],.1);
-SW(2) = 0;
-%SW(3) = 0;
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-%D_AOM=tfs(15,16);
-D_susp=tfs(6,6);
-opts = bodeoptions('cstprefs');
-%ylims = getoptions(bodeplot(-1*D_AOM),'YLim');
-opts.YLimMode = 'Manual';
-ylims{1} = [-20 100];
-ylims{2} = [-180 180];
-opts.YLim = ylims;
-hold on
-%bodeplot(-1*D_AOM,opts)
-bodeplot(-1*D_susp,opts)
-%bodeplot(1/(1-1*D_susp),opts)
-%bodeplot(-1*(D_AOM+D_susp),opts)
-grid on
-legend('DARM')
-xlim([0.1 1e5]);
-saveas(gcf,'./results/ALS_DARM_TF.png')
-%Filt_darm = myzpk('zpk',[10],[100],1);
-%Filt_GR1 = myzpk('zpk',[],[4;100e3],0);
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-D_susp_boost=tfs(6,6);
-SW(2) = 1;
-%SW(3) = 1;
-
-% % Hand-over from AOM to DARM
-% figure(115)
+% figure(100)
+% [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% tfs = ss(A,B,C,D);
+% aaaa=tfs(1,2);
+% bode(aaaa)
+% grid on
+% legend('TM disp. contribution')
+% 
+% SW(1) = 0; 
+% SW(7) = 0;
+% 
+% figure(101)
+% [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% tfs = ss(A,B,C,D);
+% aaaa=tfs(2,3);
+% bode((1/aaaa)-1)
+% grid on
+% legend('PLL gain')
+% 
+% figure(102)
+% [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% tfs = ss(A,B,C,D);
+% aaaa=tfs(3,4);
+% bode(aaaa)
+% grid on
+% legend('PLL follow')
+% 
+% SW(1) = 1; 
+% SW(7) = 1;
+% 
+% figure(103)
+% [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% tfs = ss(A,B,C,D);
+% aaaa=tfs(1,4);
+% bode(aaaa)
+% grid on
+% legend('contribution from PSL')
+% 
+% %figure(104)
+% 
+% 
+% %figure(105)
+% 
+% 
+% % DOF Switches
+% loopNames = {'total','SUSP','AOM','IR total','Add','MCL','IMC_AOM'};
+% SW = ones(1,length(loopNames));    % turn on the loops
+% swtot = 1;  % switches for the total loop
+% swact = 3:4;  % switches for each actuator loop
+% 
+% OLTF=[];
+% % OLTF for total loop
+% SW(swtot) = zeros(1,length(swtot));
+% SW(swact) = ones(1,length(swact));
+% [A,B,C,D]=linmod('GREEN_CARM_DARM');
+% systm=ss(A,B,C,D);
+% OLTF=[OLTF,-1*systm(swtot+4,swtot+4,:)];
+% % OLTF for each actuator loop
+% 
+% %SW = zeros(1,length(loopNames));
+% SW(swtot) = ones(1,length(swtot));
+% SW(swact) = zeros(1,length(swact));
+% [A,B,C,D]=linmod('GREEN_CARM_DARM');
+% for kk=swact
+% systm=ss(A,B,C,D);
+%     OLTF=[OLTF,-1*systm(kk+4,kk+4,:)];
+% end
+% 
+% % Common green lock loop
+% 
+% set(0, 'DefaultAxesFontSize',10);
+% figure(110)
+% plotbode(freq,OLTF);
+% subplot(2,1,1)
+% ylim([1e-1,1e5]);
+% %xlim([freq(1),freq(end)]);
+% xlim([0.1,1e6]);
+% legend(loopNames{swtot},loopNames{swact});
+% set(gca,'YTick',logspace(-1,5,7));
+% set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
+% subplot(2,1,2)
+% %xlim([freq(1),freq(end)]);
+% xlim([0.1,1e6]);
+% set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
+% legend(loopNames{swtot},loopNames{swact});
+% saveas(gcf,'./results/green_OLTF.png')
+% 
+% SW = ones(1,length(loopNames));
+% SW(swact) = ones(1,length(swact));
+% 
+% 
+% %%%%% IR path, additive offset and MCL path
+% swtot = 4;  
+% swact = 5:6; 
+% %Filt_GR1 = myzpk('zpk',[],[4;100e3],1e-6);
+% 
+% OLTF=[];
+% % OLTF for total loop
+% SW(swtot) = zeros(1,length(swtot));
+% SW(swact) = ones(1,length(swact));
+% [A,B,C,D]=linmod('GREEN_CARM_DARM');
+% systm=ss(A,B,C,D);
+% OLTF=[OLTF,-1*systm(swtot+4,swtot+4,:)];
+% % OLTF for each actuator loop
+% 
+% %SW = zeros(1,length(loopNames));
+% SW(swtot) = ones(1,length(swtot));
+% SW(swact) = zeros(1,length(swact));
+% [A,B,C,D]=linmod('GREEN_CARM_DARM');
+% for kk=swact
+% systm=ss(A,B,C,D);
+%     OLTF=[OLTF,-1*systm(kk+4,kk+4,:)];
+% end
+% 
+% set(0, 'DefaultAxesFontSize',10);
+% figure(111)
+% plotbode(freq,OLTF);
+% subplot(2,1,1)
+% ylim([1e-1,1e9]);
+% %xlim([freq(1),freq(end)]);
+% xlim([0.1,1e5]);
+% legend(loopNames{swtot},loopNames{swact});
+% set(gca,'YTick',logspace(-1,11,13));
+% set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
+% subplot(2,1,2)
+% %xlim([freq(1),freq(end)]);
+% xlim([0.1,1e5]);
+% set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
+% legend(loopNames{swtot},loopNames{swact});
+% saveas(gcf,'./results/ALS_CARM_TF.png')
+% 
+% SW = ones(1,length(loopNames));
+% SW(swact) = ones(1,length(swact));
+% 
+% 
+% % Differential green lock loop
+% figure(113)
+% SW(1) = 0;
+% [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% tfs = ss(A,B,C,D);
+% D_green_tot = tfs(14,15);
+% SW(1) = 1;
+% 
+% SW(2) = 0;
+% SW(3) = 0;
+% [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% tfs = ss(A,B,C,D);
+% D_green_AOM = tfs(15,16);
+% D_green_susp = tfs(6,6);
+% SW(2) = 1;
+% SW(3) = 1;
 % opts = bodeoptions('cstprefs');
-% %ylims = getoptions(bodeplot(-1*D_AOM),'YLim');
 % opts.YLimMode = 'Manual';
 % ylims{1} = [-20 60];
 % ylims{2} = [-180 180];
 % opts.YLim = ylims;
 % hold on
-% for ii = [-3:1:0]
-%     bodeplot(-1*(D_AOM + D_susp*10^ii),opts)
-% end
-% for ii = -1*[0.5:0.5:1.5]
-%     bodeplot(-1*(D_AOM*10^ii + D_susp),opts)
-% end
-% bodeplot(-1*D_susp_boost,opts)
-% legend('1','2','3','4','5','6','7','8')
+% bodeplot(-1*D_green_tot,opts)
+% bodeplot(-1*D_green_AOM,opts)
+% bodeplot(-1*D_green_susp,opts)
 % grid on
-% xlim([0.1 1e4]);
-% saveas(gcf,'./results/DARM_AOM2Susp_handover.png')
-
-
-% SW(1) = 0; 
-% figure(106)
+% legend('DARM_total','AOM','susp')
+% xlim([0.1 1e6]);
+% 
+% % DARM loop TFs
+% figure(114)
+% %Filt_darm = myzpk('zpk',[10],[100],1)*myzpk('zpk',[.3],[3],.10);
+% %Filt_GR1 = myzpk('zpk',[],[4;100e3],.1);
+% SW(2) = 0;
+% %SW(3) = 0;
 % [A,B,C,D] = linmod('GREEN_CARM_DARM');
 % tfs = ss(A,B,C,D);
-% aaaa=tfs(5,5);
-% bode(aaaa)
-% grid on
-% legend('Green OLG')
-% SW(1) = 1; 
-
-SW(4) = 0; 
-SW(7) = 0; 
-figure(107)
-[A,B,C,D] = linmod('GREEN_CARM_DARM');
-tfs = ss(A,B,C,D);
-aaaa=tfs(7,4);
-bode(aaaa*Act_AOM/2)
-grid on
-legend('Green as a IR freq sensor')
-SW(4) = 1; 
-SW(7) = 1;
-
-%figure(108)
-%[A,B,C,D] = linmod('GREEN_CARM_DARM');
-%tfs = ss(A,B,C,D);
-%aaaa=tfs(8,4);
-%bode(Filt_GR*Filt_IMC*Filt_MCL*Act('MCEsus')*Filt_GR)
-%grid on
-%legend('MCL path')
-
-% SW(5) = 0; 
-% SW(6) = 0;
-% %CMS_SW_IMC('IN2EN') = 1;
-% figure(108)
-% [A,B,C,D] = linmod('GREEN_CARM_DARM');
-% tfs = ss(A,B,C,D);
-% aaaa=tfs(3,9);
-% bode(aaaa)
+% %D_AOM=tfs(15,16);
+% D_susp=tfs(6,6);
+% opts = bodeoptions('cstprefs');
+% %ylims = getoptions(bodeplot(-1*D_AOM),'YLim');
+% opts.YLimMode = 'Manual';
+% ylims{1} = [-20 100];
+% ylims{2} = [-180 180];
+% opts.YLim = ylims;
 % hold on
+% %bodeplot(-1*D_AOM,opts)
+% bodeplot(-1*D_susp,opts)
+% %bodeplot(1/(1-1*D_susp),opts)
+% %bodeplot(-1*(D_AOM+D_susp),opts)
+% grid on
+% legend('DARM')
+% xlim([0.1 1e5]);
+% saveas(gcf,'./results/ALS_DARM_TF.png')
+% %Filt_darm = myzpk('zpk',[10],[100],1);
+% %Filt_GR1 = myzpk('zpk',[],[4;100e3],0);
 % [A,B,C,D] = linmod('GREEN_CARM_DARM');
 % tfs = ss(A,B,C,D);
-% aaaa1=tfs(3,10);
-% bode(aaaa1)
-% hold on
-% bode(aaaa+aaaa1)
-% grid on
-% legend('Additive offset','MCL path','sum')
-% SW(5) = 1; 
-% SW(6) = 1; 
-%CMS_SW_IMC('IN2EN') = 0;
-
-% SW(5) = 0;
-% SW(6) = 0; 
-% SW(7) = 0;
-% figure(99)
+% D_susp_boost=tfs(6,6);
+% SW(2) = 1;
+% %SW(3) = 1;
+% 
+% % % Hand-over from AOM to DARM
+% % figure(115)
+% % opts = bodeoptions('cstprefs');
+% % %ylims = getoptions(bodeplot(-1*D_AOM),'YLim');
+% % opts.YLimMode = 'Manual';
+% % ylims{1} = [-20 60];
+% % ylims{2} = [-180 180];
+% % opts.YLim = ylims;
+% % hold on
+% % for ii = [-3:1:0]
+% %     bodeplot(-1*(D_AOM + D_susp*10^ii),opts)
+% % end
+% % for ii = -1*[0.5:0.5:1.5]
+% %     bodeplot(-1*(D_AOM*10^ii + D_susp),opts)
+% % end
+% % bodeplot(-1*D_susp_boost,opts)
+% % legend('1','2','3','4','5','6','7','8')
+% % grid on
+% % xlim([0.1 1e4]);
+% % saveas(gcf,'./results/DARM_AOM2Susp_handover.png')
+% 
+% 
+% % SW(1) = 0; 
+% % figure(106)
+% % [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% % tfs = ss(A,B,C,D);
+% % aaaa=tfs(5,5);
+% % bode(aaaa)
+% % grid on
+% % legend('Green OLG')
+% % SW(1) = 1; 
+% 
+% SW(4) = 0; 
+% SW(7) = 0; 
+% figure(107)
 % [A,B,C,D] = linmod('GREEN_CARM_DARM');
 % tfs = ss(A,B,C,D);
-% aaaa=tfs(11,11);
-% bode(aaaa)
+% aaaa=tfs(7,4);
+% bode(aaaa*Act_AOM/2)
 % grid on
-% legend('IMC AOM path')
-% SW(5) = 1;
-% SW(6) = 1; 
+% legend('Green as a IR freq sensor')
+% SW(4) = 1; 
 % SW(7) = 1;
-end
-SW = ones(1,length(loopNames));
-
-
-%% Define some parameters and get live parts parameters
-%freq = logspace(-3,6,100000);
-liveModel = 'GREEN_CARM_DARM';
-dof = 'CARM';    % name of DOF to plot NB
- startTime = 1078250000;   % start GPS time
- durationTime = 512;
- IFO = 'K1';
- site = 'kamioka';
-
-%duration = 64;  % data get time duration
-freqsamp = 16384;   % sampling frequency
-freqmin = 0.1;  % minimum frequency (= frequency reslution)
-Ndata = ceil(freqsamp/freqmin);
-ndata = 2^nextpow2(Ndata);
-duration2 = 64;  % data get time duration
-freqsamp2 = 2048;   % sampling frequency
-freqmin2 = 0.1;  % minimum frequency (= frequency reslution)
-Ndata2 = ceil(freqsamp2/freqmin2);
-ndata2 = 2^nextpow2(Ndata2);
- 
-% Try setting different NDS server if you couldn't get data
-% setenv('LIGONDSIP','h1nds1:8088');
-% mdv_config;
-
-% load cached outputs
-loadFunctionCache()
-
-% get live parts parameters
-%liveParts(liveModel, startTime, durationTime, freq)
-
-
-Noise('SHG') = 1e-5.*freq;  % SHG frequency noise in [Hz/rtHz]
-%Noise('Fiber') = 1.;  % Green fiber frequency noise in [Hz/rtHz]
-Noise('Fiber') = sqrt((2e-3)^2 + (3e-2./freq.^2).^2) * sqrt(50/5);  % Green fiber frequency noise in [Hz/rtHz] klog 5417
-Noise('Shot noise green') = 8e-6; % Shot noise in [Hz/rtHz]
-
-noise = load('./Noises/KamiokaSeismicHighNoise.txt'); % file from Suspension modeling svn
-temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
-    for ii = 1:length(freq)
-        if isnan(temp_noise(ii))
-            temp_noise(ii) = 1.5e-9.*freq(ii).^-2;
-        end
-    end
-Noise('Seismic test mass') = temp_noise;% Seismic noise of test masses in [m/rtHz]
-
-noise = load('./Noises/KamiokaSeismicNoise_ArmLength.txt'); % Arm length displacement data given by Miyo-kun
-temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
-    for ii = 1:length(freq)
-        if isnan(temp_noise(ii))
-            temp_noise(ii) = 1.5e-9.*freq(ii).^-2*sqrt(2);
-        end
-    end
-Noise('Seismic arm length') = temp_noise; % Arm length displacement of test masses in [m/rtHz]
-
-
-
-%Noise('VCO noise') = 0.00005./freq; % VCO noise of AOM path of green lock in [Hz/rtHz]  ????????
-%Noise('VCO noise') = 0.3; % VCO noise of AOM path of green lock in [Hz/rtHz]  ????????
-noise = load('./Noises/VCO_frequencynoise.txt'); % file from Suspension modeling svn
-temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
-    for ii = 1:length(freq)
-        if isnan(temp_noise(ii))
-            temp_noise(ii) = 0.06;
-        end
-    end
-Noise('VCO noise') = temp_noise; % klog 6552
-Noise('Shot noise IR') = 8e-7; % Shot noise in [Hz/rtHz]
-
-Noise('PSL freq noise') = 0*freq./freq/10+8e-9*freq.^-2./(1+(2./freq).^-8)/26.65*299792458./1064e-9; % PSL freq noise in [Hz/rtHz]
-Noise('Prometheus freq noise') = 10000./freq; % PROMETHEUS freq noise in [Hz/rtHz]
-
-Noise('LO noise') = 0.00005./freq; % LO noise of PLL loop in [Hz/rtHz]  ????????
-Noise('Shot noise PLL') = 2.5e-8; % Shot noise in [rad/rtHz]
-Noise('Electronic noise PLL') = 100e-9; % Electronic noise of PLL loop in [V/rtHz]
-Noise('Electronic noise PDH') = 100e-9; % Electronic noise of PDH loop in [V/rtHz]
-Noise('PD noise PDH') = 2.92e-11; % Dark noise of green RF PD in [W/rtHz] For example, Thorlabs PDA10A2 ???
-
-
-noise = load('./Noises/KamiokaSeismicHighNoise.txt'); % file from Suspension modeling svn
-temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
-    for ii = 1:length(freq)
-        if isnan(temp_noise(ii))
-            temp_noise(ii) = 1.5e-9.*freq(ii).^-2;
-        end
-    end
-Noise('seismic_IMC') = temp_noise;
-
-Noise('act_AOM') = 3e-8; % VCO  noise of FSS loop in [V/rtHz]
-
-load('Sensor_Noise_RefCav.mat')
-    temp_noise =...
-        interp1(Sensor_Noise_RefCav('ff_KOACH_off'),Sensor_Noise_RefCav('KOACH_off'),freq);
-    for ii = 1:length(freq)
-        if isnan(temp_noise(ii))
-            temp_noise(ii) = 8.071e-5*(15./(freq(ii)/0.1+1).^0.6./(freq(ii)/2000+1)./(freq(ii)/3000+1).*(freq(ii)/700+1));
-        end
-    end
-Noise('sensor_RefCav') = temp_noise; % RefCav unknown sensing noise in [V/rtHz]
-
-SW(1) = 1; 
-
-%% Compute noises and save cache
-% Compute noises
-[noises, sys] = nbFromSimulink(liveModel, freq, 'dof', dof);
-
-% save cached outputs
-saveFunctionCache();
-
-% ----------- comment out because of error from plotcumulativeRMS2---------
-
-% %% Make a quick NB plot
-% if plot_NBs
-% disp('Plotting noises')
-% nb = nbGroupNoises(liveModel, noises, sys);
 % 
-% % Get noise data from DAQ. Put NdNoiseSource block with DAQ channel
-% % specified. Put something (e.g. 1) in ASD parameter of that block.
-% %nb = nbAcquireData(liveModel, sys, nb, startTime, durationTime);
+% %figure(108)
+% %[A,B,C,D] = linmod('GREEN_CARM_DARM');
+% %tfs = ss(A,B,C,D);
+% %aaaa=tfs(8,4);
+% %bode(Filt_GR*Filt_IMC*Filt_MCL*Act('MCEsus')*Filt_GR)
+% %grid on
+% %legend('MCL path')
 % 
-% %nb.sortModel();
-% %matlabNoisePlot(nb);
-% %figure(1)
-% %grid on;
-% %axis tight;
-% %ylabel('Mag (m/sqrt(Hz))');
-% %xlabel('Frequency (Hz)');
-% %ylim([1e-22,1e-10]);
-% %xlim([1,1e4]);
+% % SW(5) = 0; 
+% % SW(6) = 0;
+% % %CMS_SW_IMC('IN2EN') = 1;
+% % figure(108)
+% % [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% % tfs = ss(A,B,C,D);
+% % aaaa=tfs(3,9);
+% % bode(aaaa)
+% % hold on
+% % [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% % tfs = ss(A,B,C,D);
+% % aaaa1=tfs(3,10);
+% % bode(aaaa1)
+% % hold on
+% % bode(aaaa+aaaa1)
+% % grid on
+% % legend('Additive offset','MCL path','sum')
+% % SW(5) = 1; 
+% % SW(6) = 1; 
+% %CMS_SW_IMC('IN2EN') = 0;
 % 
-% %%figure(2);
-% %matlabNoisePlot(nb);
-% %%legend('Location','southwest')
-% %%hold on
-% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-% %grid on;
-% %axis tight;
-% %ylabel('Mag (Hz/sqrt(Hz))','FontSize',20);
-% %xlabel('Frequency (Hz)','FontSize',20);
-% %title('Frequency noises');
-% %xlim([1e-3,1e6]);
-% %%ylim([1e-22,1e-10]);
-% %ylim([1e-10,1e2]);
-% %leg = legend(gca);
-% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-% %saveas(gcf,'./results/nb.fig')
-% 
-% nb.sortModel();
-% matlabNoisePlot(nb);
-% 
-% figure(2)
-% xlim([1e-3,1e6]);
-% ylim([1e-10,1e2]);
-% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-% leg = legend(gca);
-% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-% saveas(gcf,'./results/Green_noiseNB.fig')
-% clear leg
-% 
-% figure(3)
-% xlim([1e-3,1e6]);
-% ylim([1e-10,1e2]);
-% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-% leg = legend(gca);
-% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-% saveas(gcf,'./results/IR_noiseNB.fig')
-% clear leg
-% 
-% figure(4)
-% xlim([1e-3,1e6]);
-% ylim([1e-10,1e2]);
-% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-% leg = legend(gca);
-% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-% saveas(gcf,'./results/Seismic_noiseNB.fig')
-% 
-% figure(5)
-% xlim([1e-3,1e6]);
-% ylim([1e-10,1e2]);
-% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-% leg = legend(gca);
-% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-% saveas(gcf,'./results/PLL_noiseNB.fig')
-% 
-% figure(1)
-% xlim([1e-3,1e6]);
-% ylim([1e-10,1e2]);
-% plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1],0.1);
-% leg = legend(gca);
-% legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-% set(gca,'YTick',logspace(-10,2,13));
-% set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
-% saveas(gcf,'./results/ALS_NB.fig')
-% saveas(gcf,'./results/ALS_NB.png')
-% 
+% % SW(5) = 0;
+% % SW(6) = 0; 
+% % SW(7) = 0;
+% % figure(99)
+% % [A,B,C,D] = linmod('GREEN_CARM_DARM');
+% % tfs = ss(A,B,C,D);
+% % aaaa=tfs(11,11);
+% % bode(aaaa)
+% % grid on
+% % legend('IMC AOM path')
+% % SW(5) = 1;
+% % SW(6) = 1; 
+% % SW(7) = 1;
 % end
+% SW = ones(1,length(loopNames));
 % 
-% %% Actuators saturation check
-% act = 'FSS_AOM'; 
-% if plot_Saturations
-% disp('Checking saturation')
+% 
+% %% Define some parameters and get live parts parameters
+% %freq = logspace(-3,6,100000);
+% liveModel = 'GREEN_CARM_DARM';
+% dof = 'CARM';    % name of DOF to plot NB
+%  startTime = 1078250000;   % start GPS time
+%  durationTime = 512;
+%  IFO = 'K1';
+%  site = 'kamioka';
+% 
+% %duration = 64;  % data get time duration
+% freqsamp = 16384;   % sampling frequency
+% freqmin = 0.1;  % minimum frequency (= frequency reslution)
+% Ndata = ceil(freqsamp/freqmin);
+% ndata = 2^nextpow2(Ndata);
+% duration2 = 64;  % data get time duration
+% freqsamp2 = 2048;   % sampling frequency
+% freqmin2 = 0.1;  % minimum frequency (= frequency reslution)
+% Ndata2 = ceil(freqsamp2/freqmin2);
+% ndata2 = 2^nextpow2(Ndata2);
+%  
+% % Try setting different NDS server if you couldn't get data
+% % setenv('LIGONDSIP','h1nds1:8088');
+% % mdv_config;
+% 
+% % load cached outputs
+% loadFunctionCache()
+% 
+% % get live parts parameters
+% %liveParts(liveModel, startTime, durationTime, freq)
+% 
+% 
+% Noise('SHG') = 1e-5.*freq;  % SHG frequency noise in [Hz/rtHz]
+% %Noise('Fiber') = 1.;  % Green fiber frequency noise in [Hz/rtHz]
+% Noise('Fiber') = sqrt((2e-3)^2 + (3e-2./freq.^2).^2) * sqrt(50/5);  % Green fiber frequency noise in [Hz/rtHz] klog 5417
+% Noise('Shot noise green') = 8e-6; % Shot noise in [Hz/rtHz]
+% 
+% noise = load('./Noises/KamiokaSeismicHighNoise.txt'); % file from Suspension modeling svn
+% temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
+%     for ii = 1:length(freq)
+%         if isnan(temp_noise(ii))
+%             temp_noise(ii) = 1.5e-9.*freq(ii).^-2;
+%         end
+%     end
+% Noise('Seismic test mass') = temp_noise;% Seismic noise of test masses in [m/rtHz]
+% 
+% noise = load('./Noises/KamiokaSeismicNoise_ArmLength.txt'); % Arm length displacement data given by Miyo-kun
+% temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
+%     for ii = 1:length(freq)
+%         if isnan(temp_noise(ii))
+%             temp_noise(ii) = 1.5e-9.*freq(ii).^-2*sqrt(2);
+%         end
+%     end
+% Noise('Seismic arm length') = temp_noise; % Arm length displacement of test masses in [m/rtHz]
+% 
+% 
+% 
+% %Noise('VCO noise') = 0.00005./freq; % VCO noise of AOM path of green lock in [Hz/rtHz]  ????????
+% %Noise('VCO noise') = 0.3; % VCO noise of AOM path of green lock in [Hz/rtHz]  ????????
+% noise = load('./Noises/VCO_frequencynoise.txt'); % file from Suspension modeling svn
+% temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
+%     for ii = 1:length(freq)
+%         if isnan(temp_noise(ii))
+%             temp_noise(ii) = 0.06;
+%         end
+%     end
+% Noise('VCO noise') = temp_noise; % klog 6552
+% Noise('Shot noise IR') = 8e-7; % Shot noise in [Hz/rtHz]
+% 
+% Noise('PSL freq noise') = 0*freq./freq/10+8e-9*freq.^-2./(1+(2./freq).^-8)/26.65*299792458./1064e-9; % PSL freq noise in [Hz/rtHz]
+% Noise('Prometheus freq noise') = 10000./freq; % PROMETHEUS freq noise in [Hz/rtHz]
+% 
+% Noise('LO noise') = 0.00005./freq; % LO noise of PLL loop in [Hz/rtHz]  ????????
+% Noise('Shot noise PLL') = 2.5e-8; % Shot noise in [rad/rtHz]
+% Noise('Electronic noise PLL') = 100e-9; % Electronic noise of PLL loop in [V/rtHz]
+% Noise('Electronic noise PDH') = 100e-9; % Electronic noise of PDH loop in [V/rtHz]
+% Noise('PD noise PDH') = 2.92e-11; % Dark noise of green RF PD in [W/rtHz] For example, Thorlabs PDA10A2 ???
+% 
+% 
+% noise = load('./Noises/KamiokaSeismicHighNoise.txt'); % file from Suspension modeling svn
+% temp_noise = interp1(noise(:,1), noise(:,2), freq, 'linear');
+%     for ii = 1:length(freq)
+%         if isnan(temp_noise(ii))
+%             temp_noise(ii) = 1.5e-9.*freq(ii).^-2;
+%         end
+%     end
+% Noise('seismic_IMC') = temp_noise;
+% 
+% Noise('act_AOM') = 3e-8; % VCO  noise of FSS loop in [V/rtHz]
+% 
+% load('Sensor_Noise_RefCav.mat')
+%     temp_noise =...
+%         interp1(Sensor_Noise_RefCav('ff_KOACH_off'),Sensor_Noise_RefCav('KOACH_off'),freq);
+%     for ii = 1:length(freq)
+%         if isnan(temp_noise(ii))
+%             temp_noise(ii) = 8.071e-5*(15./(freq(ii)/0.1+1).^0.6./(freq(ii)/2000+1)./(freq(ii)/3000+1).*(freq(ii)/700+1));
+%         end
+%     end
+% Noise('sensor_RefCav') = temp_noise; % RefCav unknown sensing noise in [V/rtHz]
+% 
+% SW(1) = 1; 
+% 
+% %% Compute noises and save cache
 % % Compute noises
-% [noises_AOM, sys_AOM] = nbFromSimulink(liveModel, freq, 'dof', act);
+% [noises, sys] = nbFromSimulink(liveModel, freq, 'dof', dof);
 % 
 % % save cached outputs
 % saveFunctionCache();
 % 
-% % plot
-% nb = nbGroupNoises(liveModel, noises_AOM, sys_AOM);
-% nb.sortModel();
-% matlabNoisePlot(nb);
+% % ----------- comment out because of error from plotcumulativeRMS2---------
 % 
-% figure(6)
-% xlim([1e-3,1e6]);
-% ylim([1e-10,1e-1]);
-% plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-% 
-% end
-% 
-% %% plot expected curve from calculation
-% 
-% %[mag,ph]=bode((Gol)/(1+Gol),2*pi*freq);
-% %loglog(freq,squeeze(mag),'b.')
-% %hold on
-% 
-% %[mag,ph]=bode(1/Sen,2*pi*freq);
-% %loglog(freq,freq./freq/Sen,'r.')
-% ---------------------------------------
+% % %% Make a quick NB plot
+% % if plot_NBs
+% % disp('Plotting noises')
+% % nb = nbGroupNoises(liveModel, noises, sys);
+% % 
+% % % Get noise data from DAQ. Put NdNoiseSource block with DAQ channel
+% % % specified. Put something (e.g. 1) in ASD parameter of that block.
+% % %nb = nbAcquireData(liveModel, sys, nb, startTime, durationTime);
+% % 
+% % %nb.sortModel();
+% % %matlabNoisePlot(nb);
+% % %figure(1)
+% % %grid on;
+% % %axis tight;
+% % %ylabel('Mag (m/sqrt(Hz))');
+% % %xlabel('Frequency (Hz)');
+% % %ylim([1e-22,1e-10]);
+% % %xlim([1,1e4]);
+% % 
+% % %%figure(2);
+% % %matlabNoisePlot(nb);
+% % %%legend('Location','southwest')
+% % %%hold on
+% % %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% % %grid on;
+% % %axis tight;
+% % %ylabel('Mag (Hz/sqrt(Hz))','FontSize',20);
+% % %xlabel('Frequency (Hz)','FontSize',20);
+% % %title('Frequency noises');
+% % %xlim([1e-3,1e6]);
+% % %%ylim([1e-22,1e-10]);
+% % %ylim([1e-10,1e2]);
+% % %leg = legend(gca);
+% % %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% % %saveas(gcf,'./results/nb.fig')
+% % 
+% % nb.sortModel();
+% % matlabNoisePlot(nb);
+% % 
+% % figure(2)
+% % xlim([1e-3,1e6]);
+% % ylim([1e-10,1e2]);
+% % %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% % leg = legend(gca);
+% % %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% % saveas(gcf,'./results/Green_noiseNB.fig')
+% % clear leg
+% % 
+% % figure(3)
+% % xlim([1e-3,1e6]);
+% % ylim([1e-10,1e2]);
+% % %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% % leg = legend(gca);
+% % %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% % saveas(gcf,'./results/IR_noiseNB.fig')
+% % clear leg
+% % 
+% % figure(4)
+% % xlim([1e-3,1e6]);
+% % ylim([1e-10,1e2]);
+% % %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% % leg = legend(gca);
+% % %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% % saveas(gcf,'./results/Seismic_noiseNB.fig')
+% % 
+% % figure(5)
+% % xlim([1e-3,1e6]);
+% % ylim([1e-10,1e2]);
+% % %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% % leg = legend(gca);
+% % %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% % saveas(gcf,'./results/PLL_noiseNB.fig')
+% % 
+% % figure(1)
+% % xlim([1e-3,1e6]);
+% % ylim([1e-10,1e2]);
+% % plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1],0.1);
+% % leg = legend(gca);
+% % legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% % set(gca,'YTick',logspace(-10,2,13));
+% % set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
+% % saveas(gcf,'./results/ALS_NB.fig')
+% % saveas(gcf,'./results/ALS_NB.png')
+% % 
+% % end
+% % 
+% % %% Actuators saturation check
+% % act = 'FSS_AOM'; 
+% % if plot_Saturations
+% % disp('Checking saturation')
+% % % Compute noises
+% % [noises_AOM, sys_AOM] = nbFromSimulink(liveModel, freq, 'dof', act);
+% % 
+% % % save cached outputs
+% % saveFunctionCache();
+% % 
+% % % plot
+% % nb = nbGroupNoises(liveModel, noises_AOM, sys_AOM);
+% % nb.sortModel();
+% % matlabNoisePlot(nb);
+% % 
+% % figure(6)
+% % xlim([1e-3,1e6]);
+% % ylim([1e-10,1e-1]);
+% % plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% % 
+% % end
+% % 
+% % %% plot expected curve from calculation
+% % 
+% % %[mag,ph]=bode((Gol)/(1+Gol),2*pi*freq);
+% % %loglog(freq,squeeze(mag),'b.')
+% % %hold on
+% % 
+% % %[mag,ph]=bode(1/Sen,2*pi*freq);
+% % %loglog(freq,freq./freq/Sen,'r.')
+% % ---------------------------------------
