@@ -9,7 +9,7 @@ addpath('../');
 findNbSVNroot;
 addpath(genpath([NbSVNroot 'Common/Utils']));
 addpath(genpath([NbSVNroot 'Dev/Utils/']));
-cd([NbSVNroot,'GreenLock/nbGREEN_CARM_DARM']);
+cd([NbSVNroot,'nbGREEN_CARM_DARM']);
 
 %% What to plot
 
@@ -708,120 +708,122 @@ SW(1) = 1;
 % save cached outputs
 saveFunctionCache();
 
-%% Make a quick NB plot
-if plot_NBs
-disp('Plotting noises')
-nb = nbGroupNoises(liveModel, noises, sys);
+% ----------- comment out because of error from plotcumulativeRMS2---------
 
-% Get noise data from DAQ. Put NdNoiseSource block with DAQ channel
-% specified. Put something (e.g. 1) in ASD parameter of that block.
-%nb = nbAcquireData(liveModel, sys, nb, startTime, durationTime);
-
-%nb.sortModel();
-%matlabNoisePlot(nb);
-%figure(1)
-%grid on;
-%axis tight;
-%ylabel('Mag (m/sqrt(Hz))');
-%xlabel('Frequency (Hz)');
-%ylim([1e-22,1e-10]);
-%xlim([1,1e4]);
-
-%%figure(2);
-%matlabNoisePlot(nb);
-%%legend('Location','southwest')
-%%hold on
-%plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-%grid on;
-%axis tight;
-%ylabel('Mag (Hz/sqrt(Hz))','FontSize',20);
-%xlabel('Frequency (Hz)','FontSize',20);
-%title('Frequency noises');
-%xlim([1e-3,1e6]);
-%%ylim([1e-22,1e-10]);
-%ylim([1e-10,1e2]);
-%leg = legend(gca);
-%legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-%saveas(gcf,'./results/nb.fig')
-
-nb.sortModel();
-matlabNoisePlot(nb);
-
-figure(2)
-xlim([1e-3,1e6]);
-ylim([1e-10,1e2]);
-%plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-leg = legend(gca);
-%legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-saveas(gcf,'./results/Green_noiseNB.fig')
-clear leg
-
-figure(3)
-xlim([1e-3,1e6]);
-ylim([1e-10,1e2]);
-%plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-leg = legend(gca);
-%legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-saveas(gcf,'./results/IR_noiseNB.fig')
-clear leg
-
-figure(4)
-xlim([1e-3,1e6]);
-ylim([1e-10,1e2]);
-%plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-leg = legend(gca);
-%legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-saveas(gcf,'./results/Seismic_noiseNB.fig')
-
-figure(5)
-xlim([1e-3,1e6]);
-ylim([1e-10,1e2]);
-%plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-leg = legend(gca);
-%legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-saveas(gcf,'./results/PLL_noiseNB.fig')
-
-figure(1)
-xlim([1e-3,1e6]);
-ylim([1e-10,1e2]);
-plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1],0.1);
-leg = legend(gca);
-legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
-set(gca,'YTick',logspace(-10,2,13));
-set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
-saveas(gcf,'./results/ALS_NB.fig')
-saveas(gcf,'./results/ALS_NB.png')
-
-end
-
-%% Actuators saturation check
-act = 'FSS_AOM'; 
-if plot_Saturations
-disp('Checking saturation')
-% Compute noises
-[noises_AOM, sys_AOM] = nbFromSimulink(liveModel, freq, 'dof', act);
-
-% save cached outputs
-saveFunctionCache();
-
-% plot
-nb = nbGroupNoises(liveModel, noises_AOM, sys_AOM);
-nb.sortModel();
-matlabNoisePlot(nb);
-
-figure(6)
-xlim([1e-3,1e6]);
-ylim([1e-10,1e-1]);
-plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
-
-end
-
-%% plot expected curve from calculation
-
-%[mag,ph]=bode((Gol)/(1+Gol),2*pi*freq);
-%loglog(freq,squeeze(mag),'b.')
-%hold on
-
-%[mag,ph]=bode(1/Sen,2*pi*freq);
-%loglog(freq,freq./freq/Sen,'r.')
-
+% %% Make a quick NB plot
+% if plot_NBs
+% disp('Plotting noises')
+% nb = nbGroupNoises(liveModel, noises, sys);
+% 
+% % Get noise data from DAQ. Put NdNoiseSource block with DAQ channel
+% % specified. Put something (e.g. 1) in ASD parameter of that block.
+% %nb = nbAcquireData(liveModel, sys, nb, startTime, durationTime);
+% 
+% %nb.sortModel();
+% %matlabNoisePlot(nb);
+% %figure(1)
+% %grid on;
+% %axis tight;
+% %ylabel('Mag (m/sqrt(Hz))');
+% %xlabel('Frequency (Hz)');
+% %ylim([1e-22,1e-10]);
+% %xlim([1,1e4]);
+% 
+% %%figure(2);
+% %matlabNoisePlot(nb);
+% %%legend('Location','southwest')
+% %%hold on
+% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% %grid on;
+% %axis tight;
+% %ylabel('Mag (Hz/sqrt(Hz))','FontSize',20);
+% %xlabel('Frequency (Hz)','FontSize',20);
+% %title('Frequency noises');
+% %xlim([1e-3,1e6]);
+% %%ylim([1e-22,1e-10]);
+% %ylim([1e-10,1e2]);
+% %leg = legend(gca);
+% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% %saveas(gcf,'./results/nb.fig')
+% 
+% nb.sortModel();
+% matlabNoisePlot(nb);
+% 
+% figure(2)
+% xlim([1e-3,1e6]);
+% ylim([1e-10,1e2]);
+% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% leg = legend(gca);
+% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% saveas(gcf,'./results/Green_noiseNB.fig')
+% clear leg
+% 
+% figure(3)
+% xlim([1e-3,1e6]);
+% ylim([1e-10,1e2]);
+% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% leg = legend(gca);
+% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% saveas(gcf,'./results/IR_noiseNB.fig')
+% clear leg
+% 
+% figure(4)
+% xlim([1e-3,1e6]);
+% ylim([1e-10,1e2]);
+% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% leg = legend(gca);
+% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% saveas(gcf,'./results/Seismic_noiseNB.fig')
+% 
+% figure(5)
+% xlim([1e-3,1e6]);
+% ylim([1e-10,1e2]);
+% %plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% leg = legend(gca);
+% %legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% saveas(gcf,'./results/PLL_noiseNB.fig')
+% 
+% figure(1)
+% xlim([1e-3,1e6]);
+% ylim([1e-10,1e2]);
+% plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1],0.1);
+% leg = legend(gca);
+% legend({leg.String{:},'RMS'},'Interpreter','None','Location','southwest');
+% set(gca,'YTick',logspace(-10,2,13));
+% set(gca,'XTick',logspace(log10(freq(1)),log10(freq(end)),log10(freq(end))-log10(freq(1))+1));
+% saveas(gcf,'./results/ALS_NB.fig')
+% saveas(gcf,'./results/ALS_NB.png')
+% 
+% end
+% 
+% %% Actuators saturation check
+% act = 'FSS_AOM'; 
+% if plot_Saturations
+% disp('Checking saturation')
+% % Compute noises
+% [noises_AOM, sys_AOM] = nbFromSimulink(liveModel, freq, 'dof', act);
+% 
+% % save cached outputs
+% saveFunctionCache();
+% 
+% % plot
+% nb = nbGroupNoises(liveModel, noises_AOM, sys_AOM);
+% nb.sortModel();
+% matlabNoisePlot(nb);
+% 
+% figure(6)
+% xlim([1e-3,1e6]);
+% ylim([1e-10,1e-1]);
+% plotcumulativeRMS2(nb.sumNoise.f,nb.sumNoise.asd,[1,0,1]);
+% 
+% end
+% 
+% %% plot expected curve from calculation
+% 
+% %[mag,ph]=bode((Gol)/(1+Gol),2*pi*freq);
+% %loglog(freq,squeeze(mag),'b.')
+% %hold on
+% 
+% %[mag,ph]=bode(1/Sen,2*pi*freq);
+% %loglog(freq,freq./freq/Sen,'r.')
+% ---------------------------------------
