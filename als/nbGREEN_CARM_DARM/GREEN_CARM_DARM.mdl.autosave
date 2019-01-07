@@ -748,8 +748,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1402.0, 697.0]
-	ZoomFactor		[2.5]
-	Offset			[1361.5000000000005, 201.6749999999997]
+	ZoomFactor		[2.0]
+	Offset			[1417.4976190476191, -353.5]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -784,7 +784,7 @@ Model {
   LastModifiedBy	  "miyo"
   ModifiedDateFormat	  "%<Auto>"
   LastModifiedDate	  "Mon Jan 07 19:55:31 2019"
-  RTWModifiedTimeStamp	  468791725
+  RTWModifiedTimeStamp	  468792313
   ModelVersionFormat	  "1.%<AutoIncrement:638>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1826,7 +1826,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "250"
+    ZoomFactor		    "200"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "2425"
     Block {
@@ -3455,54 +3455,6 @@ Model {
     }
     Block {
       BlockType		      Reference
-      Name		      "Horizontal seismic noise\nm/sqrt(Hz)2"
-      SID		      "2414"
-      Tag		      "NbNoiseSource"
-      Ports		      [0, 1]
-      Position		      [1630, -243, 1655, -227]
-      ZOrder		      2131
-      BlockMirror	      on
-      BackgroundColor	      "orange"
-      Commented		      "on"
-      AttributesFormatString  "%<Tag>"
-      LibraryVersion	      "1.35"
-      SourceBlock	      "NbLibrary/NbNoiseSource"
-      SourceType	      ""
-      ContentPreviewEnabled   off
-      asd		      "Noise('Seismic test mass')"
-      chan		      "''"
-      groupNest		      "1"
-      group		      "'Seismic noise'"
-      subgroup		      "''"
-      subsubgroup	      "''"
-      subsubsubgroup	      "''"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Horizontal seismic noise\nm/sqrt(Hz)3"
-      SID		      "2415"
-      Tag		      "NbNoiseSource"
-      Ports		      [0, 1]
-      Position		      [1630, -288, 1655, -272]
-      ZOrder		      2133
-      BlockMirror	      on
-      BackgroundColor	      "orange"
-      Commented		      "on"
-      AttributesFormatString  "%<Tag>"
-      LibraryVersion	      "1.35"
-      SourceBlock	      "NbLibrary/NbNoiseSource"
-      SourceType	      ""
-      ContentPreviewEnabled   off
-      asd		      "Noise('Seismic test mass')"
-      chan		      "''"
-      groupNest		      "1"
-      group		      "'Seismic noise'"
-      subgroup		      "''"
-      subsubgroup	      "''"
-      subsubsubgroup	      "''"
-    }
-    Block {
-      BlockType		      Reference
       Name		      "Hz/sqrt(Hz)->rad/sqrt(Hz)"
       SID		      "1940"
       Ports		      [1, 1]
@@ -3612,26 +3564,6 @@ Model {
 	  DstPort		  1
 	}
       }
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "IMC offset Filter"
-      SID		      "1949"
-      Ports		      [1, 1]
-      Position		      [2100, 395, 2180, 435]
-      ZOrder		      544
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Filt_IMC"
-      IC		      "[]"
     }
     Block {
       BlockType		      SubSystem
@@ -4017,26 +3949,6 @@ Model {
 	  DstPort		  1
 	}
       }
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Inverted Pendulum TF\nHz/sqrt(Hz)"
-      SID		      "1891"
-      Ports		      [1, 1]
-      Position		      [2300, 304, 2375, 356]
-      ZOrder		      498
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "inverted_pend"
-      IC		      "[]"
     }
     Block {
       BlockType		      Reference
@@ -4442,50 +4354,6 @@ Model {
       subsubsubgroup	      "''"
     }
     Block {
-      BlockType		      Reference
-      Name		      "PDH Filter Green  \n      "
-      SID		      "1887"
-      Ports		      [1, 1]
-      Position		      [2052, 300, 2098, 390]
-      ZOrder		      493
-      BlockRotation	      270
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      NamePlacement	      "alternate"
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Filt_GR"
-      IC		      "[]"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "PDH Filter Green  \n      1"
-      SID		      "2271"
-      Ports		      [1, 1]
-      Position		      [2052, 110, 2098, 200]
-      ZOrder		      2007
-      BlockRotation	      270
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      NamePlacement	      "alternate"
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Filt_GR"
-      IC		      "[]"
-    }
-    Block {
       BlockType		      Mux
       Name		      "PDmux"
       SID		      "2326"
@@ -4860,26 +4728,6 @@ Model {
       subsubsubgroup	      "''"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Pendulum TF\nHz/sqrt(Hz)"
-      SID		      "1890"
-      Ports		      [1, 1]
-      Position		      [2145, 304, 2220, 356]
-      ZOrder		      497
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Pendulum"
-      IC		      "[]"
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "RC path"
       SID		      "2079"
@@ -5203,26 +5051,6 @@ Model {
       SourceProductBaseCode   "CT"
       ContentPreviewEnabled   off
       sys		      "Sen_2"
-      IC		      "[]"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Senser PDH\nHz/sqrt(Hz)-->V/sqrt(HZ)\n"
-      SID		      "1898"
-      Ports		      [1, 1]
-      Position		      [2335, 187, 2425, 233]
-      ZOrder		      478
-      BackgroundColor	      "darkGreen"
-      DropShadow	      on
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      FontName		      "Arial"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Sen_1"
       IC		      "[]"
     }
     Block {
@@ -6405,24 +6233,6 @@ Model {
     }
     Block {
       BlockType		      Sum
-      Name		      "Sum50"
-      SID		      "2416"
-      Ports		      [2, 1]
-      Position		      [1550, -265, 1570, -245]
-      ZOrder		      2134
-      BlockMirror	      on
-      BackgroundColor	      "red"
-      NamePlacement	      "alternate"
-      ShowName		      off
-      Commented		      "on"
-      IconShape		      "round"
-      Inputs		      "|++"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Sum
       Name		      "Sum51"
       SID		      "2417"
       Ports		      [2, 1]
@@ -6499,45 +6309,6 @@ Model {
       InputSameDT	      off
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Suspension Mass Filter"
-      SID		      "2392"
-      Ports		      [1, 1]
-      Position		      [2145, 45, 2225, 85]
-      ZOrder		      2113
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Filt_mass"
-      IC		      "[]"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Suspension Mass Filter\n1"
-      SID		      "2297"
-      Ports		      [1, 1]
-      Position		      [2145, 115, 2225, 155]
-      ZOrder		      2003
-      BlockMirror	      on
-      BackgroundColor	      "cyan"
-      DropShadow	      on
-      Commented		      "on"
-      LibraryVersion	      "1.338"
-      SourceBlock	      "cstblocks/LTI System"
-      SourceType	      "LTI Block"
-      SourceProductName	      "Control System Toolbox"
-      SourceProductBaseCode   "CT"
-      ContentPreviewEnabled   off
-      sys		      "Filt_mass"
-      IC		      "[]"
     }
     Block {
       BlockType		      Terminator
@@ -7543,13 +7314,6 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      958
-      SrcBlock		      "Inverted Pendulum TF\nHz/sqrt(Hz)"
-      SrcPort		      1
-      DstBlock		      "Pendulum TF\nHz/sqrt(Hz)"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      965
       SrcBlock		      "CARM Cavity Pole"
       SrcPort		      1
@@ -7790,12 +7554,6 @@ Model {
       Points		      [-15, 0]
       DstBlock		      "Sum30"
       DstPort		      2
-    }
-    Line {
-      ZOrder		      2582
-      SrcBlock		      "Pendulum TF\nHz/sqrt(Hz)"
-      SrcPort		      1
-      Points		      [-32, 0]
     }
     Line {
       ZOrder		      1231
@@ -8915,28 +8673,6 @@ Model {
       Points		      [-109, 0]
       DstBlock		      "Sum13"
       DstPort		      1
-    }
-    Line {
-      ZOrder		      2592
-      SrcBlock		      "Horizontal seismic noise\nm/sqrt(Hz)3"
-      SrcPort		      1
-      Points		      [-40, 0]
-      DstBlock		      "Sum50"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      2593
-      SrcBlock		      "Horizontal seismic noise\nm/sqrt(Hz)2"
-      SrcPort		      1
-      Points		      [-65, 0]
-      DstBlock		      "Sum50"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      2609
-      SrcBlock		      "Sum50"
-      SrcPort		      1
-      Points		      [-2, 0]
     }
     Line {
       ZOrder		      2595
