@@ -1,0 +1,2044 @@
+<?xml version="1.0"?>
+<!DOCTYPE LIGO_LW [
+<!ELEMENT LIGO_LW ((LIGO_LW|Comment|Param|Time|Table|Array|Stream)*)>
+<!ATTLIST LIGO_LW Name CDATA #IMPLIED Type CDATA #IMPLIED>
+<!ELEMENT Comment (#PCDATA)>
+<!ELEMENT Param (#PCDATA)>
+<!ATTLIST Param Name CDATA #IMPLIED Type CDATA #IMPLIED Dim CDATA #IMPLIED
+                Unit CDATA #IMPLIED>
+<!ELEMENT Table (Comment?,Column*,Stream?)>
+<!ATTLIST Table Name CDATA #IMPLIED Type CDATA #IMPLIED>
+<!ELEMENT Column EMPTY>
+<!ATTLIST Column Name CDATA #IMPLIED Type CDATA #IMPLIED Unit CDATA #IMPLIED>
+<!ELEMENT Array (Dim*,Stream?)>
+<!ATTLIST Array Name CDATA #IMPLIED Type CDATA #IMPLIED>
+<!ELEMENT Dim (#PCDATA)>
+<!ATTLIST Dim Name CDATA #IMPLIED>
+<!ELEMENT Stream (#PCDATA)>
+<!ATTLIST Stream Name CDATA #IMPLIED Type (Remote|Local) "Local"
+          Delimiter CDATA "," Encoding CDATA #IMPLIED Content CDATA #IMPLIED>
+<!ELEMENT Time (#PCDATA)>
+<!ATTLIST Time Name CDATA #IMPLIED Type (GPS|Unix|ISO-8601) "ISO-8601">
+]>
+<LIGO_LW Name="Diagnostics Test">
+  <LIGO_LW Name="Header" Type="Global">
+    <Param Name="Flag" Type="string">TestParameters</Param>
+    <Param Name="Creator" Type="string">Diagnostics system</Param>
+    <Param Name="TestType" Type="string">FFT</Param>
+    <Param Name="TestName" Type="string">1998-2001, by Daniel Sigg</Param>
+    <Param Name="Supervisory" Type="string">Standard</Param>
+    <Param Name="TestIterator" Type="string">Repeat</Param>
+    <Time Name="TestTime" Type="GPS">1229843573.0</Time>
+    <Time Name="TestTimeUTC" Type="ISO-8601">2018-12-26 07:12:35</Time>
+    <Param Name="InputSource" Type="string">online</Param>
+    <Param Name="Comment" Type="string"></Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Def" Type="Defaults">
+    <Param Name="Flag" Type="string">TestParameters</Param>
+    <Param Name="AllowCancel" Type="boolean">true</Param>
+    <Param Name="NoStimulus" Type="boolean">false</Param>
+    <Param Name="NoAnalysis" Type="boolean">false</Param>
+    <Param Name="KeepTraces" Type="int">100</Param>
+    <Param Name="SiteDefault" Type="byte">.</Param>
+    <Param Name="SiteForce" Type="byte"> </Param>
+    <Param Name="IfoDefault" Type="byte"> </Param>
+    <Param Name="IfoForce" Type="byte"> </Param>
+    <Param Name="Reconnect" Type="boolean">false</Param>
+    <Param Name="PlotWindowLayout[1]" Type="int">2</Param>
+    <Param Name="PlotWindows" Type="int">1</Param>
+    <Param Name="CalibrationRecords" Type="int">0</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Find" Type="Optimization">
+    <Param Name="Flag" Type="string">TestParameters</Param>
+    <Param Name="Enable" Type="boolean">true</Param>
+    <Param Name="Change" Type="boolean">true</Param>
+    <Param Name="Type" Type="int">0</Param>
+    <Param Name="Value" Type="double">0</Param>
+    <Param Name="Function" Type="int">0</Param>
+    <Param Name="Param" Type="double" Dim="2">0	100</Param>
+    <Param Name="Method" Type="int">0</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Lidax" Type="Fantom">
+    <Param Name="Flag" Type="string">TestParameters</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Sync" Type="Synchronization">
+    <Param Name="Flag" Type="string">TestParameters</Param>
+    <Param Name="Type" Type="int">0</Param>
+    <Time Name="Start" Type="GPS">1229841233.0</Time>
+    <Param Name="Wait" Type="double" Unit="s">-0</Param>
+    <Param Name="Repeat" Type="int">1</Param>
+    <Param Name="RepeatRate" Type="double" Unit="s">0</Param>
+    <Param Name="SlowDown" Type="double" Unit="s">0</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Test" Type="TestParameter">
+    <Param Name="Flag" Type="string">TestParameters</Param>
+    <Param Name="Subtype" Type="string">FFT</Param>
+    <Param Name="StartFrequency" Type="double" Unit="Hz">0</Param>
+    <Param Name="StopFrequency" Type="double" Unit="Hz">200</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1</Param>
+    <Param Name="Overlap" Type="double">0.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="RemoveDC" Type="boolean">true</Param>
+    <Param Name="AChannels" Type="int">8</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="SettlingTime" Type="double">0.1</Param>
+    <Param Name="RampDown" Type="double">1</Param>
+    <Param Name="RampUp" Type="double">0</Param>
+    <Param Name="StimulusType[0]" Type="int">0</Param>
+    <Param Name="StimulusType[1]" Type="int">0</Param>
+    <Param Name="StimulusType[2]" Type="int">0</Param>
+    <Param Name="StimulusType[3]" Type="int">0</Param>
+    <Param Name="StimulusType[4]" Type="int">0</Param>
+    <Param Name="StimulusFrequency[0]" Type="double" Unit="Hz">100</Param>
+    <Param Name="StimulusFrequency[1]" Type="double" Unit="Hz">100</Param>
+    <Param Name="StimulusFrequency[2]" Type="double" Unit="Hz">100</Param>
+    <Param Name="StimulusFrequency[3]" Type="double" Unit="Hz">100</Param>
+    <Param Name="StimulusFrequency[4]" Type="double" Unit="Hz">100</Param>
+    <Param Name="StimulusAmplitude[0]" Type="double">0</Param>
+    <Param Name="StimulusAmplitude[1]" Type="double">0</Param>
+    <Param Name="StimulusAmplitude[2]" Type="double">0</Param>
+    <Param Name="StimulusAmplitude[3]" Type="double">0</Param>
+    <Param Name="StimulusAmplitude[4]" Type="double">0</Param>
+    <Param Name="StimulusOffset[0]" Type="double">0</Param>
+    <Param Name="StimulusOffset[1]" Type="double">0</Param>
+    <Param Name="StimulusOffset[2]" Type="double">0</Param>
+    <Param Name="StimulusOffset[3]" Type="double">0</Param>
+    <Param Name="StimulusOffset[4]" Type="double">0</Param>
+    <Param Name="StimulusPhase[0]" Type="double">0</Param>
+    <Param Name="StimulusPhase[1]" Type="double">0</Param>
+    <Param Name="StimulusPhase[2]" Type="double">0</Param>
+    <Param Name="StimulusPhase[3]" Type="double">0</Param>
+    <Param Name="StimulusPhase[4]" Type="double">0</Param>
+    <Param Name="StimulusRatio[0]" Type="double">0.5</Param>
+    <Param Name="StimulusRatio[1]" Type="double">0.5</Param>
+    <Param Name="StimulusRatio[2]" Type="double">0.5</Param>
+    <Param Name="StimulusRatio[3]" Type="double">0.5</Param>
+    <Param Name="StimulusRatio[4]" Type="double">0.5</Param>
+    <Param Name="StimulusFrequencyRange[0]" Type="double" Unit="Hz">10000</Param>
+    <Param Name="StimulusFrequencyRange[1]" Type="double" Unit="Hz">10000</Param>
+    <Param Name="StimulusFrequencyRange[2]" Type="double" Unit="Hz">10000</Param>
+    <Param Name="StimulusFrequencyRange[3]" Type="double" Unit="Hz">10000</Param>
+    <Param Name="StimulusFrequencyRange[4]" Type="double" Unit="Hz">10000</Param>
+    <Param Name="StimulusAmplitudeRange[0]" Type="double">0</Param>
+    <Param Name="StimulusAmplitudeRange[1]" Type="double">0</Param>
+    <Param Name="StimulusAmplitudeRange[2]" Type="double">0</Param>
+    <Param Name="StimulusAmplitudeRange[3]" Type="double">0</Param>
+    <Param Name="StimulusAmplitudeRange[4]" Type="double">0</Param>
+    <Param Name="MeasurementChannelRate[0]" Type="int">512</Param>
+    <Param Name="MeasurementChannel[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="MeasurementActive[0]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[1]" Type="int">512</Param>
+    <Param Name="MeasurementChannel[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="MeasurementActive[1]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[2]" Type="int">512</Param>
+    <Param Name="MeasurementChannel[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="MeasurementActive[2]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[3]" Type="int">512</Param>
+    <Param Name="MeasurementChannel[3]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="MeasurementActive[3]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[4]" Type="int">512</Param>
+    <Param Name="MeasurementChannel[4]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="MeasurementActive[4]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[5]" Type="int">512</Param>
+    <Param Name="MeasurementChannel[5]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="MeasurementActive[5]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[6]" Type="int">65536</Param>
+    <Param Name="MeasurementChannel[6]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="MeasurementActive[6]" Type="boolean">true</Param>
+    <Param Name="MeasurementChannelRate[7]" Type="int">2048</Param>
+    <Param Name="MeasurementChannel[7]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Param Name="MeasurementActive[7]" Type="boolean">true</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Plot[1][0]" Type="Plot">
+    <Param Name="Flag" Type="string">Settings</Param>
+    <Param Name="Name" Type="string">Default</Param>
+    <Param Name="TracesGraphType" Type="string">Power spectrum</Param>
+    <Param Name="TracesActive[0]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[0]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="TracesBChannel[0]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[1]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="TracesBChannel[1]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[2]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="TracesBChannel[2]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[3]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[3]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="TracesBChannel[3]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[4]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Param Name="TracesBChannel[4]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[5]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[5]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesBChannel[5]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[6]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[6]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesBChannel[6]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesActive[7]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[7]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesBChannel[7]" Type="string" Unit="channel"></Param>
+    <Param Name="TracesPlotStyle" Type="int" Dim="8">0	0	0	0	0	0	0	0</Param>
+    <Param Name="TracesLineAttrColor" Type="int" Dim="8">2	4	3	28	6	7	5	1</Param>
+    <Param Name="TracesLineAttrStyle" Type="int" Dim="8">1	1	1	1	1	1	1	1</Param>
+    <Param Name="TracesLineAttrWidth" Type="double" Dim="8">1	1	1	1	1	1	1	1</Param>
+    <Param Name="TracesMarkerAttrColor" Type="int" Dim="8">2	4	3	28	6	7	5	1</Param>
+    <Param Name="TracesMarkerAttrStyle" Type="int" Dim="8">20	22	21	23	29	27	2	5</Param>
+    <Param Name="TracesMarkerAttrSize" Type="double" Dim="8">1	1	1	1	1	1	1	1</Param>
+    <Param Name="TracesBarAttrColor" Type="int" Dim="8">2	4	3	28	6	7	5	1</Param>
+    <Param Name="TracesBarAttrStyle" Type="int" Dim="8">1001	1001	1001	1001	1001	1001	1001	1001</Param>
+    <Param Name="TracesBarAttrWidth" Type="double" Dim="8">0.1	0.1	0.1	0.1	0.1	0.1	0.1	0.1</Param>
+    <Param Name="RangeAxisScale" Type="int" Dim="2">1	1</Param>
+    <Param Name="RangeRange" Type="int" Dim="2">0	0</Param>
+    <Param Name="RangeRangeFrom" Type="double" Dim="2">0	5.5897e-05</Param>
+    <Param Name="RangeRangeTo" Type="double" Dim="2">10	124.227</Param>
+    <Param Name="RangeBin" Type="int">1</Param>
+    <Param Name="RangeBinLogSpacing" Type="boolean">true</Param>
+    <Param Name="UnitsXValues" Type="int">0</Param>
+    <Param Name="UnitsYValues" Type="int">0</Param>
+    <Param Name="UnitsXUnit" Type="string">default</Param>
+    <Param Name="UnitsYUnit" Type="string">default</Param>
+    <Param Name="UnitsXMag" Type="int">0</Param>
+    <Param Name="UnitsYMag" Type="int">0</Param>
+    <Param Name="UnitsXSlope" Type="double">1</Param>
+    <Param Name="UnitsYSlope" Type="double">1</Param>
+    <Param Name="UnitsXOffset" Type="double">0</Param>
+    <Param Name="UnitsYOffset" Type="double">0</Param>
+    <Param Name="CursorActive" Type="boolean" Dim="2">false	false</Param>
+    <Param Name="CursorTrace" Type="int">0</Param>
+    <Param Name="CursorStyle" Type="int">1</Param>
+    <Param Name="CursorType" Type="int">0</Param>
+    <Param Name="CursorX" Type="double" Dim="2">1	200</Param>
+    <Param Name="CursorH" Type="double" Dim="2">0	100</Param>
+    <Param Name="CursorValid" Type="boolean" Dim="8">true	true	true	true	true	false	false	false</Param>
+    <Param Name="CursorN" Type="double" Dim="8">200	200	200	200	200	0	0	0</Param>
+    <Param Name="CursorXDiff" Type="double" Dim="8">199	199	199	199	199	0	0	0</Param>
+    <Param Name="CursorYDiff" Type="double" Dim="8">-1373.4	-0.0230087	-0.028944	-0.0276875	-1362.33	0	0	0</Param>
+    <Param Name="CursorMean" Type="double" Dim="8">31.505	0.00415428	0.0037421	0.00480877	31.5429	0	0	0</Param>
+    <Param Name="CursorRMS" Type="double" Dim="8">109.649	0.00792397	0.00738691	0.00695079	108.876	0	0	0</Param>
+    <Param Name="CursorStdDev" Type="double" Dim="8">105.289	0.00676463	0.00638491	0.00503147	104.468	0	0	0</Param>
+    <Param Name="CursorSum" Type="double" Dim="8">6301	0.830855	0.74842	0.961755	6308.58	0	0	0</Param>
+    <Param Name="CursorSqrSum" Type="double" Dim="8">2.40458e+06	0.0125579	0.0109133	0.00966269	2.37079e+06	0	0	0</Param>
+    <Param Name="CursorArea" Type="double" Dim="8">6301	0.830855	0.74842	0.961755	6308.58	0	0	0</Param>
+    <Param Name="CursorRMSArea" Type="double" Dim="8">1550.67	0.112062	0.104467	0.098299	1539.74	0	0	0</Param>
+    <Param Name="CursorPeakX" Type="double" Dim="8">1	74	74	120	1	0	0	0</Param>
+    <Param Name="CursorPeakY" Type="double" Dim="8">1389.77	0.0365284	0.0402284	0.0369818	1379.24	0	0	0</Param>
+    <Param Name="ConfigAutoConfig" Type="boolean">true</Param>
+    <Param Name="ConfigRespectUser" Type="boolean">true</Param>
+    <Param Name="ConfigAutoAxes" Type="boolean">true</Param>
+    <Param Name="ConfigAutoBin" Type="boolean">true</Param>
+    <Param Name="ConfigAutoTimeAdjust" Type="boolean">true</Param>
+    <Param Name="StyleTitle" Type="string">Power spectrum</Param>
+    <Param Name="StyleTitleAlign" Type="int">13</Param>
+    <Param Name="StyleTitleAngle" Type="double">0</Param>
+    <Param Name="StyleTitleColor" Type="int">1</Param>
+    <Param Name="StyleTitleFont" Type="int">62</Param>
+    <Param Name="StyleTitleSize" Type="double">0.05</Param>
+    <Param Name="StyleMargin" Type="double" Dim="4">0.1	0.05	0.1	0.18</Param>
+    <Param Name="AxisXTitle" Type="string">Frequency</Param>
+    <Param Name="AxisXAxisAttrAxisColor" Type="int">1</Param>
+    <Param Name="AxisXAxisAttrLabelColor" Type="int">1</Param>
+    <Param Name="AxisXAxisAttrLabelFont" Type="int">62</Param>
+    <Param Name="AxisXAxisAttrLabelOffset" Type="double">0.005</Param>
+    <Param Name="AxisXAxisAttrLabelSize" Type="double">0.04</Param>
+    <Param Name="AxisXAxisAttrNdividions" Type="int">510</Param>
+    <Param Name="AxisXAxisAttrTickLength" Type="double">0.03</Param>
+    <Param Name="AxisXAxisAttrTitleOffset" Type="double">1.4</Param>
+    <Param Name="AxisXAxisAttrTitleSize" Type="double">0.042</Param>
+    <Param Name="AxisXAxisAttrTitleColor" Type="int">1</Param>
+    <Param Name="AxisXGrid" Type="boolean">true</Param>
+    <Param Name="AxisXBothSides" Type="boolean">true</Param>
+    <Param Name="AxisXCenterTitle" Type="boolean">true</Param>
+    <Param Name="AxisYTitle" Type="string">Magnitude</Param>
+    <Param Name="AxisYAxisAttrAxisColor" Type="int">1</Param>
+    <Param Name="AxisYAxisAttrLabelColor" Type="int">1</Param>
+    <Param Name="AxisYAxisAttrLabelFont" Type="int">62</Param>
+    <Param Name="AxisYAxisAttrLabelOffset" Type="double">0.005</Param>
+    <Param Name="AxisYAxisAttrLabelSize" Type="double">0.04</Param>
+    <Param Name="AxisYAxisAttrNdividions" Type="int">510</Param>
+    <Param Name="AxisYAxisAttrTickLength" Type="double">0.03</Param>
+    <Param Name="AxisYAxisAttrTitleOffset" Type="double">0.95</Param>
+    <Param Name="AxisYAxisAttrTitleSize" Type="double">0.045</Param>
+    <Param Name="AxisYAxisAttrTitleColor" Type="int">1</Param>
+    <Param Name="AxisYGrid" Type="boolean">true</Param>
+    <Param Name="AxisYBothSides" Type="boolean">true</Param>
+    <Param Name="AxisYCenterTitle" Type="boolean">true</Param>
+    <Param Name="LegendShow" Type="boolean">true</Param>
+    <Param Name="LegendPlacement" Type="int">2</Param>
+    <Param Name="LegendXAdjust" Type="double">0</Param>
+    <Param Name="LegendYAdjust" Type="double">0</Param>
+    <Param Name="LegendSymbolStyle" Type="int">0</Param>
+    <Param Name="LegendTextStyle" Type="int">0</Param>
+    <Param Name="LegendSize" Type="double">1</Param>
+    <Param Name="LegendText[0]" Type="string"></Param>
+    <Param Name="LegendText[1]" Type="string"></Param>
+    <Param Name="LegendText[2]" Type="string"></Param>
+    <Param Name="LegendText[3]" Type="string"></Param>
+    <Param Name="LegendText[4]" Type="string"></Param>
+    <Param Name="LegendText[5]" Type="string"></Param>
+    <Param Name="LegendText[6]" Type="string"></Param>
+    <Param Name="LegendText[7]" Type="string"></Param>
+    <Param Name="ParamShow" Type="boolean">true</Param>
+    <Param Name="ParamT0" Type="boolean">true</Param>
+    <Param Name="ParamAvg" Type="boolean">true</Param>
+    <Param Name="ParamSpecial" Type="boolean">true</Param>
+    <Param Name="ParamTimeFormatUTC" Type="boolean">true</Param>
+    <Param Name="ParamTextSize" Type="double">0.04</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Plot[1][1]" Type="Plot">
+    <Param Name="Flag" Type="string">Settings</Param>
+    <Param Name="Name" Type="string">Default</Param>
+    <Param Name="TracesGraphType" Type="string">Coherence</Param>
+    <Param Name="TracesActive[0]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[0]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="TracesBChannel[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="TracesActive[1]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[1]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="TracesBChannel[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="TracesActive[2]" Type="boolean">true</Param>
+    <Param Name="TracesAChannel[2]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="TracesBChannel[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="TracesActive[3]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="TracesBChannel[3]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Param Name="TracesActive[4]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[4]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="TracesBChannel[4]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="TracesActive[5]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[5]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="TracesBChannel[5]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="TracesActive[6]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[6]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="TracesBChannel[6]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="TracesActive[7]" Type="boolean">false</Param>
+    <Param Name="TracesAChannel[7]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="TracesBChannel[7]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Param Name="TracesPlotStyle" Type="int" Dim="8">0	0	0	0	0	0	0	0</Param>
+    <Param Name="TracesLineAttrColor" Type="int" Dim="8">2	4	3	28	6	7	5	1</Param>
+    <Param Name="TracesLineAttrStyle" Type="int" Dim="8">1	1	1	1	1	1	1	1</Param>
+    <Param Name="TracesLineAttrWidth" Type="double" Dim="8">1	1	1	1	1	1	1	1</Param>
+    <Param Name="TracesMarkerAttrColor" Type="int" Dim="8">2	4	3	28	6	7	5	1</Param>
+    <Param Name="TracesMarkerAttrStyle" Type="int" Dim="8">20	22	21	23	29	27	2	5</Param>
+    <Param Name="TracesMarkerAttrSize" Type="double" Dim="8">1	1	1	1	1	1	1	1</Param>
+    <Param Name="TracesBarAttrColor" Type="int" Dim="8">2	4	3	28	6	7	5	1</Param>
+    <Param Name="TracesBarAttrStyle" Type="int" Dim="8">1001	1001	1001	1001	1001	1001	1001	1001</Param>
+    <Param Name="TracesBarAttrWidth" Type="double" Dim="8">0.1	0.1	0.1	0.1	0.1	0.1	0.1	0.1</Param>
+    <Param Name="RangeAxisScale" Type="int" Dim="2">1	0</Param>
+    <Param Name="RangeRange" Type="int" Dim="2">0	1</Param>
+    <Param Name="RangeRangeFrom" Type="double" Dim="2">0	0</Param>
+    <Param Name="RangeRangeTo" Type="double" Dim="2">220	1</Param>
+    <Param Name="RangeBin" Type="int">1</Param>
+    <Param Name="RangeBinLogSpacing" Type="boolean">true</Param>
+    <Param Name="UnitsXValues" Type="int">0</Param>
+    <Param Name="UnitsYValues" Type="int">0</Param>
+    <Param Name="UnitsXUnit" Type="string">default</Param>
+    <Param Name="UnitsYUnit" Type="string">default</Param>
+    <Param Name="UnitsXMag" Type="int">0</Param>
+    <Param Name="UnitsYMag" Type="int">0</Param>
+    <Param Name="UnitsXSlope" Type="double">1</Param>
+    <Param Name="UnitsYSlope" Type="double">1</Param>
+    <Param Name="UnitsXOffset" Type="double">0</Param>
+    <Param Name="UnitsYOffset" Type="double">0</Param>
+    <Param Name="CursorActive" Type="boolean" Dim="2">false	false</Param>
+    <Param Name="CursorTrace" Type="int">0</Param>
+    <Param Name="CursorStyle" Type="int">1</Param>
+    <Param Name="CursorType" Type="int">0</Param>
+    <Param Name="CursorX" Type="double" Dim="2">1	200</Param>
+    <Param Name="CursorH" Type="double" Dim="2">0	100</Param>
+    <Param Name="CursorValid" Type="boolean" Dim="8">true	true	true	false	false	false	false	false</Param>
+    <Param Name="CursorN" Type="double" Dim="8">200	200	200	0	0	0	0	0</Param>
+    <Param Name="CursorXDiff" Type="double" Dim="8">199	199	199	199	199	199	199	199</Param>
+    <Param Name="CursorYDiff" Type="double" Dim="8">0.000899316	-0.0216247	0.020096	-3.82066e-05	0.00567257	-0.140102	-0.336695	0.0065266</Param>
+    <Param Name="CursorMean" Type="double" Dim="8">0.210142	0.271104	0.339014	0	0	0	0	0</Param>
+    <Param Name="CursorRMS" Type="double" Dim="8">0.29987	0.378846	0.443018	0	0	0	0	0</Param>
+    <Param Name="CursorStdDev" Type="double" Dim="8">0.214459	0.26529	0.285908	0	0	0	0	0</Param>
+    <Param Name="CursorSum" Type="double" Dim="8">42.0283	54.2208	67.8028	0	0	0	0	0</Param>
+    <Param Name="CursorSqrSum" Type="double" Dim="8">17.9845	28.7049	39.253	0	0	0	0	0</Param>
+    <Param Name="CursorArea" Type="double" Dim="8">42.0283	54.2208	67.8028	0	0	0	0	0</Param>
+    <Param Name="CursorRMSArea" Type="double" Dim="8">4.24081	5.35769	6.26522	0	0	0	0	0</Param>
+    <Param Name="CursorPeakX" Type="double" Dim="8">80	63	54	0	0	0	0	0</Param>
+    <Param Name="CursorPeakY" Type="double" Dim="8">0.891285	0.952348	0.96628	0	0	0	0	0</Param>
+    <Param Name="ConfigAutoConfig" Type="boolean">true</Param>
+    <Param Name="ConfigRespectUser" Type="boolean">true</Param>
+    <Param Name="ConfigAutoAxes" Type="boolean">true</Param>
+    <Param Name="ConfigAutoBin" Type="boolean">true</Param>
+    <Param Name="ConfigAutoTimeAdjust" Type="boolean">true</Param>
+    <Param Name="StyleTitle" Type="string">Coherence</Param>
+    <Param Name="StyleTitleAlign" Type="int">13</Param>
+    <Param Name="StyleTitleAngle" Type="double">0</Param>
+    <Param Name="StyleTitleColor" Type="int">1</Param>
+    <Param Name="StyleTitleFont" Type="int">62</Param>
+    <Param Name="StyleTitleSize" Type="double">0.05</Param>
+    <Param Name="StyleMargin" Type="double" Dim="4">0.1	0.05	0.1	0.18</Param>
+    <Param Name="AxisXTitle" Type="string">Frequency</Param>
+    <Param Name="AxisXAxisAttrAxisColor" Type="int">1</Param>
+    <Param Name="AxisXAxisAttrLabelColor" Type="int">1</Param>
+    <Param Name="AxisXAxisAttrLabelFont" Type="int">62</Param>
+    <Param Name="AxisXAxisAttrLabelOffset" Type="double">0.005</Param>
+    <Param Name="AxisXAxisAttrLabelSize" Type="double">0.04</Param>
+    <Param Name="AxisXAxisAttrNdividions" Type="int">510</Param>
+    <Param Name="AxisXAxisAttrTickLength" Type="double">0.03</Param>
+    <Param Name="AxisXAxisAttrTitleOffset" Type="double">1.4</Param>
+    <Param Name="AxisXAxisAttrTitleSize" Type="double">0.042</Param>
+    <Param Name="AxisXAxisAttrTitleColor" Type="int">1</Param>
+    <Param Name="AxisXGrid" Type="boolean">true</Param>
+    <Param Name="AxisXBothSides" Type="boolean">true</Param>
+    <Param Name="AxisXCenterTitle" Type="boolean">true</Param>
+    <Param Name="AxisYTitle" Type="string">Coherence</Param>
+    <Param Name="AxisYAxisAttrAxisColor" Type="int">1</Param>
+    <Param Name="AxisYAxisAttrLabelColor" Type="int">1</Param>
+    <Param Name="AxisYAxisAttrLabelFont" Type="int">62</Param>
+    <Param Name="AxisYAxisAttrLabelOffset" Type="double">0.005</Param>
+    <Param Name="AxisYAxisAttrLabelSize" Type="double">0.04</Param>
+    <Param Name="AxisYAxisAttrNdividions" Type="int">510</Param>
+    <Param Name="AxisYAxisAttrTickLength" Type="double">0.03</Param>
+    <Param Name="AxisYAxisAttrTitleOffset" Type="double">0.95</Param>
+    <Param Name="AxisYAxisAttrTitleSize" Type="double">0.045</Param>
+    <Param Name="AxisYAxisAttrTitleColor" Type="int">1</Param>
+    <Param Name="AxisYGrid" Type="boolean">true</Param>
+    <Param Name="AxisYBothSides" Type="boolean">true</Param>
+    <Param Name="AxisYCenterTitle" Type="boolean">true</Param>
+    <Param Name="LegendShow" Type="boolean">true</Param>
+    <Param Name="LegendPlacement" Type="int">2</Param>
+    <Param Name="LegendXAdjust" Type="double">0</Param>
+    <Param Name="LegendYAdjust" Type="double">0</Param>
+    <Param Name="LegendSymbolStyle" Type="int">0</Param>
+    <Param Name="LegendTextStyle" Type="int">0</Param>
+    <Param Name="LegendSize" Type="double">1</Param>
+    <Param Name="LegendText[0]" Type="string"></Param>
+    <Param Name="LegendText[1]" Type="string"></Param>
+    <Param Name="LegendText[2]" Type="string"></Param>
+    <Param Name="LegendText[3]" Type="string"></Param>
+    <Param Name="LegendText[4]" Type="string"></Param>
+    <Param Name="LegendText[5]" Type="string"></Param>
+    <Param Name="LegendText[6]" Type="string"></Param>
+    <Param Name="LegendText[7]" Type="string"></Param>
+    <Param Name="ParamShow" Type="boolean">true</Param>
+    <Param Name="ParamT0" Type="boolean">true</Param>
+    <Param Name="ParamAvg" Type="boolean">true</Param>
+    <Param Name="ParamSpecial" Type="boolean">true</Param>
+    <Param Name="ParamTimeFormatUTC" Type="boolean">true</Param>
+    <Param Name="ParamTextSize" Type="double">0.04</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Index" Type="Index">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Entry[0]" Type="string">MasterIndex:
+      Entry[0] = MasterIndex;
+      Entry[1] = PowerSpectrum[0];
+      Entry[2] = CrossCorrelation[0];
+      Entry[3] = Coherence[0];</Param>
+    <Param Name="Entry[1]" Type="string">PowerSpectrum[0]:
+      Channel[0] = K1:PEM-IXV_GND_TR120Q_X_OUT_DQ;
+      Name[0] = Result[0];
+      Offset[0] = 0;
+      Length[0] = 201;
+      Channel[1] = K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ;
+      Name[1] = Result[1];
+      Offset[1] = 0;
+      Length[1] = 201;
+      Channel[2] = K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ;
+      Name[2] = Result[2];
+      Offset[2] = 0;
+      Length[2] = 201;
+      Channel[3] = K1:IOP-IX1_MADC1_TP_CH28;
+      Name[3] = Result[3];
+      Offset[3] = 0;
+      Length[3] = 201;
+      Channel[4] = K1:VIS-ITMX_TEST_C1_IN1;
+      Name[4] = Result[4];
+      Offset[4] = 0;
+      Length[4] = 201;</Param>
+    <Param Name="Entry[2]" Type="string">CrossCorrelation[0]:
+      ChannelA[0] = K1:PEM-IXV_GND_TR120Q_X_OUT_DQ;
+      ChannelA[1] = K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ;
+      ChannelA[2] = K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ;
+      ChannelA[3] = K1:IOP-IX1_MADC1_TP_CH28;
+      ChannelA[4] = K1:VIS-ITMX_TEST_C1_IN1;
+      ChannelB[0] = K1:PEM-IXV_GND_TR120Q_X_OUT_DQ;
+      ChannelB[1] = K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ;
+      ChannelB[2] = K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ;
+      ChannelB[3] = K1:IOP-IX1_MADC1_TP_CH28;
+      ChannelB[4] = K1:VIS-ITMX_TEST_C1_IN1;
+      Name[0][1] = Result[5];
+      Offset[0][1] = 0;
+      Length[0][1] = 201;
+      Name[0][2] = Result[5];
+      Offset[0][2] = 201;
+      Length[0][2] = 201;
+      Name[0][3] = Result[5];
+      Offset[0][3] = 402;
+      Length[0][3] = 201;
+      Name[0][4] = Result[5];
+      Offset[0][4] = 603;
+      Length[0][4] = 201;
+      Name[1][0] = Result[6];
+      Offset[1][0] = 0;
+      Length[1][0] = 201;
+      Name[1][2] = Result[6];
+      Offset[1][2] = 201;
+      Length[1][2] = 201;
+      Name[1][3] = Result[6];
+      Offset[1][3] = 402;
+      Length[1][3] = 201;
+      Name[1][4] = Result[6];
+      Offset[1][4] = 603;
+      Length[1][4] = 201;
+      Name[2][0] = Result[7];
+      Offset[2][0] = 0;
+      Length[2][0] = 201;
+      Name[2][1] = Result[7];
+      Offset[2][1] = 201;
+      Length[2][1] = 201;
+      Name[2][3] = Result[7];
+      Offset[2][3] = 402;
+      Length[2][3] = 201;
+      Name[2][4] = Result[7];
+      Offset[2][4] = 603;
+      Length[2][4] = 201;
+      Name[3][0] = Result[8];
+      Offset[3][0] = 0;
+      Length[3][0] = 201;
+      Name[3][1] = Result[8];
+      Offset[3][1] = 201;
+      Length[3][1] = 201;
+      Name[3][2] = Result[8];
+      Offset[3][2] = 402;
+      Length[3][2] = 201;
+      Name[3][4] = Result[8];
+      Offset[3][4] = 603;
+      Length[3][4] = 201;
+      Name[4][0] = Result[9];
+      Offset[4][0] = 0;
+      Length[4][0] = 201;
+      Name[4][1] = Result[9];
+      Offset[4][1] = 201;
+      Length[4][1] = 201;
+      Name[4][2] = Result[9];
+      Offset[4][2] = 402;
+      Length[4][2] = 201;
+      Name[4][3] = Result[9];
+      Offset[4][3] = 603;
+      Length[4][3] = 201;</Param>
+    <Param Name="Entry[3]" Type="string">Coherence[0]:
+      ChannelA[0] = K1:PEM-IXV_GND_TR120Q_X_OUT_DQ;
+      ChannelA[1] = K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ;
+      ChannelA[2] = K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ;
+      ChannelA[3] = K1:IOP-IX1_MADC1_TP_CH28;
+      ChannelA[4] = K1:VIS-ITMX_TEST_C1_IN1;
+      ChannelB[0] = K1:PEM-IXV_GND_TR120Q_X_OUT_DQ;
+      ChannelB[1] = K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ;
+      ChannelB[2] = K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ;
+      ChannelB[3] = K1:IOP-IX1_MADC1_TP_CH28;
+      ChannelB[4] = K1:VIS-ITMX_TEST_C1_IN1;
+      Name[0][1] = Result[13];
+      Offset[0][1] = 0;
+      Length[0][1] = 201;
+      Name[0][2] = Result[13];
+      Offset[0][2] = 201;
+      Length[0][2] = 201;
+      Name[0][3] = Result[13];
+      Offset[0][3] = 402;
+      Length[0][3] = 201;
+      Name[0][4] = Result[13];
+      Offset[0][4] = 603;
+      Length[0][4] = 201;
+      Name[1][0] = Result[14];
+      Offset[1][0] = 0;
+      Length[1][0] = 201;
+      Name[1][2] = Result[14];
+      Offset[1][2] = 201;
+      Length[1][2] = 201;
+      Name[1][3] = Result[14];
+      Offset[1][3] = 402;
+      Length[1][3] = 201;
+      Name[1][4] = Result[14];
+      Offset[1][4] = 603;
+      Length[1][4] = 201;
+      Name[2][0] = Result[15];
+      Offset[2][0] = 0;
+      Length[2][0] = 201;
+      Name[2][1] = Result[15];
+      Offset[2][1] = 201;
+      Length[2][1] = 201;
+      Name[2][3] = Result[15];
+      Offset[2][3] = 402;
+      Length[2][3] = 201;
+      Name[2][4] = Result[15];
+      Offset[2][4] = 603;
+      Length[2][4] = 201;
+      Name[3][0] = Result[16];
+      Offset[3][0] = 0;
+      Length[3][0] = 201;
+      Name[3][1] = Result[16];
+      Offset[3][1] = 201;
+      Length[3][1] = 201;
+      Name[3][2] = Result[16];
+      Offset[3][2] = 402;
+      Length[3][2] = 201;
+      Name[3][4] = Result[16];
+      Offset[3][4] = 603;
+      Length[3][4] = 201;
+      Name[4][0] = Result[17];
+      Offset[4][0] = 0;
+      Length[4][0] = 201;
+      Name[4][1] = Result[17];
+      Offset[4][1] = 201;
+      Length[4][1] = 201;
+      Name[4][2] = Result[17];
+      Offset[4][2] = 402;
+      Length[4][2] = 201;
+      Name[4][3] = Result[17];
+      Offset[4][3] = 603;
+      Length[4][3] = 201;</Param>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[0]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">1</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">1</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Array Type="float">
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+RBwAPI1nwDwSHes7ide3OnyLZDqIZTQ6DQ9JOqA7OTp6HSU6ecwQOloOEzqTGxc6
+muQQOm01CjpIwBM6JgoNOoNr/DlErfY5BtsMOg6aBTqJhvY5BL7nOWgG7jnzovo5
+TuT+OZLQCjo+Ne05Qc3kOYu04DldcS46adRIOkft8zmIie85KyQdOlduTTrt+ho6
+EXcBOlDLBTqAsT86tNCHOuNAbjuJdos70vbgOvtjJjuEgD87THkPO3ko6Tpzs9g6
+cB73OgErBzs8nu46o+4MO0cyLTv2eRI7UEtQO8aXgjsA7Zc7zjytPGCI4zyBp0M8
+kqN6O60xtju4bxg8CG0+PFodTjwy/F480UOFPLnNTjwfigo8xB/eO0ywVzwOVss8
+TMzgPCP60jzMnhU9UAsPPeOdAj3pAqA8z2KOPDFNzTx07eE8ytCcPE1pPDxMHkU8
+tTc2PDeaGzy5IPQ7RvWSO8jilTvn07U7qk2dO6S/XjuiWlc7PFyCOxwDbzvUmyw7
+fCEjO+ySCTs3vtg6Ei6/OrA80Dq52MU6DwPlOkW8GzvDDr46FDKUOsm2kjqV57Q6
+sD8ROyhPDjvp/dM6lmesOiFHlzpVEaI6DSrIOqZfBjsohAc78FkDOxxr6zpfFm07
+hhXJO1sMbTt7OCY7OrwBO7G93TqjKO467Vj4OthGADsvtPI6XgH/OsyaHTsSeRE7
+4wTqOlEAszptmq46ZNquOhkujzqUdpI68nqGOtINgDqn3mE6oWhwOtbKojpC/sE6
+K8i9Oj2jtTrAoMI6Vz+mOuyspDp7YeI6osPVOiKJEDuqfEU7uAJTO1q2djusXm07
+2to0O3CWBjuMMgU7pcYfOzmZGjvcwt86VUsCO/k6Djvv/vA6PfvhOnD72Tr6xtI6
+OQS1Os1ghTruFo06aTKyOjzJ2TqTT+Y6KsyvOplUrjoY27E6O//iOpmPAjvM3fc6
+vkoAO0b0ATugAwM7eB8FO60r5zplw5s6lwdhOswhWjqyEKM6APkHO7ImDDu4nrg6
+FY1UOglrEjrUOA46ajUOOqMpATq9sAM6SEgGOlPZ/zkTsPo5
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[1]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">1</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">1</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Array Type="float">
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+ZwAePGZo8TwoLBM8RYPUOoqsYTrH0Xk6NfW5OlQZWTpRbeY58VT8OZCAIzolr9k5
+/Sy+OZUYujlXwNg5pU26OSUelDm2z6Y5xgy/ORImojlf95I56NKKOahjizlBb4E5
+LzihOSePujnZ2H45IT5xOYgwYjnwQOA54cMMOrQPgDmJI0o5yE+gORPdEzp0fvs5
+kliWOa9qjjltS5g50sirOadSKDrNajM6QKa6OQzuODobbYA68jNfOrX4VTr6IUA6
+BlxYOplZmzpO/6A6iAjGOv7g1jqbZjs7dsLRO5gt9Dt6Gd07jF+vPAL8xjxPjjg8
+pyXVO5rbFDw+EIE8JmyxPEhZnjyaPTI88FUyPHpFFDyjqK47sRrJO++3KDzOI3Q8
+zIaSPEXH0Tx+xiQ9u18LPe3p2zynDMs8MByVPF5fbTwTXV88MdcePGvPvTuvUKQ7
+RTyEO382qTv3zJw7vCFoOwF/RDvKGyM79EwPOzoH+DraxOo6dWf7Or+O/zpwHsU6
+qmG4OuCqmjokzog6i7OTOgudoTqgQas6+xHlOkQqDjuAs7Q64ASjOh/IwTrtuQo7
+RkKVO90vhjugRQg7vgP3OtGL1Tp9WNE6dWolOwUpgzu9Wn07ygJpOwBDUjt4ncQ7
+CvMiPF1w2jtqLK87G3eIO6R9cjsx5oQ735aSO80IjzsPA4I7JDFzO9ScjjuM+4Y7
+3KNiO0IWJzsr0gQ7gsgCO36r8joVCAM7aoMCOypM1jq1x6U61HdvOuukhTri6pY6
+EeaOOnA5fzoKj3c6EqReOtkwfDqspaA629akOri5tDonu8s650fkOsAoBzv5lAg7
+Vbj0Ovbp1Tp3v9g6GSvlOrPZtTp9+Yc6rPy0OhS2tDpo/4M6PopaOnNNTTr0oEI6
+TjRQOi0oNzrMnBc6vyUjOhWkdTquQoc6zE5dOgPEfDp+m5A6JwCaOufhiTpWU286
+V2JwOgB3Wzpa7006aL49OmDLDzrAjdA5k6bYOSVL1TmsCeQ5ngQGOli/BTopzNE5
+tIeyOeC9vDnqZMA5JkLqOYvCBDpG5Qk6Yu8FOnUK8znuigk6
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[2]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">1</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">1</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Array Type="float">
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+ZKoaPLaq7jwZcQw8QevbOlCOTjoxpUE6w+CHOufbPDplIgA61azkOV1U9DnMlQE6
+YOsWOkpk/zkdwuM5f7TpOcYK0Dl9nNM532/HOcx03DkPr985RPG7OYvexjmyXL05
+WnK9OS2bDDoV8Ow53aW6OXD1xznz1Rg69IQ4OlL5vTlQgac50bkEOuFONDorLAE6
+3/bHOYN/CTr/CRs6vbIWOk8h1Tpkkfc6La5FOoFQpDryrdo6z2reOtaE2jpSNaQ6
+7DGYOjdBtDp0HsY6x4QFOwnpDDswsE87kZTeO0d5ADzpadQ749CNPJ+goDzekgc8
+lWuWO5BWqDuCWg48Wu88PEt/Hzxobps7klh5O6OPUzvq5A07OVIZO1tGWTuafkI7
+gtYvOwFTZzuyQqc7ZsLAO9KPxDteO7M7rQKeO9BmnTu6OKY7/VZrOwakOzslAnU7
+oquPOwnB9TuuMOA7pPeeOy1sUzvNf4Y7iuK1O1jJlTt41ZI7JCC6O2mDsDvHHqo7
+JMbZO8O0zTvIgsA7dz/OO2a2zTtuDqo7SZ2dO+U0uTv0meA7qUnpOz/W8Due6+07
+BmcWPCrWGjziQQ08FBcAPDul2ju5MdM7kLYaPCuoazxk22I8j0tGPAvYNzz14LA8
+RHoXPUwbvTzRHpM8pv9mPOTOQjwso008us9cPNAeVTywPz880jguPO9NSzy8A0Q8
+8WwkPKKK+Tvm59k7j/HYOzn3uTsWqbk7tca3O0vPmztwKoE77ENaOz3KcDttBnc7
+XWxSO6j9YzucB1w7ohgtO9QuKzsq5FM7CS5UO5FNbjv8HY87YrGUO7vOrzsu2L07
+Fea8O5/7tDvuQrI7GJyqOzTgijtRBHQ7iz6XOwBWkDvw/Fw7UItGO1pZMTse3DA7
+8G86O+VvOzuqHDY7uYs+O3XCcTtsI4U7D21EO8ySRDuuW1g7z8d5O94OXjuRzzo7
+Sko+O2BoATsaC606tRjdOpV+NDvpYDQ7yQUWO1IC1joMDBE75I5+Ozl9aTvuxwg7
+AgunOto9gzpO8H067g2AOmm+gzrmDIk6mkqTOkodmjrHm706
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[3]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">1</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">1</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Array Type="float">
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+86IYRMy4rUQfSBBEn+vUQuleUELcU8JBpxWhQS5+ZEE2b31BhnAFQixJAUKj2GFC
+HIWDQmnX1UHs8B5BqUI6QejhLkHo0AlBZ6uGQfkSPUJK3UZCWieoQWctIEHJDvVA
+PNaVQRc5LkJBNghCypB3QWrKpEEX75NBdsM0QT1AE0E2a+BAMfNKQSLQbEFxxDFB
+EAw+QbsB20HUSOtBC6uVQQ2IeUGrKoNBjiVuQf/z20EB/9lBBBv8QQ2k/UErk5VB
+fRhXQRDodUFn8apBh7DDQZiOqUHf0g5CcMeNQksdm0KfLGpCQaahQif5tkLlCCxC
+T6/UQXsdrUEkC/1BFpMwQjgGE0JMDrdBL4rCQYG7mkFmqmRBpqGAQbfjy0G3/v1B
+WFUGQpQIFkKtYk9C6H0WQoy1yUFppvVB14/gQYScuEFHqsRBsSSVQYC3kEGeOL5B
+6v34QREGb0Kdx1hC5owcQjvMwUHcUtBBVUtSQvGyDEJ7sllBcxB6QREpakEJ4G9B
+OqlgQaf+KEEzTApBoVkjQSm/TkFIiGVBTDRgQXLHYkEYQINBgZZ6QYSGiEEP+ZJB
+qnuuQRksjUEvEB1B+Tc2QebuSEEj4jxBFVeRQcTd1kHarbVBlTSMQRVVUEGs8jRB
+Ws5IQeYYCkHKfxZB4uIdQRq2FEF7fRZBMgQQQfF/KEGIuDNBnaxCQeQXY0FoDVxB
+o1RHQYpmOkGz+y5BbMw+QTh4QkHoXldB4ISCQbdQoUFb4Z9Bq4+DQVsjX0EMHG1B
+SwiNQeDriUHi6pZBxWOJQUXefEGm5INBCdd9QauUm0GLIr1BElDaQSyc9UHcVttB
+IHWiQVxdikGqDoBBT1ZqQVvtckGC5HBBm6t1QVSWYkHKJUtBF5BNQc+qQkFDT31B
+bi2iQb5GlUFCf4hBPopvQdRfXEGWElpBzoZQQRZRRUFqhCxBjZ53QV8Lk0F1a0dB
+ZEg1QdCjQ0FbpjpBi2VDQTEYRkGsmTxBuSBgQZXziUHTr5dBW+mSQZM+nUF04IdB
+x8JkQaZqc0H1MIxBc82aQYy+k0GQrn1B64OBQZEXh0GWCINB
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[4]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">1</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">1</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="float">
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+E3cXRLhnrESdMA9EW1fTQuXdTkLMr8BBxhugQTqiYkHTjHtBKXQEQt9PAEJYLmBC
+9I6CQhpP1EG5xR1BA/E4QdqkLUG42ghBt72FQUjJO0LYgkVCnv+mQRAjH0FjbvNA
+VuqUQekgLUJ1WwdCivx1QWLOo0GrEJNBJL8zQdhkEkF8Ht9AKeJJQaCRa0EX3jBB
+BjY9QePx2UGKJupBS/SUQQNbeEF9m4JBVDBtQb0O20F3INlB/in7QZGy/EHaB5VB
+r1xWQWgudUHIeqpBOSTDQWYJqUGxfQ5CanWNQszJmkJAtmlCB1yhQn+stkLnzitC
+BWXUQVrvrEHs1fxBZHkwQlHxEkKE8bZBKYfCQW/NmkFz+WRBvLiAQb4NzEFzOP5B
+8XgGQn5FFkKKtk9CF7gWQl0PykFLJ/ZBbhjhQakTuUHYJ8VBUYqVQTwtkUGx275B
+s+H5QdXfb0KJlFlCyCwdQo+awkEtSdFBH0JTQoNaDUI/xlpB51V7QeBVa0ERLnFB
+suFhQZcDKkEJNQtBeXUkQaYoUEEyJGdBtM1hQcJnZEFmL4RBsnl8QTuTiUF2IZRB
+Xt+vQYBQjkHEbB5BNbo3QXSqSkEllD5BfrOSQfDx2EEqcrdBGJGNQVBZUkHu3DZB
+LvlKQW2WC0F4IRhB6LMfQSRqFkH6OBhBDaQRQbJyKkFpyjVBp+5EQZP7ZUFx/l5B
+D/1JQdHcPEFyWTFBhmNBQS8uRUEiXVpBrGCEQa6go0GUKqJBR4KFQQmNYkGAynBB
+yjiPQSgRjEFXS5lBvpSLQRGEgEEGJIZBoSqBQdpUnkHLf8BBSS/eQbAH+kHAU99B
+a3ClQV75jEFTd4JBQMtuQYWkd0EhpnVBH5V6QagVZ0FBRE9BWuJRQb3GRkFIYoFB
+a7ClQeeQmEF1hYtBm+J0QaJqYUELNV9BQJdVQastSkGVtzBBF7V9QZq1lkFHikxB
+5eM5QTepSEFzsD9BA7hIQS9dS0FTgkFBDypmQT6zjUHu85tB2w+XQQnBoUH1yotB
+SHVrQVumekG0a5BBM5CfQUBNmEGcrIJBV36FQUJdi0EuSYdB
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[5]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">2</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="floatComplex">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[6]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">2</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="floatComplex">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+lWsnNgAAAABqxfI3/NK9tx/sDzYfEaW1ZzxgNE6zD7TX8BizspaVsv67CjRkDJMz
++0TUNI+y2DRcgMYzcH8ONDq8VbPkpvEx74j2sn/zUjPI1bSz/O+0MwjffrOTDGAy
+Ho4es+RtoLIWtW2yyQFTsrbteTP+rbsveW5NMmSOZTIRpSqzFqtKMnaQVrOMPOOx
+AkCgs3lqTbMfJgqzyq2aski/3bLkYV6xiQjssvWl9DFjxB2zz6BdMok7DbMys9Qv
+JBAUs09gmbGd+Y2zo+ROMK/t2LImQl+wE1e1srcZRLKtMnyyGdsjsjLH3zMZqLWz
+tY9bNE6sJLTrp4UxYmyFsSkfprIwMtqxHQmBMyi9gTEthIg0sT/Asmt24DPbQdqw
+xSGDseY/ArKmhv+yOLCzstrokzAvjkiz8A+kM+a/hrJOpvo1AJ2+M4EkLTYwtxc0
+oeaWNJNU67PVqVA1i09HtaTQ7zW4heW0jQ2+Ncq2P7SVg501gJ59tH7uPjWwBxO1
+v5RRNToQa7U5v2w18zbYtb3VRDVTCGa0bLbiNdX1SjUMdgk2ArMANUC1hjXaL7I1
+fZKjtQdoIzeCfFk3tnaWNiUBlTcyqdO2aR9UOWT9OrmelYY54WGJublokTfSOYS4
+jokBtrUfkLcSfRe4Wjq9t6T8BLmEh1m4+Q9tuaLjqLi1Tle5MSZ5uBKqzLi9kX24
+KMECuQt7w7g8FrK4ajNCuB0Fk7eOD5u3ifi+thXxUbfREZO3ouBluIwn9bjp4YS5
+PJZduMAHy7mKgEu3QA8JuqqmLble5Ju6nk/euOjPPbpKcsy4jKymuVly87hUuGa5
+q0gauYhqI7kBXXG5cQdVuWevkLm2HVC56ZAVuRnYjrgNUju4SL+Zt8r0LLiVrde2
+KOf8t9KhLjXzRdy3R2mKNxO6krfKfLc2tAlottYDy7aN3qG2vDPVtROXsbbIhDO2
+8aSCtgr1RbYVbR+29v+/tLLfAra/FHQ1ly5ztgTuzTWJkhi21hqzNXV1irRemXQ1
+QYwNtW3xoTUghpG0FtCiNRMjnjTBr0Y16Z8pNQC+LzWQsG81xx80NTx/NTXq+qQ0
+gpTqNezvCbVkgXw2LQ7yteLoiTW814C0Z3XxNLabo7AsFDs1DxSLNLOpEzUmjGo1
+2wONthVP3bP7XDK2O6pFNenN6zURxLM16b/SNdC3hTUGw6Q1JMSiNAm5uTXL5J40
+9LYvNsv9hTV8erI2lAkTNjb5uzaSI941wiLONqMwcTWikqw2xj/FNEamkje+/Rc3
+qdpKOLAl9Dehkaw3GkyONq7zWTd2THu1uKsAN/job7Sa6bY2v9dAtVij4DZMPz+1
+rs8CN/bYtrUbuv82qb8Stt1s2Da93vK1xPzYNuiqoLWRsiM3jmX8tfFeDzfWXcG1
+1N22Nl6jkrUKJS02KOSFtYtj+TXKU1m1ZfD6NexYUbWbErQ17oXXtFGhxDWk9ua0
+nMq2NT2aQ7S0w3U16TTPMoqwEjVA4oayp4TfNF5unbLxrD41eGIftDtwUTXZFry0
+j0RXNVUpBbUe+Ck10NsetVTKQzVh6iy1dx/xNMnad7Qkdho1+mSbtFa3xTVmLGK1
+R9G+NZi/MbWfoPc17+6wtUAHZDb2MQ22JcScNu3T5bVuB+g2fwjUtfUM5zYAY5C1
+As6ZNmQ2u7R2GDg2hKOgMpw0ODbHcBM0lM16Nkj2xTTPlzg2h8AMNXufmDXP/1s0
+OIsPNhaIVjS6hyg2XpKiNMXQuTUbJ3Q0OxJTNeBILjLTkxU12LcvMzGn5TSTmm40
+I3p/NC7UwDMfvwA0BOcgtL7bOTRy/Xy04R3PNCjU6LQbOXs1DeM9tTFMozUGqjm1
+2vRTNabP67Pu3IA1pc4UM4OApDUPp4sxLebmNa5CALSxNO01opais1zawDUAl1Mz
+PD/HNbeauTOUtrw1G9cmM6bjtjU3hZEznoaeNYczTTQmqwQ1kGuYNN3riLEqAjo0
+tH+IswtZ3zO8mHMyxMJ6M8amgTIE1a0z68q+s01wHDMIC2Ky4FBVsoPCNbNluZwz
+fSMys7BKrDJpQoyzYp0csSEMprPmQpevHjfos26UAzNG5MyzGvUKM8TW87PvDSkz
+vo66s5wgnjKWWkez2Ql7svjJj7O46xOy+944twAAAAD0Tdu4amrwOCt4B7cQrRw3
+HzqGtHylkzQXm4ezmB/0MdVKpzSgMZaz4P6NNWNqibT4xIc0UbRos/74NbO5eJIx
+6e2as9l3AjEoQDW04x0TstwMa7MNJ7kwGuw0s4lxCDOpcmezwDm8Mm8hQLM/Vegy
+c4QxsxuvrjK4Cxqz/uRZMG9ccbPCt/kxWWV2s4bSrDLJEnGyYtaMMAXdt7FFlTWy
+cTJTsj5Wf7BZSECyng93Mk5taLJoxY8xUTYpMid70zB0pk8yEhZTsgea+DAa5b6x
+DFedslWfSjAq8KiyM9xOserbEbTIyHgwjAWJtGXhhzJP6iizzSbOMWHsbbIFpO+w
+/ERLs6fzV7OGWzu0gJMutCT6j7MxjZSzz3oAs64o0bLUJh4zDmRUstSShzOh8OGy
+G9AwM9CIobKiL1E1wLGaswJOljXJgZuzUJA1NDxAzbJhKB01pRXnsrWNjDXZpZk0
+MYyjNejxtDLWzaM1VPwvtMXbPTV/GpK0syw3NVxArLRFLLk1oKn5tCvE3jUbbIC0
+n1Q3Nv7YmTPBS0I2XvsANJ22DDcCkWg1M6krONZwHDdubGw415aGNU81LDiByrE1
+7HulOWU9Oznl8s85QItTOQ8BiTh3dra26mrZN5DE5bat6jw4oK7gtjfeDDk2rH63
+e22BOYba47dfaUE5KW3HtykQPTi2eFm3DNkROJQPTbfDEN03shmztsVVCzfBu6u0
+HeEyNz1nGLaug8s3UV4+t5HLmjcw9Le3cU8WNwwMFbgYbBm20mSXuODWTbjxxSS5
+M8XQuNfRpbgT3/i4vcSXt+Zb4bit4TC4kxSUuN5EebcIT1y4D84SOFxHRbjuQj04
+CvO9tzVUojdbKNy2lAQIN2s/y7WYqQI3WCB/tIWs5zXO+au3abent4ZkqbeamSq3
+LfdFt7vkRDbjoG624jQLNkXelTQjla825w2lteJtzDYYjoQ10U5YNkhzFzZeMwc2
+2PaGNtk1nDZ4WWQ2eKeRNnjhIzZBQ+c1caKINtmeJzasr3Q2rB3BNTlAXjb6dy41
+6e2PNu1g0zT5eZ8267wutOCFUzawBV61fvcYNl5LArZedzc2x3Q5tu3JsjaUFm21
+ebXANtgylbVaDPo261ZNtcAlLDd/dXu05Lb8NjT2arcHOUo3swIZt1nEgzctlta0
+6/NeN18BTrXD0B43Wgm+tfcdGDcCuoy1WBa2N/7DHrZKj144mmfMtmYaUTh6q+q2
+E5IqOHWE4LYHXBE42+IltpInxTjgpIM44OqDOYwIYjmjuwY5kWIYOMnoxjg++pa2
+rahyOMw7gbYJuTQ4HdoitjtpUjj4pfCzEa55OEoEOLVt3mo4mMIHtm4OPzipkOa1
++XAiOD+Ih7X9ql44YYadtlQYSjhF3bi2l0oLOHUNq7bpwZU3D29utgnGRzfgKua1
+LWZINy7Sl7Wj/iM3HTSdtVshMTeOBiW2Tj0pNyB0b7YgPds2e+s9tgUlgjYMdNS1
+ROYWNmWeNLVmVk820JBctbPeZjYI85q1zV8ZNna9orVy1iA2IsCXtbA5LDasLAC1
+wQ/mNUH2abQtnf41pozitEcQXzbrm+W06WhfNhZLxjLRfIw2xCazM3Vu0Db5OT4z
+3abzNloTKzMDWy03ChxUtWIiPDd4uMy1tYYlNzbpCbaeAQo3DMkKthp7CjdJB/W1
+4CUMN8OvDLbpO6g2uGTatYHTVTaj/Mq0wIu7Nl0J0jRYCbE20x+FNBNZMjZEf3W0
+TV8ANifA27Pd79g1MZyTtEV61jVnlay0OFjxNaN1zrQNXKo1Qw4DtZkMZTXK0dS0
+dbScNRRrqLT6fws2vf2ZtJXXFDZJ2Bs0/97pNYZYbrRMDiQ2ClI9tXLBUTZCLJi1
+m0J3Nj64mrW1Nz02np9BtZRcATZBmYe0anylNUIA6TMv1T81OXYfsvSWFTUhCh20
+0ma7NLKsHjO/xCu0aIVTNFcOBrThCAc0rwCxswVSTTQhosyyDAgLNO1mHrTF7M4z
+Kc0+tZ5mOzR1nQm1Vud+s+jGmTNDL56zqHc8M+AZzbMLSB0zT6QIs18S2zKXgCgz
+nRq/Mxntc7Lx7B4080eJs4D4WjS/7Qe07+9cNPsa/rNCoRAze3dPs2dINbT9v2Mz
++3ewvwAAAABRoAjBsN2UvBcDcL+MyYq7en7ru3jvBjwzqn26sE9DOjw9LjoGlsC6
+p9QFOm84KLrs4BS5UH5Iumx6GrjkMpU5ouLkOTLSaTpHARI6eSYMOnj4VjlLLSa7
+1rPpN7FwZbsVHb+5jkQHu1frGrrGS6K6s4Q8unIVOroNkuC5gwuYuVLakbkuGyy4
+duz3uVxM1rnqnqW66dcuu7fVDbsa9Qq7PRMnuXBxv7ksB4Y4HszgucmfhLgzfle5
+zkTCuPgZQ7qHeqG6xz+Kuhw6lbpdA6S6MCu+ufPo8Llu86y5/2G5ubDZNboUuRq6
+TCMWuiDiWbk1+Vo3mIT3Nx3QIrmwhkK5z2iOuh53ybnkvzm7BhbguVanIbvlJT26
+THlSut/Xjrhji2i7kbvbus7oh7uZBIi6KSS6utQ03ThH6667arOVOhzXC7wH7aU6
+XvsFuwG70brniAu8CODeu3x0SrwSR0y7rOepvGUWWrsYtry8ETQQuhVHGLzxwwo7
+1HTSu0bduDqD8GS82vifOgIKrryAEfc7QQfrvDCLVjzU/8O80T1TPKu5s73elw49
+sNbUvs8TFz5EiQC/ihV9Ph8Elr6da0E+1pivv4+EtD64qtu/QznKPsr4Xr4ij2M+
+lWhZvQNEBz5IlcA6XksuPt37Dj7Y1eQ+kZbYPnjjVD/k6L8+Pb8PPz89Oz4UuZc9
+Yjp2Pkntn7wu1CA+vC0BvPrAaD3lt6E6VDWrPUzIC7yCdGA+woCrvTTqpT64wpK+
+PMzLPgcsy77edwY/sYk5v5FjZD/wXuG/kd+YPmEPh7+dyde9frbhvgA8qL654fm+
+YgWlvoMBP77/JV++qYgoPuCjMb4vVn0+/hGOvf1xBD7cNOy7ozVVPWXzjzw2SyI9
+eupGu9MjrjqB0ky+VN+1vZyLFb5BDeK7a6JNveM1oz2Sq8S8rioGPR23Yzwpcno8
+V4fmPNd4Sz0BLWg8JXKPPOo3gzvqoPu6EJhnO7SUebroMZ07Iru3u5RklztAbMC7
+lEbmOlpYvbsVZIe6eZequ2NsSLlfXYe7kqXDN1uLi7teF3W7cIK/u5kVebu17gy8
+bVvtui/x97vCymC6DW4DvIlsAbuhOjK8+86ru1XETLzai328dLsyvHyu0byMTBy8
+StiBvZpQQ73maiG9oUIbvUIHI7wgjVi76CE9vGlQpjo6jBW8kWBruo8eCrwe1N27
+06vvvAEgIbxmhJW9RefluyW4K706v3k8D4aRvFNP+DwoZ4S8UDELPHKSIDzmAI+8
+1LNoPaKOXb0WRGM8836QvNiXm7tdd1+8ccZkvHdezrtS8Bi8azHYO+mvJDuMfJE8
+Q8bZOwn8pDyeZpA8ZQk1POXJuDz6sYy5auPuPODm8DsYBRA9WYf4PAcuazzqEAY9
+ERdrOvTqeDxtUxq6UHleOSb1hzsl9Cm7uOiKOs90LToA+5W7AdTPO6V0RLvXxXQ8
+H441uhAlqjxyg1S7cttnPC8nIbxQtqc73OPJu8DYaLrYpYS7JXuKupi18LkQ+8S2
+Ngm4OxxyTbs8n5o742AEvCLwhzsvkTO8OjY5O54xj7toGDc7T5bDugzz3TtPPOm7
+Oe75O4TE47vfNyM88qofvN4oVjxrJaK8iQBxPL0i87yoMdQ8H1sSvRf37DzSI728
+sECzPBgxe7sOjYY8HTKmOQR9sjtJGT27AlnIu9SDers00ym8vi6+u2SNh7tHkvi7
+iXZlu55wTrxM94+72XZFvLnKIrtSIvu7eA0wOLA/iLtWCzc6yrbFuugDdjvRDpW6
+0M8APFNC7rpUldk7pCDsupgYajtLrke6kkYkO2V67jrtAjU6Rw6cOz+zp7ZHfJ07
+q3wLu3LXG7oq9xq7tkOIu+kdzbkzeJi7Bg7FOwnpcLsXiwo8KqFeuv01MjudeQ87
+vmR8OmYC7DhRi1Q75hrQt/YKAzs8yRY7sP2TOozW6Tqbf8U6KIlmOW5fPTosVBu6
+mjlHOaMp9bmgvKO6dugWuprdFLuwh+W6qfk9u4zGn7oBOg27zxMWuoEmFbohchm6
+jrhtutw7O7kQerG6qZsIOgqUerqywBC5FS2gudBV1rovbIG6OuKLutgkVLpg/9K6
+Z8MCuTd/MLv7ymK64icFuxlMQbkdvKS6XCSvvwAAAACalgfBpMXNvMogbr8UwbG7
+BAXruwAJBzwayny6MB9DOlQ6MTogAL268K8GOqvDI7p2vQi5HpFHujIZL7jVMJM5
+NbTZOZgEajokSA460MYNOmPCiTnkiiS73KDlOLWgY7vJh6O5a9YGu7DIELrGZKO6
+2781uh5MPrr6Ndq5EZWduQzxj7ldNVG4YebtuUIg3rls3pa6TL4wuyNdB7vcbQ+7
+KIsVuWHiwLk/baw46sfduQoYXrhZG1m5wKhpuKXnQrqFXpm6Z1CRuoDYi7oJa6q6
+/CawucGk+bkK2KC5vhzCuXWKK7ruTCS6Yg0SuqoBfbnQeTQ31+v3N5m3Fbntpku5
+VhuKupqH7bkFaja7w00hukUxHbsjMGi6AAZQupJDA7nPm167NZT8usBdhLvm3a+6
+MuO5ulD6h7YglrC7A2g4OpV0DLzYDRU6wA34uu5s5rq45wC8RlP1u4R5RLzm6Ii7
+fSWmvMNoqbuC1rq8q10tu5BSGrzJVaI6WzHVu+ivTDrxKGW8rYckuZTlsrzqka87
+bhH0vEsQJTx6Vc28kr8oPMHiub025M08pknbvmWDzz1mcQa/OqhCPjmGn75IaR4+
+jEqzv+WrRD5vq9+/1PpGPtjvd77crEc+VBmMvQVV/z3z7J68+QItPlG2qT2Yzes+
+sRChPsC7YD8Hrpk+7bQaP4DSLz6AzcY9/6d2PkE5SzzDfSA+xiFXPJfPZT2rrxM8
+exysPXVoTDvqg2o+0rBVvZNRuT4AjHO+eCbnPpDuq74EgSA/XRokv++Jkj8UVM6/
+5SnoPv8PgL+qxxi9c83nvmvwf76GuAi/rqSUvkuUcL7n0He+nHYDPqprWL5BQV4+
+rXq3vTYq7z2MZIC87TFOPY7zMDy7oSw9O5tPu1LARzqx9Dq+fgL6vXjHEr60nQK9
+pSKCvdBvjz2gk/G8peHmPFpUNDwGapA8hyOaPN3xXT23czE8TNOiPEvjjDtKFpi6
+X85vO3iUlrl0xL07WACYu2tHuju0JaG7O3w6Ox+zr7vAfMq1s/iuu04XJDpi4Ya7
+MFxjOmmlibuTqSS7qcTVu3kUA7smrBe8lMZ1uRNbALyu31U6wHkEvEpKsDm/YDa8
+Rt4ku+LpW7wObFO8E0NmvISKvbw7dHS80+FUvR/TeL3Uwvm8VAo8vRx2FLx/srK7
+jYQ+vM0Mr7pNsA+8iHxAu3PR3Lthggy85OvYvAiXhrz5jY+9O2LDvFNVN72ykKk7
+yG/JvLJQ0TztS5K8a9uSOxi3YjytjXG8SP+MPdzlIL2+pJI8wR9kvDaQqrqIa268
+MfxGvHpXHrw+azG8/+uGO0gLB7ujp5M8qaCyOrRXrzyhAmw8VHt7PAw0tTywILc7
+qILZPAmxcjzhdNc8CWQfPbDdrDttkBI9j5VPuyjPdjxFiSG6CMNjOE7Wmzs6Mri6
+ttheOncPdzqQTsy7IIKhOxGd6LtQ8WA82ivVuz1ApDycOuq7ufxSPBSpNLwgng87
+WTG8u6ErLLt3hW67TCYQu8Gz7LmL/gq5kefQOybKt7rUYuQ7fdXTuxiO7jsJTxq8
+M26EOxDwXruERE87ErseupYqDzxx7J673BgcPK9bkLs9fE88IOfQu4cRmjxR6Xe8
+UJrAPG4Fxrx3sxQ9o+fYvPqLED3yx1i8+mm3PBckVDujYYE8iXO2O1NnyzuaQoe6
++AuYu4CHurvXwgS87E0TvGjUxLoeMA682udLOkZYWryi4WW5L4FWvHIxPDmDmQa8
+vpC9Or3Fgrtf65s6B+2eup49gztK0Ek5pzAGPJENejqCwuU7tK8SOgIzcjujhQQ6
+9EnoOiPeKztxaYS6l86dO4fu37qD8pY7UYHvulR5rrobnUi6v2aeu8BnqjrXr5a7
+mCzoO3Hnr7qmtAk8fEsVO6BQ7Dr7rEo7SnhlOppE8Dm72ko7rBOaOuBhiToB/kA7
+ak/TOQWQCztDB7E6TT1MOhPnbzqdy5e50Ry+Obi4wrmJFn2687eGuldowrpQ5ia7
+s4YVu5rnFbsWdu+6dlS1uoIYpLnNb0y673ZPusNSCrqHxMO6wLxFuBPPXrr3Iwe6
+PlnBOSwg27qIPwS6mqa4ukpZ3LhTrvK6TlqBOv+bKrvQC4E37YMVu68ltTn++aS6
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[7]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">2</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="floatComplex">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[8]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">2</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="floatComplex">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[9]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">2</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Array Type="floatComplex">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[13]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">3</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="float">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[14]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">3</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="float">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[15]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">3</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="float">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[16]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">3</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[4]" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Array Type="float">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+Jl53P1pacD+om1k/UzwwPwz7KT9WCi8/gQpZP9C0TD/M2GA/ZYhzPxdwcT/YsTw/
+m8k/P/zqQz+zIRI/hT5FP5STUj8Teio/z3c6Pzx4Sj9zzD4/4HLFPvy2kD6Reik/
+VYBMP8zTWz/jX2U/XJFWP+QjQT+5iVo/r2FZPwt2az+lXGg/mlxcP5EfBj+Blx0/
+ntFMP+e/Ez9SK8k+P8ApPszHVT7VCnE+UpuaPp/1lD7vVoQ+OgBrPtMqOj6G/jk+
+zXq4PunODz8WhBo/kUgFP0SBsj6tN18+ahhqPCwNez19WlE+zPlLPvfuSD5IzvE+
+A6MLP1EdDD/PW5g+s0h0PqODFj6vlCM+cbW1PnfJDD6NcN49x+AtPm6Vuj0UKU8+
+A26DPvGaRz7fl1k+GDvBPsKLBD9sCsI+J/boPSWbxDxJAj48XlwgPf3odj4hFMU+
+yv7jPh0Ipz74+90++zWiPpfmAj4toDY9SECDPRruPD5U38U+OpdcPsUT5j1tIr0+
+dFOnPsysaz5hoss+J/zkPqt+tz4c2IE+JICYPp9vtz6f35o9pSJ3PfbInT63k8U+
+hqADPwRcCj81MdA+nvNKPnnhpD1kWU0+rr7HPr6//z526NE+TRx2PkDhAz6NHv48
+JJ+OPaqtUz4NZEM+j34MPsOiDT7uQg8+yKmTPHbQYT0eWbw90Fs1PagqzjrBOBs9
+fgmQPLYwqTsrvEA82nXRPODwBT3htTY9w0qQPUdgWD3atpQ+CvAGPvzBFTxyfZM8
+tMyYPIxN0jwuIc085v9/P/n/fz/7/38/qf9/P7z/fz86/38/UP9/Pxv/fz88/38/
+y/9/P7z/fz/T/38/AACAP+L/fz9Z/38/m/9/P5f/fz83/38/sv9/P/n/fz/5/38/
+uP9/P1z/fz/4/n8/x/9/P+v/fz/g/38/kP9/P7j/fz/M/38/Uv9/P0X/fz+1/n8/
+mv9/P7X/fz94/38/gv9/P+D/fz/d/38/tP9/P5L/fz+U/38/Uf9/P9D/fz+5/38/
+1f9/P7X/fz+l/38/Tf9/P3X/fz+l/38/y/9/P6X/fz/M/38/8/9/P9n/fz/U/38/
+7f9/PwMAgD/b/38/wv9/P7z/fz/i/38/5f9/Pz//fz+I+n8/nf5/P8D9fz8v9H8/
+hv1/P8H/fz/O/38/0v9/P7z/fz/N/38/z/9/P57/fz+u/38/zP9/P8n/fz/P/38/
+oP9/P5//fz/P/38/1v9/P+j/fz/f/38/3v9/P6f/fz+i/38/9f9/P9r/fz8k/38/
+X/9/Pyz/fz88/38/OP9/P9v+fz9a/n8/Bf9/P0X/fz9q/38/hP9/P0b/fz+F/38/
+iv9/P7L/fz+o/38/vv9/P5j/fz/I/n8/A/9/Pzz/fz/y/n8/j/9/P8v/fz+t/38/
+o/9/Pz//fz8J/38/J/9/P3T+fz8I/38/9f5/P9f+fz/3/n8/uv5/P1n+fz9E/n8/
+yvt/P8z4fz8n+38/i/1/P9n9fz+e/X8/8f1/Px3+fz9B/n8/w/5/Pyv/fz9Q/38/
++/5/P9P+fz/8/n8/Pf9/Pxf/fz83/38/NP9/P/v+fz97/n8/Pf5/P2j/fz9p/38/
+j/9/P5T/fz+M/38/Ov9/P8T+fz9V/n8/2f1/Pz7+fz87/n8/TP5/PzD+fz8Y/n8/
+Uv5/P0H+fz8i/38/dv9/P2D/fz8P/38/qP5/P7T9fz/9/X8/Q/5/P679fz/++38/
+q/1/P0X+fz8w/H8/l/t/PwT8fz9F/H8/a/t/P3D7fz+G/H8/q/1/P5P+fz/k/n8/
+BP9/PxP/fz+o/n8/fP5/P5P+fz+V/n8/tf5/P4L+fz/n/H8/yfx/P7b8fz+8+38/
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+  <LIGO_LW Name="Result[17]" Type="Spectrum">
+    <Param Name="Flag" Type="string">Result</Param>
+    <Param Name="Subtype" Type="int">3</Param>
+    <Param Name="f0" Type="double" Unit="Hz">0</Param>
+    <Param Name="df" Type="double" Unit="Hz">1</Param>
+    <Time Name="t0" Type="GPS">1229843573.0</Time>
+    <Param Name="dt" Type="double" Unit="s">1</Param>
+    <Param Name="BW" Type="double" Unit="Hz">1.5</Param>
+    <Param Name="Window" Type="int">1</Param>
+    <Param Name="AverageType" Type="int">0</Param>
+    <Param Name="Averages" Type="int">128</Param>
+    <Param Name="N" Type="int">201</Param>
+    <Param Name="M" Type="int">4</Param>
+    <Param Name="ChannelA" Type="string" Unit="channel">K1:VIS-ITMX_TEST_C1_IN1</Param>
+    <Param Name="ChannelB[0]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_X_OUT_DQ</Param>
+    <Param Name="ChannelB[1]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Y_OUT_DQ</Param>
+    <Param Name="ChannelB[2]" Type="string" Unit="channel">K1:PEM-IXV_GND_TR120Q_Z_OUT_DQ</Param>
+    <Param Name="ChannelB[3]" Type="string" Unit="channel">K1:IOP-IX1_MADC1_TP_CH28</Param>
+    <Array Type="float">
+      <Dim>4</Dim>
+      <Dim>201</Dim>
+      <Stream Encoding="LittleEndian,base64">
+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
+lVx3P8lTcD8xpVk/tDkwPxr4KT/qGS8/Eh9ZP3/KTD+37mA/9Y1zP1BwcT8BpTw/
+l9w/P3TaQz/3ShI/hE1FP+2PUj+bbyo/YHA6P2puSj+oyD4/emzFPhXQkD4Qhyk/
+/pJMP0/hWz8Xb2U/8qZWP6E4QT/Ll1o/VFBZP3ttaz/tb2g/XmJcPzIfBj+KoB0/
+ptBMP3nEEz/d/Mg+8c0pPqeuVT7sAnE+EqGaPrQclT6aQIQ+B9lqPuojOj4WCjo+
+7nu4PjbpDz+pjho/lUgFP2aXsj4YT18+VYFpPBIkez0lgFE+g5NLPg3JSD6q8PE+
+wbILP5MUDD+we5g+DDR0PgofFj72iCM+HKC1PkGSDD73wd49dWIuPtxquz0OF08+
+226DPoKkRz4tflk+BPzAPv48BD8Ll8E+c+vnPa1Xwzzl8T48qq4gPT+mdz7qScU+
+sfTjPtEQpz588d0+1yeiPiIoAz6+ejc91FiDPRFePT44AcY+OKdcPnH25T3nG70+
+LyGnPtxoaz4Pncs+ux/lPn1/tz5t1oE+1nyYPmuQtz7cTZs9e/h2PcaDnT7PN8U+
+ZrEDPyiGCj9rVNA+U1FLPsg+pT1sf00+e8DHPgz6/z4m5tE+ww12PukzAz43VPw8
+8quOPTdSUz5MF0M+hxsMPhu2DT5bKA8+olySPFk/Yj2087s95481PWwAzzpUwRs9
+Al2RPN9KqDvtrkA8E7fQPBpcBT0pxzY9GdCPPehAWD3fxpQ+7CMHPh4LFjyP+pM8
+y2qZPEUn1Dy5jMw85/9/P/j/fz/7/38/qf9/P7z/fz85/38/UP9/Px3/fz8+/38/
+y/9/P77/fz/U/38/AACAP+D/fz9Z/38/nP9/P5f/fz83/38/sv9/P/v/fz/5/38/
+uP9/P17/fz/4/n8/xv9/P+v/fz/g/38/kP9/P7j/fz/M/38/Uv9/P0T/fz+1/n8/
+mv9/P7X/fz94/38/gP9/P+L/fz/e/38/tP9/P5T/fz+S/38/UP9/P9D/fz+7/38/
+1f9/P7X/fz+l/38/Tv9/P3b/fz+l/38/y/9/P6P/fz/M/38/8f9/P9n/fz/U/38/
+7/9/PwMAgD/b/38/wv9/P7z/fz/j/38/5/9/Pz7/fz+G+n8/nv5/P8D9fz8t9H8/
+hv1/P8H/fz/P/38/1P9/P7v/fz/M/38/0P9/P57/fz+u/38/yv9/P8f/fz/O/38/
+of9/P5//fz/P/38/1v9/P+j/fz/h/38/4P9/P6f/fz+i/38/9/9/P9n/fz8k/38/
+Xv9/Py3/fz88/38/Nv9/P93+fz9Z/n8/Bv9/P0X/fz9s/38/hP9/P0b/fz+H/38/
+iv9/P7H/fz+o/38/v/9/P5j/fz/I/n8/A/9/Pzv/fz/y/n8/kP9/P8v/fz+r/38/
+o/9/Pz//fz8J/38/KP9/P3T+fz8I/38/9f5/P9f+fz/3/n8/u/5/P1n+fz9D/n8/
+yPt/P8z4fz8n+38/if1/P9v9fz+e/X8/8f1/Pxv+fz9B/n8/w/5/Py3/fz9Q/38/
++/5/P9H+fz/+/n8/PP9/Pxb/fz84/38/NP9/P/3+fz97/n8/O/5/P2j/fz9p/38/
+j/9/P5T/fz+M/38/Ov9/P8X+fz9V/n8/2f1/Pz/+fz87/n8/TP5/PzD+fz8Y/n8/
+Uv5/P0H+fz8g/38/d/9/P2D/fz8Q/38/qP5/P7L9fz///X8/Q/5/P7D9fz/++38/
+qf1/P0P+fz8w/H8/l/t/PwX8fz9F/H8/a/t/P3D7fz+I/H8/rP1/P5D+fz/k/n8/
+A/9/PxH/fz+o/n8/fP5/P5X+fz+X/n8/s/5/P4D+fz/l/H8/y/x/P7b8fz+8+38/
+
+      </Stream>
+    </Array>
+  </LIGO_LW>
+</LIGO_LW>
