@@ -35,7 +35,7 @@ def get_datetime(text):
     return dt
     
 
-class TelaMon():
+class TeladaMon():
     def __init__(self):
         text = requests.get(page).text
         self.text = text
