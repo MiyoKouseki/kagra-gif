@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2017.11.18)  25 DEC 2018 15:39
+This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2017.11.18)  21 JAN 2019 11:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -426,24 +426,16 @@ File: ./img_coh_mcimce.png Graphic file (type bmp)
  [10]
 File: ./img_cdmr_imc.png Graphic file (type bmp)
 <./img_cdmr_imc.png>
- [11] (./main.bbl
-LaTeX Font Info:    Font shape `JT1/gt/m/it' in size <9> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 12.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 12.
-LaTeX Font Info:    Font shape `JY1/gt/m/it' in size <9> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 12.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 12.
-))
-[12] (./main.aux) ) 
+ [11]
+No file main.bbl.
+) [12] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 3595 strings out of 493642
- 50337 string characters out of 6148747
+ 3589 strings out of 493642
+ 50274 string characters out of 6148747
  133625 words of memory out of 5000000
- 7097 multiletter control sequences out of 15000+600000
- 27753 words of font info for 120 fonts, out of 8000000 for 9000
+ 7094 multiletter control sequences out of 15000+600000
+ 27408 words of font info for 119 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  39i,17n,26p,778b,356s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.dvi (12 pages, 50744 bytes).
+Output written on main.dvi (12 pages, 50076 bytes).
