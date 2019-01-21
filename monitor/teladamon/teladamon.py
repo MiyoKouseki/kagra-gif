@@ -10,7 +10,7 @@ from astropy.time import Time
 page = 'https://www-sk.icrr.u-tokyo.ac.jp/~telada/chibutsu.html'
 chnum = 14
 
-class TelaMonError(Exception):
+class TeladaMonError(Exception):
     pass
 
 
@@ -35,7 +35,7 @@ def get_datetime(text):
     return dt
     
 
-class TelaMon():
+class TeladaMon():
     def __init__(self):
         text = requests.get(page).text
         self.text = text
@@ -52,5 +52,5 @@ class TelaMon():
 
 
 if __name__=='__main__':
-    mon = TelaMon()
+    mon = TeladaMon()
     print mon
