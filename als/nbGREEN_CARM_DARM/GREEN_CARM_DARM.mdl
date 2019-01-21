@@ -215,7 +215,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.645"
+    ComputedModelVersion    "1.646"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -748,8 +748,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1882.0, 881.0]
-	ZoomFactor		[1.75]
-	Offset			[1078.1883391493209, 275.07091277931823]
+	ZoomFactor		[0.8]
+	Offset			[633.48753816650219, 163.68915941554678]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -783,9 +783,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "miyo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 07 20:49:07 2019"
-  RTWModifiedTimeStamp	  468794939
-  ModelVersionFormat	  "1.%<AutoIncrement:645>"
+  LastModifiedDate	  "Mon Jan 07 20:57:47 2019"
+  RTWModifiedTimeStamp	  468795462
+  ModelVersionFormat	  "1.%<AutoIncrement:646>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "all"
@@ -1826,9 +1826,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "175"
+    ZoomFactor		    "80"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "2444"
+    SIDHighWatermark	    "2446"
     Block {
       BlockType		      Inport
       Name		      "In1"
@@ -2486,7 +2486,7 @@ Model {
       Name		      "Add4"
       SID		      "1914"
       Ports		      [2, 1]
-      Position		      [1220, 735, 1250, 775]
+      Position		      [1395, 750, 1425, 790]
       ZOrder		      514
       BackgroundColor	      "red"
       Inputs		      "+-"
@@ -2539,7 +2539,7 @@ Model {
       Name		      "Add8"
       SID		      "2305"
       Ports		      [2, 1]
-      Position		      [885, 725, 915, 765]
+      Position		      [1060, 740, 1090, 780]
       ZOrder		      2043
       BackgroundColor	      "red"
       InputSameDT	      off
@@ -2550,7 +2550,7 @@ Model {
       BlockType		      Gain
       Name		      "CARM"
       SID		      "2306"
-      Position		      [825, 710, 865, 730]
+      Position		      [1000, 725, 1040, 745]
       ZOrder		      2044
       BackgroundColor	      "gray"
       Gain		      "1/2"
@@ -2563,7 +2563,7 @@ Model {
       Name		      "CARM Cavity Pole"
       SID		      "1985"
       Ports		      [1, 1]
-      Position		      [1045, 722, 1135, 768]
+      Position		      [1220, 737, 1310, 783]
       ZOrder		      577
       BackgroundColor	      "cyan"
       DropShadow	      on
@@ -2580,7 +2580,7 @@ Model {
       BlockType		      Gain
       Name		      "CARM2"
       SID		      "2308"
-      Position		      [825, 745, 865, 765]
+      Position		      [1000, 760, 1040, 780]
       ZOrder		      2046
       BackgroundColor	      "gray"
       Gain		      "1/2"
@@ -3279,7 +3279,7 @@ Model {
       SID		      "1894"
       Tag		      "NbNoiseSink"
       Ports		      [1, 1]
-      Position		      [1570, 717, 1595, 733]
+      Position		      [1745, 732, 1770, 748]
       ZOrder		      483
       BackgroundColor	      "orange"
       AttributesFormatString  "%<Tag>"
@@ -3297,7 +3297,7 @@ Model {
       SID		      "1892"
       Tag		      "NbNoiseCal"
       Ports		      [0, 1]
-      Position		      [1355, 677, 1380, 693]
+      Position		      [1530, 692, 1555, 708]
       ZOrder		      481
       BackgroundColor	      "[0.000000, 1.000000, 0.498039]"
       AttributesFormatString  "%<Tag>"
@@ -5438,7 +5438,7 @@ Model {
       Name		      "Senser IR PDH\nHz/sqrt(Hz)-->Hz/sqrt(HZ)"
       SID		      "1913"
       Ports		      [1, 1]
-      Position		      [1310, 732, 1400, 778]
+      Position		      [1485, 747, 1575, 793]
       ZOrder		      513
       BackgroundColor	      "darkGreen"
       DropShadow	      on
@@ -5831,7 +5831,7 @@ Model {
       SID		      "1911"
       Tag		      "NbNoiseSource"
       Ports		      [0, 1]
-      Position		      [1170, 777, 1195, 793]
+      Position		      [1345, 792, 1370, 808]
       ZOrder		      511
       BlockMirror	      on
       BackgroundColor	      "orange"
@@ -5974,7 +5974,7 @@ Model {
       Name		      "Sum11"
       SID		      "1908"
       Ports		      [2, 1]
-      Position		      [920, 735, 940, 755]
+      Position		      [1095, 750, 1115, 770]
       ZOrder		      508
       BackgroundColor	      "red"
       NamePlacement	      "alternate"
@@ -6651,7 +6651,7 @@ Model {
       Name		      "Sum9"
       SID		      "1902"
       Ports		      [2, 1]
-      Position		      [1475, 715, 1495, 735]
+      Position		      [1650, 730, 1670, 750]
       ZOrder		      487
       BackgroundColor	      "red"
       ShowName		      off
@@ -6665,7 +6665,7 @@ Model {
       BlockType		      Terminator
       Name		      "Terminator1"
       SID		      "1904"
-      Position		      [1675, 715, 1695, 735]
+      Position		      [1850, 730, 1870, 750]
       ZOrder		      488
     }
     Block {
@@ -6953,7 +6953,7 @@ Model {
       BlockType		      Outport
       Name		      "Out1"
       SID		      "1918"
-      Position		      [1490, 788, 1520, 802]
+      Position		      [1665, 803, 1695, 817]
       ZOrder		      518
       BackgroundColor	      "green"
       IconDisplay	      "Port number"
@@ -6982,7 +6982,7 @@ Model {
       BlockType		      Outport
       Name		      "Out4"
       SID		      "1955"
-      Position		      [1045, 688, 1075, 702]
+      Position		      [1220, 703, 1250, 717]
       ZOrder		      550
       BackgroundColor	      "green"
       Port		      "4"
@@ -7646,10 +7646,10 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1113
+      ZOrder		      3154
       SrcBlock		      "IMC_freq"
       SrcPort		      1
-      Points		      [280, 0]
+      Points		      [455, 0]
       DstBlock		      "Sum11"
       DstPort		      2
     }
@@ -8286,10 +8286,10 @@ Model {
       DstPort		      2
     }
     Line {
-      ZOrder		      1710
+      ZOrder		      3153
       SrcBlock		      "\nGR->IR1"
       SrcPort		      1
-      Points		      [0, 885; -182, 0; 0, 85]
+      Points		      [0, 985]
       DstBlock		      "CARM2"
       DstPort		      1
     }
@@ -8315,10 +8315,10 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1711
+      ZOrder		      3152
       SrcBlock		      "\nGR->IR"
       SrcPort		      1
-      Points		      [0, 298; -82, 0; 0, 37]
+      Points		      [0, 298; -82, 0; 0, 1; 43, 0; 0, 51]
       DstBlock		      "CARM"
       DstPort		      1
     }
@@ -8974,7 +8974,7 @@ Model {
       BackgroundColor	      "[0.968627, 0.925490, 0.976471]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3584
+      ZOrder		      3689
       FontSize		      12
     }
     Annotation {
@@ -8990,7 +8990,7 @@ Model {
       BackgroundColor	      "[0.956863, 0.980392, 0.921569]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3583
+      ZOrder		      3688
       FontSize		      12
     }
     Annotation {
@@ -9006,13 +9006,13 @@ Model {
       BackgroundColor	      "[0.901961, 0.901961, 1.000000]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3586
+      ZOrder		      3691
       FontSize		      12
     }
     Annotation {
       SID		      "2051"
       Name		      "CARM stablity"
-      Position		      [965, 657, 1723, 842]
+      Position		      [1140, 672, 1898, 857]
       InternalMargins	      [0, 0, 0, 0]
       FixedHeight	      on
       FixedWidth	      on
@@ -9022,7 +9022,7 @@ Model {
       BackgroundColor	      "[0.992157, 0.937255, 0.913725]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3585
+      ZOrder		      3690
       FontSize		      12
     }
     Annotation {
@@ -9038,7 +9038,7 @@ Model {
       BackgroundColor	      "[0.968627, 0.925490, 0.976471]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3581
+      ZOrder		      3686
       FontSize		      12
     }
     Annotation {
@@ -9054,7 +9054,7 @@ Model {
       BackgroundColor	      "[0.956863, 0.980392, 0.921569]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3580
+      ZOrder		      3685
       FontSize		      12
     }
     Annotation {
@@ -9146,7 +9146,7 @@ Model {
       BackgroundColor	      "[0.952941, 0.952941, 0.952941]"
       DropShadow	      on
       AnnotationType	      "area_annotation"
-      ZOrder		      3582
+      ZOrder		      3687
       FontSize		      12
     }
   }
