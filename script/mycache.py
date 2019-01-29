@@ -79,11 +79,12 @@ def trendcache(gst,get,basedir='/trend',cachelist=[]):
 if __name__ == '__main__':
     #gst = 1222354818 # UTC 2018-09-30T15:00:00
     #gst = 1219762818 # UTC 2018-08-31T15:00:00
-    gst = 1219795218 # Sep01
+    #gst = 1219795218 # Sep01
+    gst = 1209168018 # May01
     #get = 1224082818 # UTC 2018-10-20T15:00:00
-    get = 1225065618 # Nov01
-    get = 1232699558 
-    cachefile = './hogetr.cache'
+    #get = 1225065618 # Nov01
+    get = 1231977618 # Jan20
+    cachefile = './xarmcomms.cache'
     #cachelist = fullcache(gst,get,basedir='/data/')
     cachelist = trendcache(gst,get,basedir='/data/')
     # 12220
