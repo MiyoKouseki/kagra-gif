@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
+
 from gwpy.plot import Plot
 from gwpy.timeseries import TimeSeriesDict,TimeSeries
 from gwpy.time import tconvert
@@ -35,19 +36,59 @@ chname3_1_X.gwf data contains only X axis.
 # gif data
 pfx = '/Users/miyo/KagraData/gif/'
 from miyopy.gif.datatype import GifData
-start = 'Dec 02 2018 11:00:00'
-end = 'Dec 03 2018 07:00:00'
+start = tconvert('Dec 02 2018 11:00:00')
+end = tconvert('Dec 03 2018 07:00:00')
+#end = 'Dec 02 2018 11:01:00'
 
-segments = GifData.findfiles(start,end,'X1500_TR240velNS',prefix=pfx)
+segments = GifData.findfiles(start,end,'X1500_TR240posEW',prefix=pfx)
 allfiles = [path for files in segments for path in files]
+
 strain = TimeSeries.read(source=allfiles,
-                         name='CALC_STRAIN',
+                         name='X1500_TR240posEW',
                          format='gif',
                          pad=np.nan,
                          nproc=2)
-strain = strain.detrend('linear')
+strain = strain/1196.5
+plot = strain.plot()
+plot.savefig('hoge_ts.png')
+
+print(strain)
+
+#exit()
+
+def calc_asd(ts, fftlength=2**10):
+    sg = ts.spectrogram2(fftlength=fftlength, overlap=fftlength/2., window='hanning') ** (1/2.)
+    median_0,low_0,high_0 = sg.percentile(50), sg.percentile(5), sg.percentile(95)
+    return median_0,low_0,high_0
+
+median_d12,low_d12,high_d12 = calc_asd(strain)
+
+def save(data,fname='tmp.hdf5'):
+    data.write(fname,format='hdf5')
+
+median_d12.name = 'X1500_TR240posEW'
+print median_d12
+#save(median_d12, fname='./chname3_1_X_x1500.hdf5')
+
+
+from gwpy.plot import Plot
+plot = Plot()
+ax = plot.gca(xscale='log', xlim=(1e-3, 100), xlabel='Frequency [Hz]',
+              yscale='log', #ylim=(1e-11, 1e-5),
+              ylabel=r'Velocity [m/sec/\rtHz]')
+ax.loglog(median_d12,label='IXV1-IXV2')
+
+ax.legend()    
+ax.set_title('Seismometer',fontsize=16)
+plot.savefig('hoge.png')
 
 exit()
+
+
+
+
+
+
 
 def read(fname):
     return FrequencySeries.read(fname,format='hdf5')        
