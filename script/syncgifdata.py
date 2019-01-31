@@ -29,7 +29,7 @@ rsync_fmt = 'rsync -av {option} -e ssh GIF@172.16.32.201:'\
   '{prefix_gif}/{yyyy:4d}/{mm:2d}/{dd:02d}/{hh:02d}' + ' ' + \
   '{prefix_own}{prefix_gif}/{yyyy:4d}/{mm:02d}/{dd:02d}/'
 
-prefix_own = '/Users/miyo/Dropbox/KagraData/gif'
+prefix_own = '/Users/miyo/KagraData/gif'
 
 if dtype == 'cRIO01':
     option = ''    
@@ -81,7 +81,7 @@ print text
 yes = raw_input('[y]/n : ') 
 if yes in ['','y']:
     print cmd
-    #ret = subprocess.check_call( cmd.split(" ") )
+    ret = subprocess.check_call( cmd.split(" ") )
 elif yes in ['n']:
     print 'Not excute. Bye..'
 else:
