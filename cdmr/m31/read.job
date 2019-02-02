@@ -1,0 +1,15 @@
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/cdmr
+Notify_User    =
+Notification   = Never
++Group         = "Xc"
+
+Executable = /usr/bin/python 
+Error      = /home/kouseki.miyo/kagra-gif/cdmr/log/bruco.$(Process).err
+Log        = /home/kouseki.miyo/kagra-gif/cdmr/log/bruco.$(Process).log
+Output     = /home/kouseki.miyo/kagra-gif/cdmr/log/bruco.$(Process).out
+
+RequestCpus    = 28
+Arguments  = /home/kouseki.miyo/kagra-gif/cdmr/main.py
+Queue
