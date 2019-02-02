@@ -7,15 +7,15 @@ from gwpy.timeseries import TimeSeriesDict,TimeSeries
 from gwpy.time import tconvert
 from glue import lal
 
-#start = tconvert('Dec 25 2018 00:00:54 JST')
-start = tconvert('Sep 06 2018 00:00:00 JST')
-#end = tconvert('Sep 10 2018 01:00:00 JST')
-#end = tconvert('Oct 06 2018 01:00:00 JST')
-start = tconvert('Oct 06 2018 00:00:00 JST')
-start = tconvert('Nov 06 2018 01:00:00 JST')
-start = tconvert('Dec 02 2018 11:00:00 JST')
-end = tconvert('Dec 03 2018 07:00:00 JST')
-#end = start + 1000
+if False:
+    start = tconvert('Jan 01 2019 04:00:00 JST')
+    end   = tconvert('Jan 02 2019 00:01:00 JST')
+    fname = 'MEAN_Jan0104hJan0200h.png'
+else:
+    start = tconvert('Jan 02 2019 00:01:00 JST')
+    end   = tconvert('Jan 02 2019 20:01:00 JST')
+    fname = 'MEAN_Jan0200hJan0220h.png'
+
 kwargs = {}
 kwargs['verbose'] = True
 kwargs['format'] = 'gwf.lalframe'
@@ -35,6 +35,7 @@ chname_1 = ['K1:PEM-EXV_SEIS_Z_SENSINF_IN1_DQ.rms',
             'K1:PEM-IXV_SEIS_Z_SENSINF_IN1_DQ.rms',
             'K1:PEM-IXV_SEIS_TEST_Z_SENSINF_IN1_DQ.rms',
 ]
+
 chname_2 = ['K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ.rms',
             'K1:PEM-EYV_SEIS_WE_SENSINF_IN1_DQ.rms',
             'K1:PEM-IXV_SEIS_WE_SENSINF_IN1_DQ.rms',
@@ -42,10 +43,10 @@ chname_2 = ['K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ.rms',
 ]
 
 # Old Name (bKAGRAph1)
-chname_3 = ['K1:PEM-IXV_GND_TR120Q_X_IN1_DQ.rms',
-            'K1:PEM-IXV_GND_TR120QTEST_X_IN1_DQ.rms',
-            'K1:PEM-EXV_GND_TR120Q_X_IN1_DQ.rms',
-            'K1:PEM-EYV_GND_TR120Q_X_IN1_DQ.rms',
+chname_3 = ['K1:PEM-IXV_GND_TR120Q_X_IN1_DQ.mean',
+            'K1:PEM-IXV_GND_TR120QTEST_X_IN1_DQ.mean',
+            'K1:PEM-EXV_GND_TR120Q_X_IN1_DQ.mean',
+            'K1:PEM-EYV_GND_TR120Q_X_IN1_DQ.mean',
             #'K1:PEM-IMC_GND_TR120C_MCE_X_IN1_DQ.rms',
             #'K1:PEM-IMC_GND_TR120C_MCI_X_IN1_DQ.rms'
             ]
@@ -67,23 +68,24 @@ chname_3 = ['K1:PEM-IXV_GND_TR120Q_X_IN1_DQ',
             #'K1:PEM-IMC_GND_TR120C_MCI_X_IN1_DQ.rms'
             ]
 
-source = '../script/mtrend_phase1_xarm.cache'    
-source = '../script/full_phase1_xarm.cache'
+
+
+#source = '../../script/mtrend_phase1_xarm.cache'    
+source = '../../script/full_phase1_xarm.cache'
 source = lal.Cache.fromfile(open(source))
-#source = '/data/trend/minute/12303/K-K1_M-1230303600-3600.gwf'
 chname = chname_3
 data = TimeSeriesDict.read(source,chname,**kwargs)
+print('read data.')
 
-# ----------
-data.write('chname3_1.gwf',format='gwf.lalframe')
+if True:
+    data.write('chname3_3.gwf',format='gwf.lalframe')
+    exit()
+    #data = TimeSeriesDict.read('chname3_1.gwf',chname,**kwargs)
 
-exit()
-data = TimeSeriesDict.read('chname3_1.gwf',chname,**kwargs)
-# ----------
 
 labels = [ch.replace('_',' ')for ch in chname]
 plot = data.plot(ylim=(-100,100),epoch=start)
 ax = plot.gca()
 #plot = data.plot()
 plot.legend(labels)
-plot.savefig('hoge.png')
+plot.savefig(fname)

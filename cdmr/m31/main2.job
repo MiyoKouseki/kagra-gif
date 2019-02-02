@@ -1,0 +1,15 @@
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/cdmr/m31
+Notify_User    =
+Notification   = Never
++Group         = "Xc"
+
+Executable = /usr/bin/python 
+Error      = /home/kouseki.miyo/kagra-gif/cdmr/m31/log/main2.$(Process).err
+Log        = /home/kouseki.miyo/kagra-gif/cdmr/m31/log/main2.$(Process).log
+Output     = /home/kouseki.miyo/kagra-gif/cdmr/m31/log/main2.$(Process).out
+
+RequestCpus    = 28
+Arguments  = /home/kouseki.miyo/kagra-gif/cdmr/m31/main.py
+Queue
