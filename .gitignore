@@ -1,9 +1,11 @@
 data
 *~
 *pyc
-*png
 *aux
 *dvi
 *toc
 *log
 *gwf
+*hdf5
+*png
+.DS_Store
