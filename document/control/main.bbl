@@ -1,24 +1,9 @@
 \begin{thebibliography}{1}
 
-\bibitem{kedar2008origin}
-Sharon Kedar, Michael Longuet-Higgins, Frank Webb, Nicholas Graham, Robert
-  Clayton, and Cathleen Jones.
-\newblock The origin of deep ocean microseisms in the north atlantic ocean.
-\newblock {\em Proceedings of the Royal Society A: Mathematical, Physical and
-  Engineering Sciences}, Vol. 464, No. 2091, pp. 777--793, 2008.
-
-\bibitem{sekiguchiD2016}
-T~Sekiguchi.
-\newblock A study of low frequency vibration isolation system for large scale
-  gravitational wave detectors.
-\newblock {\em PhD thesis}, 2016.
-
-\bibitem{matichard2015seismic}
-F~Matichard, B~Lantz, R~Mittleman, K~Mason, J~Kissel, B~Abbott, S~Biscans,
-  J~McIver, R~Abbott, S~Abbott, et~al.
-\newblock Seismic isolation of advanced ligo: Review of strategy,
-  instrumentation and performance.
-\newblock {\em Classical and Quantum Gravity}, Vol.~32, No.~18, p. 185003,
-  2015.
+\bibitem{taguchi2000two}
+Hidefumi Taguchi and Mituhiko Araki.
+\newblock Two-degree-of-freedom pid controllers―their functions and optimal
+  tuning.
+\newblock {\em IFAC Proceedings Volumes}, Vol.~33, No.~4, pp. 91--96, 2000.
 
 \end{thebibliography}
