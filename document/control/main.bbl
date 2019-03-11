@@ -1,11 +1,5 @@
 \begin{thebibliography}{1}
 
-\bibitem{taguchi2000two}
-Hidefumi Taguchi and Mituhiko Araki.
-\newblock Two-degree-of-freedom pid controllers―their functions and optimal
-  tuning.
-\newblock {\em IFAC Proceedings Volumes}, Vol.~33, No.~4, pp. 91--96, 2000.
-
 \bibitem{matichard2015seismic}
 F~Matichard, B~Lantz, R~Mittleman, K~Mason, J~Kissel, B~Abbott, S~Biscans,
   J~McIver, R~Abbott, S~Abbott, et~al.
@@ -13,5 +7,12 @@ F~Matichard, B~Lantz, R~Mittleman, K~Mason, J~Kissel, B~Abbott, S~Biscans,
   instrumentation and performance.
 \newblock {\em Classical and Quantum Gravity}, Vol.~32, No.~18, p. 185003,
   2015.
+
+\bibitem{araya2017design}
+Akito Araya, Akiteru Takamori, Wataru Morii, Kouseki Miyo, Masatake Ohashi,
+  Kazuhiro Hayama, Takashi Uchiyama, Shinji Miyoki, and Yoshio Saito.
+\newblock Design and operation of a 1500-m laser strainmeter installed at an
+  underground site in kamioka, japan.
+\newblock {\em Earth, Planets and Space}, Vol.~69, No.~1, p.~77, 2017.
 
 \end{thebibliography}

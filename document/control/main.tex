@@ -5,8 +5,10 @@
 \usepackage{amsmath,amssymb}
 \usepackage{bm}
 \usepackage[dvipdfmx]{graphicx,color}
-\usepackage[top=30truemm,bottom=30truemm,left=40truemm,right=40truemm]{geometry}
+\usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
+\usepackage[format=hang,margin=75pt,font=small]{caption}
 \usepackage{here}
+\usepackage{subcaption}
 \usepackage{comment}
 \title{レーザー歪み計を用いた基線長安定化制御の提案}
 \author{三代浩世希}
@@ -16,10 +18,8 @@
 \abstract{}
 \tableofcontents
 
-\section{GIFをつかった能動防振}
-\subsection{能動防振}
-
-
+\section{基線長安定化のための能動防振}
+\subsection{能動防振に求めるもの}
 能動防振システムの性能は以下の3つで評価できる
 \begin{enumerate}
 \item \textbf{外乱抑制性能} ステージへの地面振動の流入をどれぐら抑えられるか 
@@ -27,15 +27,45 @@
 \item \textbf{目標値追従性能} 干渉計からの制御信号にどれぐらい追従させられるか
 \end{enumerate}
 
-ダンピング制御のようなDCにFeedBackゲインをもつ必要がない制御の場合、FeedBack制御だけで外乱抑制と即応性を向上するように最適なパラメータを設計できるが、目標値への追従性能は返って悪くなる。防振装置はテストマスのダンピング制御だけではなく位置制御も必要であるので、２自由度制御\cite{taguchi2000two}とよばれる、目標追従性能も同時に向上させることのできる制御をもちいなければならない。
+（制御の目的は上記の3つを改善すること。その説明をする。）
+
+（外乱抑制と目標追従を両立させるために2自由度制御をつかう。）
+
+（2自由度制御は、LIGOでも使われているが、sensor correction として呼ばれている。）
+
+%% ダンピング制御のようなDCにFeedBackゲインをもつ必要がない制御の場合、FeedBack制御だけで外乱抑制と即応性を向上するように最適なパラメータを設計できるが、目標値への追従性能は返って悪くなる。防振装置はテストマスのダンピング制御だけではなく位置制御も必要であるので、２自由度制御\cite{taguchi2000two}とよばれる、目標追従性能も同時に向上させることのできる制御をもちいなければならない。
 
 %% 重力波望遠鏡の鏡は地面振動雑音を低減するように振り子で吊られている。これにより共振周波数以上の帯域では鏡は慣性系に対して静止するようになる。そのため、より低周波で感度をもつために、より低い共振周波数の振り子を多段で組み合わせる工夫がなされている。しかしデザイン感度を満たす振り子であっても、干渉計が限られたダイナミックレンジの中で動作できるようRMSを小さくすることができなければ、望遠鏡として安定して動かすことはできない。
 
 %% 基線長変動のRMSは感度帯域より低周波の地面振動が大きく寄与している（図１）。0.2Hzのピークは脈動と呼ばれ、波浪が海底面を叩くことが原因である。脈動の振幅は波高と相関があり、その周期は浅瀬の深さに依存していることが知られている\cite{kedar2008origin}。更に低周波の$10^{-5}\, \mathrm{Hz}$のピークは地球潮汐と呼ばれ、地球と月の潮汐力によって引き起こされる。
 
+\subsection{従来の能動防振}
+
+Preisolatorの目的はステージの変位を慣性系に対して静止させることである。したがってFeedBackで用いるセンサーには慣性センサーを用いなければならない。しかし図\ref{img:img_seismo_vs_lvdt}が示すように、一般的に慣性センサーは低周波で地面振動よりもノイズが大きい。そのためDCでループゲインを大きくすることができないため、Inertial damping と呼ばれるダンピング制御にとどまる。
+
+一方で、共振器長制御のためには、ステージの位置制御をしなければならない。妥協案として低周波ではローカルな変位センサーをつかって、地面にロックしている。これは比較的小さいスケールの腕共振器であれば低周波地面振動は同相な地面振動雑音として除去されるので問題とならない。しかしkmスケールの腕共振器では、とくにRMSの大きな脈動の帯域では、逆相成分である基線長伸縮は同相成分とくらべて1/4程度にしか低減できない。このような問題に対してLIGOではsensor correction と呼ばれるfeed forward 制御を用いた試みをおこなっている\cite{matichard2015seismic}。
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=11.5cm]{./img_seismo_vs_lvdt.png}
+  \end{center}
+  \caption{地面振動とセンサーノイズの比較。黒線は地面振動。赤線はLVDTのセンサーノイズ。青線はGeophoneのセンサーノイズ。およそ0.1 Hz以上ではGeophoneが、それ以下ではLVDTのセンサーノイズが小さい。}
+  \label{img:img_seismo_vs_lvdt}
+\end{figure}
 
 
-\subsection{LIGOの能動防振}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=11.5cm]{./img_pi_blending.png}
+  \end{center}
+  \caption{Blendingフィルター。0.1Hzにカットオフ周波数をもつ相補フィルター。図\ref{img:img_seismo_vs_lvdt}によれば、0.1Hz以下の低周波ではLVDTの信号を、それ以上ではGeophoneの信号をあわせたいので、ローパスをLVDTに、ハイパスをGeophoneにかける。}
+  \label{img:img_pi_blending}
+\end{figure}
+
+
+
+
+
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=11.5cm]{./img_2dof_pi.png}
@@ -43,47 +73,68 @@
   \caption{Preisolatorで用いている能動防振のブロック図。ここで、$P_{\mathrm{s}}$は地面振動の変位$x_0$からステージの変位$x_1$への伝達関数である。$C_{\mathrm{fb}},\,C_{\mathrm{ff}},\,C_{\mathrm{sc}}$はそれぞれ feedback、feedforward、sensor correctionの制御フィルターである。さらに$H,\,L$はsuper sensor のための相補フィルターであり、それぞれ慣性センサーのためのハイパスフィルターと変位センサーのためのローパスフィルターである。また$N_{ff},\,N_{sc},\,N_{H},\,N_{L}$はそれぞれのセンサーのノイズとなっている。そして$G$はループゲインをあらわしており$G=C_{\mathrm{fb}}P_{\mathrm{f}}$という関係であり、このときの$P_{\mathrm{f}}$はステージのアクチュエータからステージの変位への伝達関数である。}\label{img:img_2dof_pi}
 \end{figure}
 
-Preisolatorの目的はステージの変位を慣性系に対して静止させることであるため、FeedBackで用いるセンサーには慣性センサーを用いなければならない。しかし一般的に慣性センサーは低周波でノイズが大きい。そのためDCでループゲインをもたせることができず、ダンピングをするためにしか使うことができない(Inertial Damping)。
 
-一方で共振器長制御のためにステージの位置制御をしなければならないため、妥協案として低周波ではローカルな変位センサーをつかって低周波では地面にロックしている。これは比較的小さいスケールの腕共振器であれば、ITMとETMは同相で地面に揺らされて、低周波地面振動は同相雑音として除去されるので問題とならない。しかしkmスケールの腕共振器では、RMSの大きな脈動の帯域では、逆相成分である基線長伸縮は同相成分とくらべて1/4程度にしか低減できない。このような問題を解決するためにLIGOではsensor correction と呼ばれるfeed forward 制御を用いて脈動の補償をしている\cite{matichard2015seismic}。
-
-図\ref{img:img_2dof_pi}に示したLIGOの能動防振のブロック図において、ステージの変位$x_1$を地面振動$x_0$と目標値$r$で表すと式(\ref{eq:eq04})の通りである。
+LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。この図においてステージの変位$x_1$を地面振動$x_0$で表すと式(\ref{eq:eq04})の通りである。
 \begin{eqnarray} \label{eq:eq04}
   x_1 &=& \frac{1}{1+G}\Biggl[(P_{\mathrm{s}}+P_{\mathrm{f}}C_{\mathrm{ff}})x_0\Biggl]
   + \frac{G}{1+G}\Biggl[L(1+C_{\mathrm{sc}})x_0\Biggl]
 \end{eqnarray}
-ここで外乱抑制を高めるためにゲインを十分におおきくすると式(\ref{eq:eq06})になる。式(\ref{eq:eq07})のとおり feed back のみの場合はステージの変位$x_1$はローパスフィルター$L$に沿って地面振動$x_0$を流入させるが、sensor correction を加えて適当な$C_{\mathrm{sc}}$と目標値$r$を選べばゼロにすることができる。
+ここで低周波の外乱抑制を高めるためにゲインを十分におおきくすると式(\ref{eq:eq06})になる。式(\ref{eq:eq07})によれば、feed back のみの場合では、ステージの変位$x_1$はローパスフィルター$L$に沿って地面振動$x_0$を流入させる。しかしsensor correction を加えて$C_{\mathrm{sc}}=1$となるようにフィルターを作れば地面振動からの寄与を減らすことができる。
 \begin{eqnarray}\label{eq:eq06}
-  \lim_{G \to \infty} x_{1} &=& L(x_{0}+C_{\mathrm{sc}}r) \\
+  \lim_{G \to \infty} x_{1} &=& L(1+C_{\mathrm{sc}})x_0) \\
   &=&
   \begin{cases}\label{eq:eq07}
     \; Lx_{0} & \text{($C_{\mathrm{sc}}=0$)}\\
-    \; 0 & \text{($-C_{\mathrm{sc}}r=x_0$)} 
+    \; 0 & \text{($C_{\mathrm{sc}}=-1$)} 
   \end{cases}  
 \end{eqnarray}
-LIGOの場合、目標値$r$に、地面に設置した地震計の信号を入れている。
 
-さらに高周波帯域のステージの要求値を満たすために、sensor correction とは別の feed forward のパスを用意している。式(\ref{eq:eq08})にゲインを小さくした場合のステージの変位$x_1$を示す。このとき、式(\ref{eq:eq09})のとおり、feed forwardがない場合は地面振動でステージの変位は制限されるが、sensor correction と同様に、適当な$C_{\mathrm{ff}}$と$r$を選べば、地面振動からの寄与を減らすことができる。
+一方で、高周波帯域のステージの要求値を満たすために、sensor correction とは別の feed forward のパスを用意している。式(\ref{eq:eq08})にゲインを小さくした場合のステージの変位$x_1$を示す。このとき、式(\ref{eq:eq09})によれば、feed back のみの場合では、地面振動でステージの変位は制限される。しかしsensor correction と同様に、$C_{\mathrm{ff}}=\frac{P_{\mathrm{s}}}{P_{\mathrm{f}}}$となるようにフィルターをつくれば、地面振動からの寄与を減らすことができる。
 \begin{eqnarray}\label{eq:eq08}
-  \lim_{G \to 0} x_{1} &=& P_{\mathrm{s}}x_0 + P_{\mathrm{f}}C_{\mathrm{ff}}r \\
+  \lim_{G \to 0} x_{1} &=& P_{\mathrm{s}}x_0 + P_{\mathrm{f}}C_{\mathrm{ff}}x_0 \\
   &=& 
   \begin{cases}\label{eq:eq09}
     \; P_{\mathrm{s}}x_{0} & \text{($C_{\mathrm{ff}}=0$)}\\
-    \; 0 & \text{($-P_{\mathrm{f}}C_{\mathrm{ff}}r=P_{\mathrm{s}}x_0$)} 
+    \; 0 & \text{($C_{\mathrm{ff}}=\frac{P_{\mathrm{s}}}{P_{\mathrm{f}}}$)} 
   \end{cases}  
 \end{eqnarray}
-実際の目標値には、sensor correction と同様に、地震計出力を入れている。2つの feed forward に用いる地震計には
 
-\subsection{KAGRAの能動防振}
+（LIGOの sensor correction の問題点を挙げる）
 
 
+\subsection{レーザー歪み計をつかった能動防振}
+従来の方法では、ITMとETMはそれぞれのローカルな地面振動に対してロックしているため、基線長伸縮に地面振動の影響が現れてしまう。これはそれぞれの防振装置が、低周波に感度持たない慣性センサーで sensor correction を行うことに起因する。基線長制御においては基線長伸縮を補償すれば良い。
+
+幸いKAGRAでは$x_0-y_0$を直接測ることができるレーザー歪み計\cite{araya2017design}があるため、これをsensor correction のセンサーとして利用する。レーザー歪み計は基線長伸縮に対して感度をもち、慣性センサーとくらべて、広いダイナミックレンジと広帯域という利点をもつ図(\ref{img:img_seismo_vs_gif})。
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=11.5cm]{./img_seismo_vs_gif.png}
+  \end{center}
+  \caption{}\label{img:img_seismo_vs_gif}
+\end{figure}
+
+
+
+\begin{eqnarray}
+  x_1 &=& \frac{1}{1+G}\Biggl[(P_{\mathrm{s}}+P_{\mathrm{f}}C_{\mathrm{ff}})x_0\Biggl]
+  + \frac{G}{1+G}\Biggl[L(1+C_{\mathrm{sc}})x_0 - LC_{\mathrm{sc}}y_0\Biggl]
+\end{eqnarray}
+\begin{eqnarray}\label{eq:eq10}
+  \lim_{G \to \infty} x_{1} &=& L\Biggl[x_0+C_{\mathrm{sc}}x_0-C_{\mathrm{sc}}y_0\Biggl] \\
+  &=&  
+  \begin{cases}\label{eq:eq11}
+    \; Lx_{0} & \text{($C_{\mathrm{sc}}=0$)}\\
+    \; Ly_{0} & \text{($C_{\mathrm{sc}}=-1$)} 
+  \end{cases}  
+\end{eqnarray}
 
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_ip_servo.png}
+    \includegraphics[width=11.5cm]{./img_pi_etmx.png}
   \end{center}
-  \caption{}\label{img:img_ip_servo}
+  \caption{}\label{img:img_pi_etmx}
 \end{figure}
 
 
@@ -138,10 +189,6 @@ N_{\mathrm{all}} \equiv HN_{H} + LN_{SC} + LN_{L} + \frac{C_{FF}}{C_{FB}}N_{FF} 
 \end{eqnarray}
 %
 %
-\begin{eqnarray}
-  x_1 &=& \frac{1}{1+G}\Biggl[(P_{\mathrm{s}}+P_{\mathrm{f}}C_{\mathrm{ff}})x_0\Biggl]
-  + \frac{G}{1+G}\Biggl[L(1+C_{\mathrm{gif}})x_0 - LC_{\mathrm{gif}}y_0\Biggl]
-\end{eqnarray}
 
 
 \bibliography{./reference}
