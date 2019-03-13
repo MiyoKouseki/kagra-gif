@@ -8,7 +8,6 @@
 \usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
 \usepackage[format=hang,margin=75pt,font=small]{caption}
 \usepackage{here}
-\usepackage{subcaption}
 \usepackage{comment}
 \title{レーザー歪み計を用いた基線長安定化制御の提案}
 \author{三代浩世希}
@@ -33,55 +32,53 @@
 
 （2自由度制御は、LIGOでも使われているが、sensor correction として呼ばれている。）
 
-%% ダンピング制御のようなDCにFeedBackゲインをもつ必要がない制御の場合、FeedBack制御だけで外乱抑制と即応性を向上するように最適なパラメータを設計できるが、目標値への追従性能は返って悪くなる。防振装置はテストマスのダンピング制御だけではなく位置制御も必要であるので、２自由度制御\cite{taguchi2000two}とよばれる、目標追従性能も同時に向上させることのできる制御をもちいなければならない。
-
-%% 重力波望遠鏡の鏡は地面振動雑音を低減するように振り子で吊られている。これにより共振周波数以上の帯域では鏡は慣性系に対して静止するようになる。そのため、より低周波で感度をもつために、より低い共振周波数の振り子を多段で組み合わせる工夫がなされている。しかしデザイン感度を満たす振り子であっても、干渉計が限られたダイナミックレンジの中で動作できるようRMSを小さくすることができなければ、望遠鏡として安定して動かすことはできない。
-
-%% 基線長変動のRMSは感度帯域より低周波の地面振動が大きく寄与している（図１）。0.2Hzのピークは脈動と呼ばれ、波浪が海底面を叩くことが原因である。脈動の振幅は波高と相関があり、その周期は浅瀬の深さに依存していることが知られている\cite{kedar2008origin}。更に低周波の$10^{-5}\, \mathrm{Hz}$のピークは地球潮汐と呼ばれ、地球と月の潮汐力によって引き起こされる。
 
 \subsection{従来の能動防振}
 
-Preisolatorの目的はステージの変位を慣性系に対して静止させることである。したがってFeedBackで用いるセンサーには慣性センサーを用いなければならない。しかし図\ref{img:img_seismo_vs_lvdt}が示すように、一般的に慣性センサーは低周波で地面振動よりもノイズが大きい。そのためDCでループゲインを大きくすることができないため、Inertial damping と呼ばれるダンピング制御にとどまる。
+Pre-Isolatorの目的はステージを慣性系に対して静止させることである。したがってFeedBackで用いるセンサーには慣性センサーを用いなければならない。しかし図\ref{img:img_seismo_vs_lvdt}が示すように、一般的に慣性センサーは低周波で地面振動よりもノイズが大きいため、ループゲインを低周波で大きくすることができず、ステージのDC位置を慣性系に対して静止させることができない。
 
-一方で、共振器長制御のためには、ステージの位置制御をしなければならない。妥協案として低周波ではローカルな変位センサーをつかって、地面にロックしている。これは比較的小さいスケールの腕共振器であれば低周波地面振動は同相な地面振動雑音として除去されるので問題とならない。しかしkmスケールの腕共振器では、とくにRMSの大きな脈動の帯域では、逆相成分である基線長伸縮は同相成分とくらべて1/4程度にしか低減できない。このような問題に対してLIGOではsensor correction と呼ばれるfeed forward 制御を用いた試みをおこなっている\cite{matichard2015seismic}。
+一方で、共振器長制御のためには、ステージの位置制御をしなければならない。そのため低周波ではローカルな変位センサーをつかって、地面の揺れに追従するようにしている。このように慣性センサーと変位センサーをあわせたセンサーのことを super sensor と呼ぶ\cite{hua2005low}。低周波でノイズが大きくなる慣性センサーには high-pass フィルターを、変位センサーには同じカットオフ周波数のlow-pass フィルターをかけており、これらフィルターは相補フィルターと呼ばれており、以下のような関係式で結ばれる。
+\begin{eqnarray}\label{eq:eq01}
+  L(\omega) + H(\omega) = 1
+\end{eqnarray}  
+ここで、$L(\omega),\,L(\omega)$はそれぞれlow-passフィルターとhigh-passフィルターである。このような super sensor を用いて、高周波では慣性系に、低周波では地面に対してFeedBack制御をおこなっている。。
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_seismo_vs_lvdt.png}
+    \includegraphics[width=10.0cm]{./img_seismo_vs_lvdt.png}
   \end{center}
-  \caption{地面振動とセンサーノイズの比較。黒線は地面振動。赤線はLVDTのセンサーノイズ。青線はGeophoneのセンサーノイズ。およそ0.1 Hz以上ではGeophoneが、それ以下ではLVDTのセンサーノイズが小さい。}
+  \caption{地面振動とセンサーノイズの比較。黒線は地面振動。赤線はLVDTのセンサーノイズ。青線はGeophoneのセンサーノイズ。およそ0.1 Hz以上ではGeophoneが、それ以下ではLVDTのセンサーノイズが小さい。参考文献\cite{sekiguchiD2016}のFig5.6から転載。}
   \label{img:img_seismo_vs_lvdt}
 \end{figure}
 
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_pi_blending.png}
+    \includegraphics[width=10.0cm]{./img_pi_blending.png}
   \end{center}
-  \caption{Blendingフィルター。0.1Hzにカットオフ周波数をもつ相補フィルター。図\ref{img:img_seismo_vs_lvdt}によれば、0.1Hz以下の低周波ではLVDTの信号を、それ以上ではGeophoneの信号をあわせたいので、ローパスをLVDTに、ハイパスをGeophoneにかける。}
+  \caption{Blendingフィルター。0.1Hzにカットオフ周波数をもつ相補フィルター。図\ref{img:img_seismo_vs_lvdt}によれば、0.1Hz以下の低周波ではLVDTの信号を、それ以上ではGeophoneの信号をあわせたいので、ローパスをLVDTに、ハイパスをGeophoneにかける。参考文献\cite{sekiguchiD2016}のFig5.8から転載。}
   \label{img:img_pi_blending}
 \end{figure}
 
-
-
+変位センサーを使うということは、ステージが地面と一緒に動くことを意味している。これは比較的小さいスケールの腕共振器であれば、低周波地面振動は同相な地面振動雑音として除去されるので問題とならない。しかしkmスケールの腕共振器では、とくにRMSの大きな脈動の帯域では、逆相成分である基線長伸縮は同相成分とくらべて1/4程度にしか低減できない[]。このような問題に対してLIGOではsensor correction と呼ばれるfeed forward 制御を用いた試みをおこなっている\cite{hua2005low}\cite{matichard2015seismic}。
 
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_2dof_pi.png}
+    \includegraphics[width=10.0cm]{./img_2dof_pi.png}
   \end{center}
-  \caption{Preisolatorで用いている能動防振のブロック図。ここで、$P_{\mathrm{s}}$は地面振動の変位$x_0$からステージの変位$x_1$への伝達関数である。$C_{\mathrm{fb}},\,C_{\mathrm{ff}},\,C_{\mathrm{sc}}$はそれぞれ feedback、feedforward、sensor correctionの制御フィルターである。さらに$H,\,L$はsuper sensor のための相補フィルターであり、それぞれ慣性センサーのためのハイパスフィルターと変位センサーのためのローパスフィルターである。また$N_{ff},\,N_{sc},\,N_{H},\,N_{L}$はそれぞれのセンサーのノイズとなっている。そして$G$はループゲインをあらわしており$G=C_{\mathrm{fb}}P_{\mathrm{f}}$という関係であり、このときの$P_{\mathrm{f}}$はステージのアクチュエータからステージの変位への伝達関数である。}\label{img:img_2dof_pi}
+  \caption{Preisolatorで用いている能動防振のブロック図。ここで、$P_{\mathrm{s}}$は地面振動の変位$x_0$からステージの変位$x_1$への伝達関数である。$C_{\mathrm{fb}},\,C_{\mathrm{ff}},\,C_{\mathrm{sc}}$はそれぞれ feedback、feedforward、sensor correctionの制御フィルターである。さらに$H,\,L$はsuper sensor のための相補フィルターであり、それぞれ慣性センaサーのためのハイパスフィルターと変位センサーのためのローパスフィルターである。また$N_{ff},\,N_{sc},\,N_{H},\,N_{L}$はそれぞれのセンサーのノイズとなっている。そして$G$はループゲインをあらわしており$G=C_{\mathrm{fb}}P_{\mathrm{f}}$という関係であり、このときの$P_{\mathrm{f}}$はステージのアクチュエータからステージの変位への伝達関数である。}\label{img:img_2dof_pi}
 \end{figure}
 
 
-LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。この図においてステージの変位$x_1$を地面振動$x_0$で表すと式(\ref{eq:eq04})の通りである。
+Sensor correction について述べる。LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。この図においてステージの変位$x_1$を地面振動$x_0$で表すと式(\ref{eq:eq04})の通りである。
 \begin{eqnarray} \label{eq:eq04}
   x_1 &=& \frac{1}{1+G}\Biggl[(P_{\mathrm{s}}+P_{\mathrm{f}}C_{\mathrm{ff}})x_0\Biggl]
   + \frac{G}{1+G}\Biggl[L(1+C_{\mathrm{sc}})x_0\Biggl]
 \end{eqnarray}
-ここで低周波の外乱抑制を高めるためにゲインを十分におおきくすると式(\ref{eq:eq06})になる。式(\ref{eq:eq07})によれば、feed back のみの場合では、ステージの変位$x_1$はローパスフィルター$L$に沿って地面振動$x_0$を流入させる。しかしsensor correction を加えて$C_{\mathrm{sc}}=1$となるようにフィルターを作れば地面振動からの寄与を減らすことができる。
+ここで低周波の外乱抑制を高めるために式(\ref{eq:eq04})のゲイン$G$を十分に大きくすると式(\ref{eq:eq06}),(\ref{eq:eq07})になる。式(\ref{eq:eq07})によれば、feed back のみの場合、ステージの変位$x_1$はローパスフィルター$L$(図\ref{img:img_pi_fb_sc_ff}の緑色の破線)に沿って地面振動$x_0$を流入させる(図\ref{img:img_pi_fb_sc_ff}の橙色の実線)。しかしsensor correction を加えて$C_{\mathrm{sc}}=-1$となるようにフィルターを作れば地面振動からの寄与を減らすことができる(図\ref{img:img_pi_fb_sc_ff}の茶色の実線)。
 \begin{eqnarray}\label{eq:eq06}
-  \lim_{G \to \infty} x_{1} &=& L(1+C_{\mathrm{sc}})x_0) \\
+  \lim_{G \to \infty} x_{1} &=& L(1+C_{\mathrm{sc}})x_0 \\
   &=&
   \begin{cases}\label{eq:eq07}
     \; Lx_{0} & \text{($C_{\mathrm{sc}}=0$)}\\
@@ -89,7 +86,10 @@ LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。こ�
   \end{cases}  
 \end{eqnarray}
 
-一方で、高周波帯域のステージの要求値を満たすために、sensor correction とは別の feed forward のパスを用意している。式(\ref{eq:eq08})にゲインを小さくした場合のステージの変位$x_1$を示す。このとき、式(\ref{eq:eq09})によれば、feed back のみの場合では、地面振動でステージの変位は制限される。しかしsensor correction と同様に、$C_{\mathrm{ff}}=\frac{P_{\mathrm{s}}}{P_{\mathrm{f}}}$となるようにフィルターをつくれば、地面振動からの寄与を減らすことができる。
+実際のところ、sensor correction で用いる witness sensor には慣性センサーを使うので、supuer sensor と同様に、high-pass フィルターをつかってノイズの流入を抑えなければならない(図\ref{img:img_pi_fb_sc_ff}の青色の破線)。比較的低周波まで測定できる広帯域地震計であっても数$10\,\mathrm{mHz}$であるため、数分以上の位置制御は望めない。さらに、慣性センサーは低周波ではtilt coupling と呼ばれる傾斜成分が並進成分にカップルする性質があるため、むやみに低周波のゲインを大きくすることができない。近年、傾斜計を加えて傾斜成分を補償する試み\cite{biscansD2018}がなされているが、上述したように、地震計のノイズレベルで低周波の位置制御は制限されることに変わりはない。
+
+
+ちなみにsensor correction とは別に、高周波帯域のステージの要求値を満たすために、もう一つのfeed forward を用意している。式(\ref{eq:eq08}),(\ref{eq:eq09})にゲインを小さくした場合のステージの変位$x_1$を示す。式(\ref{eq:eq08})によれば、feed back のみの場合は、ステージの変位$x_0$はステージの地面振動応答$P_{\mathrm{s}}$に沿って地面振動を流入させる(図\ref{img:img_pi_fb_sc_ff}の橙色の実線が示す$0.5\,\mathrm{Hz}$以上の高周波部分)。このとき、sensor correction と同様に、$C_{\mathrm{ff}}=\frac{P_{\mathrm{s}}}{P_{\mathrm{f}}}$となるようにフィルター(図\ref{img:img_pi_fb_sc_ff}の紫色の破線)をつくれば、地面振動からの寄与を減らすことができる。
 \begin{eqnarray}\label{eq:eq08}
   \lim_{G \to 0} x_{1} &=& P_{\mathrm{s}}x_0 + P_{\mathrm{f}}C_{\mathrm{ff}}x_0 \\
   &=& 
@@ -99,7 +99,20 @@ LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。こ�
   \end{cases}  
 \end{eqnarray}
 
-（LIGOの sensor correction の問題点を挙げる）
+( この節をまとめる )
+
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=11.0cm]{./img_pi_fb_sc_ff.png}
+  \end{center}
+  \caption{参考文献\cite{biscansD2018}のFig3.13から転載。}
+  \label{img:img_pi_fb_sc_ff}
+\end{figure}
+
+
+
+
 
 
 \subsection{レーザー歪み計をつかった能動防振}
@@ -109,7 +122,7 @@ LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。こ�
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_seismo_vs_gif.png}
+    \includegraphics[width=10.0cm]{./img_seismo_vs_gif.png}
   \end{center}
   \caption{}\label{img:img_seismo_vs_gif}
 \end{figure}
@@ -132,22 +145,10 @@ LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。こ�
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_pi_etmx.png}
+    \includegraphics[width=10.0cm]{./img_pi_etmx.png}
   \end{center}
   \caption{}\label{img:img_pi_etmx}
 \end{figure}
-
-
-
-%% 地面振動$x_0$とステージの変位$x_1$に注目すると、地面振動からステージへの伝達関数は、
-%% \begin{eqnarray}\label{eq:eq05}
-%%   \frac{x_1}{x_0} = \frac{1}{1+G}P_{S}\Biggl[1-\frac{P_{f}}{P_{S}}C_{FF}\Biggl] + \frac{G}{1+G}L(1-C_{SC}) 
-%% \end{eqnarray}
-%% になる。ここでループゲインを十分大きくすると、式(\ref{eq:eq05})の地面振動からの直接の寄与(第1項)は十分に小さくできるが、変位センサーからの流入(第2項)はのこる。つまり、
-%% \begin{eqnarray}\label{eq:eq06}
-%%   \lim_{G \to \infty} \biggl(\frac{x_1}{x_0}\biggl) = L(1-C_{SC})
-%% \end{eqnarray}
-%% となる。先述した変位センサをFeedback制御に使う問題は、$C_{SC}=C_{FF}=0$とすれば$x_1/x_0=L$と表現し直すことができる。つまりカットオフ周波数以下ではステージと地面は一緒になって動くことを意味する。したがってそうならないように、$L$の寄与を小さくしたい。まず$C_{FF}=0$ の状態で考えると、sensor correction のフィルター$C_{SC}$を全域で1にできれば可能である。しかし実際には sensor correction で使用する慣性センサーもまた低周波で地面振動よりもノイズが大きくなるので、ノイズを流入させないように十分高次なハイパスフィルターを設計する必要がある。
 
 
 
@@ -159,7 +160,7 @@ LIGOの能動防振のブロック図を図\ref{img:img_2dof_pi}に示す。こ�
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=11.5cm]{./img_2dof.png}
+    \includegraphics[width=10.0cm]{./img_2dof.png}
   \end{center}
   \caption{}\label{img:img_2dof}
 \end{figure}
