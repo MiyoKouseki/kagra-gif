@@ -46,7 +46,10 @@ elif dtype == 'CLIO_SHR':
     prefix_gif = '/data2/CLIO/SHR'                    
 elif dtype == 'STRAIN':
     option = '--include="*/" --include="*.STRAIN" --exclude="*"'     
-    prefix_gif = '/data1/PHASE/50000Hz'            
+    prefix_gif = '/data1/PHASE/50000Hz'
+elif dtype == 'PD_50k':
+    option = '--include="*/" --include="*.AD0[0-2]" --exclude="*"'     
+    prefix_gif = '/NAS/PXI1_data/50000Hz'    
 else:
     raise ValueError('! no such type {0}'.format(dtype))
 
