@@ -12,4 +12,4 @@ ymin -2 --ymax 2
 ```
 <img src='./gwpy_timeseries.png' width=600> 
 
-### hoge
+### main_gif.py
