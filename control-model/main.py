@@ -125,10 +125,8 @@ if True:
     freq_seis_noctr,mag_seis_noctr = times(mag_Ps, omega_Ps,
                                         mag_seis, freq_seis
                                         )
-
 # rms
 #freq_rms_seis_noctr,mag_seis_noctr = rms(mag_seis_noctr,frew_seis_noctr)
-
 
 asdplot = True
 if asdplot:
@@ -174,7 +172,8 @@ plotservo = True
 if plotservo:
     fig ,[ax0,ax1] = plt.subplots(2,1,figsize=(8,8),dpi=100)
     plt.suptitle('Servo filter',fontsize=30)
-    ax0.loglog(omega_Ps/(2.0*np.pi),mag_Ps,'k-',label='Ground Response',alpha=0.5)    
+    ax0.loglog(omega_Ps/(2.0*np.pi),mag_Ps,'k-',label='Ground Response',alpha=0.5)
+    ax0.loglog(omega_Pa/(2.0*np.pi),mag_Pa,'k--',label='Ground Response',alpha=0.5)    
     ax0.loglog(omega_oltf/(2.0*np.pi),mag_oltf,'g-',label='OpenLoop',alpha=0.5)
     ax0.loglog(omega_servo/(2.0*np.pi),mag_servo,'b-',label='Servo',alpha=0.5)
     ax0.set_xlim(1e-3,2e1)
@@ -184,7 +183,8 @@ if plotservo:
     ax0.grid(b=True, which='minor', color='gray', linestyle=':')
     ax0.legend(loc='lower left')
     ax0.set_ylabel('Magnitude ')
-    ax1.semilogx(omega_Ps/(2.0*np.pi),phase_Ps,'k-',label='Ps',alpha=0.5)        
+    ax1.semilogx(omega_Ps/(2.0*np.pi),phase_Ps,'k-',label='Ps',alpha=0.5)
+    ax1.semilogx(omega_Pa/(2.0*np.pi),phase_Pa,'k--',label='Ps',alpha=0.5)        
     ax1.semilogx(omega_oltf/(2.0*np.pi),phase_oltf,'g-',alpha=0.5)
     ax1.semilogx(omega_servo/(2.0*np.pi),phase_servo,'b-',alpha=0.5)
     ax1.set_ylim(-180,180)
