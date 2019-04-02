@@ -40,6 +40,7 @@ def run(noplot=None):
 		fig.set_dpi(pp.FIG_DPI)
 		from itertools import cycle
 		clist = matplotlib.rcParams['axes.color_cycle']
+        #clist = matplotlib.rcParams['axes.prop_cycle'].by_key()['color']
 		colorcycler= cycle(clist)
 		ax1 = fig.add_subplot(111)
 		ax1.set_xlim(-90,90)
