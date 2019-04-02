@@ -6,10 +6,10 @@ kat = finesse.kat()
 kat.verbose = False
 kattext ='''
 # Optics configuration
-m itm 0.9 0.01 0 n1 n2    # mirror R=0.9, T=0.0001, phi=0
-s s1 1200 n2 n3             # space L=1200m?
-s s2 1 nn n1                # space L=1200m?
-m etm 0.9 0.0001 0 n3 n4         # mirror R=1 T=0 phi=0
+m1 itm 40e-4 45e-4 0 n1 n2  # T=40ppm, Loss=45ppm @1064nm [1]
+s s1 3000 n2 n3             # space L=3000m?
+s s2 1 nn n1                # space L=1m?
+m1 etm 10e-4 45e-4 0 n3 n4  # T=10ppm, Loss=45ppm @1064nm [1]
 l i1 1 0 n0                 # laser P=1W, f_offset=0Hz
 mod eo1 45k 0.3 2 pm n0 nn  # phase modulator 
     	    	     	    # f_mod=40kHz, midx=0.3, order=3
@@ -24,6 +24,9 @@ pd1 trans_Q 45k 90 n4
 xaxis etm phi lin -90 90 400
 yaxis abs
 #scale 1e6
+
+# Reference
+# [1] http://gwwiki.icrr.u-tokyo.ac.jp/JGWwiki/LCGT/subgroup/ifo/MIF/OptParam
 '''
 kat.parse(kattext)
 out = kat.run()
@@ -44,6 +47,6 @@ ax1.set_xlim(-90,90)
 ax0.grid(b=None, which='both', axis='both', linestyle='--')
 ax1.grid(b=None, which='both', axis='both', linestyle='--')
 ax1.set_xlabel('Tuning ETM [deg]')
-ax0.set_ylabel('Abs')
-ax1.set_ylabel('Abs')
+ax0.set_ylabel('Abs [?]')
+ax1.set_ylabel('Abs [?]')
 plt.savefig('cavity.png')
