@@ -1,0 +1,2086 @@
+
+
+Changes between different versions of Finesse
+http://www.gwoptics.org/finesse
+
+This file serves as an addition and update to the Finesse manual;
+it contains a brief but complete description of the latest changes and 
+fixed bugs. 
+
+This list starts with Version 0.53 since there were just too many 
+changes before. Not every version number is listed.
+
+2.2 -> 2.3
+
+main changes:
+
+syntax change:
+ o Refractive index warning at 4 now instead of 3 due to Silicon test mass modelling being more frequent
+ 
+added features:
+ o modulators can have tilt modulation applied
+ o Laser can now fsig modulate the waist size and position effects
+   to compute how beam shape noise transfer functions behave. This
+   will generate the additional n+-2 and m+-2 modes signal sidebands
+   around the carrier field:
+   
+		l l1 1 0 n0 
+
+		tem l1 0 0 0 0
+		tem l1 2 0 1 0
+
+		s s1 0 n0 n1
+
+		ad a00 0 0 0 n1
+		ad a20 2 0 0 n1
+
+		ad u00 0 0 $fs n1
+		ad l00 0 0 $mfs n1
+
+		ad u20 2 0 $fs n1
+		ad l20 2 0 $mfs n1
+
+		ad u40 4 0 $fs n1
+		ad l40 4 0 $mfs n1
+
+		pd1 P $fs n1
+		noxaxis
+
+		fsig noise l1 z 1 0 1
+		# or this for waist modulation fsig noise l1 w0 1 0 1
+
+		maxtem 4
+
+		yaxis abs:deg
+		
+ o Can switch off the mode self-coupling term for beam shape modulations above with:
+ 
+ 		conf l1 z_fsig_self_coupling 1
+		
+   This removes the phase modulation like term that appears with waist position modulation.
+ 
+bug fixes:
+ o Minus sign fixes have been applied for suspended components: mirrors and beamsplitters
+   this doesn't seem to have affected any results shown before, but does affect the sign
+   of some transfer functions. The minus sign problem was the direction in which a mirror moves
+   relative the force applied to it.
+ o RF frequency mixing matrix wasn't getting reset between runs and causing spurious frequency couplings
+ o Fixed problem with small signals jumping between being either a TF or a signal, getting an odd factor of two occasionally
+ o Beamsplitter fsig targetting z was not being applied
+ o $fs was not working correctly when fsig was first frequency and RF the second
+
+2.1 -> 2.2 (June 2017)
+
+main changes:
+   This release incorporates new features and bug fixes over the last year. 
+   This mainly involves fixes and new features for modelling of quantum systems, like EPR
+   squeezing, and HOM squeezing. In addition a new feature for displaying all the mode mismatches
+   in a model can now be displayed to aid in matching files quicker. A new isolator like
+   component called a directional beamsplitter (dbs) was added. This was because the original 3-port
+   device couldn't handle the mix of quantum noise easily. The three port isolator component 
+   was removed. Pykat and Finesse now talk to each other via a pipe command, which will be 
+   used more in future and save writing things to disk first before reading it in to Python.
+   Added ability to set offset via the lock command now, rather than having to define a separate
+   function.
+   
+syntax change:
+ o tf2: For each pole or zero added the funcion will automatically add the conjugate pole
+   so you don't need to specify each
+ o Three port isolator is no longer available
+ o pitch and yaw can now be used instead of ybeta and xbeta
+ o Added optional offset parameter: lock name $var gain accuracy [offset]
+ 
+added features:
+ o added 'powers' command which prints the light power in all node to the terminal
+ o added the ability to generate mutli-mode squeezing. This is done by using the `tem'
+   command to set the mode content of a squeezer, like a normal laser component. The
+   only difference being the amplitude part inputs the mode squeezing in dB and phase
+   input sets the squeezing rotation.
+ o Introduced `--pykat=pipename` flag. This opens a pipe between Finesse and whatever
+   else (typically Pykat) so that data can be sent and requested between the two.
+ o mismatches [flag]: displays mismatching present in the model
+ o dbs: Directional beam splitter component
+        Usage:
+           dbs name node1 node2 node3 node4
+           
+        Connections:
+            node1 -> node3
+            node2 -> node1
+            node3 -> node4
+            node4 -> node2
+            
+        This can be used essentially as a perfect isolator component with multiple nodes.
+        For an input isolator the laser goes in at node1 and node3 goes to the IFO, the reflected
+        port is then at node4. This also applies for the output isolator for injecting squeezing.
+        node1 is from the IFO, node3 towards OMC and node2 the squeexing injection.
+ o Entangled carrier injection for EPR modelling using the sqz* command.
+   Generates a 0Hz field and another at the frequency specified in the command.
+   These two fields then have their upper and lower sidebands correllated.
+ o qNhd detector for combing quantum noise measurements at multiple nodes.
+     usage example:
+         func funca = (-1) 
+         func funcb = (1)
+         q2hd HD_AB funca node1a node1b funcb node2a node2b
+         
+    Specify how many homodyne measurements you need, and a transfer function to scale the output
+    of each before combining them.
+ o Frequency selective R and T at a beamsplitter. You can now set the R and T value for a given
+   frequency bin. This is set by the frequency name which can be found by running the file with
+   using the `frequency` command. This will print a list of all frequencies and their names.
+   With this name you can then set the R and T value as shown below:
+   
+   Example: Reflecting the lower (minus) sideband
+        l l1 1.0 0 0.0 n1
+
+        bs bs1 1 0 0 0 n1 n2 n3 n4
+        
+        # conf beamsplitter fRT frequency_name R T
+        conf bs1 fRT l1_psb 0 1
+        conf bs1 fRT l1_msb 1 0
+
+        fsig sig l1 1 0 1
+
+        ad u $fs n3
+        ad l $mfs n3
+        
+ o Lock offset: Can set the offset to a lock more easily now instead of having
+   to define a func and do the math.
+   
+   usage: lock name target gain accuracy [offset]
+
+   
+bug fixes:
+ o noxaxis no longer tries to call gnuplot/python plotting
+ o fixed roundtrip gouy phase sign 
+ o fixed bug with frequency signal/noise, i.e. when applying fsig
+   to a laser frequency
+ o Fixed error when using var, which would say that too many variables exist
+ o Fixed map scattering calculations when storing values for a certain maxtem but then rerunning with a larger one.
+ o Non-square maps causing segfault is fixed
+ o Functions names can be longer than 14 characters now
+ o Phase 1 was being incorrectly applied for surface motion maps, gave wrong sign errors for PI gains
+   in certain circumstances.
+ o ASC signals through composite mirrors were fixed. See https://dcc.ligo.org/LIGO-T1700114
+ o Plancks constant was only set to 5 significant figures, this was fixed
+
+2.0 -> 2.1 (22/04/2016)
+
+main changes:
+ o This is mainly a bug fix release. At the same time it includes some
+   features we are working on at the moment, for example testing of 
+   experimental speed improvements, the new homodyne detector and
+   fixes to ensure quantum noise works with higher order modes.
+ o Windows binaries are now generated without any Cygwin dependencies.
+   This simplifies the distribution because we do no longer have to
+   provide multiple cygwin DLLs as well. Instead the Windows binaries
+   consist of just a single executable file, as for other OSes. The
+   downside to this is that certain features are no longer included
+   such as the server mode, the high-performance map integrator Cuba and
+   the multithreaded matrix solver NICSLU. If such features are required
+   on Windows the Cygwin version can still be built, however we no longer
+   distribute such binaries and you will be required to download Cygwin
+   and compile the source yourself. This is fairly straight forward and
+   the steps are listed here:
+   http://kvasir.sr.bham.ac.uk/redmine/projects/finesse/wiki/_Windows_#Building-Finesse-on-Windows-Building-using-Cygwin
+       
+syntax change:
+ o The 'cp' (cavity parameter) detector now requires a name to be specified.
+   This brings it inline with how other Finesse detectors are written.
+ o kat -h will now show which features are included in the binary
+     ------------------------------------------------------------------------
+       FINESSE pre-2.1.0     - Help Screen -                      04.11.2014
+
+       Features included in this binary:
+         Cuba map integrator  - yes
+         NICSLU matrix solver - yes
+         Kat server mode      - yes
+     ------------------------------------------------------------------------
+   Such features are available on some platforms and not others.
+ o The 'quantum_scaling' parameter in the kat.ini file has been 
+   replaced by dedicated 'scale' commands, see below.
+ o The parameter 'epsilon_c' in kat.ini has been removed, instead
+   'amplitude_scaling' can be used for related scaling of light amplitudes
+	 versus light power, see below.
+ o The '--perl1' flag is now '--pykat'
+ 
+added features:
+ o Cavity `trace 2` output will now show the roundtrip Gouy phase in degrees
+   and the mode separation frequency.
+ o cp detector now has the options:
+ 		gouy: roundtrip gouy phase of the cavity in degrees
+		fsep: mode separation frequency
+		A, B, C or D: Elements of the roundtrip ABCD matrix
+ o Added a homodyne detector output. The main usage is:
+         
+         hd name phase node1 node2
+         qhd name phase node1 node2
+         
+   These detectors require two input ports, the result is then combined 
+   with the phase difference specified. Thus to subtract results 
+   phase = 180 or to add the results phase = 0 (other values can
+   also be chosen if desired). The 'hd' command provides the signal
+   output, the 'qhd' outputs the quantum noise. You can also use
+   qhdS for a sensitivty output (qdS=qhd/hd), and qhdN for a signal to   
+   noise output (qdN= hd/qhd). The homodyne detectors is typically
+   used with a beamsplitter to mix a local oscillator field with the 
+   signal; An example of a homodyne readout for measuring a 
+   squeezed field:
+   
+       sq l1 0 20 0 nin
+       l LO 1 0 0 nLO
+
+       fsig noise 1
+
+       bs dHD .5 .5 0 0 nin nout1 nout2 nLO
+
+       qhd hd0 0 nout2 nout1
+       qhd hd180 180 nout2 nout1
+
+       yaxis log abs
+       xaxis LO phase lin 0 360 1000
+
+ o Adding 'dither' modulation to mirrors and beam splitters. The new 
+   command is:
+
+   dither component f m order phase
+
+   Where component is the name of a mirror or beamsplitter, f is the 
+   frequency of the modulation, m is the amplitude of the mirror motion 
+   in metres, order is the maximum order of sidebands to compute and 
+   phase is an additional phase of the modulation in degrees. A simple 
+   example:
+
+   l l1 1 0 n1
+   s s2 1 1 n1 n4
+   m mN 1 0 0 n4 n5
+   dither mN 10M 1n 2 0
+   ad ap0 0 n4
+   ad ap10 10M n4
+   ad am20 20M n4
+   # vary the dither amplitude 
+   xaxis mN dither_m lin 0 1e-6 1000
+ o Added new command '!include' to read in a separate kat file and 
+   particular blocks:
+     !include katFilename [block1 [block2 ...]]
+   Note, that you cannot nest include statements.
+ o Added 'power' in diopters as new tunable variable to lenses, e.g.
+      xaxis lens P lin 1u 10u 100
+   Also the lens* command sets the lens power rather than the focal 
+   length.
+ o The Windows binaries should now interact with Gnuplot properly. The
+   terminal should no longer be blocked when a plot is shown, allowing 
+   multiple plots to be displayed whilst experimenting with a file. When
+   using wgnuplot.exe it should also show any plotting errors which didn't
+   display before as the stderr pipe is not present in wgnuplot.
+ o Added amplitude_scaling setting to kat.ini. This changes how amplitude
+   detector outputs are scaled.
+       
+       # Amplitude scaling options. This sets how the
+       # ad detectors will scale the field amplitude.
+       # This should not affect any other detector outputs.
+       #
+       # 0 : P = 0.5*eps_0*c*|E|^2
+       # 1 : P = 0.5*|E|^2
+       # 2 : P = |E|^2
+       amplitude_scaling 2
+
+   This feature replaces the previously used parameter 'epsilon_c'. The reason
+   for allowing only a limited numbers of scales is that internally the scaling
+   must be consistent for the non-linear coupling effects that depend on
+   absolute light power levels. 
+ o Added 'm stability factor' to cavity parameters output.
+ o Added two following pre-set scaling options: PSD, PSD_HF, ASD and 
+   ASD_HF. These can be used to scale the shot, qshot and qnoised 
+   detector outputs. These select respectively PSD, PSD/hf, ASD or 
+   ASD/hf (where h is plancks constant and f the carrier
+   frequency).
+ o Added experimental feature, not yet ready for use: flag cr=on/off
+ o Gnuplot v5.0 is released, FINESSE defaults to using classic colour
+   scheme and disabled the 'enhanced text' feature. Can be re-enabled
+   by editting the GNUPLOT terminal settings in kat.ini with the relevant
+   command. When using v5.0 make sure you update the `gnuversion' 
+   variable in kat.ini.
+ o Changed quantum noise injection to take advantage of the loss information
+   in the coupling matrices. We now inject the noise lost due to couplings
+   such as mode-mismatch, tilts, maps, etc. by assuming all the power that
+   is not coupled is replaced with vacuum noise. This means a large number 
+   of modes to get quantum noise converging should not be needed. You only
+   need enough to get the classical sidebands/carriers converging. This
+   is assuming the higher order modes not included do not contain any
+   quantum correllations, if they do your quantum noise values may still
+   require more modes to converge completely.
+ o The '--pykat' (was '--perl1') flag now setups up a separate named pipe
+   from which it passes information to Pykat. This currently only contains
+   the simulation progress and Finesse version number, but can be extended
+   to pass additional information without parsing unformatted stdout/stderr
+   or some other text file with data in. Running Finesse in pykat mode
+   will block the process until a process which reads from the named pipe
+   is connects to it. Thus, this flag is only to be used when calling
+   from a wrapper.
+   
+ 
+bug fixes:
+ o Beamsplitter pitch tilt signals were not being correctly scaled
+   with the cos(alpha) term as stated in the manual section 4.11.
+ o Fixed bug in beamsplitter pitch tilt signals not coupling correct modes.
+ o Fixed bug with scaling of qshotS and qnoisedS commands, also fixed
+   a bug where scale commands did not affect qshot and qnoised. 
+   All these occured only for some example files, so that our test
+   cases where not affected but the changes.
+ o Fixed a bug with the Matlab output files (where the function name
+   inside was just a . so that Matlab would not execute these files)
+ o Added warning when a function name length is too long.
+ o Fixed minus sign error when creating lower signal sidebands on the
+   node 3/4 side of a beamsplitter.
+ o Squeezing detector was producing NaN results when computing negative
+   determinants or eigenvalues, should be fixed now.
+ o Squeezing detector also had a code overhaul as was giving incorrect
+   results in some cases. Squeezing detector `sd` should now output correct
+   dB of squeezing in abs channel and ellipse rotation in the angle output.
+   A rotation of 0 means the carrier at that point is amplitude squeezed.
+   Detector `sd*` returns the determinant of 2x2 covariance matrix, pure vacuum
+   state = 0.25, anything less is physically incorrect, larger means you no
+   longer have a pure vacuum state. Note: sd detector output isn't well defined
+   if there is no carrier field at the node. In such cases it defaults to a 
+   field with amplitude `1` and phase 0.
+ o Squeezer element was not behaving correctly for simulations using
+   maxtem. Now injects noise at all modes and only squeezes TEM_00.
+
+
+1.1 -> 2.0 (19.05.2014)
+http://kvasir.sr.bham.ac.uk/redmine/versions/10
+
+main changes:
+ o Implementation of radiation pressure effects for multiple degrees
+   of freedom for mirrors and beamsplitters; Finesse can now model
+   optical springs, parametric instabilities and more. With this
+   change the noise coupling and sensing transfer function show the
+   correct behaviour also for interferometers with very high light
+   power in whose the mirror dynamics are significantly affected by 
+   radiation pressure.
+ o Implementation of quantum noise calculations based on the
+   two-photon formalism,including radiation pressure noise and
+   squeezing. With these two changes Finesse is now able to model the
+   quantum-noise limited sensitivity of advanced detectors and
+   other alternative topologies for quantum noise reduction.
+
+syntax change:
+ o Finesse now required a 'space' components to be present between
+   other components, e.g. you cannot connect a modulator directly
+   to a mirror. Please update your files accordingly. This has been
+   necessary for implementation reasons. If this feature presents
+   a serious problem for your tasks, let us know.
+ 
+bug fixes:
+ o Fixed issues with reflection maps not being correctly read or
+   processed once it had been reread from the knm files
+ o Fixed problem when just a single laser and photodiode is
+   included. Must ensure that a space is also present.
+ o Fixed `abort trap 6' on OS X 10.9 due to strcpy changes
+ o Correct factor of sqrt(3) in qshot detector
+ 
+known issues:
+ o Higher order modes and quantum noise are still a work in progress
+ o Cannot apply surface motions to beamsplitters currently
+ 
+added features:
+ o user defined transfer functions with tf and tf2 command. Used for
+   linking components and radiation pressure computations
+ o ability to suspend mirrors and beamsplitters such that they can
+   move in both longitudinal, yaw and pitch motions.
+ o mirrors can also have higher order motions defined by a surface map
+   which describes the normalized surface motion
+ o qshot detector has been updated and fixed to correctly work with
+   the new radiation pressure features
+ o qnoised detector was added that can models the complete
+   quantum noise present in a photodiode output. It is the most
+   complete detector and is able to see the effects of radiation
+   pressure and squeezing
+ o cp can now output the cavity stability, g-factor, if between -1 and
+   1 it is stable. Parameter to use is either 'gx' or 'gy'.
+ o For computing stabilities it is sometimes necessary to force the
+   beam tracing algorithm to continue even if an unstable cavity is
+   found. Use 'retrace force' to do this.
+ o 'printfrequency' will list all frequencies used in a simulation
+ o 'printnoises' will list all quantum noise sources considered in the
+   simulation
+ o 'vacuum component1 component2 ...' can be used to selectively set
+   which vacuum noise sources to consider on a component by component
+   basis
+ o 'qd' detector can be used to output the size of the quantum
+   quadratures
+ o 'sd' detector can be used to output information regarding how the
+   squeezed state of an optical field is squeezed and rotated.
+ o Can use 'smotion' command to apply higher orders surface motions to
+   a mirror for modelling motions other than rotations and longitudinal
+   motions.
+ o the 'pgaind' detector can be used to compute parametric gains of
+   surface motions for the modelling of parametric instabilities
+
+
+1.0 -> 1.1 (04.11.2013)
+http://kvasir.sr.bham.ac.uk/redmine/versions/6
+
+main changes:
+ o This is mostly a bug fixing release, see the list of bugs below.
+ o We have also rewritten a lot of the underlaying code, in 
+   preparation for the implementation of radiation pressure effects.
+   This release marks the point in which all our tests produce the
+   same results as before. If you are compiling Finesse directly from
+   the source, please note that we have merged several git repositories
+   (base, src, lib) into a single one (finesse). You need to update
+   your build scripts accrodingly (just clone the new repostory
+   and run the file finesse.sh to build).
+
+syntax change:
+ o Due to internal chanes Finesse now requires `space' components 
+   between all non-space optical components.
+ o The sparse package has been removed. Therefore the flags `-sparse' 
+   is no longer used but will default to KLU if done so.
+ o `-klu-full` is now the default solver and solves all frequencies 
+   components (optical fields) in parallel.
+ o `-klu` reverts to using the original klu solver but it included 
+   for legacy purposes only, new features will likely not be implemented
+   with this solver and we might remove this solver at any time.
+ o `-f` has now been removed, default of 15dp precision in output files
+ 
+added feature:
+ o The coupling of multiple frequency components has been completely 
+   rewritten. Now all laser fields and modulator sidebands are computed 
+   simultaneously (rather than sequentially as before). This change is 
+   a necessary preparation for the implementation of radiation pressure 
+   and quantum noise effect. It has the bonus feature of allowing the 
+   correct modelling of `sidebdands of sidebands' (such as created by 
+   two modulator components in series).
+ o The build script has been updated to work on Windows 7, 
+   OS X 10.6 - 10.9 and 32/64 bit architectures on Linux
+ o A new command `fadd f1 f2 f3 ... fN' adds additional (non-signal) 
+   frequencies to be solved in the simulation. This allows more 
+   `sidebands of sidebands' frequencies to be included.
+ o `frequency n' command outputs information on which frequencies are 
+   being used in the simulation, frequency n: `n' bit coded word, 
+   produces the following output:
+      frequency 1: print all frequencies used for the compuation
+      frequency 2: print frequency coupling matrix for each oscillator
+ 
+misc:
+ o Data in output to file now has always 15 digits precision
+ o Updated Cuba numerical integrtion library to version 3.2
+ o Lower sidebands are internally propagated as conjugates (preparation 
+   for radiation pressure implementation). This should not affect the 
+   detector outputs.
+
+known issues:
+ o See our bug tracker at 
+   http://kvasir.sr.bham.ac.uk/redmine/projects/finesse/
+   for a list of open issues.
+
+fixed bugs:
+ o The ABCD matrix for the sagittal beam for the transmission through
+   a beam splitter had a wrong 'C' element (reported by Kentaro Somiya 
+   and Tomotada). Our nightly tests show little change in the results 
+   because of this.
+ o Phase modulation signal sidebands created with the `fsig' command 
+   where not inheriting the mode composition from the carrier (reported 
+   by Gabriele Vajente). This change affects the modelling of how a DC 
+   misalignment affects longitudinal transfer functions and shows 
+   differences (for larger misalignmnts).
+ o Fixed a `division by zero error' that could accur with the noxaxis 
+   command
+
+
+0.99.9 -> 1.0 (06.06.2013)
+http://kvasir.sr.bham.ac.uk/redmine/versions/2
+
+main changes:
+ o Finesse 1.0 is a major milestone in the roadmap, it completes the open
+   source release of Finesse: based on a thorough test and validation campaign
+   we have solved a number of known issues 
+ o In particular mirror surface maps have now been fully tested (against FFT 
+   code) and work also with other defects, such as misalignments and curvature 
+   mismatches introduced via the 'attr' command. Beam splitter surface maps 
+   have also been integrated and the code has been tested for integrity. 
+   However, we have not yet performed the same stringent tests as for the 
+   mirror maps. Please use beam splitter maps with care.
+ o The manual has been brought up to date. The current version replaces
+   the manual for 0.99.8 and implements all the changes to Finesse since then.
+
+syntax change:
+ o We harmonised the spelling so that it's always 'knm' and not sometimes 
+   'kmn', in particular the 'kmn' command and the 'conf ... kmn ...' commands 
+   are now 'knm' and 'conf ... knm ...'. Please update your files.
+
+added feature:
+ o The 'tem' can now be used to specify Laguerre-Gauss (LG) modes. For example 
+   an laser in a LG33 mode would be defined as: 
+   l1 1 0 n1
+	 tem* l1 0 0 0 0 
+	 tem* l1 3 3 1 0
+ o Python (matplotlib) can now be used to generate graphical output (in addition
+   to MATLAB and Gnuplot. You need to set the path to Python in kat.ini via
+   PYTHONCOMMAND, for example as
+   PYTHONCOMMAND "python $s 2>/dev/null &" # Unix example
+   You can further define which program should be used by default, for example,
+   if you want Python to be used you add this to the kat.ini file:
+   PLOTTING python
+ o Separation of coupling coefficient matrix calculation for different effects 
+   to improve performance now works correctly and has been tested throughly and 
+   against FFT simulations. The conf commands:
+       conf component knm_order 12 or 21 - 1 = Map, 2 = Bayer-Helms
+       conf component knm_change_q 1 or 2 - 1 = q_1  2 = q_2
+   Using these commands you can set the ordering of map integration and Bayer-
+   Helms computations. The separation works by splitting the effects in to 2 
+   matrices. Commutation errors should not be significant, but care must be 
+   taken when a map represents a curvature like distortion i.e. causes a mode-
+   mismatch (see the lens-map example in manual).
+ o Space components can now be connected to each other.
+
+misc:
+ o Coupling coefficient integrator can be sped up by a factor of ~2 by taking 
+   advantage of a nearly symmetric coupling coefficient matrix, except from some
+   phase factor. Thus only half of the coefficients need computing when mode-
+   matched. This can be switched on/off by using the kat.ini option:
+        calc_knm_transpose: 1 or 0 (default 1)
+ o The knm command usage has changed from previous versions. It now states 
+   whether an optic should save and load coupling coefficients from a specified 
+   file.
+        knm component_name filename_prefix
+   The former functionality of the knm command can now be accessed via the 
+   command
+        conf component knm_flags
+
+known issues:
+ o Interfaces between spaces with different indices of refraction (i.e. mirrors
+   or beam splitters) have not been fully tested. Some features obviously work
+   but we believe this needs to be fully reviewed and better documented in the
+   manual at some point.
+
+fixed bugs:
+ o fsig applied to spaces had an error in the equations computing the phase
+   and amplitude of the signal sidebands.
+ o The default coefficients for split photodetectors as provided by the kat.ini
+   file had been wrong. The new kat.ini file provides correct numbers for 
+   up to maxtem 40.
+ o Amplitude detectors (when maxtem off was used) did not record multiple 
+   frequency components with the same numerical frequency value correctly, this 
+   could have caused problems if multiple lasers were used or multiple EOMs 
+   driven with the same modulation frequency.
+ o Matlab function names included any relative path differences between the 
+   script and kat file location.
+  
+
+0.99.8 -> 0.99.9 (16.03.2012) 
+http://kvasir.sr.bham.ac.uk/redmine/versions/1
+
+main changes:
+ o Complete overhaul of surface map routines adding more advanced
+   integration and significantly speeding up the process. Note that
+   this change breaks the syntax of map reading and map writing, so
+   that you need to update all your input files that use mirror
+   maps. However the functionality should be the same or better than
+   before, with more control over the numerical integration. The
+   application of several maps at one mirror has been significantly
+   improved from version 0.99.8.
+ o We also fixed a large number of small bugs when going through the
+   code. None of these had an impact on the numerical simulation results
+   of all our test files though.
+
+added feature :
+ o Advanced integration routines added from the Cuba library in
+ 	 addition to an improved Riemann sum integrator. These are used in the
+ 	 calculation of mirror coupling coefficient matrices. Riemann method
+ 	 could be reserved for small maps and maps with sharp variations in,
+ 	 such as aperture maps consisting of just 0 and 1. Using the "smarter"
+ 	 Cuba routines can offer substantial accuracy and speed improvements
+ 	 over the Riemann integrator. You can also specify the accuracy
+ 	 required by setting the abserr and relerr values in kat.ini. To modes
+ 	 for the Cuba routines are offered: serial and parallel. These are not
+ 	 related to the processor usage, both use multiple processors on your
+ 	 CPU and can be specified using the cuba_numprocs setting in
+ 	 kat.ini. Parallel and serial refer to whether Finesse calculates
+ 	 k11,k12,k21,k22 in parallel or serial. The different methods are
+ 	 beneficial if one of the k's are taking a lot of integrand
+ 	 evaluations to calculate, if so the serial method maybe faster. 
+ o Mirror surface map merging now merges multiple maps - specified using
+ 	 the map command - into one map which is now only integrated once
+ 	 offering more accurate results faster. 
+ o Adding maps to a mirror is now done using the new map command usage
+   is now: map mirror_name map_filename
+ o Map and coupling coefficient data can now be stored in binary or
+   text formats. Binary offers substantial speed improvements over
+	 ascii storage. See conf command below to see usage. 
+ o Mirror aperture attribute has been added. Must be used with maxtem higher
+   than 0 to get full coupling of input beam to other modes. Can be set
+	 using the command: attr mirror_name r_ap value (value in units of
+ 	 meters)
+ o Added "-convert" command-line option for using with kat to
+   convert binary<->text coupling coefficient and map files. Usage 
+   "kat -convert filename.knm"
+ o Added intmethod command to switch integration routines within script
+ o Default map integration and interpolation settings for all mirrors
+   can be specified in the kat.ini. 
+ 	 - mapintmethod 1|2|3 (Riemann|Cuba Serial|Cuba Parallel) 
+ 	 - mapinterpmethod 1|2|3 (Nearest Neighbour | Linear | Spline)
+ 	 - mapinterpsize size (Odd number that is >= 3)
+ o Added conf command, used to set config settings for individual
+   components currently only working with mirrors. Usage is "conf
+	 component_name setting value". Below are the settings for the
+	 mirror: 
+	 - integration_method 1|2|3 (Riemann|Cuba Serial|Cuba Parallel)
+ 	 - interpolation_method 1|2|3 (Nearest Neighbour | Linear | Spline) 
+	 - interpolation_size size (Set interpolation kernel size, integer >=3) 
+	 - show_kmn_neval 0|1 (off | on) Show the number of
+     integrand evaluations for each mirror coupling coefficient
+   - save_kmn_matrices 0|1 (off | on) Output the coupling coefficient matrices
+   - save_kmn_binary 0|1 (off | on)  Save coupling coefficient
+	   data as binary or text format 
+   - save_interp_file 0|1 (off | on) Output data on map interpolation.
+ o the default wavelength can now be overwritten within the input file with
+   the command 'lambda'. 
+ o Speed up of coupling coefficient matrices my
+   using a symmetry in the matrix when the mode-matched. This can be set
+ 	 in the kat.ini using: calc_knm_transpose 0|1 (off | on)
+ o You can now vary map rotations with the xaxis command using the 
+   parameter map_deg
+
+misc:
+ o removed savemap command. Replaced with the kmn command which can be
+   used like "kmn mirror_name knm_filename" to save/load kmn data.
+   maps no longer given an angle or name. Angles will later just be a
+   mirror attribute. 
+ o Minimum map size that should be used depends
+   on the beam radius, the highest mode used and any mode mismatch;
+   if for example the beam size is much larger on one side of a
+   mirror than the other, e.g. a lens.  wx1/wy1 is the incoming beam
+   size, wx2/wy2 outgoing beam size.  
+   For x direction: 
+         5 * max(sqrt(maxtem + 0.5) * wx1, sqrt(maxtem + 0.5) * wx2) 
+   For y direction: 
+         5 * max(sqrt(maxtem + 0.5) * wy1, sqrt(maxtem + 0.5) * wy2)
+
+known issues:
+ o Riemann sum integration does not use multiple cores 
+ o Windows machines require Cygwin to be installed 
+ o Windows machines are limited to only using 1 core for the coupling coefficient
+ 	 integration, as there is a problem in the current Cygwin versions
+ 	 with threading 
+ o Mirror apertures can currently only be calculated by
+ 	 integration, analytic version is on the way. To use apertures you
+ 	 must include the "kmn 8" command in your kat script 
+ o Beam splitters still do not have surface maps 
+ o Use of differing refractive indices needs to be fully reviewed 
+   for version 1.0.0 file hash computation is
+ 	 not the same on different machines. Though this is not likely to be a
+ 	 problem, it could be an issue for sharing knm and map data. Temporary
+ 	 solution to this is to convert it into text formatted knm files and
+ 	 later convert to binary on the machine being used.  
+ o Definition of misalignment angles (xbeta) for mirrors and beamsplitters and the
+   equivalent surface phase map may not be correct
+
+fixed bugs:
+ o User is warned when a surface map is not of sufficient resolution
+   for the beam impinging on it
+ o Fixed interferometer retracing so it wasn't repeating twice in the same retrace
+ o Adding a dump node to a
+ 	 mirror now means that the coupling coefficient integration won't be
+ 	 done for the relevant reflection and transmission coefficients. 
+ o Transmission coupling coefficients were using the incorrect u_nm
+ 	 functions and has now been fixed
+ o ./ .\ stripped from kat file names so no longer causing a problem
+   in matlab and gnuplot o a multiple
+	 declaration of a constant was not detected, now this returns an error
+ o syntax reference said bp plotted gouy phase in degree while it is
+ 	 actually in radians
+
+0.99.7 -> 0.99.8 (21.01.2010)
+
+main changes:
+  o updated the manual 
+  o added capability to read mirror surface maps
+  o Finesse now includes x/y asymmetry for TEM modes
+    (see 'fixed bugs' below)
+
+added feature :
+  o the manual now includes a description of all new features. In 
+    addition I have started to document the interfaces between 
+    Finesse and MATLAB (see the chapter 'Advanced usage').
+  o added a new detector that can plot the parameters derived
+    during a cavity trace. The syntax is:
+    cp cavity_name x/y parameter_name
+    possible parameters are w/w0/z/q/finesse/loss/length/FSR/FWHM/pole/r
+    The values for the cp output are filled in by the trace
+    algorithm, thus they only get computed when a trace is performed.
+    If you tune a length, for example, the tracing is switched on
+    automatically. But you must use 'retrace' to switch on the
+    tracing if you, for example, tune a mirror reflectivity and would 
+    like to see the cavity loss with a cp detector.
+  o added a new command 'variable name value' which defines a variable similar to the
+    'set' command. Thus the variable can be used in 'func' and 'put' commands. But
+    unlike variables created with 'set' it is not connected to some other parameter
+    but can be set directly or tuned with 'xaxis'. The latter is useful if a 
+    dummy parameter is to be tuned, e.g. 
+
+    variable test1 10
+    xaxis test1 xxx lin 1 10 20
+
+    where the 'xxx' can be any string to satisfy the parser, which is expecting
+    the syntax 'xaxis component parameter ...'.
+  o added 'noxaxis' command that can be used if only terminal output is required
+    e.g. from the 'trace' command. All axis (xaxis, x2axis, ...) commands will be ignored
+    and the interferometer is computed once. Please note that 'put' commands that use
+    '$x1' or similar variables still have an effect. It's better to remove these
+    when 'noxaxis' is set.
+  o added new commands to read and save surface map descriptions for
+    mirrors:
+    'map component [angle] [mapname] filename'
+	  This reads a file given by filename and searches for a surface map
+    given by a grid or by coupling coefficients (previously computed by
+    Finesse). The grid can contain four different kinds of information
+    specified by phase/amplitude and reflection/transmission. Phase maps
+    store optical path length information given in meters, amplitude 
+    maps store amplitude coefficients between 0 and 1. The grid data is 
+    then used inside Finesse to compute coupling coefficients as
+    k_n1m1n2m2 = Int_xy ( u_n1m1(x,y) * map_function * u_n2m2^*(x,y) )
+	  Where 'mapfunction' are functions of the grid data, depending in the
+    map type.
+
+    The coefficients are then merged with the other coupling 
+    coefficients as 
+    K_total = K_old * K_map (here '*' means a matrix multiplication).
+
+    'savemap component mapname filename'
+    This command saves the computed coupling coefficients into a file. 
+    Actually also the original data grid is saved, so that the new file 
+    contains all available information. 
+  o removed the 15 characters limitation for component and node names
+  o You can now include Matlab commands for calculations or plots
+    into the finesse file:
+    MATLABPLOT
+    view(2)
+    END
+
+    will cause a `view(2)' to be added to the Matlab file after the plot command,
+    and:
+
+    MATLAB
+    z(:,:,1)=z(:,:,1)/max(max(z(:,:,1)));
+    END
+
+    will add this normalisation after the data has been loaded but before the plot
+    command.
+
+  o Matlab files have been improved: '-' signs in matlab file and 
+    function names are now automatically replaced by '_'. In the
+    plot title any '_' is replaced by '\_'.
+
+fixed bugs: 
+  o Previous versions of Finesse did not include any asymmetry 
+    between horizontal and vertical TEMs. In some cases such as 
+    triangular cavities this actually makes an important difference 
+    Therefore, I have now included the reflection asymmetry that 
+    horizontal modes are mirrored upon reflection whereas vertical 
+    modes are not. I re-run all test files and the only changes 
+    I could find are: some alignment signal change sign and some 
+    beam images are flipped upside-down or left-right.
+    Please note that this has been implemented so far only for DC 
+    signals (i.e. not yet for sidebands injected via `fsig')
+  o Error message for 'broken interferometer' does not list 'dump'
+    nodes anymore.
+  o 'set' did not work properly with non-detector components, probably
+    since version 0.99.5.
+  o the last point of xaxis or x2axis could be suffering from rounding errors.
+    In special cases, e.g. tuning a transmission from 1 to 0 this could cause
+    the last value to be inconsistent and the interferometer matrix to return NaNs.
+    This is now fixed by explicitly setting the last value to the user defined
+    value.
+  o MATLAB files now correctly use XLim with min < max. If xaxis is declared
+    with min>max, the direction of the plot is reverses with a special command
+    in the MATLAB file.
+known issues:
+  o I still need to test the x-y asymmetry for AC signals, i.e. alignment
+    transfer functions.
+
+0.99.6 -> 0.99.7 (08.06.2008)
+
+main changes:
+  o Finesse is now faster when higher-order modes (maxtem>3) are used.
+  o Finesse should be faster on Windows (it is now compiled with a 
+    newer compiler version: gcc4.2.3)
+  o The Matlab plot files have been improved
+  o The `retrace' command is not longer required. This should make 
+    simulations much faster when it was used accidentally (or wrongly).
+  o Finesse can now be used with a system-wide kat.ini file 
+    instead of one in each working directory.
+
+added feature :
+  o Finesse now writes some information in the header of the output file,
+    the lines start with the '%' sign so that Gnuplot and Matlab ignore
+    them as comments. Thus this feature should not break any data processing.
+    If you use other tools which do not ignore % as comment lines you can
+    suppress the header by using the options '--noheader'.
+  o beam parameters of 'gauss' commands can now be tuned with
+    xaxis or put. You can tune zx, zy, zrx or zry, with z referring
+    to the distance to the waist and zr to the Rayleigh range, the x
+    and y refer to the x-z and y-z plane of a potentially astigmatic
+    beam as usual. 
+  o A new matrix solver has been added: The essential calculation 
+    inside Finesse is the solving of a set of linear equations, 
+    or more precisely the solving of a sparse matrix. Until 
+    this version the SPARSE 1.3 library has been used for this 
+    purpose. Now an additional spare matrix solver (KLU) has been 
+    implemented. The latter seems to be faster when many higher-order 
+    modes are used. Finesse now automatically switches between the two:
+    maxtem<=3 : SPARSE
+    maxtem>3  : KLU
+    This automatic can be bypassed with command line options:
+    `-klu' will force Finesse to use the KLU library whereas
+    `-sparse' will switch to use the original SPARSE package.
+  o The `retrace' command is no longer required.
+    When higher-order modes are used, a beam tracing algorithm 
+    is used in the initialising phase in order to determine the 
+    beam parameters (beam size, waist position) at every node
+    (because these are input parameters to the interferometer matrix).
+    When one of the following parameters is used, the base system should
+    be re-evaluated at each step of the calculation:
+    - radius of curvature of mirror or beam splitter
+    - length or index of refraction of a space
+    - angle of incidence of a beam splitter
+    - focal length of a lens
+    This can be done using the command `retrace', or it can be switched off
+    using `retrace off'. Finesse now automatically determines if a retracing
+    is required. However, the retrace command can still be used to override the
+    automatic.
+  o The format of the Matlab script files has been improved:
+    - the files contain information about usage in their header
+    - the files contain functions rather than scripts now
+    - optionally the data can be returned, e.g. calling the file example
+      with [x,y]=example
+    - they do not require any external functions anymore (convert3Ddata was required before)
+    - for 3D plots they use the option 'Edgecolor','none', set the colorbar
+      and switch of the legend
+    - figure windows have a title now 
+  o the 'beam' command has been improved:
+    - multiple detectors, beam or not-beam, can be mixed now
+      Please note that if you tune the x/y axis of multiple detectors
+      at once, for example with:
+      xaxis beam1 x lin -1 1 50
+      put beam2 x $x1
+      Then each graph is plotted as a function of x/wx0 with wx0 the 
+      waist size of the beam at EACH detector, i.e. an individual
+      scaling is applied, this is different from all other xaxis/put
+      combinations.
+    - beam size information is given for all beam detectors, in the label
+      of the graphs as well as on in the terminal output
+    - the beam detector can now also plot the amplitude and or phase front:
+      optionally a frequency can be given, e.g. 'beam b1 0 n4' would 
+      show only the carrier field (f=0) at the node n4. This mode has the 
+      advantage of plotting amplitude and phase of the field rather than 
+      power so that a phasefront of the field can be plotted easily. 
+      This feature still requires some testing but seems to work well.
+  o Finesse now reads in the environment variable `KATINI'.
+    You can use KATINI to specify a global init file, e.g. on linux 
+    you would do:
+    export KATINI=~/work/kat/kat.ini
+	  Finesse tries first to find a local `kat.ini' file in the
+    current working directory, then it looks for the global
+    file (if KATINI has been set) and only if neither can be
+    found or opened it uses the internal default settings.
+  o Changed the default entries in the kat.ini file to 
+    - gnuversion 4.2
+    (this also the internal default now when no kat.ini file is found)
+    - GNUCOMMAND "/cygnus/gnuplot/Wgnuplot.exe" (windows Gnuplot example path)
+  o The new command `deriv_h' can be used to overwrite the
+    value for the step size for the numerical differentiation
+    given in the kat.ini file. This is useful if several
+    files in the same directory require different step sizes
+    (mostly when `diff' command is used for alignment angles).
+  o A warning is now issued if a global `scale' command is used.
+  o The Windows version now replaces '\' by '/' in all filenames
+    (in the start command for Gnuplot and inside the Gnuplot or Matlab
+    files). This probably does not change the behaviour of Finesse
+    in any way; please let me know if it breaks anything!
+  o A further new option '-v' prints version number and exits.
+	o Finesse now writes backup copies before overwriting output files
+    (extensions log, gnu, m and out): filename.xxx becomes filename.xxx.bak.
+
+fixed bugs: 
+  o The C-function `atoi' was used in three places, and could sometimes
+    cause Finesse to stop with wrong error message `too many demodulations'.
+  o The Matlab script files did not work properly in some cases
+    (3D plots with several detectors).
+  o x3axis did not work since a while due to a bug introduced when the
+    code was restructured. Should be fixed now but more testing needed.
+
+0.99.5 -> 0.99.6 (28.02.2008)
+
+main changes:
+  o this is mainly a bug fix release. However, at least one interesting
+    feature has been added: Finesse now also writes Matlab output
+    files for plotting, for people who do not use Gnuplot.
+
+added feature :
+  o Finesse now writes a Matlab batch file (katfilename.m) along with the
+    Gnuplot file. From within Matlab cd into the directory with the
+    Finesse output file and type the name of the name for the *.m file
+    to generate a Matlab plot from the data.
+  o three new standard variables have been defined internally:
+    $mx1 = -$x1 (minus the current xaxis value)
+    $mx2 = -$x2 (minus the current x2axis value)
+    $mx3 = -$x3 (minus the current x3axis value)
+    Please note that the parsing of these is fragile.
+
+fixed bugs:
+  o the rounding code for the xaxis step size has been improved
+    so that the data point for e.g. xaxis ... 0 100 10
+    lie exactly on 0 10 20 ... 100.
+  o the previous version introduced a memory error which
+    causes functions of functions to crash sometimes
+  o phase 2 did not work as advertised, it caused some phase shift
+    in the coupling coefficients too, so that the same potential
+    problems as in phase 1 or phase 3 (e.g. failure of energy
+    conservation) might have appeared.
+  o phases of alignment sidebands (from the fsig x/y command) have
+    been corrected. Needs further testing, so far untested
+    for beamsplitters. Use with care. 
+
+0.99.4 -> 0.99.5 (21.03.2007)
+
+main changes:
+
+  o this is a bug fix release, see below. 
+
+fixed bugs: 
+  o numerical round-off error affected the selection of beat 
+    frequencies for demodulated signals. In the presence of strong
+    modulation sidebands this could have caused wrong results
+    for audio frequency demodulation.
+  o phase of alignment type signal frequencies were wrong
+    at the back of mirror components. This would result in 
+    different amplitudes of alignment signals for 'inner'
+    mirror in couples cavities, like, e.g. arm cavity input 
+    mirrors in recycled gravitational wave detectors
+    (please remember that the alignment TF part of Finesse
+    is not as well tested as the longitudinal counterpart)
+  o the command 'set' when used with with 'abs' as in e.g.
+    'set test pd1 abs' set test to |pd1|^2 instead of |pd1|
+  o computation of power loss inside a cavity was sometimes wrong
+    (whenever a mirror was inside the cavity with the connecting
+     nodes in the particular order:
+     s s1 .. n1 n2
+     m m1 .. n3 n2   , s1 -> n2 -> m1 -> n3 -> s2
+     s s2 .. n3 n4
+  o Several small bugs with cavity tracing:
+    - If the first cavity node was in a material with index
+      of refraction !=1 the Gaussian beam parameters for the cavity 
+      computed by the 'cav' command was wrong by a factor of n, with 
+      n the index of refraction. In most cases the index of refraction 
+      (at the first cavity mode) is n=1, so that the error would not be 
+      visible. However, it becomes important when looking at cavity 
+      eigenmodes inside a substrate..
+    - The beam tracing algorithm reported the wrong length and 
+      losses for unstable ring cavities. 
+    - if the first node of a cavity end mirror was a dump, Finesse
+      crashed
+    - If the user supplied the wrong nodes in the cavity command
+      the Finesse error messages were sometimes misleading
+  o fsig connected to spaces did not work correctly in recent versions,
+    for some silly reason half of the signal was set to zero,
+    probably some forgotten code testing
+  o comment lines in a  GNUPLOT ... END block are now passed 
+    to the .gnu file
+
+
+0.99.3 -> 0.99.4 (29.11.2006)
+
+main changes:
+  o A very common user mistake is to tune a length or a radius of
+    curvature without using the 'retrace' command. Thus I have 
+    changed the default setting:
+    
+    The default for 'retrace' has been set to ON. This means Finesse
+    by default will re-compute the beam parameters for each data point.
+
+    If you are using higher order modes and are NOT changing a length 
+    or a radius of curvature this will slow done the computation very much. 
+    In that case you should switch continuous tracing of the beam off using
+    the command 'retrace off'
+    
+added feature :
+  o the output of Finesse now goes to a log file (with extension '.log')
+  o per default the numbers given for T,L or R for the components
+    m1, m2, bs1, bs2 are assumed to be between 0 and 1.
+    The traditional reading of numbers as [ppm] can be
+    used by starting Finesse with the option '--old'.
+
+misc: 
+  o the syntax of 'gnucommand' in 'kat.ini' has been changed to allow
+    parameters, options, etc.  given after the filename. For example
+    Windows users should try (e.g.):
+    GNUCOMMAND "/cygnus/gnuplot/Wgnuplot.exe FILENAME -" # Windows example
+    'FILENAME' will be replaced by Finesse.
+    This example will keep the plot window open even if 'pause' is not used 
+    (see below).
+  o for the terminal 'windows' the default behaviour has been changed:
+    the 'pause' command is not anymore added to the Gnuplot file. The
+    same behaviour can be better achieved with the gnucommand (see above).
+    However, the pause command can be added as before if the
+    command 'pause' is added somewhere in the input file. 
+  o basenames with more than one dot (e.g. test.mine.one.kat) will now be recognised
+  o the verbose output of the 'lock' command has been improved
+  o removed the warnings for nodes with less than one connection in order
+    to emphasise other, more important warning messages
+  o the syntax for all components has been extended.  The names in the
+    following list are now equivalent:
+      - m <=> mirror, m1 <=> mirror1, m2 <=> mirror2
+      - bs <=> beamsplitter (and similarly for bs1 and bs2)
+      - s <=> space
+      - l <=> laser *or* light
+      - gr <=> grating
+      - isol <=> diode
+
+fixed bugs:
+  o retrace did not use the note defined by the 'startnode' command
+    when doing the beam trace.
+  o beam splitters connected connected to empty nodes and spaces with
+    index of refraction!=1 generated the error 'index of refraction
+    not consistent' because the empty node was set to the default index
+    of refraction. The usual solution was to connect spaces to unused
+    beam splitter nodes. This has been changed so that the nodes can 
+    remain empty.
+  o lock* did work correctly but produced some wrong status information
+    (i.e. 'reducing loop gain ...' when the lock was
+    already stopped) and wasted some computation time.
+  o a problem was found with respect to quoting of filenames on Windows
+    systems within the output Gnuplot files.  This has now been fixed.
+
+internal changes:
+  o many name changes of functions and variables within the code
+  o extension of the structural change made for quantum noise corrections.
+    As a part of this change the original implementation to detect and make
+    use of dump nodes in the interferometer to improve efficiency has been 
+    changed to be compatible for both quantum and classical calculations.
+    For quantum calculations there are no dump nodes.  This is only a
+    classical concept, and so the speedup only applies to calculations where
+    quantum corrections are turned off.
+  o further improvement of API documentation, and commenting of code.
+  o much addition of debug statements and assert() statements to check that
+    variables stay within the required bounds.  These statements are removed
+    by the compiler when Finesse is compiled with the 'fast' or 'kat'
+    options.
+  o the Makefiles have been rewritten and extended in functionality.
+
+0.99.2 -> 0.99.3 (25.02.2006)
+added feature :
+  o added new feature for 'm' and 'bs' command. The following
+    describes the changes for 'bs', the changes for 'm' are
+    the same:
+    Instead of 'bs' and 'bs*' one can now use the following commands
+    command      parameter1  parameter2
+    bs           R           T
+    bs1          T           L             (was bs* before)
+    bs2          R           L
+
+    Please recall that internally Finesse always uses R,T only.
+
+    For bs1 and bs2 the numbers are historically given as ppm but
+    this will be changed soon, see next item.
+  o added option '--new' which switches on all the newest untested
+    features. Currently there is only one:
+    m* and bs* take their input for T and L in ppm
+    with option '--new' m*,bs* read T and L 'as is'.
+    
+fixed bugs:
+  o 'cav' tracing did not find its way through a BS when approaching
+     it from node 4. 
+
+0.99.1 -> 0.99.2 (26.10.2005)
+fixed bugs:
+  o a 'retrace' on an unstable cavity or 'retrace' with no 'cav' 
+    nor 'gauss' command caused a "bug found" message.
+  o the 'func' command could not parse function strings with 
+    multiple occurrences of the same variable name.
+  o the phase delay on propagation through a 'space' component
+    had the wrong sign. This basically flipped the frequency
+    dependence, e.g. upper sidebands were behaving like
+    lower sidebands and vice-versa. This must have been 
+    wrong since the beginning of Finesse. Should affect
+    almost all results but mostly by only switching frequency signs.
+
+
+0.99 -> 0.99.1 (26.08.2005)
+
+added feature :
+  o FINESSE now computes once the field amplitudes and photo diode
+    signals for the static setup given in the input files in order
+    to initialise the detector outputs. This is useful when a 
+    'lock' command is used as it prevents the diode signals from
+    being zero at startup.
+  o when 'x2axis' is used without 'multi' it is now possible
+    to 'switch off' outputs: the first output without a 'noplot'
+    will be chosen for plotting.
+  o added warning message if a differentiation is used with alignment
+    angles and deriv_h is larger than 1.0e-9. The default setting
+    deriv_h=1e-6 is usually too large for alignment angles.
+  o FINESSE is now available also for Macintosh OS X. It has been
+    compiled on a Linux system with a gcc cross-compiler. It seems to
+    be working fine (except for the f2c libraries, which are
+    only used for the 'kmn' command which is mostly intended
+    for debugging anyway).
+    The default terminal for OS X is set to 'x11' but
+    the terminal 'aqua' should also work (if AquaTerm is
+    installed). The path to the Gnuplot binary to
+    '/usr/local/bin/gnuplot'; it can be changed in the
+    'kat.ini' file. Please let me know if you find a bug or
+    something strange with this version.
+    
+fixed bugs:
+  o Michaela Malec pointed out that my definition of demodulation phase 
+    in the Finesse code has been inconsistent (for years) and did
+    not correspond to the formula in the manual. That has been fixed.
+    At the same time I have changed the definition of the in-phase and
+    in-quadrature signals to a more common one. Now, the in-phase signal
+    is given by a demodulation by cos(omega t) and the in-quadrature
+    signals is given by a demodulation with cos(omega t +90deg).
+    Thus, the complex output of a photodiode is now Re{A_ij} compared
+    to Re{A*_ij} before (compare the manual section 'photodetectors
+    and demodulation', especially the paragraph 'a single demodulation'.
+    I think that results are only affected by sign flips which can be 
+    recovered changing the demodulation phase to the corresponding negative value.
+  o a pointer error in the function call for the evaluation
+    of 'func' commands caused some arbitrary results when
+    more than one argument was used
+  o a memory allocation error occurred when 'bp' detectors were used
+    together with other detector types
+  o demodulating at a signal frequency introduced a factor of 0.5
+    for all demodulations except for the standard transfer function
+    with a pd2. This has been fixed. Each demodulation now correctly
+    introduces an extra factor of 0.5 to the signal. Only if the
+    one demodulation frequency was a signal frequency, the resulting
+    number is multiplied by 2 because in practise one does not 
+    want the 0.5 from the signal frequency demodulation to be 
+    present in the transfer function.
+
+misc:
+  o numeric component names, like e.g. '0.1', are not allowed any more.
+    avoids some errors when a component name has been omitted and the 
+    parser takes the first numeric parameter as a name.
+
+0.98 -> 0.99 (08.03.2005)
+
+main changes:
+  o FINESSE has undergone a major change: a simple parser
+    for mathematical expressions has been added. This 
+    allows to combine various signals already inside
+    FINESSE (e.g. one can normalise an error signal by a
+    DC light power signal, etc.). In addition, FINESSE has been fitted
+    with a simple algorithm to keep the interferometer automatically
+    on an operating point. In other words, FINESSE can perform some
+    kind of locking.
+
+    For this new functionality it was also necessary to change 
+    the syntax related to the 'var' and the 'xparam' command:
+    - 'var' command has been renames to 'const' (no other change)
+    - The functionality around the 'xparam' has been changed completely: 
+      'xparam' does not exist any more, instead several more flexible 
+      commands have been added (see below) 
+
+    PLEASE NOTE that old input files have to be adapted to run with 
+    FINESSE 0.99 or newer.
+ 
+ 
+added feature :
+  o removed the 'xparam' command and added instead three commands
+    (set, put and func) which allow a more flexible linking 
+    of parameters in FINESSE. The following gives a syntax 
+    reference and an example for the use of the new commands:
+
+    - set name component parameter
+ 
+      e.g. : set Lp space1 L
+      defines the new variable 'Lp' to store the length of 'space1'.
+      With 'set', all tunable parameters in the input file can be   
+      accessed with the usual syntax 'component parameter'.
+      In addition the output of any detector can be stored
+      in a variable. The syntax is:
+
+      set name detector-name re/im/abs/deg
+
+      where re/im/abs/deg indicate which real number
+      to use if the detector output is a complex number.
+      (NOTE for detectors with a real output, use 're'
+      and NOT 'abs' since 'abs' will remove the sign!)
+	
+      The variable defined by 'set' are computed for each
+      step of the computation, i.e. they 'see' when the
+      source parameter changes.
+
+      In addition to user defined variables, the variables
+      $x1, $x2 and $x3 have been pre-defined and point to the
+      current value of the xaxis (or x2axis, x3axis respectively).
+      This names must not be used with 'set'.
+
+    - func name = function-string
+ 
+      e.g. func y = $Lp+2
+      defines the new variable 'y = Lp+2'. The previously
+      defined variable 'Lp' has to be entered with a '$' sign.
+      The new variable (i.e. the function result) will be
+      plotted as a new output, like a detector output.
+      Any previously defined variable via 'set', 'func' or
+      lock (see below) can be used like this the function string.
+      The functions are executed for each data point.
+      (Please note that if you use two similar function names 
+      like 'function' and 'function1' the parser might have 
+      problems to distinguish between the two.)
+
+      This new feature uses the mathematical expression
+      parser Formulc 2.22 by Harald Helfgott. 
+      The following functions are available in the function string:
+       exp()
+       ln()
+       sin()
+       cos()
+       tan()
+       asin()
+       acos()
+       atan()
+       atan2()
+       abs()
+       sqrt()
+       pi()     (with no parameters inside the parentheses)
+       rnd()    (a random number between 0 and 1)
+
+      Other functions can be added on request.
+
+      Numbers have to be given numerically, e.g.
+      '3.0E-9' instead of '3n'. Please note that
+      '3.0e-9' does not work. Multiplication with negative
+      numbers requires parentheses, e.g.:
+      y = (-1)*$x1
+     
+      For a detailed description of the parser syntax, please 
+      see the documentation of Formulc 2.22.
+
+    - put[*] component parameter $variable
+ 
+      e.g. put space2 L $y
+      writes the content of variable 'y' into the
+      length of 'space2'. ('put*' always adds to the
+      initially set lengths of space2) 
+
+      All 'put' commands are executed before first data point 
+      if pd outputs are used in 'put' or 'func' they are set
+      to 0.0 for the first data point calculation.
+
+
+      In total, the three commands 'set', 'func' and 'put'
+      in this example connect the lengths of space1 and space2 so that 
+      space2 is always 2 meters longer.
+
+
+    Another example: for making the tuning of mirror2 automatically
+    the inverse tuning of mirror1, one can write:
+
+    set a mirror1 phi     // defines variable $a as the mirror1 tuning
+    func b = (-1)*$a      // defines the function $b=-$a
+    put mirror2 phi $b    // updates the mirror2 tuning with $b
+    
+    In order to tune other parameters together with the xaxis one
+    can write, e.g.:
+
+    xaxis mirror1 phi lin 0 90 200
+    set a mirror1 phi  
+    func b = (-1)*$a   
+    put mirror2 phi $b 
+
+    or directly:
+
+    xaxis mirror1 phi lin 0 90 200  
+    func b = (-1)*$x1   
+    put mirror2 phi $b 
+
+  o added a new command 'lock' with the following syntax:
+
+    lock[*] name $variable gain accuracy 
+
+    The command will read the variable given by '$variable' 
+    and writes into the new variable 'name'. This variable will
+    be also plotted as a new output, like a detector output.
+    'lock*' stops after the first point so that only the initial
+    lock is found and the rest is computed without locking
+    (Please note that if you chose two similar lock names 
+    like 'lock' and 'lock1' the parser might have problems to distinguish 
+    between the two.) 
+
+    FINESSE will perform an iterative computation for each data point on 
+    the xaxis. In fact, it will compute the interferometer iteratively 
+    until the condition abs($variable)<accuracy is fulfilled. 
+   
+    In order to achieve this goal the command tries to mimic a control
+    loop with a simple integrator. The input $variable serves
+    as the error signal and the output stored in $name holds
+    the feedback signal (which has to be connected to the interferometer
+    by the user with a 'put' command). In each iterative step it performs 
+    the operation:
+
+    name = $name + gain * $variable   ( or name += gain * $variable )
+
+    Several 'lock' commands can be active simultaneously and 
+    the lock output variables can be used in 'func' commands located
+    below the 'lock' in the input file.
+    PLEASE NOTE: The order of the commands 'func' and 'lock' in the input
+    file determines the order of their computation!
+       
+    Of course the lock fails miserably if:
+    - the loop is not closed
+    - the error signal is not good
+    - the computation is not started at or close to a good operating point
+    - the gain is wrong (sign, amplitude)
+    - the steps as given by the xaxis command are too large (i.e. move
+      the interferometer out of the linear range of the error signal.    
+
+    A fine tuning of the gain is useful to minimise the computation time.
+
+    An example: 
+    to lock a cavity to a laser beam we can write:
+    # laser and EOM
+    l i1 1 0 n0 
+    mod eo1 40k 0.3 3 pm n0 n1	
+    # cavity:
+    m m1 0.9 0.1 0 n1 n2
+    s s1 1200 n2 n3
+    m m2 .9 0.01 0 n3 n4
+    # Pound-Drever-Hall signal
+    pd1 pdh 40k 0 n1
+    # tune 
+    xaxis m2 phi lin 0 100 400
+
+    # set the error signal to be photo-diode output ('re' stands
+    # for the real part of the diode output. 're' has to be used 
+    # with diodes that provide a real output.
+    set err pdh re
+    # Perform the lock! Gain is -10 and the accuracy 10n ( = 1e-8)
+    lock z $err -10 10n 
+    # ... and connect the feedback to the interferometer
+    put* m1 phi $z
+
+    The behaviour of the locking routine can be adjusted by setting
+    some parameters in 'kat.ini'. For example, the lock iteration can 
+    automatically adjust the loop gains. The following parameters in the 
+    'kat.ini' file can be used:
+    
+    - locksteps (integer, >0, default 10000)
+      Maximum number of steps that the iteration tried to achieve
+      the lock. 
+    - autogain  (integer, 0,1,2 default 2)
+      Switch for the automatic gain control:
+      0 = Off
+      1 = On
+      2 = On with verbose output
+    - autostop (integer, 0,1 default 1)
+      If autostop is switched ON the locking algorithm will stop
+      after it once fails to reach the desired accuracy
+    - sequential (integer, 0,1,5, default 5)
+      This keyword determines if the feedback signals are computed 
+      sequentially or in parallel. The sequential mode is slower
+      but performs much better far away from the operating point
+      or when 'autogain' is needed. The default 5 uses the sequential
+      mode for the first two data points and then switches to the faster
+      parallel locking.
+    - lockthresholdhigh (double, >0, default=1.5)
+      Whether a loop is probably oscillating with a too high gain is 
+      determined using 'lockthresholdhigh'. The criterion used is
+      as follows (with y1,y2,... as successive error signal values):
+      the oscillation condition  is defined as:
+      if abs((y1+y3-2*y2)/accuracy/y3) > lockthresholdhigh)
+      true=loop oscillates
+    - lockthresholdlow (double, >0, default=.01)
+      Whether a loop gain is too low is determined
+      using 'lockthresholdlow'. The low-gain condition is defined as:
+      if abs((y1+y3-2*y2)/accuracy/y3) < lockthresholdlow)
+      true=loop gain too low
+    - locktest1 (integer, >0, default 5) and
+      locktest2 (integer, >0, default 40)
+      'locktest1' and 'locktest2' determine the number of steps that an 
+      iteration is allowed to remain in an 'oscillation' (or 'low gain'). After 
+      'locktest1' number of steps the loop state is checked. If for 
+      'locktest2' number of checks the same error condition persists the loop gain 
+      will be reduced or increased by the factor 'gainfactor'.
+    - gainfactor (double, >0, default 3)
+
+  o another new command: 'showiterate steps'. If 'steps' is >0 the 
+    current state of the lock iteration is printed each 'steps'
+    iterations. If 'steps'=-1 the result is printed only after the
+    first successful iteration (useful for knowing the values of 
+    the initial operating point).
+  o since 'func' and 'lock' creating new outputs, the resulting plots 
+    might become very cluttered. Therefore the command 'noplot output'
+    has been introduced. It suppresses the plotting of the given
+    output (photo detector, function, lock, ...). The data is stored
+    in the *.out file as before, only the plot command in the
+    respective the *.gnu batch file is changed.
+
+miscellaneous:    
+  o the 'var' command has been renamed to 'const'. Other than the
+    name there is no change. Please note that even though the 
+    constants defined by 'const' and the variables defined
+    via 'set' look similar they behave differently. The constants
+    are put into the configuration by the input-file parser
+    whereas the variables given by 'set' need a 'put'
+    command and are inserted to the configuration at run-time,    
+    i.e. at each step of the computation.
+  o 'xaxis' now allows to sweep from bigger to smaller values
+    like e.g. 'xaxis mirror1 phi lin -30 0 100'
+    (before FINESSE swapped those internally and swept always
+    from smaller to bigger).
+  o beam analyser has been set up (again) so that it is fast
+    when x1 and x2 axis are used for beam analyser position only
+    (beam.x and beam.y). If you use xaxis and x2axis but
+    only one is tuning the beam analyser axis, use
+    always x2 for the beam analyser; its faster.
+    For example:
+
+    xaxis* MNE R lin 0 -2000u 40	
+    x2axis Beam2 x lin -200 200 40
+
+    beam analysers can now be used together with other diodes
+    (this feature is necessary to use a beam analyser together
+    with a locking loop).
+  o started to play with Gnuplot 4.1. Changed kat to handle
+    the new Gnuplot syntax. The version for Gnuplot can be set 
+    in kat.ini with the keyword 'gnuversion'. Default is 4.0.
+  o added warning if fsig is used for the laser frequency and a modulator
+    is present in the setup, because in most cases the frequency noise
+    should be added (as phase noise via a mirror) after the modulator
+    to obtain correct results. See also 'sidebands.ps' in the 
+    FINESSE documentation.
+  o Error messages are printed if /* or */ are not used properly
+    (properly = at the beginning of an input line).
+
+fixed bugs:
+  o using x2axis switched of the second yaxis but also suppressed
+    the output of the data into the file, i.e. with yaxis abs:deg
+    normally only the amplitude was written into the output file
+    (M. Malec), fixed.
+  o 'yaxis re' and 'yaxis im' could not be set, fixed.
+  o a memory allocation problem during parsing of the input file.
+    Should not have affected any calculation.
+
+
+0.96 -> 0.98 (27.02.2005)
+
+main changes:
+  o added several features that are useful
+    for designing telescopes or computing
+    mode matching. For example:
+    - two new detectors that can be used to 
+      print beam parameters like waist size, waist
+      position, Gouy phases, etc.
+    - added the keyword `retrace' that forces FINESSE
+      to re-compute all beam parameters for each data
+      point. 
+  o a bug fix concerning TEM_nm modes with n>2:
+    sometimes a sign flip was applied in the
+    coupling matrices for these modes. 
+
+added feature :
+  o detector `bp' (beam parameter), plots various beam 
+    parameters. It can be used to design telescopes,
+    find waist positions, etc.
+    Syntax:
+    bp name x/y parameter node
+    with parameters:
+     w  : beam radius
+     w0 : waist radius
+     z  : distance to waist
+     zr : Rayleigh range
+     g  : Gouy phase
+     q  : Gaussian beam parameter
+    All parameters are available for the x and the y direction.
+  o detector `gouy', plots the Gouy phase accumulated in
+    a number of spaces (free propagations). This detector 
+    is very useful for designing telescopes used with
+    quadrant cameras generating alignment error signals.
+    Syntax:
+    gouy name x/y space-list         
+    For example: `gouy g1 x s1 s2 s3 s4 s5 s5 s10' 
+    plots the Gouy phase (in x direction) a beam (TEM00) 
+    accumulates propagation through s1, s2, ..., s10.
+  o keyword `retrace': if this keyword is used FINESSE computes
+    the base set of HG modes for each data point. I.e.
+    cavity eigen-modes, Gaussian beam parameters, ABCD
+    matrices and coupling coefficients are re-computed.
+    Thus, focal lengths of lenses, lengths
+    and radii of curvature can be tuned without
+    necessarily breaking the par-axial approximation.
+    This feature is meant for using it with the new 
+    detectors `bp' and `gouy' but it can also be  
+    used with normal photo detectors. However, I 
+    believe that one should take care to understand 
+    very well the approximations used when `retrace' 
+    is set for computing error signal or transfer functions.
+  o added command `startnode node' to allow the user
+    to specify at which node the beam tracing algorithm
+    should start.
+  o the beam shape detector has now the optional 
+    parameter `frequency'. If a frequency is set,
+    only the modes with that frequency are
+    plotted.
+  o x3axis (undocumented) has been changed. By default 
+    one output file with a 4-dimensional data set is
+    produced (for post-processing with other software).
+  o C-style comments with /* --- */ can be used to
+    comment out several lines of an input file at once.
+    Please note that start and beginning, i.e. /* and */
+    have to be put at the beginning of a line (and 
+    those lines will be also treated as comments).
+  o The Gouy phase of a space can be set with an "attr space gx/y" 
+    command and with "xaxis space gx/gy" the Gouy
+    phase can be overwritten, values in [deg]
+
+miscellaneous:    
+  o added an example for how to use Matlab/Octave
+    together with FINESSE (by Gabriele Vajente)
+  o all Gouy phases, entered and printed are now per default 
+    in [deg] instead of [rad]
+  o error message "interferometer broken" now prints the 
+    names of the nodes that could not be traced
+  o added some proper error handling for the internal
+    Sparse error codes
+  o changes the default value for "mtics" in the *.gnu file
+    from 10 to 2.
+
+fixed bugs:
+  o two bugs fixed related to the sign of coupling coefficients:
+    first, a sign derived from a beam direction was 
+    used wrongly for reflections at back surfaces, second,
+    a sign flip for TEM_nm modes with n>2 was sometimes
+    applied accidently while filling the interferometer matrix.
+    Both could in principle have produced wrong results in 
+    many cases but I have seen an effect only in constructed
+    examples.
+  o xaxis i1 P ... tuned the phase on the laser, not the power
+    (M. Malec), fixed.
+  o a memory leak when x3axis was used in connection with 
+    more than 6 detectors
+  o tuning the y-axis of beam analyser, showed `y/wx0' as
+    an axis label. Corrected to `y/wy0'.
+  o fixed a bug in the phases of sidebands when fsig was applied
+    to a modulator (thanks to Michaela Malec for finding this
+    bug).
+  o parsing of gauss* command was broken in many ways (i.e. it
+    can never have worked at all) -> fixed.
+
+
+0.93 -> 0.96 (02.10.2003)
+main changes:
+  o two bug fixes concerning the computation of Hermite-Gauss
+    modes. Both do not affect any of my own simulation examples 
+    but one of the bugs could change the result for n+m>3 in some 
+    special cases (see below).
+  o number of modes, frequencies and components is now virtually
+    unlimited.
+
+added feature :
+  o The number of components or higher order modes (maxtem) are
+    now virtually unlimited (except by the amount of time
+    and memory you can offer). This required a complete
+    re-write of the memory allocation methods in FINESSE.
+    In connection with this I had to change the syntax 
+    of "pdtype" in kat.ini slightly. Before, the beat
+    coefficients were given as:
+    n1m1 n2m2 value
+    Now, as mode numbers can be greater than 10 this 
+    has been changed to:
+    n1 m2 n2 m2 value.
+    So please adapt your kat.ini file or copy the new one.
+  o radii of curvature for mirrors and beam splitters can 
+    now be set independently for x- and y-direction
+    (x=tangential plane, y=saggital plane).
+    NOTE: as a consequence you cannot tune the parameter 'Rc' 
+    any more. Use, `xaxis .. Rcx' plus `xparam .. Rcy' instead.
+  o added new command `kmn value'. With `kmn' the user can
+    specify whether the coupling coefficients for TEM modes
+    are computed with the (default) Bayer-Helms formula
+    or by solving the convolution integral numerically.
+     kmn__________________
+      0 _|_ Bayer-Helms
+      1 _|_ verbose
+      2 _|_ numeric integration if both x and y misalignment are set
+      4 _|_ numeric integration if x or y misalignment are set
+      8 _|_ always use numeric integration 
+
+    For customising the numeric integration the following 
+    parameters were added to the kat.ini file:
+    maxintop: maximum function calls of the numeric integration 
+              algorithm (default 400000)
+    abserr  : absolute error requested from the numeric integration
+              (default 1e-6)
+    relerr  : relative error requested from the numeric integration
+              (default 1e-6)
+  o added new command line options:
+    - `kat -hh' gives a second help screen with some extra 
+      information about the command syntax.
+    - `kat -f' writes the data to the output file with
+      15 digits (normal: 12 digits).
+  o In preparation for adding other features the 
+    commands xparam, x2param, etc. will soon be replaced
+    by two more general commands. The new commands are 
+    now used optionally and only allow the same
+    functionality as xparam: The command `func' defines
+    a new numeric number as a linear function of one 
+    interferometer parameters. `link' is then used to 
+    feed a function output to a interferometer parameter.
+    For example:
+    func f1 mirror1 phi 1 0
+    link mirror2 phi f1
+    connects the tuning of two mirrors: f1 is defined as 
+    f1=1*phi_mirror1+0 and this value is then "linked" to
+    phi_mirror2.
+ 
+other changes:
+  o amplitude detector in HG mode: when no mode numbers are
+    given the detector tries to detect something like the
+    `phase front' on the optical axis. The output is a 
+    complex number derived from the square root of the power 
+    and the phase of the sum over all amplitudes on the 
+    optical axis (EXPERIMENTAL).
+  o some changes to the output of 'trace 4': 
+    - Kx and Ky are used internally as before but the 
+      output of 'trace 4' computes the mode mismatch with
+      min(z_r, z_r') in the denominator (see manual). This
+      gives a better quantitative number for the mode mismatch.
+    - kmx, kmy are now computed as K**2/(1+K**2) which seems to
+      be more useful than the original formula from Bayer-Helms
+    - the mismatch parameters are printed in a slightly different order. 
+    - (Please see the new section about these parameters in the manual!)
+  o changed the numerical approximation of the Bessel functions to 
+    a more accurate one from Takuya Ooura 
+    (see http://momonga.t.u-tokyo.ac.jp/~ooura/). Compared to 
+    available tables the old version differed in the 7th/8th 
+    significant digit whereas the new is correct to the accuracy of
+    the table in `Handbook of Mathematical Functions...' 
+    by Abromowitz, Stegun (J0: 15 digits, J1, J2: 10 digits).
+    Thanks to Eric Chassande-Mottin for this information.
+  o inserted explicit formulas for Hermite polynomials up to 
+    the order H_10 (was H_3 before). For further higher orders the
+    usual recursion is used.
+  o improved the algorithms for complex powers and roots, i.e. z^n/m
+  o changed the algorithm for computing n! so that it can handle
+    large values.
+
+fixed bugs:
+  o the sign of some coupling coefficients was wrong sometimes due to
+    an incorrect order of complex roots. As far as I can tell
+    the error occurred for TEM order of n+m>3 and mostly for numerically 
+    small coefficients. Thus, it did not alter the results of typical 
+    simulations. But I was able to design example files in which the output 
+    signals were changed by up to 5%.
+  o added the index of refraction to ABCD matrices for reflection at a 
+    mirror and beam splitter. This affects the result only if the
+    main reflection at a highly reflective and spherical surface occurs
+    inside the substrate.
+  o corrected the spelling of "Gouy" (as in Gouy phase) throughout   
+    the code and the manual.
+  o `mkat' produced some warning messages with newer versions of Perl 
+     
+
+0.92 -> 0.93 (14.07.2003)
+main changes: 
+  o increased speed of matrix initialisation by omitting consistency check.
+    Consistency check can be forced by new option '-c'.
+  o amplitude modulation can now be used for transfer functions 
+    (i.e. with fsig)
+  o I started to add detailed information about the Hermite-Gauss part
+    of FINESSE to the manual.
+  o changed the syntax of the 'trace' command, see below.
+
+added feature :
+  o added parameter 'type' to command fsig. 'type' specifies the 
+    respective type of signal modulation which can be 'amplitude', 
+    'phase', 'frequency', 'xbeta' or 'ybeta'.
+   
+    For the moment the following types of signal modulation are 
+    implemented (default marked by *):
+    m:         phase*, amplitude
+    bs:        phase*, amplitude
+    s:         phase*
+    input:     frequency*
+    modulator: phase*
+
+  o Hermite-Gauss mode can now be switched off explicitly by using
+    `maxtem off'. This allows to use the geometric optics
+    mode without removing attributes and commands concerning 
+    transverse modes. 
+
+other changes:
+  o changed the bit-coding of the trace command to:
+     trace 1:   list of TEM modes used
+     trace 2:   cavity eigenvalues and cavity parameters like FWHM, 
+                FSR optical length and finesse
+     trace 4:   mode mismatch parameters for the initial setup
+     trace 8:   beam parameters for every node, nodes are listed in 
+                the order found by the tracing algorithm
+     trace 16:  Gouy phases for all spaces
+     trace 32:  coupling coefficients for all components
+     trace 64:  mode matching parameters during calculation, if they 
+                change due to a parameter change, for example by 
+                changing a radius of curvature.
+     trace 128: nodes found during the cavity tracing
+  o the windows version is now produced with a cross compiler (MinGW) 
+    running on Linux. If you have problems with the Windows version, 
+    please let me know (the binaries run well on all of the Windows 
+    systems I can access but these might not be representative).
+
+fixed bugs:
+  o empty command "GNUPLOT END" produced segmentation fault -> fixed
+
+0.90 -> 0.92 (03.03.2003)
+main changes: 
+  o tested (successfully) the propagation and coupling of TEM modes
+    (order 0,2,4) with Roland Schilling against his FFT
+    propagation code.
+  o some minor bug fixes, see below.
+
+added feature :
+  o speed of beam-analyser mode has been increased.
+  o multiple outputs are now allowed with surface plot. First output is
+    plotted by defaults. Other outputs are present as additional columns
+    in the output data file and can be added to the plot with the keyword 
+    'multi'.
+  o added simple variables: command `var name value' defines
+    a variable. Throughout the input file any instance
+    of `$name' will be replaced by `value'. Maximum number of
+    variables is 20.
+  o maximum order of TEM modes (maxtem) is set to 12 (was 8 before)
+  o added keyword `pause' that puts a `pause -1' after plot commands
+    that are used with a screen terminal (`pause -1' is always added 
+    if the terminal `windows' is used).
+  o default terminal is now "x11" on Unix machines and "windows"
+    on Windows systems
+
+fixed bugs:
+  o the units [deg] had been used for plots with xbeta or ybeta
+    with the actual numbers given in radians -> fixed
+    In addition, manual and help screen now state correctly that the 
+    misalignment angles are entered and plotted in [rad].
+  o beam analyser could not properly display the interference
+    of two carrier fields because the phase information was
+    not used -> fixed
+  o mis-alignment angles for arbitrary incidence were wrong (switched x and y)
+    Now: ydelta=2*cos(alpha)*ybeta and xdelta=2*xbeta, compare to 0.87.
+  o changed input parser to cope better with different types
+    of text files (MS-DOS/Unix)
+  o changed Gnuplot file commands to work with newer patch levels (3.8i).
+  o modulator commands may now precede input light commands
+
+
+0.89 -> 0.90 (26.10.2002)
+main changes: 
+  o manual now in pdf format (Finesse.pdf)
+  o added a document on `Sidebands of Sidebands' from Keita Kawabe to
+    the package.
+added feature :
+  o (undocumented) x3axis*
+fixed bugs:
+  o some (spelling, grammar) corrections to the manual
+
+0.87 -> 0.89 (20.06.2002)
+fixed bugs:
+  o cavity command with not existing components or nodes
+    could generate wrong error messages -> fixed
+  o 'phases' set to non-zero (which is the default) produced
+    a lot of debug info. This is switched off now.
+  o TEM_nm modes with odd n did not get the proper phase change
+    when reflected from a mirror or beam splitter. Thus, auto-
+    alignment signals for rotation where wrong -> fixed.
+
+0.86 -> 0.87 (02.06.2002)
+main changes: 
+  o changed the default for the command 'phase' to 3 (see below).
+    This keeps cavities on resonance when the Hermite-Gauss
+    mode is switched on. Be careful to use "phase 0" in the input 
+    file when you want to include some effects of mode mismatch. Please 
+    note that the mirror/beam splitter tunings for e.g. a resonance 
+    condition are not intuitive numbers when "phase 0" is used!
+fixed bugs:
+  o the coupling coefficients came with a wrong phase in case of a mode 
+    mismatch -> fixed. This was a major bug and should have produced 
+    wrong results for almost all complex simulation with Hermite-Gauss 
+    modes!    
+  o the same bug also affected the output of a beam analyser but in
+    my experience the changes were small.
+  o the input parser sometimes gave wrong error messages in connection
+    with fsig. This should be at least better now.
+  o when a modulator was used in AM mode the parameter "phase" wasn't
+    used at all -> fixed.
+  o some corrections in the manual
+
+0.83 -> 0.86 (27.04.2002)
+
+main changes: 
+  o the Gouy phase for the TEM_00 mode is now taken into
+    account unless this is switched off with the command 'phase',
+    see below.
+  o a so called 'type' for photo detectors can now be specified 
+    (with respect to Hermite-Gauss modes). In the file 'kat.ini' a 
+    number of different types can be defined by giving power factors 
+    for the various beat signals between the different Hermite-Gauss
+    modes. For example, if a photo detector will see the beat
+    between the TEM_00 and TEM_01, then the line '00 01 1.0' 
+    (mode mode factor) should be present in the description. The 
+    definitions in the ini file are given a name. This name can be used 
+    with the command 'pdtype' in the input files. Many different types 
+    of real detectors (like split detectors) or (spatially) 
+    imperfect detection can be simulated using this new feature.
+    The syntax for the type definitions: 
+    PDTYPE name
+    ...
+    END
+    Between the "PDTYPE" and the "END" several lines of the following 
+    format can be given:
+    1. example: 01 02 1.0 
+       beat between TEM_01 and TEM_02 is scaled with factor 1.0
+    2. example: 00 *0 1.0 
+       '*' means 'any': the beats of TEM_00 with TEM_00, TEM_10,
+       TEM_20, TEM_30,... are scaled with 1.0
+    3. example: xy xy 1.0 
+       'x' or 'y' also mean 'any' but here all instances of 'x'
+       are always the same number (same for 'y'). So in this example
+       all beats of a mode with itself are scaled by 1.0
+    NOTE: All beat signals that are not explicitly given are scaled with 0.0!
+    ('debug 2' somewhere in the input file will cause FINESSE to print  
+    all non-zero beat signal factors for all defined types.)
+    Please take care when entering a definition, because the parser is very simple
+    and cannot handle extra or missing spaces or extra characters.
+  o `trace 4' prints quantitative numbers for the mode mismatch
+    (mismatch parameter as in "F.Bayer-Helms, Appl. Opt. 1984 Vol 23 No 9").
+fixed bugs:
+  o there was a build-in mode mismatch at the transmission
+    from node3 to node1 at a beam splitter, and for transmission from 
+    node2 to node1 at a mirror -> fixed
+  o `scale ampere' only worked if a detector was specified -> fixed
+  o undid changes to isolator (see 0.80)
+  o `tem' factors were used squared by accident -> fixed
+added feature :
+  o the command `phase' can be used to change the
+    phases of light fields when higher modes are used. In general 
+    with higher order modes the spaces are not resonant
+    any more for the TEM_00 mode because of the Gouy phase.
+    Furthermore the coupling coefficients k_mnmn contribute
+    to the phase when there is a mode mismatch. For correct analysis
+    these effects have to be taken into account. On the other hand
+    one can neglect these phase offsets for special analysis tasks.
+    With the command `phase' these phase offsets can be set to zero:
+    `phase 1' sets all phases for the coupling coefficients
+    k_0000 (TEM_00 to TEM_00) to 0,
+    `phase 2' sets all Gouy phases for TEM_00 to 0 and 
+    `phase 3' sets both effects. The phases for higher
+    modes are changed accordingly, so that the relative phases stay correct.
+  o added command `pdtype'. The command sets a pre-defined
+    type to any kind of photo detector (i.e. with any number
+    of demodulations). The different types have to be defined in
+    in the file `kat.ini'.  Fox example 'pdtype pd1 x-split' sets the 
+    photo detector pd1 to the type 'x-split'.
+  o added command `mask'. With 'mask' certain TEM modes can be 
+    filtered at photo detectors or beam analysers. Without
+    the command both detectors see all TEM modes. E.g.
+    `mask detector1 0 1 0.9' scales the TEM_01 mode by 0.9
+    for detector1 (the command may be used several times for each 
+    detector). 
+  o misalignment angles of the beam splitters and mirrors are now more 
+    correctly translated into misalignment angles of the reflected beam as 
+    delta_x=2*cos(alpha)*beta_x and delta_y=2*beta_y.
+
+0.82 -> 0.83 (18.04.2002)
+
+fixed bugs:
+  o tracing several cavities in sequence was not implemented properly
+    -> fixed.
+  o the index of refraction at a "dump" node at beam splitters
+    could cause an error -> fixed
+  o modulators and isolators didn't work in Hermite-Gauss mode
+    -> fixed
+
+0.80 -> 0.82 (14.04.2002)
+
+main changes:
+  o the index of refraction is now taken into account. The propagation
+    of a Gaussian beam through a curved surface from one medium
+    into another has been checked against OptoCad (by and with Roland
+    Schilling).
+added feature :
+  o `cav' will give some more information about the cavity:
+    Finesse, FSR, FWHM (also checked against OptoCad). Some parameters 
+    for critical or unstable cavities will still be computed, only Gauss 
+    parameters are not derived from those cavity
+fixed bugs:
+  o added description for command `attr' to the syntax reference in
+    the manual
+  o the tuning of some parameters was giving a "division by zero"
+    errors due to a typing error -> fixed.
+  o component `lens' was not working in Hermite-Gauss mode -> fixed
+other changes :
+  o changed the output of Gauss parameters (trace 4), more verbose
+    now.
+  o changed the verbose output and the error messages for cavity
+    tracing
+
+0.63 -> 0.80 (02.04.2002)
+
+main changes:
+  o the manual has been improved quite a lot (hopefully). It gives 
+    a better "Quick start" explanation for beginners. And for
+    experienced "interferometrists" it contains the formulas showing 
+    how the physics is coded into FINESSE.
+  o working on propagation of higher order modes:
+    changes are marked with (*)
+  o working on quantum correlation for shot noise calculation:
+    changes are marked with (**)
+
+added feature :
+  o (*) changed syntax of amplitude detector to include TEM numbers:
+    `ad name [n m] f node[*]' with n,m as in TEM_nm.
+  o (*) added index of refraction to component `space'.
+  o (*) added keywords 'gauss' and 'gauss*': the 
+    Gaussian beam parameter q can be set as a base at a node.
+  o (*) added keyword `cav': the beam is traced through a cavity,
+    the eigenvalues for the ABCD matrix of the cavity is
+    computed and the resulting q parameters are set for all cavity 
+    nodes.
+  o (*) tracing Gaussian parameter q through system using the ABCD
+    matrices of the components.
+  o (*) added keyword `trace'. An integer value sets the level of verbosity
+    for the beam tracing and also for other computations related
+    to Hermite-Gauss modes. Try `trace 2' or `trace 4'.
+  o (*) added component `lens' as a thin lens with parameter f
+  o (* and **) added keyword `attr'. With `attr' the attributes mass (M), 
+    radius of curvature (Rc) and misalignment angle (beta) can be set for 
+    mirrors and beam splitters. This simplifies the input file structure.
+  o (*) added detector `beam' which plots the cross section of a 
+    Gaussian beam.
+  o (*) added keyword `maxtem': the maximum order of TEM modes can be
+    specified (default is 0)
+  o added component `isolator' which resembles a simple optical diode
+    with adjustable suppression.
+  o added keyword `ampere' for command `scale': with ampere set the values 
+    in the specified output will be converted from Watts to Ampere. NOTE the
+    quantum efficiency is from now on only used in this conversion!
+  o keyword `time': computation time is printed when program ends.
+
+fixed bugs:
+  o  signal sideband generation at mirrors and beam splitters always
+     assumed r=1. This has been fixed.
+  o  (undocumented) mesh max/min fixed
+  o  changed the shot noise formula to depend correctly on the
+     carrier wavelength. 
+  o  with logarithmic x-axis the x-parameters now can have 
+     negative values 
+  o  plotting with more than one Gnuplot terminal works only
+     when terminals with file output comes first (`feature' of Gnuplot). 
+     FINESSE now sorts the terminals to assure this order.
+  o  fixed broken error message for pdS and pdN
+  o  the influence of alpha to the tuning (at beam splitters) was 
+     slightly wrong -> fixed
+  o  parameter alpha is now limited : -90 < alpha < 90 
+  
+other changes :
+  o order of commands and components in the input file can be 
+    (almost) arbitrary now
+  o made parameter `phase' and `I' at input light (laser) tunable
+  o changed suppression for isolators from amplitude suppression
+    to power suppression. E.g. S=20 will cause the suppressed beam to 
+    have 0.1 times the initial power now. (changed back in 0.83)
+  o added parameter `epsilon_c' to `kat.ini'. The light power
+    had been calculated simply with I=E^2 before. Now the more 
+    correct I=epsilon_0*clight*E^2 can be used. The parameter
+    `epsilon_c' is used for epsilon_0*clight in the equation
+    above (in this notation the previous versions use epsilon_c=1).
+    The default is epsilon_c=1.0. This does not change the results
+    for photo detectors. But light _amplitudes_ can be given in correct
+    units now.
+  
+
+0.56 -> 0.63 (01.10.2000)
+
+added feature :
+  o added multiple (more than twice) demodulation (Note: syntax
+    for `pd' has changed because of this!)
+  o added analysis of oscillator phase noise
+  o added quantum efficiency (qeff) of photo detectors as parameter 
+    for `kat.ini'.
+  o added a more detailed description of the calculations to 
+    the manual
+  o added Perl script "mkat" to the package (see manual)
+
+other changes :
+  o change option name `-v' to `-max'
+  o changed syntax of the photodetector command
+
+fixed bugs : 
+  o fixed phase problem for fsig: had been correct only for 0 or 180 
+    degrees before
+  o minor bug fixed concerning amplitudes of fsig (very tiny correction)
+  o consistency of the demodulation phases fixed
+
+0.55 -> 0.56 (10.04.2000)
+
+added feature :
+  o transcribed the README file to a postscript  file `Finesse.ps'
+    The README file now contains only installation information and a 
+    short reference whereas the manual contains all the other information.
+  o added option `--quiet' : suppresses all screen output
+  o added option `-v' : `verbose' mode, currently prints max and
+    min of all plotted graphs
+  o added keywords `xaxis*' and `xparam*' (see manual)
+  o added possibility to add signals (via `fsig') at beam splitters
+    and spaces
+  o added `amplitude' to `fsig' so that signal inputs with different
+    amplitudes can be combined to one transfer function
+  o added parameter `phase' to component `input light'
+  o added parameter `detector' to `scale' so that different 
+    outputs can be scaled independently
+  o added possibility to  normalise output so that it gives m/sqrt(Hz)
+    for plotted transfer functions when the signals are added at mirrors 
+    or beam splitters (see manual, keyword `scale')
+
+other changes :
+  o changed the command name `deriv' to `diff'
+  o changed default order of detected beams at modulators
+
+  
+fixed bugs : 
+  o fixed bug in `out of range' detection for parameters
+  o fixed wrong phase of transfer functions. The bug has caused
+    an phase offset in most cases.
+
+0.54 -> 0.55 (14.03.2000)
+
+added feature :
+  o option `--perl1' for use with perl preprocessor (G. Heinzel)
+  o increased number of components
+
+fixed bugs : 
+  o recompiled the Windows version so that the Gnuplot system command
+    works
+
+fixed errors in README : 
+  o fixed error in description of xparam (switched `offset' and `factor')
+
+0.53 -> 0.54 (03.03.2000)
+
+fixed bugs : 
+  o corrected ppm conversion from 1e-5 to 1e-6 (in m* and bs*)
+  o corrected epsilon for signal sidebands (gives factor 0.5 
+    for transfer functions)
+
+added features :
+  o keyword `scale' added (allows rescaling of y-axis)
+
+fixed errors in README : 
+  o error in description of bs* fixed (changed R to T)
+
+
+
+
+
