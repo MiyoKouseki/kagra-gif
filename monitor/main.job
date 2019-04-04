@@ -1,0 +1,16 @@
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/monitor
+Notify_User    =
+Notification   = Never
++Group         = "Xc"
+request_memory = 1 GB
+
+Executable = /usr/bin/python 
+Error      = /home/kouseki.miyo/kagra-gif/monitor/log/main.$(Process).err
+Log        = /home/kouseki.miyo/kagra-gif/monitor/log/main.$(Process).log
+Output     = /home/kouseki.miyo/kagra-gif/monitor/log/main.$(Process).out
+
+RequestCpus    = 14
+Arguments  = /home/kouseki.miyo/kagra-gif/monitor/example_timeseries.py
+Queue
