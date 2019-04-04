@@ -1,7 +1,9 @@
 from gwpy.timeseries import TimeSeriesDict
 from gwpy.time import tconvert
 import numpy as np
-
+'''
+神岡のNDSをつかって、複数チャンネルのトレンドデータをプロットするスクリプト
+'''
 
 start = tconvert('Dec 01 00:00:00 JST')
 start = tconvert('Dec 25 00:00:00 JST')

@@ -105,7 +105,7 @@ for channel in channels:
     data = TimeSeriesDict.read(sources,chnames,format='gwf.lalframe',nproc=14,start=int(start),pad=0.0)
     data = data.resample(1./60./10.) # 10 min trend
     print data['K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ.rms'].dt
-    data['K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ.rms'].write('ex1_xaxis_blrms_low.gwf',format='gwf.lalframe')
+    data['K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ.rms'].write('bKAGRA_rms_ground_velocity_hor.gwf',format='gwf.lalframe')
     #data.resample(10.)
     #source and chname are necessary.
     #format='gwf.lalframe': input file format
