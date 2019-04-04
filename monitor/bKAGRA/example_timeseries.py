@@ -26,15 +26,16 @@ from gwpy.time import tconvert
 # readout from gwf file
 # measurement period 2018/12/29~2019/01/03, 1230044418~1230476418
 #start = tconvert('Mar 31 2018 00:00:00 JST')
-start = tconvert('Apr 7 2018 00:00:00 JST')
+#start = tconvert('Apr 7 2018 00:00:00 JST')
+#print start
 #start = tconvert('Apr 14 2018 00:00:00 JST')
-#start = tconvert('Apr 28 2018 00:00:00 JST')
-#start = tconvert('Apr 30 2018 00:00:00 JST')
+start = tconvert('Apr 28 2018 09:00:00 JST')
+#end = tconvert('Apr 29 2018 09:00:00 JST')
 #end   = tconvert('May 1 2018 00:00:00 JST')
-#end   = tconvert('May 9 2018 00:00:00 JST')
+end   = tconvert('May 8 2018 09:00:00 JST')
 #end   = tconvert('May 23 2018 00:00:00 JST')
-end   = tconvert('May 30 2018 00:00:00 JST')
-end   = tconvert('Jun 9 2018 00:00:00 JST')
+#end   = tconvert('May 30 2018 00:00:00 JST')
+#end   = tconvert('Jun 9 2018 00:00:00 JST')
 #end = tconvert('May 8 2018 00:00:00 JST')
 #
 # TimeSeries 1 span: [1207699260.0 ... 1208905200.0)
@@ -52,28 +53,45 @@ end   = tconvert('Jun 9 2018 00:00:00 JST')
 
 sources = []
 
-for i in range(int(str(start)[0:5]),int(str(end)[0:5])+1):
-    dir = '/data/trend/minute/' + str(i) + '/*'
-    source = glob.glob(dir)
-    sources.extend(source)
+mtrend = False
+if mtrend:
+    for i in range(int(str(start)[0:5]),int(str(end)[0:5])+1):
+        dir = '/data/trend/minute/' + str(i) + '/*'
+        source = glob.glob(dir)
+        sources.extend(source)
+    sources.sort()
+    removelist = []
+    for x in sources:
+        if int(x[32:42])<(int(start)-3599):
+            removelist.append(x)
+        if int(x[32:42])>int(end):
+            removelist.append(x)
 
-sources.sort()
+    for y in removelist:
+        sources.remove(y)
 
-removelist = []
+full = True
+if full:
+    for i in range(int(str(start)[0:5]),int(str(end)[0:5])+1):
+        dir = '/data/full/' + str(i) + '/*'
+        source = glob.glob(dir)
+        sources.extend(source)
+    sources.sort()
+    removelist = []
+    for x in sources:
+        if int(x[24:34])<(int(start)-31):
+            removelist.append(x)
+        if int(x[24:34])>int(end):
+            removelist.append(x)
 
-for x in sources:
-    if int(x[32:42])<(int(start)-3599):
-        removelist.append(x)
-    if int(x[32:42])>int(end):
-        removelist.append(x)
-
-for y in removelist:
-    sources.remove(y)
+    for y in removelist:
+        sources.remove(y)
 
 # make channel list
 channels=[
     #'K1:PEM-EX1_SEIS_WE_SENSINF_OUT_DQ',
-    'K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ',
+    #'K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ',
+    'K1:GRD-LSC_MICH_STATE_N',    
 ]
 
 if not os.path.exists('results'):
@@ -86,6 +104,7 @@ for channel in channels:
     latexchnames = []
     #suffix = ['max','min','mean','rms']
     suffix = ['rms']
+    suffix = ['']
     
     unit = ''
     if channel.find('TEMPERATURE') != -1:
@@ -97,12 +116,21 @@ for channel in channels:
     elif channel.find('MIC') != -1:
         unit = 'Sound [Pa]'
 
-    for x in suffix:
-        chnames.append(channel + '.' + x)
-        latexchnames.append(channel.replace('_','\_') + '.' + x)
+    if mtrend:
+        for x in suffix:
+            chnames.append(channel + '.' + x)
+            latexchnames.append(channel.replace('_','\_') + '.' + x)
+
 
     # Time series
-    data = TimeSeriesDict.read(sources,chnames,format='gwf.lalframe',nproc=14,start=int(start),pad=0.0)
+    if mtrend:
+        data = TimeSeriesDict.read(sources,chnames,format='gwf.lalframe',nproc=14,start=int(start),pad=0.0)
+    if full:
+        print 'bbb'
+        data = TimeSeries.read(sources,channel,format='gwf.lalframe',nproc=14,start=int(start),pad=0.0)
+        print 'aa',data
+        data.write('bKAGRA_mich_state.gwf',format='gwf.lalframe')
+        exit()
     data = data.resample(1./60./10.) # 10 min trend
     print data['K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ.rms'].dt
     data['K1:PEM-EX1_SEIS_WE_BLRMS_LOW_OUT_DQ.rms'].write('bKAGRA_rms_ground_velocity_hor.gwf',format='gwf.lalframe')
