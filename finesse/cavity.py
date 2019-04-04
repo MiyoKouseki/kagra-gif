@@ -11,8 +11,8 @@ s s1 3000 n2 n3             # space L=3000m?
 s s2 1 nn n1                # space L=1m?
 m1 etm 10e-4 45e-4 0 n3 n4  # T=10ppm, Loss=45ppm @1064nm [1]
 l i1 1 0 n0                 # laser P=1W, f_offset=0Hz
-mod eo1 45k 0.3 2 pm n0 nn  # phase modulator 
-    	    	     	    # f_mod=40kHz, midx=0.3, order=3
+mod eo1 45k 0.3 1 pm n0 nn  # phase modulator 
+    	    	     	    # f_mod=45kHz, midx=0.3, order=1
 
 # Detector
 pd1 refl_I 45k 0  n1
