@@ -47,10 +47,8 @@ if True:
     plt.close()
         
 if True:
-    phase = data['K1:GIF-X_PHASE_IN1_DQ'].value[:N]
     angle = data['K1:GIF-X_ANGLE_IN1_DQ'].value[:N]
     angle = angle - angle[0]
-    rotation = data['K1:GIF-X_ROTATION_IN1_DQ']
     fig, ax = plt.subplots(1,1,figsize=(8,8),dpi=160)
     time = np.arange(len(angle))/2048.0
     func = lambda t: -2.0*np.pi*(34.0)*t
@@ -63,4 +61,5 @@ if True:
     ax.legend(['Result (K1:GIF-X\_ANGLE\_IN1\_DQ)','Expected'])
     plt.title('')
     plt.savefig('Angle.png')
-    plt.close()    
+    plt.close()
+    
