@@ -22,7 +22,9 @@ M5.2, Nagano, May 25 2018 21:13:42.2
 '''
 
 start = tconvert('Sep 6 2018 03:07:59.3 JST') # 1220238498
-end   = tconvert('Sep 6 2018 03:37:59.3 JST') # 1220238498
+start = tconvert('Sep 6 2018 03:10:13 JST') 
+end   = tconvert('Sep 6 2018 03:10:14 JST') 
+#end   = tconvert('Sep 6 2018 03:37:59.3 JST') 
 #
 #
 #start = tconvert('May 25 2018 21:13:42.2 JST')
@@ -115,10 +117,12 @@ for channel in channels:
         #data.write('bKAGRA_mich_state.gwf',format='gwf.lalframe')
         #exit()
 
-    if False:
+    if True:
         print _max,_min
         print fs
-        plot = data.plot(label='name',epoch=t0)
+        #data = data.crop(t0,t0+2048*data.dt*4)
+        plot = data.plot(label='name',epoch=t0,linestyle='None',marker='o',
+                         linewidth=1,markersize=1)
         ax = plot.axes
         #ax[0].legend(latexchnames,bbox_to_anchor = (1,0),borderaxespad=1)
         ax[0].legend(latexchnames)
@@ -126,7 +130,8 @@ for channel in channels:
         #ax[0].set_ylim(-1e-3,1e-3)
         plot.savefig('./results/' + channel + '_timeseries.png')
         plot.close()
-    if True:
+
+    if False:
         specgram = data.spectrogram(2,fftlength=1,overlap=.5)**(1./2.)
         plot = specgram.plot(norm='log', vmin=1e-9, vmax=1e-3,epoch=t0)
         ax = plot.gca()
