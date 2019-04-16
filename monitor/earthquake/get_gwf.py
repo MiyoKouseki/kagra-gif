@@ -21,9 +21,13 @@ M5.2, Nagano, May 25 2018 21:13:42.2
 
 '''
 
-start = tconvert('Sep 6 2018 03:07:59.3 JST') # 1220238498
-start = tconvert('Sep 6 2018 03:10:13 JST') 
-end   = tconvert('Sep 6 2018 03:10:14 JST') 
+start = tconvert('Aug 19 2018 00:19:40 UTC') # Fiji M8.2
+end = tconvert('Aug 19 2018 01:19:40 UTC')
+
+
+#start = tconvert('Sep 6 2018 03:07:59.3 JST') # 1220238498
+#start = tconvert('Sep 6 2018 03:10:13 JST') 
+#end   = tconvert('Sep 6 2018 03:10:14 JST') 
 #end   = tconvert('Sep 6 2018 03:37:59.3 JST') 
 #
 #
@@ -100,7 +104,6 @@ for channel in channels:
             chnames.append(channel + '.' + x)
             latexchnames.append(channel.replace('_','\_') + '.' + x)
 
-
     # Time series
     if mtrend:
         data = TimeSeriesDict.read(sources,chnames,format='gwf.lalframe',
@@ -127,7 +130,7 @@ for channel in channels:
         #ax[0].legend(latexchnames,bbox_to_anchor = (1,0),borderaxespad=1)
         ax[0].legend(latexchnames)
         ax[0].set_ylabel(unit)
-        #ax[0].set_ylim(-1e-3,1e-3)
+        ax[0].set_ylim(-1e-3,1e-3)
         plot.savefig('./results/' + channel + '_timeseries.png')
         plot.close()
 
