@@ -115,14 +115,22 @@ for channel in channels:
         #data.write('bKAGRA_mich_state.gwf',format='gwf.lalframe')
         #exit()
 
-
-    print _max,_min
-    print fs
-    plot = data.plot(label='name',epoch=t0)
-    ax = plot.axes
-    #ax[0].legend(latexchnames,bbox_to_anchor = (1,0),borderaxespad=1)
-    ax[0].legend(latexchnames)
-    ax[0].set_ylabel(unit)
-    #ax[0].set_ylim(-1e-3,1e-3)
-    plot.savefig('./results/' + channel + '_timeseries.png')
-    plot.close()
+    if False:
+        print _max,_min
+        print fs
+        plot = data.plot(label='name',epoch=t0)
+        ax = plot.axes
+        #ax[0].legend(latexchnames,bbox_to_anchor = (1,0),borderaxespad=1)
+        ax[0].legend(latexchnames)
+        ax[0].set_ylabel(unit)
+        #ax[0].set_ylim(-1e-3,1e-3)
+        plot.savefig('./results/' + channel + '_timeseries.png')
+        plot.close()
+    if True:
+        specgram = data.spectrogram(2,fftlength=1,overlap=.5)**(1./2.)
+        plot = specgram.plot(norm='log', vmin=1e-9, vmax=1e-3,epoch=t0)
+        ax = plot.gca()
+        ax.set_yscale('log')
+        ax.colorbar(label=r'Ground Velocity [m/sec/$\sqrt{\mathrm{Hz}}$]')
+        ax.set_ylim(1, 1024)
+        plot.savefig('./results/' + channel + '_specgram.png')
