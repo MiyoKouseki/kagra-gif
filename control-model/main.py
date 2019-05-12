@@ -4,22 +4,25 @@ from control import matlab
 import matplotlib.pyplot as plt
 import numpy as np
 from gwpy.frequencyseries import FrequencySeries
-from utils import times,rms,_bode,degwrap,mybode
-
+from vismodel.utils import times,rms,_bode,degwrap,mybode
+from vismodel.lvdt import lvdt
+from vismodel.geophone import geo,geo_tf
+from vismodel.ip import Ps,Pa
+from vismodel.filt import blendfilter
+from vismodel.filt import servo,servo2,servo3
+from seismodel.trillium import tr120,tr120_u,tr120_selfnoise
 
 # Seismic Noise
-seis = FrequencySeries.read('Xaxis_ixv1_50pct.hdf5')*1e6
+seis = FrequencySeries.read('./seismodel/Xaxis_ixv1_50pct.hdf5')*1e6
 seis = seis.crop(1e-3,20)
 freq = seis.frequencies.value
 df = seis.df.value
 
 # LVDT Noise
-from lvdt import lvdt
 lvdt = lvdt.crop(1e-3,20)
 lvdt = lvdt.interpolate(df) #um
 
 # GEOPHONE Noise
-from geophone import geo,geo_tf
 geo = geo.crop(1e-3,20)
 geo = geo.interpolate(df) #um/sec
 
@@ -28,17 +31,14 @@ value = np.ones(len(freq))*5e-8*1e6 # um
 strain = FrequencySeries(value,frequencies=freq)
 
 # Inverted Pendulum
-from ip import Ps,Pa
 
 # Blend
-from filt import blendfilter
 lp,hp = blendfilter(fb=0.3,n=3,plot=True)
 lp_50m,hp_50m = blendfilter(fb=0.05,n=4,plot=False)
 lp_80m,hp_80m = blendfilter(fb=0.08,n=4,plot=False)
 lp_100m,hp_100m = blendfilter(fb=0.10,n=4,plot=False)
 
 # Servo
-from filt import servo,servo2,servo3
 servogain = 5e3
 #servo = servo(f0=0.05,f1=5.0,gain=servogain) # default
 #servo = servo2(f0=0.05,f1=3.0,gain=servogain) #
@@ -66,7 +66,6 @@ ctr50m = ctr_blend(0.05)
 
     
 # Trillium120QA
-from trillium import tr120,tr120_u,tr120_selfnoise
 tr120_selfnoise = tr120_selfnoise*1e6
        
 #
