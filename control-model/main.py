@@ -13,7 +13,9 @@ from vismodel.filt import servo,servo2,servo3
 from seismodel.trillium import tr120,tr120_u,tr120_selfnoise
 
 # Seismic Noise
-seis = FrequencySeries.read('./seismodel/Xaxis_ixv1_50pct.hdf5')*1e6
+print('Need fetch data!')
+exit()
+seis = FrequencySeries.read('./seismodel/data1_ixv_x_50pct.hdf5')*1e6
 seis = seis.crop(1e-3,20)
 freq = seis.frequencies.value
 df = seis.df.value
