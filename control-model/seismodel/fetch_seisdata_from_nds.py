@@ -1,10 +1,15 @@
 from gwpy.timeseries import TimeSeries
 from gwpy.plot import Plot
 
+'''
+Fetch seismometer data from nds.
+
+'''
+
 
 # - data1 -----------------------------
-start = '2019 Mar 19 00:00:00 JST'
-end = '2019 Mar 19 06:00:00 JST'
+start = '2019 May 12 00:00:00 JST'
+end = '2019 May 12 06:00:00 JST'
 chname = 'K1:PEM-SEIS_IXV_GND_X_OUT_DQ'
 # -------------------------------------
 
