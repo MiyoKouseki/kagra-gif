@@ -27,7 +27,7 @@ rsync_fmt = 'rsync -av {option} -e ssh GIF@172.16.32.201:'\
   '{prefix_gif}/{yyyy:4d}/{mm:02d}/{dd:02d}/' + ' ' + \
   '{prefix_own}{prefix_gif}/{yyyy:4d}/{mm:02d}/{dd:02d}'
 
-prefix_own = '/Users/miyo/KagraData/gif'
+prefix_own = '/Users/miyo/Dropbox/KagraData/gif'
 
 if dtype == 'cRIO01':
     option = ''    
