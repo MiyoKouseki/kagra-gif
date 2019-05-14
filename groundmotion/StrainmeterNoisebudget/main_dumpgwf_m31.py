@@ -17,6 +17,7 @@ chname = [
     'K1:PEM-SEIS_IXV_GND_X_OUT_DQ',
     'K1:PEM-SEIS_EXV_GND_X_OUT_DQ',
     'K1:GIF-X_STRAIN_OUT16',
+    'K1:PEM-WEATHER_IXV_FIELD_PRES_OUT16'
 ]
 start = tconvert('May 03 2019 00:00:00 JST')
 end   = tconvert('May 03 2019 06:00:00 JST')
