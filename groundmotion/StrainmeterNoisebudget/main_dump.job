@@ -1,16 +1,16 @@
 Universe       = vanilla 
 GetEnv         = True
-Initialdir     = /home/kouseki.miyo/kagra-gif/groundmotion
+Initialdir     = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget
 Notify_User    =
 Notification   = Never
 +Group         = "Xc"
 request_memory = 4 GB
 
 Executable = /usr/bin/python 
-Error      = /home/kouseki.miyo/kagra-gif/groundmotion/log/dump.$(Process).err
-Log        = /home/kouseki.miyo/kagra-gif/groundmotion/log/dump.$(Process).log
-Output     = /home/kouseki.miyo/kagra-gif/groundmotion/log/dump.$(Process).out
+Error      = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/log/dump.$(Process).err
+Log        = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/log/dump.$(Process).log
+Output     = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/log/dump.$(Process).out
 
 RequestCpus    = 14
-Arguments  = /home/kouseki.miyo/kagra-gif/groundmotion/dump.py
+Arguments  = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/main_dumpgwf_m31.py
 Queue

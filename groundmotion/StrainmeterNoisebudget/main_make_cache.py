@@ -77,10 +77,10 @@ def trendcache(gst,get,basedir='/trend',cachelist=[]):
 
 
 if __name__ == '__main__':
-    gst = 1228435218 # UTC Dec 10 2018 
-    get = 1229299218 # UTC Dec 20 2018 
+    gst = 1240758018 # JST May 01 2018 
+    get = 1241794818 # JST May 13 2018 
     if True:
-        cachefile = './full_2018_Dec10-Dec20.cache'
+        cachefile = './full_2018_May01-May14.cache'
         cachelist = fullcache(gst,get,basedir='/data/')
     if False:
         cachefile = './trend_Oct1-Oct21.cache'
