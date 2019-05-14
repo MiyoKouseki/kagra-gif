@@ -1,7 +1,7 @@
 Universe       = vanilla 
 GetEnv         = True
 Initialdir     = /home/kouseki.miyo/kagra-gif/cdmr/m31
-Notify_User    =
+Notify_User    = miyo@icrr.u-tokyo.ac.jp
 Notification   = Never
 +Group         = "Xc"
 

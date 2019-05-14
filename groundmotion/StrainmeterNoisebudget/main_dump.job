@@ -12,5 +12,5 @@ Log        = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/lo
 Output     = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/log/dump.$(Process).out
 
 RequestCpus    = 14
-Arguments  = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/main_dumpgwf_m31.py
+Arguments  = /home/kouseki.miyo/kagra-gif/groundmotion/StrainmeterNoisebudget/main_dumpgwf_m31_trend.py
 Queue

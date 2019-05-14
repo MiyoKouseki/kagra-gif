@@ -14,26 +14,26 @@ from gwpy.timeseries import TimeSeries,TimeSeriesDict
 from gwpy.time import tconvert
 
 chname = [
-    #'K1:PEM-SEIS_IXV_GND_X_OUT_DQ',
-    #'K1:PEM-SEIS_EXV_GND_X_OUT_DQ',
-    'K1:GIF-X_STRAIN_OUT16',
-    'K1:PEM-WEATHER_IXV_FIELD_PRES_OUT16'
+    #'K1:GIF-X_STRAIN_IN1_DQ.mean',
+    'K1:PEM-WEATHER_IXV_FIELD_PRES_OUT16.mean'
 ]
 
 start = tconvert('May 03 2019 00:00:00 JST')
-end   = tconvert('May 04 2019 00:00:00 JST')
-nproc = 1
+end   = tconvert('May 03 2019 01:00:00 JST')
+nproc = 1 
 
 # Read Data
-cache = False
+cache = True
 dump = False
 if cache and not dump:
     print('Read using cache')
     from glue import lal
     from pylal import frutils
-    cachefname = './full_2018_May01-May14.cache'
+    cachefname = './trend_2019_May01-May14.cache'
     source = lal.Cache.fromfile(open(cachefname))
+    print('Read ')
     data = TimeSeriesDict.read(source,chname,start=start,end=end,format='gwf.lalframe',nproc=nproc)
+    print data
 elif dump:
     print('Read using dumped gwf file')
     source = 'dump.gwf'
@@ -41,11 +41,11 @@ elif dump:
 else:
     print('Read using single gwf full file')
     #source = 'K-K1_C-1231133824-32.gwf'
-    source = '/data/full/12284/K-K1_C-1228435200-32.gwf'
-    source = '/data/full/12407/K-K1_C-1240758016-32.gwf'
+    #source = '/data/full/12284/K-K1_C-1228435200-32.gwf'
+    #source = '/data/full/12407/K-K1_C-1240758016-32.gwf'
+    source = '/data/trend/minute/12407/K-K1_M-1240758000-3600.gwf'
     data = TimeSeriesDict.read(source,chname,format='gwf.lalframe')
     print data
-    #print tconvert(tconvert(data.t0))
     
 # some treatment
 #data.override_unit('um/s') # bugs when use lalframe reader
@@ -62,3 +62,4 @@ if plot:
 write = True
 if write == True:
     data.write('dump.gwf',format='gwf.lalframe')    
+
