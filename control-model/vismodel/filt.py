@@ -11,10 +11,9 @@ def servo(f0=0.1,f1=5,gain=5e3):
     servo = matlab.tf(num,den)
     return servo
 
-def servo2(f0=0.1,f1=5,gain=5e3):
-    w0 = 2.0*np.pi*f0
+def servo2(f1=5,gain=5e3):
     w1 = 2.0*np.pi*f1
-    num,den = signal.zpk2tf([-w0,-w0],[0,-w1,-w1],[gain])
+    num,den = signal.zpk2tf([0,0],[0,-w1,-w1],[gain])
     servo = matlab.tf(num,den)
     return servo
 
@@ -22,6 +21,13 @@ def servo3(f0=0.1,f1=5,gain=5e3):
     w0 = 2.0*np.pi*f0    
     w1 = 2.0*np.pi*f1
     num,den = signal.zpk2tf([-w0],[-w1,-w1],[gain])
+    servo = matlab.tf(num,den)
+    return servo
+
+def servo4(f0=0.1,f1=5,gain=5e3):
+    w0 = 2.0*np.pi*f0    
+    w1 = 2.0*np.pi*f1
+    num,den = signal.zpk2tf([-w0,-w0],[0,-w1,-w1],[gain])
     servo = matlab.tf(num,den)
     return servo
 
