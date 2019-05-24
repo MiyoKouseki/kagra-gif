@@ -1,3 +1,5 @@
+#
+#! coding:utf-8
 from gwpy.timeseries import TimeSeriesDict
 from gwpy.time import tconvert
 import numpy as np
@@ -5,47 +7,58 @@ import numpy as np
 神岡のNDSをつかって、複数チャンネルのトレンドデータをプロットするスクリプト
 '''
 
-start = tconvert('Dec 01 00:00:00 JST')
-start = tconvert('Dec 25 00:00:00 JST')
-end = tconvert('Dec 25 13:00:00 JST')
+start = tconvert('May 01 2019 00:00:00 JST')
+end   = tconvert('May 07 2019 00:00:00 JST')
 
 
 chname = [
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_30M_100M_OUT_DQ.mean,s-trend',
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_100M_300M_OUT_DQ.mean,s-trend',
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_300M_1_OUT_DQ.mean,s-trend',
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_1_3_OUT_DQ.mean,s-trend',
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_3_10_OUT_DQ.mean,s-trend',
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_10_30_OUT_DQ.mean,s-trend',
-    'K1:PEM-EXV_GND_TR120Q_X_BLRMS_30_100_OUT_DQ.mean,s-trend',
+    #'K1:PEM-SEIS_IXV_GND_X_OUT_DQ.mean,m-trend',
+    #'K1:PEM-SEIS_EXV_GND_X_OUT_DQ.mean,m-trend',
+    'K1:PEM-WEATHER_IXV_FIELD_PRES_OUT16.mean,m-trend',
+    'K1:GIF-X_STRAIN_OUT16.mean,m-trend',
+    #'K1:GIF-X_ZABS_OUT16.mean,m-trend',
     ]
-
     
 data = TimeSeriesDict.fetch(chname,start,end,
                             host='10.68.10.122',port=8088,
                             verbose=True,pad=np.nan)
-labelname = [c.replace('_',' ') for c in chname]
-epoch = data.values()[0].epoch
+fftlen = 2**16
+
+for data in data.values():
+    name = data.name
+    plot = data.plot(label=name.replace('_',' '),epoch=data.t0)    
+    ax = plot.gca()
+    if 'PRES' in name:
+        ax.set_ylim(8000,10000)
+    ax.legend()
+    plot.savefig('{0}.png'.format(name))
+    plot.close()
+exit()
+# strain = data['K1:GIF-X_STRAIN_OUT16.mean,m-trend']
+# sg = strain.spectrogram2(fftlength=fftlen, overlap=fftlen/2, window='hanning') ** (1/2.)
+# median = sg.percentile(50)
+# low = sg.percentile(5)
+# high = sg.percentile(95)
+
+# from gwpy.plot import Plot
+# plot = Plot()
+# ax = plot.gca(xscale='log', xlim=(1e-6, 10), xlabel='Frequency [Hz]',
+#               yscale='log', ylim=(1e-14, 1e-5),
+#               ylabel=r'Strain noise [1/$\sqrt{\mathrm{Hz}}$]')
+# ax.plot_mmm(median, low, high, color='gwpy:ligo-hanford')
+# ax.set_title('LIGO-Hanford strain noise variation around GW170817',
+#              fontsize=16)
+# plot.savefig('img_asd.png')    
 
 
-from matplotlib import pyplot
-from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
-n = len(data)
-gs = GridSpec(n,3)
 
-plot, ax = pyplot.subplots(nrows=len(data), ncols=2, sharex=True, figsize=(16, 12),
-                           #gridspec_kw={'width_ratios': [2, 1]}
-                           )
-#fig = pyplot.figure(figsize=(16,12))
-print ax[0]
+coh = data['K1:GIF-X_STRAIN_OUT16.mean,m-trend'].coherence(data['K1:PEM-WEATHER_IXV_FIELD_PRES_OUT16.mean,m-trend'], fftlen, fftlen/2)
 
-for i,value in enumerate(data.values()):
-    ax[i] = pyplot.subplot(gs[i,:2])
-    ax[i].plot(value,label=labelname[i])
-    ax[i].set_ylim(-3,3)
-    ax[i].set_xlabel('')
-    ax[i].set_xlabel('')
-    ax[i].legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0, fontsize=10)
-ax[-1].set_xlabel('Time')
-#ax.set_xscale('auto-gps')
-plot.savefig('exv_tr120q.png')
+plot = coh.plot(figsize=[12, 6], label=None)
+ax = plot.gca()
+ax.set_yscale('linear')
+ax.set_xlabel('Frequency [Hz]')
+ax.set_ylabel('Coherence')
+ax.set_title('Coherence between SRCL and CARM for L1')
+ax.grid(True, 'both', 'both')
+plot.savefig('img_coh.png')
