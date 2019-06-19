@@ -6,8 +6,8 @@ import numpy as np
 
 import subprocess
 from gwpy.segments import Segment,SegmentList,DataQualityFlag
-
 from gwpy.time import tconvert
+from gwpy.timeseries import TimeSeries
 
 def fw_segments(fw_name='fw0'):
     ''' Make dqflag when frame writer save data
@@ -40,7 +40,35 @@ def hoge():
     good.write('availabledata.txt')
     return good
 
+def hoge(start,end):
+    sources = []
+    for i in range(int(gpsstart[0:5]),int(gpsend[0:5])+1):
+        dir = '/data/trend/minute/' + str(i) + '/*'
+        source = glob.glob(dir)
+        sources.extend(source)        
+    sources.sort()    
+    removelist = []    
+    for x in sources:
+        if int(x[32:42])<(int(gpsstart)-3599):
+            removelist.append(x)
+        if int(x[32:42])>int(gpsend):
+            removelist.append(x)            
+    for y in removelist:
+        sources.remove(y)
+    
 
 if __name__ == "__main__":
-    available = hoge()      
-    print available
+    available = hoge()
+    chname = 'K1:PEM-SEIS_EXV_GND_X_OUT_DQ'
+    #
+    #
+    #    
+    #
+    #
+    #
+    for segment in available:
+        start,end = segment
+        print start,end
+        data = TimeSeries.read(source,chname,start,end)
+        print data
+        exit()
