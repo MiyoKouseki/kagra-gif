@@ -3,6 +3,8 @@
 from glue import lal
 from gwpy.timeseries import TimeSeries
 
+'''
+'''
 
 def dumpdata(cachename,chname,dumpfname):
     '''cacheファイルを元にしてデータを取得してダンプする関数。
@@ -34,9 +36,5 @@ def fromdumpdata(fname,chname):
 
 
 if __name__ == '__main__':
-    dumpdata("../K-K1_C.bKAGRAphase1_a.cache",
-             'K1:PEM-EX1_SEIS_NS_SENSINF_INMON',
-             'phase1a_ex1_ns.gwf')
-    data = fromdumpdata('./phase1a_ex1_ns.gwf',
-                        'K1:PEM-EX1_SEIS_NS_SENSINF_INMON')
-
+    dumpdata("../K-K1_C.bKAGRAphase1_a.cache",'K1:PEM-EX1_SEIS_NS_SENSINF_INMON','phase1a_ex1_ns.gwf')
+    data = fromdumpdata('./phase1a_ex1_ns.gwf','K1:PEM-EX1_SEIS_NS_SENSINF_INMON')
