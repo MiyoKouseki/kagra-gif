@@ -1,0 +1,53 @@
+\documentclass[a4paper,12pt]{jsarticle}
+\bibliographystyle{junsrt}
+\usepackage{ascmac}
+\usepackage{empheq}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+%\usepackage{pxjahyper}
+%\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{graphicx,color}
+\usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
+\usepackage[format=hang,margin=75pt,font=small]{caption}
+%\usepackage{physics}
+\usepackage{braket}
+\usepackage{here}
+\usepackage{comment}
+\title{どれだけ基線長伸縮を小さくすべきか}
+\author{三代浩世希}
+\begin{document}
+\setcounter{tocdepth}{2}
+\maketitle
+\abstract{
+}
+\tableofcontents
+
+\section{共振引き込みでの要求値}
+鏡の位置が共振幅に入ってから出るまでの間に制御がかかればいい。その時間は、線幅を$L\,\mathrm{[m]}$通過時の鏡の速度を$v\, \mathrm{[m/sec]}$とすれば、$L/v\, \mathrm{[sec]}$で与えられる。また外乱抑制にかかる時間はおそよバンド幅の逆数で与えられるので、\footnote[1]{フィードバック制御の基礎 p. 146 に書かれているステップ応答の立ち上がり時間を引用した。この引き込みの場合、外乱のインパルス応答を考えるのが正しいが、多分そのときの立ち下がり時間もバンド幅の逆数で与えられるはず。計算していないけど。}鏡の速度は以下の条件式で制限される。
+\begin{equation} \label{eq:eq01}
+v < L \omega_{b}
+\end{equation}
+しかし条件式(\ref{eq:eq01})は十分大きな制御信号が付加できる場合でのみ正しい。実際のアクチュエータ効率には限りがある。アクチュエータ効率を大きくするとアクチュエータからノイズが流入し、重力波感度を汚すためである。したがって、制御力に限りがある場合の鏡の速度を計算する必要がある。
+
+したがって制御力に限りがある場合に満たすべき鏡の速度を計算する。アクチュエータが鏡に与える仕事で、運動している鏡を線幅以内で静止するためには
+\begin{equation} \label{eq:eq02}
+\frac{1}{2}mv^2 < F L
+\end{equation}
+を満たさなければならない。ここで$m\,\mathrm{[kg]}$は鏡の質量、$F\,\mathrm{[N]}$はアクチュエータが鏡に与える力である。制御力$F$には先述したように上限があるので、$F=F_{\mathrm{max}}=AV_{\mathrm{max}}$とすれば、
+\begin{equation} \label{eq:eq03}
+v < \sqrt{\frac{2AV_{\mathrm{max}}L}{m}}
+\end{equation}
+のように、アクチュエータ効率$A\,\mathrm{[N/V]}$の大きさで引き込み可能な鏡の速度が決まる。ちなみに$V_{\mathrm{max}}\,\mathrm{[V]}$は印加可能な電圧値であり、ADCの最大出力で決まる。
+
+（RMSを議論して、速度が1/10になれば引き込みやすさが100倍になることを述べる。）
+式(\ref{eq:eq01})と比較すると、鏡の速度は
+
+
+コイルマグネットアクチュエータにかかる電圧雑音は、鏡に求められる変位雑音よりも小さくあるべきである。つまり以下のような条件になる。
+\begin{equation} \label{eq:eq04}
+  A V_n  \frac{1}{\omega^2} < X_{\mathrm{req}}
+\end{equation}
+
+あああああ
+
+\end{document}

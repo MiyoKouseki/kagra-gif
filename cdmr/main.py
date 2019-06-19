@@ -47,6 +47,7 @@ _t0 = {'chname3_1':'Dec 02 2018 11:00:00',
 print(datanames)
 for dataname in datanames:
     hdf5_fmt = './{dataname}/Xaxis_{sensor}_50pct.hdf5'.replace("{dataname}",dataname)
+    hdf5_fmt_csd = './{dataname}/{name}.hdf5'.replace("{dataname}",dataname)
     t0 = _t0[dataname]
 
     if specgram:
@@ -74,6 +75,15 @@ for dataname in datanames:
         c12 = read(hdf5_fmt.format(sensor='comm12'))*2
         d13 = read(hdf5_fmt.format(sensor='diff13'))*2   
         c13 = read(hdf5_fmt.format(sensor='comm13'))*2
+        csd12 = read(hdf5_fmt_csd.format(name='CSD12'))
+        csd13 = read(hdf5_fmt_csd.format(name='CSD13'))
+        #ixv1 = ixv1.crop(ixv1.df.value*2)
+        #ixv2 = ixv1.crop(ixv2.df.value*2)
+        #exv0 = ixv1.crop(exv0.df.value*2)
+        print ixv1.shape
+        print csd12.shape
+        coh12 = csd12/ixv1/ixv2
+        coh13 = csd13/ixv1/exv0
         #x1500 = read(hdf5_fmt.format(sensor='x1500'))
         #strain = read(hdf5_fmt.format(sensor='strain'))*3000
         cdmr = c13/d13
@@ -139,7 +149,8 @@ for dataname in datanames:
     L = 3000.0 # m
     c_p = 5500.0 # m/sec
     cdmr_p = lambda w,c: np.sqrt((1.0+np.cos(L*w/c))/(1.0-np.cos(L*w/c)))
-    cdmr_ps = lambda w,c: np.sqrt((1.0+np.real(jv(0,L*w/c)))/(1.0-np.real(jv(0,L*w/c))))
+    cdmr_ps = lambda w,c: np.sqrt((1.0+jv(0,2*L*w/c))/(1.0-jv(0,2*L*w/c)))
+
     
     if True:
         from gwpy.plot import Plot
@@ -170,5 +181,21 @@ for dataname in datanames:
         ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
                     fontsize=20)
         plt.savefig('./{dname}/CDMR_{dname}_X.png'.format(dname=dataname))
-        print('save ./{dname}/CDMR_{dname}_X.png'.format(dname=dataname))
+        plt.close()
+        print('save ./{dname}/CDMR_{dname}_X.png'.format(dname=dataname))        
+
+    if True:
+        # --------------
+        # SPAC
+        # --------------
+        from gwpy.plot import Plot
+        fig, ax = plt.subplots(1,1)
+        #ax.plot(np.real(coh12),label='csd12')
+        #ax.plot(np.real(coh12),label='csd12')
+        ax.legend(fontsize=8,loc='lower left')    
+        ax.set_title('SPAC, {dname}'.format(dname=dataname.replace('_','')),fontsize=16)
+        plt.savefig('./{dname}/SPAC_{dname}_X.png'.format(dname=dataname))
+        plt.close()
+        print('save ./{dname}/SPAC_{dname}_X.png'.format(dname=dataname))
+       
         

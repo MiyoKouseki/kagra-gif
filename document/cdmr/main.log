@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2017.11.18)  21 JAN 2019 11:19
+This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2017.11.18)  17 JUN 2019 17:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -261,6 +261,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen166
 \Gm@dimlist=\toks22
 )
+(/usr/local/texlive/2017/texmf-dist/tex/latex/braket/braket.sty)
 (/usr/local/texlive/2017/texmf-dist/tex/latex/here/here.sty)
 (/usr/local/texlive/2017/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
@@ -276,22 +277,22 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 Excluding comment 'comment') (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
 \Hy@linkcounter=\count116
 
 *geometry* driver: auto-detecting
@@ -302,14 +303,14 @@ LaTeX Font Info:    ... okay on input line 18.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(94.8425pt, 407.82288pt, 94.8425pt)
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
 * v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
 * \paperwidth=717.0044pt
 * \paperheight=1014.03809pt
-* \textwidth=407.82288pt
+* \textwidth=455.24411pt
 * \textheight=702.78308pt
-* \oddsidemargin=22.57251pt
-* \evensidemargin=22.57251pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
 * \topmargin=-32.09216pt
 * \headheight=20.0pt
 * \headsep=10.95406pt
@@ -329,113 +330,94 @@ LaTeX Font Info:    ... okay on input line 18.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 20.
+(Font)              scaled to size 16.60605pt on input line 16.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 20.
+(Font)              scaled to size 16.60605pt on input line 16.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 20.
+(Font)              scaled to size 11.53198pt on input line 16.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 20.
+(Font)              scaled to size 11.53198pt on input line 16.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 20.
-LaTeX Font Info:    Try loading font information for U+msa on input line 20.
+(Font)              scaled to size 5.76599pt on input line 16.
+LaTeX Font Info:    Try loading font information for U+msa on input line 16.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 20.
+LaTeX Font Info:    Try loading font information for U+msb on input line 16.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 20.
+(Font)              scaled to size 11.53198pt on input line 16.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 7.68799pt on input line 20.
+(Font)              scaled to size 7.68799pt on input line 16.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 20.
+(Font)              scaled to size 5.76599pt on input line 16.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 21.
+(Font)              scaled to size 8.64899pt on input line 17.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 21.
+(Font)              scaled to size 8.64899pt on input line 17.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 21.
+(Font)              scaled to size 8.64899pt on input line 17.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 21.
+(Font)              scaled to size 8.64899pt on input line 17.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 17.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 4.805pt on input line 17.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 18.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 18.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
+(Font)              scaled to size 13.83836pt on input line 18.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 22.
- (./main.toc
-LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 2.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 4.805pt on input line 2.
-)
+(Font)              scaled to size 13.83836pt on input line 18.
+ (./main.toc)
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
-
-(./cdmr.tex
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 6.
-File: ./img_cdmr_xarm.png Graphic file (type bmp)
-<./img_cdmr_xarm.png>
- [1
-
-]
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 28.
- [2]
+(Font)              scaled to size 5.76599pt on input line 21.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 62.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 62.
-LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 62.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 62.
- [3]
-File: ./img_noisemeasurement.png Graphic file (type bmp)
-<./img_noisemeasurement.png>
-File: ./img_noisemeasurement_testa.png Graphic file (type bmp)
-<./img_noisemeasurement_testa.png>
- [4]
-File: ./img_noisemeasurement_testb.png Graphic file (type bmp)
-<./img_noisemeasurement_testb.png>
- [5]
-File: ./img_asd_exvixv.png Graphic file (type bmp)
-<./img_asd_exvixv.png>
- [6]
-File: ./img_coh_exvixv.png Graphic file (type bmp)
-<./img_coh_exvixv.png>
- [7]
+(Font)              scaled to size 11.53198pt on input line 25.
 File: ./img_cdmr_xarm.png Graphic file (type bmp)
 <./img_cdmr_xarm.png>
-File: ./img_cdmr_xarm_gif.png Graphic file (type bmp)
-<./img_cdmr_xarm_gif.png>
- [8]
-File: ./img_asd_mcimce.png Graphic file (type bmp)
-<./img_asd_mcimce.png>
- [9]
-File: ./img_coh_mcimce.png Graphic file (type bmp)
-<./img_coh_mcimce.png>
- [10]
-File: ./img_cdmr_imc.png Graphic file (type bmp)
-<./img_cdmr_imc.png>
- [11]
+
+[1
+
+] [2]
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 80.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 80.
+File: ./img_coherence_result.png Graphic file (type bmp)
+<./img_coherence_result.png>
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 117.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 117.
+File: ./img_RwaveVelocity.png Graphic file (type bmp)
+<./img_RwaveVelocity.png>
+
+Overfull \hbox (2.22221pt too wide) in paragraph at lines 111--125
+[][]$[]$[] []$[]$[] 
+ []
+
+[3]
+File: ./img_DMRR.png Graphic file (type bmp)
+<./img_DMRR.png>
+
 No file main.bbl.
-) [12] (./main.aux) ) 
+[4] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 3589 strings out of 493642
- 50274 string characters out of 6148747
- 133625 words of memory out of 5000000
- 7094 multiletter control sequences out of 15000+600000
+ 3574 strings out of 493642
+ 49856 string characters out of 6148747
+ 128627 words of memory out of 5000000
+ 7084 multiletter control sequences out of 15000+600000
  27408 words of font info for 119 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 39i,17n,26p,778b,356s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,11n,26p,1092b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.dvi (12 pages, 50076 bytes).
+Output written on main.dvi (4 pages, 19268 bytes).
