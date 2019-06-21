@@ -4,13 +4,13 @@ Initialdir     = /home/kouseki.miyo/kagra-gif/seismicnoise
 Notify_User    =
 Notification   = Never
 +Group         = "Xc"
-request_memory = 2 GB
+request_memory = 1 GB
 
 Executable = /usr/bin/python 
 Error      = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main.$(Process).err
 Log        = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main.$(Process).log
 Output     = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main.$(Process).out
 
-RequestCpus    = 14
+RequestCpus    = 12
 Arguments  = /home/kouseki.miyo/kagra-gif/seismicnoise/main.py
 Queue

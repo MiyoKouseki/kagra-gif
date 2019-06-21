@@ -3,6 +3,7 @@
 import os
 from numpy.random import rand
 import numpy as np
+import traceback
 
 import matplotlib
 matplotlib.use('agg')
@@ -81,78 +82,79 @@ def random_segments(start,end,tlen=3600,n=200,seed=3434,write=True):
         segmentlist.write('random.txt')
         print('saved random.txt')
     return segmentlist
-    
 
-def save_gwf(segmentlist,chname,nds=True,trend='minute',stype='rms',nproc=2):
+def read_and_write_timeseries(sources,chname,start,end,fname,**kwargs):
+    '''
+    '''
+    nds = kwargs.pop('nds',True)
+    try:
+        if nds:
+            data = TimeSeriesDict.fetch(chname,host='10.68.10.122',
+                                        port=8088,verbose=False,pad=0.0)            
+        else:
+            data = TimeSeriesDict.read(sources,chname,**kwargs)
+        data = data.crop(int(start),int(end))
+        assert None not in [d.name for d in data.values()], 'not exit!'
+        data.write(fname,format='gwf.lalframe')
+        ok = True
+    except:                    
+        print traceback.format_exc()
+        ok = False
+    return ok
+
+def save_timeseriesdict(segmentlist,chname,nds=True,trend='minute',stype='rms',nproc=2):
     ''' 
     
     '''
-    print('save gwf files')
-    if nds and (trend=='minute') and (stype=='rms'):
-        for i,segment in enumerate(segmentlist):
-            start,end = segment
-            fname = './data/mtrend_rms_{0}_{1}.gwf'.format(int(start),int(end))
-            if os.path.exists(fname):
-                pass
+    print('Save timeseriesdict..')
+
+    if not trend=='full':
+        chname = [ch+'.'+stype for ch in chname]
+    if trend=='full':
+        stype = ''
+
+    for i,segment in enumerate(segmentlist):
+        start, end = segment
+        sources = filelist(start,end,trend=trend,place='kashiwa')
+        fname = './data/{0}_{1}_{2}_{3}.gwf'.format(trend,stype,int(start),int(end))
+        if not os.path.exists(fname):
+            kwargs = {'format':'gwf.lalframe','nproc':nproc,'pad':0.0,'nds':nds}
+            ok = read_and_write_timeseries(sources,chname,start,end,fname,**kwargs)
+            if ok:
+                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname,'Saving..'
             else:
-                data = TimeSeriesDict.fetch(chname,start,end,
-                                            host='10.68.10.122',
-                                            port=8088,verbose=False,
-                                            pad=0.0)
-                assert None not in [d.name for d in data.values()], 'not exit!'
-                data.write(fname,format='gwf.lalframe')
-                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname            
-    elif not nds and (trend=='minute') and (stype=='rms'):
-        chname = [ch.split(',')[0] for ch in chname]
-        for i,segment in enumerate(segmentlist):
-            start,end = segment
-            sources = filelist(start,end,trend='mtrend',place='kashiwa')        
-            fname = './data/mtrend_rms_{0}_{1}.gwf'.format(int(start),int(end))
-            if os.path.exists(fname):
-                pass
-            else:
-                data = TimeSeriesDict.read(sources,chname,format='gwf.lalframe',
-                                           nproc=nproc,
-                                           start=start,end=end)
-                assert None not in [d.name for d in data.values()], 'not exit!'
-                data.write(fname,format='gwf.lalframe')
-                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname
-    elif not nds and (trend=='full'):
-        chname = [ch.split('.')[0] for ch in chname]
-        for i,segment in enumerate(segmentlist):
-            start,end = segment
-            sources = filelist(start,end,trend='full',place='kashiwa')        
-            fname = './data/full_{0}_{1}.gwf'.format(int(start),int(end))
-            if os.path.exists(fname):
-                pass
-            else:
-                data = TimeSeriesDict.read(sources,chname,format='gwf.lalframe',
-                                           nproc=nproc,pad=0.0, # dont use pad!!
-                                           start=start,end=end)
-                assert None not in [d.name for d in data.values()], 'not exit!'
-                data.write(fname,format='gwf.lalframe')
-                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname
-    else:
-        raise('!')
+                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname,'No Data'
+        else:
+            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname,'File exist'
     
 
-def check_badsegment(segmentlist,chname,plot=True,nproc=2):
+def check_badsegment(segmentlist,chname,plot=True,nproc=2,stype='rms',trend='minute'):
     '''
+
     '''
-    print('check bad segments')
+    print('Check bad segments')
+
+    if not trend=='full':
+        chname = [ch+'.'+stype for ch in chname]
+
     bad = SegmentList()
-    chname = [ch.split(',')[0] for ch in chname]
     for i,segment in enumerate(segmentlist):
         start,end = segment
-        fname = './data/mtrend_rms_{0}_{1}.gwf'.format(int(start),int(end))       
-        data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
-        label = [d.replace('_','\_') for d in data]
-        fname_img = './data/img_100M_300M_{0}_{1}.png'.format(int(start),int(end))
+        fname = './data/{0}_{1}_{2}_{3}.gwf'.format(trend,stype,int(start),int(end))
+        try:
+            data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
+        except IOError as e:
+            bad.append(segment)
+
         nodata = True in [0.0 in d.value for d in data.values()]
         bigeq = True in [0.5 < d.diff().abs().max().value for d in data.values()]
         flag = nodata or bigeq
-        print '1, {0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,nodata,bigeq
+        if flag:
+            bad.append(segment)
+
+        fname_img = './data/img_100M_300M_{0}_{1}.png'.format(int(start),int(end))
         if plot and not os.path.exists(fname_img):
+            label = [d.replace('_','\_') for d in data]
             plot = data.plot(ylabel='Velocity [um/sec]',epoch=start,
                              ylim=(0,1),title='BLRMS\_100M\_300M')
             ax = plot.gca()
@@ -162,46 +164,59 @@ def check_badsegment(segmentlist,chname,plot=True,nproc=2):
             ax.legend(label + ['X Diffs','Y Diffs','Z Diffs'])
             if flag:
                 ax.axvspan(start, end, alpha=0.5, color='red')
-                bad.append(segment)
             plot.savefig(fname_img)
             plot.close()
-        else:
-            pass
+            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,nodata,bigeq
     segmentlist -= bad
     bad.write('baddata.txt')
     return segmentlist
 
-def make_asd(segmentlist,chname,plot=True,nproc=2,write=True):
+def plot_asd(segment,data,fname_img,**kwargs):
     '''
     '''
-    print('make asd ')
+    axis = ['X','Y','Z']    
+    fig ,ax = plt.subplots(1,1)
+    nproc = kwargs.pop('nproc',2)
+    for i,d in enumerate(data.values()):
+        sg = d.spectrogram2(fftlength=100, overlap=50,nproc=nproc) ** (1/2.)
+        asd = sg.percentile(50)
+        fname_hdf5 = './data/sg_{0}_{1}_{2}.hdf5'.format(axis[i],int(start),int(end))
+        sg.write(fname_hdf5,format='hdf5',overwrite=True)
+        #print 'Write {0}'.format(fname_hdf5)
+        ax.loglog(asd,label=d.name.replace('_','\_'))                
+    ax.legend(loc='lower left')
+    ax.set_ylim(5e-5,2)
+    ax.set_ylabel('Velocity [um/sec/rtHz]')
+    ax.set_xlabel('Frequency [Hz]')
+    plt.savefig(fname_img)
+    plt.close()
+
+
+def save_spectrogram(segmentlist,chname,plot=True,nproc=2,write=True,nodata=False,trend='full',stype=''):
+    '''
+    '''
+    print('Save spectrograms ')
     bad = SegmentList()
     chname = [ch.split(',')[0] for ch in chname]
-    axis = ['X','Y','Z']
     for i,segment in enumerate(segmentlist):
         start,end = segment
-        fname = './data/full_{0}_{1}.gwf'.format(int(start),int(end))       
-        data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
+        fname = './data/{0}_{1}_{2}_{3}.gwf'.format(trend,stype,int(start),int(end))
+        try:
+            data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
+        except:            
+            nodata = True
         label = [d.replace('_','\_') for d in data]
         fname_img = './data/img_ASD_{0}_{1}.png'.format(int(start),int(end))
-        if plot and not os.path.exists(fname_img):
-            fig ,ax = plt.subplots(1,1)
-            for i,d in enumerate(data.values()):
-                sg = d.spectrogram2(fftlength=100, overlap=50,nproc=nproc) ** (1/2.)
-                asd = sg.percentile(50)
-                fname_hdf5 = './data/sg_{0}_{1}_{2}.hdf5'.format(axis[i],int(start),int(end))
-                sg.write(fname_hdf5,format='hdf5',overwrite=True)
-                print 'Write {0}'.format(fname_hdf5)
-                ax.loglog(asd)                
-            ax.legend(label,loc='lower left')
-            ax.set_ylim(5e-5,2)
-            ax.set_ylabel('Velocity [um/sec/rtHz]')
-            ax.set_xlabel('Frequency [Hz]')
-            plt.savefig(fname_img)
-            plt.close()
-            print '1, {0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img
+        if os.path.exists(fname_img):
+            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,'Exist'
+        elif not nodata and plot:
+            kwargs={'nproc':nproc}
+            plot_asd(segment,data,fname_img,**kwargs)
+            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,'Plotting..'
+        elif nodata:
+            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,'No Data'
         else:
-            pass
+            raise ValueError('!')
             
 if __name__ == "__main__":
     import warnings
@@ -210,39 +225,30 @@ if __name__ == "__main__":
     start = int(tconvert("Feb 01 2019 00:00:00 JST"))
     end = int(tconvert("Jun 01 2019 00:00:00 JST"))
 
-    chname = [
-        'K1:PEM-SEIS_EXV_GND_X_OUT16.rms,m-trend',        
-        'K1:PEM-SEIS_EXV_GND_X_BLRMS_30M_100M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_X_BLRMS_100M_300M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_X_BLRMS_300M_1_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Y_OUT16.rms,m-trend',                
-        'K1:PEM-SEIS_EXV_GND_Y_BLRMS_30M_100M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Y_BLRMS_100M_300M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Y_BLRMS_300M_1_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Z_OUT16.rms,m-trend',                
-        'K1:PEM-SEIS_EXV_GND_Z_BLRMS_30M_100M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Z_BLRMS_100M_300M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Z_BLRMS_300M_1_OUT16.rms,m-trend',        
-        ]
-    chname = [
-        'K1:PEM-SEIS_EXV_GND_X_BLRMS_100M_300M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Y_BLRMS_100M_300M_OUT16.rms,m-trend',
-        'K1:PEM-SEIS_EXV_GND_Z_BLRMS_100M_300M_OUT16.rms,m-trend',
-        ]                
-    data_segment = random_segments(start,end,tlen=3600,n=100,write=False)
-    print(data_segment)
-    save_gwf(data_segment,chname,nds=False,trend='minute',stype='rms',nproc=10)
-    data_segment = check_badsegment(data_segment,chname,nproc=10)
-    data_segment.write('noEQ.txt')
-    data_segment = SegmentList.read('noEQ.txt')
-    chname = [
-        'K1:PEM-SEIS_EXV_GND_X_OUT16',
-        'K1:PEM-SEIS_EXV_GND_Y_OUT16',
-        'K1:PEM-SEIS_EXV_GND_Z_OUT16',
-        ]
-    save_gwf(data_segment,chname,nds=False,trend='full',nproc=10)
-    make_asd(data_segment,chname,nproc=10)
-    
+    # ----------------------------------------    
+    print('Check whether earthquake or lack of data happen in segment.')
+    # ----------------------------------------
+    chname = ['K1:PEM-SEIS_EXV_GND_X_BLRMS_100M_300M_OUT16',
+              'K1:PEM-SEIS_EXV_GND_Y_BLRMS_100M_300M_OUT16',
+              'K1:PEM-SEIS_EXV_GND_Z_BLRMS_100M_300M_OUT16']
+    noEQ = random_segments(start,end,tlen=3600,n=5,write=False,seed=3434)
+    save_timeseriesdict(noEQ,chname,nds=False,trend='minute',stype='rms',nproc=10)
+    noEQ = check_badsegment(noEQ,chname,nproc=10,stype='rms',trend='minute')
+    noEQ.write('noEQ.txt')
+
+    # ----------------------------------------    
+    print('Calculate spectrograms with stationary data')
+    # ----------------------------------------    
+    noEQ = SegmentList.read('noEQ.txt')
+    chname = ['K1:PEM-SEIS_EXV_GND_X_OUT16',
+              'K1:PEM-SEIS_EXV_GND_Y_OUT16',
+              'K1:PEM-SEIS_EXV_GND_Z_OUT16']
+    save_timeseriesdict(noEQ,chname,nds=False,trend='full',nproc=10)
+    save_spectrogram(noEQ,chname,nproc=10)
+
+    # ----------------------------------------    
+    print('Calculate avelage of all spectrograms')
+    # ----------------------------------------    
     exit()
     sg  = Spectrogram.read('./data/sg_X_1234209537_1234213137.hdf5',format='hdf5')
     sg.append(Spectrogram.read('./data/sg_X_1234587670_1234591270.hdf5',format='hdf5'),gap='ignore')
@@ -272,7 +278,4 @@ if __name__ == "__main__":
     ax.set_ylabel('Velocity [um/sec/rtHz]')
     ax.set_xlabel('Frequency [Hz]')
     plt.savefig('huge.png')
-    plt.close()
-    
-    #TimeSeries 1 span: [1236339947.75 ... 1236341248.0)
-    #TimeSeries 2 span: [1236341344.0 ... 1236341376.0)
+    plt.close()    
