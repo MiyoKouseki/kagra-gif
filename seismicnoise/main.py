@@ -110,6 +110,20 @@ def save_gwf(segmentlist,chname,nds=True,trend='minute',stype='rms'):
                 assert None not in [d.name for d in data.values()], 'not exit!'
                 data.write(fname,format='gwf.lalframe')
                 print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname            
+    elif not nds (trend=='minute') and (stype=='rms'):
+        from Kozapy.script.mylib import mylib
+        for i,segment in enumerate(segmentlist):
+            start,end = segment
+            fname = './data/mtrend_rms_{0}_{1}.gwf'.format(int(start),int(end))
+            if os.path.exists(fname):
+                pass
+            else:
+                sources = mylib.GetFilelist(start,end)
+                data = TimeSeriesDict.read(sources,chname,format='gwf.lalframe',
+                                           start=start,end=end)
+                assert None not in [d.name for d in data.values()], 'not exit!'
+                data.write(fname,format='gwf.lalframe')
+                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname
     else:
         raise('!')
     
@@ -175,7 +189,7 @@ if __name__ == "__main__":
         'K1:PEM-SEIS_EXV_GND_Z_BLRMS_100M_300M_OUT16.rms,m-trend',
         ]                
     data_segment = random_segments(start,end,tlen=3600,n=10,write=False)
-    save_gwf(data_segment,chname)
+    save_gwf(data_segment,chname,nds=False)
     data_segment = check_badsegment(data_segment,chname)
     data_segment.write('random_segment.txt')
     exit()
