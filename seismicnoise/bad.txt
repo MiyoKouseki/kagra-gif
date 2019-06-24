@@ -1,0 +1,2 @@
+# seg	start	stop	duration
+0	1241145689	1241149289	3600
