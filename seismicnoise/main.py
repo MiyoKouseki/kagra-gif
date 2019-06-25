@@ -1,6 +1,7 @@
 #
 #! coding:utf-8
 import os
+
 from numpy.random import randint
 import numpy as np
 import traceback
@@ -17,6 +18,9 @@ from gwpy.frequencyseries import FrequencySeries
 from gwpy.spectrogram import Spectrogram
 
 from Kozapy.utils import filelist
+import logger
+log = logger.Logger('main')
+
 
 gwf_fmt = './data/{0}_{1}_{2}_{3}.gwf'
 img_fmt = './data/img_ASD_{0}_{1}.png'
@@ -98,23 +102,25 @@ def read_and_write_timeseries(sources,chname,start,end,fname,**kwargs):
         assert None not in [d.name for d in data.values()], 'not exit!'
         data.write(fname,format='gwf.lalframe')
         ok = True
-    except:                    
-        print traceback.format_exc()
+    except ValueError as e:       
         ok = False
+    except:       
+        print traceback.format_exc()
+        raise ValueError('Unknown error. Please comfirm.')
     return ok
 
-def save_timeseriesdict(segmentlist,chname,nds=True,trend='minute',stype='rms',nproc=2):
+def save_timeseriesdict(seglist,chname,nds=True,trend='minute',stype='rms',nproc=2):
     ''' 
     
     '''
-    print('Save timeseriesdict..')
+    log.debug('Save timeseriesdict..')
 
     if not trend=='full':
         chname = [ch+'.'+stype for ch in chname]
     if trend=='full':
         stype = ''
 
-    for i,segment in enumerate(segmentlist):
+    for i,segment in enumerate(seglist):
         start, end = segment
         sources = filelist(start,end,trend=trend,place='kashiwa')
         fname = gwf_fmt.format(trend,stype,start,end)
@@ -122,71 +128,102 @@ def save_timeseriesdict(segmentlist,chname,nds=True,trend='minute',stype='rms',n
             kwargs = {'format':'gwf.lalframe','nproc':nproc,'pad':0.0,'nds':nds}
             ok = read_and_write_timeseries(sources,chname,start,end,fname,**kwargs)
             if ok:
-                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname,'Saving..'
+                log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'Saving..')
             else:
-                print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname,'No Data'
+                log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'No Data')
         else:
-            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname,'File exist'
+            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'File exist')
     
 
-def check_badsegment(segmentlist,chname,plot=True,nproc=2,stype='',trend='minute'):
+def _check_badsegment(segment,trend='full',stype=''):
+    '''
+    1 bit : no data
+    2 bit : lack of data
+    3 bit : missed caliblation 
+    4 bit : big earthquake
+    '''
+    start,end = segment        
+    fname = gwf_fmt.format(trend,stype,start,end)
+    try:
+        data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
+        lack_of_data = any([0.0 in d.value for d in data.values()] )*4
+        miss_calib = any([ 1000.0 < d.mean() for d in data.values()])*8
+        bigeq = any([any((d.std()*6)<(d-d.mean()).abs().value) for d in data.values()])*16
+        return data, (lack_of_data + miss_calib + bigeq)
+    except IOError as e:
+        nodata = (True)*2
+        return None, nodata
+    except:
+        log.debug(traceback.format_exc())
+        raise ValueError('!!!')
+
+
+def plot_timeseries(data,start,end,bad_status,fname_img):
+    '''
+    '''
+    fig = plt.figure(figsize=(15, 10))
+    plt.suptitle('Seismometer at 2nd floor in X-end (EXV) {0}'.format(bad_status),fontsize=30)
+    grid = plt.GridSpec(3, 6, hspace=0.4, wspace=0.5)
+    
+    if not data:
+        return False
+
+    for i,d in enumerate(data.values()):
+        main_ax = fig.add_subplot(grid[i, :-1])
+        main_ax.plot(d,label=d.name.replace('_','\_'))
+        main_ax.set_ylabel('Velocity [um/sec]')
+        main_ax.set_xscale('minutes')
+        main_ax.legend()
+        main_ax.plot([start,end],[d.mean(),d.mean()],'k')
+        std5 = d.std()*5
+        std10 = d.std()*10
+        mean = d.mean()
+        main_ax.plot([start,end],[mean+std5,mean+std5],'k')
+        main_ax.plot([start,end],[mean-std5,mean-std5],'k')
+        x_hist = fig.add_subplot(grid[i,-1],sharey=main_ax)
+        x_hist.hist(d.value,bins=50,orientation=u'horizontal',histtype='step',)
+        main_ax.set_ylim(mean-std10,mean+std10)
+        x_hist.set_ylim(mean-std10,mean+std10)
+        if bad_status:
+            main_ax.axvspan(start, end, alpha=0.5, color='red')
+    plt.savefig(fname_img)
+    plt.close()
+
+
+def check_badsegment(seglist,chname,plot=True,nproc=2,stype='',trend='full'):
     '''
 
     '''
-    print('Check bad segments')
+    log.debug('Checking bad segments')
 
     if not trend=='full':
         chname = [ch+'.'+stype for ch in chname]
-
-    nodata = False
-    baddata = False
-    lack_of_data = False
-    bad = SegmentList()
-    for i,segment in enumerate(segmentlist):
-        start,end = segment        
-        fname = gwf_fmt.format(trend,stype,start,end)
-        try:
-            data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
-            dame = True in [ 1000.0 < d.mean() for d in data.values()]
-            lack_of_data = True in [0.0 in d.value for d in data.values()]
-            bigeq = True in [0.1 < d.diff().abs().max().value for d in data.values()]
-            baddata = lack_of_data or bigeq or dame
-            if baddata:
-                bad.append(segment)
-        except IOError as e:
-            bad.append(segment)
-            nodata = True
-        except:
-            print traceback.format_exc()
-            baddata = True
-            nodata = True
-            raise ValueError('!!!')
         
-        fname_img = img_ts_fmt.format(trend,stype,start,end)
-        if plot and not os.path.exists(fname_img) and not nodata:
-            label = [d.replace('_','\_') for d in data]
-            _plot = data.plot(ylabel='Velocity [um/sec]',epoch=start,
-                             ylim=(0,1),title='BLRMS\_100M\_300M')
-            ax = _plot.gca()
-            ax.plot(data.values()[0].diff().abs(),'k--')
-            ax.plot(data.values()[1].diff().abs(),'r--')
-            ax.plot(data.values()[2].diff().abs(),'b--')
-            ax.legend(label + ['X Diffs','Y Diffs','Z Diffs'])
-            if baddata:
-                ax.axvspan(start, end, alpha=0.5, color='red')
-            _plot.savefig(fname_img)
-            _plot.close()
-            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,nodata,bigeq,dame
+    status = {2:'no_data',
+              4:'lack_of_data',
+              8:'miss_calib',
+              16:'big_eq'}
+
+    bad = SegmentList()
+    for i,segment in enumerate(seglist):
+        data,bad_status = _check_badsegment(segment,trend='full',stype='')
+        if bad_status:
+            bad.append(segment)
+        start,end = segment        
+        fname_img = img_ts_fmt.format(trend,stype,start,end)        
+        if plot and not os.path.exists(fname_img):
+            plot_timeseries(data,start,end,bad_status,fname_img)
+            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img))
+
     # 
     new = SegmentList()    
-    for segment in segmentlist:
+    for segment in seglist:
         flag = 0
         for _bad in bad:
             if segment != _bad:
                 flag += 1
             else:
                 break
-        print flag,len(bad)
         if flag==len(bad):
             new.append(segment)
     return new,bad
@@ -201,7 +238,7 @@ def plot_asd(segment,data,fname_img,fname_hdf5,**kwargs):
         sg = d.spectrogram2(fftlength=100, overlap=50,nproc=nproc) ** (1/2.)
         asd = sg.percentile(50)        
         _fname_hdf5 = fname_hdf5.format(axis=axis[i])
-        print ' -: ',_fname_hdf5,'Save'
+        log.debug(' -: {0} '.format(_fname_hdf5)+'Save')
         sg.write(_fname_hdf5,format='hdf5',overwrite=True)
         ax.loglog(asd,label=d.name.replace('_','\_'))
     ax.legend(loc='lower left')
@@ -212,32 +249,36 @@ def plot_asd(segment,data,fname_img,fname_hdf5,**kwargs):
     plt.close()
 
 
-def save_spectrogram(segmentlist,chname,plot=True,nproc=2,write=True,nodata=False,trend='full',stype=''):
-    '''
+def save_spectrogram(seglist,chname,plot=True,nproc=2,write=True,nodata=False,trend='full',stype=''):
     '''
     
-
-    print('Save spectrograms ')
+    '''    
+    log.debug('Save spectrograms ')
     bad = SegmentList()
     chname = [ch.split(',')[0] for ch in chname]
-    for i,segment in enumerate(segmentlist):
+    for i,segment in enumerate(seglist):
         start,end = segment        
         fname = gwf_fmt.format(trend,stype,start,end)
         try:
+            log.debug(fname)
             data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
-        except:            
+            data = data.crop(start,end)
+            # DEBUG: Returning FrameH::Subset: 0 for frame at offset:
+            # 0 with 0 type elements with 0 user elements with 0 detectSim lements with 0
+            # detectProc elements with 1 history elements with 0 auxData elements with 0 auxTable elements
+        except:
             nodata = True
-        label = [d.replace('_','\_') for d in data]        
+        label = [d.replace('_','\_') for d in data]
         fname_img = img_fmt.format(start,end)
         fname_hdf5 = sg_fmt.format(axis='{axis}',s=start,e=end)
         if os.path.exists(fname_img):
-            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,'Exist'
+            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img)+'Exist')
         elif not nodata and plot:
             kwargs={'nproc':nproc}
             plot_asd(segment,data,fname_img,fname_hdf5,**kwargs)
-            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,'Plot'
+            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img)+'Plot')
         elif nodata:
-            print '{0:03d}/{1:03d}'.format(i,len(segmentlist)),fname_img,'No Data'
+            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img)+'No Data')
         else:
             raise ValueError('!')
 
@@ -245,11 +286,11 @@ def save_spectrogram(segmentlist,chname,plot=True,nproc=2,write=True,nodata=Fals
 def plot_averaged_asd(specgrams):
     '''
     '''
-    fig ,ax = plt.subplots(1,1)
+    fig ,ax = plt.subplots(1,1,figsize=(7,7))
     median = specgrams.percentile(50)
     low = specgrams.percentile(5)
     high = specgrams.percentile(95)
-    ax.plot_mmm(median, low, high, color='gwpy:ligo-hanford')    
+    ax.plot_mmm(median, low, high, color='black')    
     ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_ylim(5e-5,2)
@@ -257,24 +298,33 @@ def plot_averaged_asd(specgrams):
     ax.set_xlabel('Frequency [Hz]')
     fname_hdf5 = './data/ASD_LongTerm_{0}.hdf5'.format(axis)
     plt.savefig('./data/img_ASD_LongTerm_{0}.png'.format(axis))
-    print ('Plot ./data/img_ASD_LongTerm_{0}.png'.format(axis))
+    log.debug('Plot ./data/img_ASD_LongTerm_{0}.png'.format(axis))
     specgrams.write(fname_hdf5,format='hdf5',overwrite=True)
     plt.close()
 
 
-def plot_segmentlist(segmentlist):
+def plot_segmentlist(random,bad,good,start,end):
     '''
-    '''
-    pass
+    '''    
+    good = DataQualityFlag(name='Good',active=good,known=[(start,end)])
+    bad = DataQualityFlag(name='Bad',active=bad,known=[(start,end)])
+    random = DataQualityFlag(name='Random',active=random,known=[(start,end)])
+    plot = good.plot(figsize=(15,5),epoch=start)
+    ax = plot.gca()
+    ax.plot(bad)
+    ax.plot(random)
+    plt.savefig('./data/segment.png')
+    exit()
+
             
 if __name__ == "__main__":
     import warnings
     warnings.filterwarnings('ignore')
-
+    
     # ----------------------------------------    
     # Setting
     # ----------------------------------------    
-    segnum = 2
+    segnum = 300
     seed = 3434
     start = int(tconvert("Feb 01 2019 00:00:00 JST"))
     end = int(tconvert("Jun 24 2019 00:00:00 JST"))
@@ -283,28 +333,30 @@ if __name__ == "__main__":
               'K1:PEM-SEIS_EXV_GND_Z_OUT16']
     nproc = 10
     trend = 'full'
+
     # ----------------------------------------    
-    print('1. Save all time-series data in local directory.')
+    log.info('Saving all time-series as gwf')
     # ----------------------------------------
     random = random_segments(start,end,tlen=3600,n=segnum,seed=seed)
     save_timeseriesdict(random,chname,nds=False,trend='full',nproc=nproc)
     random.write('random.txt')
 
     # ----------------------------------------    
-    print('2. Check whether earthquake or lacking of data happen in the given segment.')
+    log.info('Checking bad segments')
     # ----------------------------------------    
     good,bad = check_badsegment(random,chname,trend='full',nproc=nproc)
     good.write('good.txt')
     bad.write('bad.txt')
-    plot_segmentlist(good)
+    log.debug('{0} - {1} = {2}'.format(len(random),len(bad),len(good)))
+    plot_segmentlist(random,bad,good,start,end)
 
     # ----------------------------------------    
-    print('3. Save spectrograms with all timeseries data in local directory')
+    log.info('Saving spectrogram data as hdf5')
     # ----------------------------------------        
-    save_spectrogram(noeq,chname,nproc=nproc)
+    save_spectrogram(good,chname,nproc=nproc)
 
     # ----------------------------------------    
-    print('4. Calculate ASD avelaged with all spectrogram segments')
+    log.info('Calculate averaged ASD')
     # ----------------------------------------            
     axis = 'X'
     fname = filter(lambda x: "sg_{0}".format(axis) in x, os.listdir('./data'))
@@ -312,5 +364,4 @@ if __name__ == "__main__":
     specgrams = Spectrogram.read(fname[0],format='hdf5')
     for fname in fname[1:]:
         specgrams.append(Spectrogram.read(fname,format='hdf5'),gap='ignore')        
-    plot_averaged_asd(specgrams)
-    
+    plot_averaged_asd(specgrams)    
