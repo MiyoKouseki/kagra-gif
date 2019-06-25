@@ -358,7 +358,7 @@ if __name__ == "__main__":
     # ----------------------------------------    
     log.info('Calculate averaged ASD')
     # ----------------------------------------            
-    axis = 'X'
+    axis = 'Z'
     fname = filter(lambda x: "sg_{0}".format(axis) in x, os.listdir('./data'))
     fname = map(lambda x:'./data/'+x,fname)
     specgrams = Spectrogram.read(fname[0],format='hdf5')
