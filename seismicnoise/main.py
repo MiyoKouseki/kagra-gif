@@ -20,12 +20,49 @@ from gwpy.spectrogram import Spectrogram
 from Kozapy.utils import filelist
 import logger
 log = logger.Logger('main')
-
-
 gwf_fmt = './data/{0}_{1}_{2}_{3}.gwf'
 img_fmt = './data/img_ASD_{0}_{1}.png'
 img_ts_fmt = './data/img_TS_{0}_{1}_{2}_{3}.png'
 sg_fmt = './data/sg_{axis}_{s}_{e}.hdf5'
+
+__author__ = 'Koseki Miyo'
+
+''' Seismic Noise
+
+This module can do this;
+ * 
+
+
+'''
+
+
+
+def check_chname(start,end):
+    '''
+    '''
+    #K1:PEM-EX1_SEIS_WE_SENSINF_IN1_DQ : 1203897618 - 1216771218 , 2018-03-01T00:00:00 - 2018-07-28T00:00:00
+    #K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ : 1216857618 - 1227139218 , 2018-07-29T00:00:00 - 2018-11-25T00:00:00 
+    #K1:PEM-EXV_GND_TR120Q_X_IN1_DQ    : 1227571218 - 1232668818 , 2018-11-30T00:00:00 - 2019-01-28T00:00:00  
+    #K1:PEM-SEIS_EXV_GND_X_IN1_DQ      : 1232668818 - <>         , 2019-01-28T00:00:00 - <>
+    if start > 1232668818:
+        chname = ['K1:PEM-SEIS_EXV_GND_EW_IN1_DQ',
+                  'K1:PEM-SEIS_EXV_GND_NS_IN1_DQ',
+                  'K1:PEM-SEIS_EXV_GND_UD_IN1_DQ']
+    elif 1227571218 < start and start < 1232668818:
+        chname = ['K1:PEM-EXV_GND_TR120Q_X_IN1_DQ',
+                  'K1:PEM-EXV_GND_TR120Q_Y_IN1_DQ',
+                  'K1:PEM-EXV_GND_TR120Q_Z_IN1_DQ']
+    elif 1216857618 < start and start < 1227139218:
+        chname = ['K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ',
+                  'K1:PEM-EXV_SEIS_NS_SENSINF_IN1_DQ',
+                  'K1:PEM-EXV_SEIS_Z_SENSINF_IN1_DQ']
+    elif 1203897618 < start and start < 1227571218:
+        chname = ['K1:PEM-EX1_SEIS_WE_SENSINF_IN1_DQ',
+                  'K1:PEM-EX1_SEIS_NS_SENSINF_IN1_DQ',
+                  'K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ']
+    else:
+        chname = None
+    return chname
 
 def fw_segments(fw_name='fw0',scp=False):
     ''' Return the segment list when the frame writer could write data.
@@ -88,45 +125,57 @@ def random_segments(start,end,tlen=3600,n=200,seed=3434):
     segmentlist = SegmentList(map(Segment,zip(_start,_end)))
     return segmentlist
 
-def read_and_write_timeseries(sources,chname,start,end,fname,**kwargs):
+def read_and_write_timeseries(sources,start,end,fname,**kwargs):
     '''
     '''
+    chname = check_chname(start,end)
     nds = kwargs.pop('nds',True)
     try:
         if nds:
-            data = TimeSeriesDict.fetch(chname,host='10.68.10.122',
-                                        port=8088,verbose=False,pad=0.0)            
+            data = TimeSeriesDict.fetch(chname,host='10.68.10.122',port=8088,verbose=False,pad=0.0)            
         else:
             data = TimeSeriesDict.read(sources,chname,**kwargs)
+        data = data.resample(32)
         data = data.crop(start,end)
         assert None not in [d.name for d in data.values()], 'not exit!'
         data.write(fname,format='gwf.lalframe')
         ok = True
     except ValueError as e:       
+        log.debug(traceback.format_exc())
         ok = False
-    except:       
-        print traceback.format_exc()
+    except RuntimeError as e:       
+        log.debug(traceback.format_exc())
+        log.debug(chname)
+        ok = False
+        #exit()
+    except TypeError as e:       
+        log.debug(traceback.format_exc())
+        log.debug(chname)
+        ok = False
+        #exit()
+    except:
+        log.debug(traceback.format_exc())
         raise ValueError('Unknown error. Please comfirm.')
     return ok
 
-def save_timeseriesdict(seglist,chname,nds=True,trend='minute',stype='rms',nproc=2):
+def save_timeseriesdict(seglist,nds=True,trend='full',stype='',nproc=2):
     ''' 
     
     '''
     log.debug('Save timeseriesdict..')
-
-    if not trend=='full':
-        chname = [ch+'.'+stype for ch in chname]
-    if trend=='full':
-        stype = ''
-
+    
     for i,segment in enumerate(seglist):
         start, end = segment
         sources = filelist(start,end,trend=trend,place='kashiwa')
         fname = gwf_fmt.format(trend,stype,start,end)
+        chname = check_chname(start,end)
+        if not trend=='full':
+            chname = [ch+'.'+stype for ch in chname]
+        if trend=='full':
+            stype = ''
         if not os.path.exists(fname):
             kwargs = {'format':'gwf.lalframe','nproc':nproc,'pad':0.0,'nds':nds}
-            ok = read_and_write_timeseries(sources,chname,start,end,fname,**kwargs)
+            ok = read_and_write_timeseries(sources,start,end,fname,**kwargs)
             if ok:
                 log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'Saving..')
             else:
@@ -144,6 +193,7 @@ def _check_badsegment(segment,trend='full',stype=''):
     '''
     start,end = segment        
     fname = gwf_fmt.format(trend,stype,start,end)
+    chname = check_chname(start,end)
     try:
         data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
         lack_of_data = any([0.0 in d.value for d in data.values()] )*4
@@ -153,6 +203,14 @@ def _check_badsegment(segment,trend='full',stype=''):
     except IOError as e:
         nodata = (True)*2
         return None, nodata
+    except ValueError as e:
+        if 'Cannot append discontiguous TimeSeries' in e.args[0]:
+            log.debug(e)
+            nodata = (True)*2
+            return None, nodata
+        else:
+            log.debug(traceback.format_exc())
+            raise ValueError('!!')
     except:
         log.debug(traceback.format_exc())
         raise ValueError('!!!')
@@ -190,14 +248,12 @@ def plot_timeseries(data,start,end,bad_status,fname_img):
     plt.close()
 
 
-def check_badsegment(seglist,chname,plot=True,nproc=2,stype='',trend='full'):
+def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full'):
     '''
 
     '''
     log.debug('Checking bad segments')
-
-    if not trend=='full':
-        chname = [ch+'.'+stype for ch in chname]
+    
         
     status = {2:'no_data',
               4:'lack_of_data',
@@ -210,7 +266,10 @@ def check_badsegment(seglist,chname,plot=True,nproc=2,stype='',trend='full'):
         if bad_status:
             bad.append(segment)
         start,end = segment        
-        fname_img = img_ts_fmt.format(trend,stype,start,end)        
+        fname_img = img_ts_fmt.format(trend,stype,start,end)
+        chname = check_chname(start,end)
+        if not trend=='full':
+            chname = [ch+'.'+stype for ch in chname]
         if plot and not os.path.exists(fname_img):
             plot_timeseries(data,start,end,bad_status,fname_img)
             log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img))
@@ -228,6 +287,7 @@ def check_badsegment(seglist,chname,plot=True,nproc=2,stype='',trend='full'):
             new.append(segment)
     return new,bad
 
+
 def plot_asd(segment,data,fname_img,fname_hdf5,**kwargs):
     '''
     '''
@@ -242,23 +302,23 @@ def plot_asd(segment,data,fname_img,fname_hdf5,**kwargs):
         sg.write(_fname_hdf5,format='hdf5',overwrite=True)
         ax.loglog(asd,label=d.name.replace('_','\_'))
     ax.legend(loc='lower left')
-    ax.set_ylim(5e-5,2)
+    ax.set_ylim(5e-3,50)
     ax.set_ylabel('Velocity [um/sec/rtHz]')
     ax.set_xlabel('Frequency [Hz]')
     plt.savefig(fname_img)
     plt.close()
 
 
-def save_spectrogram(seglist,chname,plot=True,nproc=2,write=True,nodata=False,trend='full',stype=''):
+def save_spectrogram(seglist,plot=True,nproc=2,write=True,nodata=False,trend='full',stype=''):
     '''
     
     '''    
     log.debug('Save spectrograms ')
     bad = SegmentList()
-    chname = [ch.split(',')[0] for ch in chname]
     for i,segment in enumerate(seglist):
         start,end = segment        
         fname = gwf_fmt.format(trend,stype,start,end)
+        chname = check_chname(start,end)
         try:
             log.debug(fname)
             data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
@@ -293,7 +353,7 @@ def plot_averaged_asd(specgrams):
     ax.plot_mmm(median, low, high, color='black')    
     ax.set_xscale('log')
     ax.set_yscale('log')
-    ax.set_ylim(5e-5,2)
+    ax.set_ylim(5e-3,50)
     ax.set_ylabel('Velocity [um/sec/rtHz]')
     ax.set_xlabel('Frequency [Hz]')
     fname_hdf5 = './data/ASD_LongTerm_{0}.hdf5'.format(axis)
@@ -314,8 +374,28 @@ def plot_segmentlist(random,bad,good,start,end):
     ax.plot(bad)
     ax.plot(random)
     plt.savefig('./data/segment.png')
-    exit()
+    #exit()
 
+
+def allsegmentlist(start,end,tlen=2**12):
+    '''
+    
+    Parameters
+    ----------
+    start : `int`
+        GPS start time of designated 
+    end : `int`
+    
+    '''
+    seglist = SegmentList()
+    i = 0
+    while True:
+        if start+(i+1)*tlen >= end:
+            break
+        else:
+            seglist.append(Segment(start+i*tlen,start+(i+1)*tlen))
+            i += 1
+    return seglist
             
 if __name__ == "__main__":
     import warnings
@@ -324,37 +404,37 @@ if __name__ == "__main__":
     # ----------------------------------------    
     # Setting
     # ----------------------------------------    
-    segnum = 300
+    segnum = 5
     seed = 3434
-    start = int(tconvert("Feb 01 2019 00:00:00 JST"))
-    end = int(tconvert("Jun 24 2019 00:00:00 JST"))
-    chname = ['K1:PEM-SEIS_EXV_GND_X_OUT16',
-              'K1:PEM-SEIS_EXV_GND_Y_OUT16',
-              'K1:PEM-SEIS_EXV_GND_Z_OUT16']
-    nproc = 10
+    start = int(tconvert("Jun 01 2018 00:00:00 JST"))
+    end = int(tconvert("Jun 02 2018 00:00:00 JST"))
+    nproc = 16
     trend = 'full'
 
     # ----------------------------------------    
     log.info('Saving all time-series as gwf')
     # ----------------------------------------
-    random = random_segments(start,end,tlen=3600,n=segnum,seed=seed)
-    save_timeseriesdict(random,chname,nds=False,trend='full',nproc=nproc)
-    random.write('random.txt')
-
+    #random = random_segments(start,end,tlen=3600,n=segnum,seed=seed)
+    #random.write('random.txt')
+    #base = random
+    base = allsegmentlist(start,end)
+    base.write('base.txt')
+    save_timeseriesdict(base,nds=False,trend='full',nproc=nproc)
+    
     # ----------------------------------------    
     log.info('Checking bad segments')
     # ----------------------------------------    
-    good,bad = check_badsegment(random,chname,trend='full',nproc=nproc)
+    good,bad = check_badsegment(base,trend='full',nproc=nproc)
     good.write('good.txt')
     bad.write('bad.txt')
-    log.debug('{0} - {1} = {2}'.format(len(random),len(bad),len(good)))
-    plot_segmentlist(random,bad,good,start,end)
-
+    log.debug('{0} - {1} = {2}'.format(len(base),len(bad),len(good)))
+    plot_segmentlist(base,bad,good,start,end)
+    
     # ----------------------------------------    
     log.info('Saving spectrogram data as hdf5')
     # ----------------------------------------        
-    save_spectrogram(good,chname,nproc=nproc)
-
+    save_spectrogram(good,nproc=nproc)
+    
     # ----------------------------------------    
     log.info('Calculate averaged ASD')
     # ----------------------------------------            
