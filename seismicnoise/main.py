@@ -407,7 +407,7 @@ if __name__ == "__main__":
     segnum = 5
     seed = 3434
     start = int(tconvert("Jun 01 2018 00:00:00 JST"))
-    end = int(tconvert("Jun 02 2018 00:00:00 JST"))
+    end = int(tconvert("Jun 02 2019 00:00:00 JST"))
     nproc = 16
     trend = 'full'
 
@@ -438,7 +438,7 @@ if __name__ == "__main__":
     # ----------------------------------------    
     log.info('Calculate averaged ASD')
     # ----------------------------------------            
-    axis = 'Z'
+    axis = 'X'
     fname = filter(lambda x: "sg_{0}".format(axis) in x, os.listdir('./data'))
     fname = map(lambda x:'./data/'+x,fname)
     specgrams = Spectrogram.read(fname[0],format='hdf5')
