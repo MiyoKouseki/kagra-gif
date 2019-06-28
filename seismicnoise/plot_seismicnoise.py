@@ -1,58 +1,57 @@
+import numpy as np
 import matplotlib.pyplot as plt
 from gwpy.frequencyseries import FrequencySeries
 from gwpy.spectrogram import Spectrogram
 from miyopy.utils.trillium import Trillium
 from obspy.signal.spectral_estimation import get_nhnm, get_nlnm
+from gwpy.types.array2d import Array2D
 
+
+tr120 = Trillium('120QA')
+v2vel = tr120.v2vel    
+    
 lt, ldb = get_nlnm()
 ht, hdb = get_nhnm()
 lfreq, lacc = 1./lt, 10**(ldb/20)*1e6
 hfreq, hacc = 1./ht, 10**(hdb/20)*1e6
-lfreq, lvel = lfreq, lacc/lfreq
-hfreq, hvel = hfreq, hacc/hfreq
+lfreq, lvel = lfreq, lacc/(2.0*np.pi*lfreq)
+hfreq, hvel = hfreq, hacc/(2.0*np.pi*hfreq)
+lfreq, ldisp = lfreq, lvel/(2.0*np.pi*lfreq)
+hfreq, hdisp = hfreq, hvel/(2.0*np.pi*hfreq)
 
-x = Spectrogram.read('./data/ASD_LongTerm_X.hdf5')
-y = Spectrogram.read('./data/ASD_LongTerm_Y.hdf5')
-z = Spectrogram.read('./data/ASD_LongTerm_Z.hdf5')
+def percentile(sg_in1,pctl,unit='um'):    
+    amp = 10**(30.0/20.0)
+    c2v = 20.0/2**15    
+    _asd = v2vel(sg_in1.percentile(pctl))*c2v/amp*1e6
+    asd = _asd/(2.0*np.pi*_asd.frequencies.value)
+    return asd
 
-
-tr120 = Trillium('120QA')
-v2vel = tr120.v2vel
-
-x_median = v2vel(x.percentile(50))*1202.5
-x_low = v2vel(x.percentile(5))*1202.5
-x_high = v2vel(x.percentile(95))*1202.5
-
-y_median = v2vel(y.percentile(50))*1202.5
-y_low = v2vel(y.percentile(5))*1202.5
-y_high = v2vel(y.percentile(95))*1202.5
-
-h_median = (x_median**2 + y_median**2)**(1./2)
-h_low = (x_low**2 + y_low**2)**(1./2)
-h_high = (x_high**2 + y_high**2)**(1./2)
-
-v_median = v2vel(z.percentile(50))*1202.5
-v_low = v2vel(z.percentile(5))*1202.5
-v_high = v2vel(z.percentile(95))*1202.5
-
-median = (h_median**2 + v_median**2)**(1./2)
-low = (h_low**2 + v_low**2)**(1./2)
-high = (h_high**2 + v_high**2)**(1./2)
-
-
+if False:
+    print('Read spectrogram')
+    x = Spectrogram.read('./data2/SG_LongTerm_X.hdf5')
+    y = Spectrogram.read('./data2/SG_LongTerm_Y.hdf5')
+    z = Spectrogram.read('./data2/SG_LongTerm_Z.hdf5')
+    h = (x**2+y**2)**(0.5)
+else:
+    h = Spectrogram.read('./data2/SG_LongTerm_H.hdf5',format='hdf5')
+    #exit()
+    
 fig, ax = plt.subplots(1,1,figsize=(9,7))
-#ax.plot_mmm(h_median,h_low,h_high,label='Horizontal')
-#ax.plot_mmm(v_median,v_low,v_high,label='Vertical')
-ax.plot_mmm(median,low,high,label='KAGRA')
-ax.loglog(lfreq,lvel,'k--',label='NLNM')
-ax.loglog(hfreq,hvel,'k--',label='NHNM')
+ax.plot_mmm(percentile(h,50),percentile(h,10),percentile(h,90))
+ax.loglog(lfreq,ldisp,'k--')
+ax.loglog(hfreq,hdisp,'k--',label='Peterson Low and High Noise Models')
 ax.set_xscale('log')
 ax.set_yscale('log')
 ax.set_xlabel('Frequency [Hz]')
-ax.set_ylabel('Velocity [um/sec/rtHz]')
+ax.set_ylabel('Displacement [um/rtHz]')
 ax.set_xlim(1e-2,8)
-ax.set_ylim(1e-4,100)
-ax.legend(fontsize=15)
-plt.suptitle('Seismic noise of KAGRA',fontsize=30)
-plt.savefig('hoge.png')
+ax.set_ylim(5e-6,20)
+ax.legend(fontsize=15,loc='lower left')
+import matplotlib.patches as patches
+r1 = patches.Rectangle(xy=(0.03, 0.01), width=0.07, height=10, ec='#000000', fill=False)
+r2 = patches.Rectangle(xy=(0.10, 0.01), width=0.2, height=10, ec='#000000', fill=False)
+ax.add_patch(r1)
+ax.add_patch(r2)
+plt.suptitle('Seismic noise of KAGRA',fontsize=40)
+plt.savefig('seismicnoise.png')
 plt.close()

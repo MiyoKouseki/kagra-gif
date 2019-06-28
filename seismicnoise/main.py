@@ -407,7 +407,7 @@ if __name__ == "__main__":
     segnum = 5
     seed = 3434
     start = int(tconvert("Jun 01 2018 00:00:00 JST"))
-    end = int(tconvert("Jun 02 2019 00:00:00 JST"))
+    end = int(tconvert("Jun 02 2018 00:00:00 JST"))
     nproc = 16
     trend = 'full'
 
@@ -419,7 +419,7 @@ if __name__ == "__main__":
     #base = random
     base = allsegmentlist(start,end)
     base.write('base.txt')
-    save_timeseriesdict(base,nds=False,trend='full',nproc=nproc)
+    #save_timeseriesdict(base,nds=False,trend='full',nproc=nproc)
     
     # ----------------------------------------    
     log.info('Checking bad segments')
@@ -438,7 +438,7 @@ if __name__ == "__main__":
     # ----------------------------------------    
     log.info('Calculate averaged ASD')
     # ----------------------------------------            
-    axis = 'X'
+    axis = 'Z'
     fname = filter(lambda x: "sg_{0}".format(axis) in x, os.listdir('./data'))
     fname = map(lambda x:'./data/'+x,fname)
     specgrams = Spectrogram.read(fname[0],format='hdf5')
