@@ -19,36 +19,6 @@ lfreq, ldisp = lfreq, lvel/(2.0*np.pi*lfreq)
 hfreq, hdisp = hfreq, hvel/(2.0*np.pi*hfreq)
 
 
-def percentile(sg_in1,pctl,unit='um'):    
-    amp = 10**(30.0/20.0)
-    c2v = 20.0/2**15    
-    _asd = v2vel(sg_in1.percentile(pctl))*c2v/amp*1e6
-    asd = _asd/(2.0*np.pi*_asd.frequencies.value)
-    return asd
-
-if False:
-    print('Read spectrogram')
-    x = Spectrogram.read('./data2/SG_LongTerm_X.hdf5')
-    y = Spectrogram.read('./data2/SG_LongTerm_Y.hdf5')
-    z = Spectrogram.read('./data2/SG_LongTerm_Z.hdf5')
-    h = (x**2+y**2)**(0.5)
-    h.name = 'Horizontal'
-    h.channel = 'Horizontal'
-    h.write('./data2/SG_LongTerm_H.hdf5',format='hdf5',overwrite=True)
-else:
-    h = Spectrogram.read('./data2/SG_LongTerm_H.hdf5',format='hdf5')
-
-
-if True:
-    h = h.ratio('median')    
-    #h = h.crop_frequencies(0.1,0.2)
-    plot = h.plot(norm='log', vmin=.1, vmax=10, cmap='Spectral_r',epoch=h.t0)
-    ax = plot.gca()
-    ax.set_yscale('log')
-    ax.set_ylim(1e-2, 10)
-    ax.colorbar(label='Relative amplitude')
-    plot.savefig('spectrogram.png')
-
 def plot_band_histgram(sg,low,high,scale=0.9,loc=0):    
     useism_band = sg.crop_frequencies(low,high).mean(axis=1) # um/rtHz
     fig, ax = plt.subplots(1,1,figsize=(7,7))
@@ -75,8 +45,40 @@ def plot_band_histgram(sg,low,high,scale=0.9,loc=0):
     ax2.axhline(y=0.10, color='k', linestyle=':')
     ax2.axhline(y=0.50, color='k', linestyle=':')
     ax2.axhline(y=0.90, color='k', linestyle=':')
-    plt.savefig('histgram_{0:02.2f}_{1:02.2f}.png'.format(low,high))
+    plt.savefig('./tmp/histgram_{0:02.2f}_{1:02.2f}.png'.format(low,high))
 
+
+def percentile(sg_in1,pctl,unit='um'):    
+    amp = 10**(30.0/20.0)
+    c2v = 20.0/2**15    
+    _asd = v2vel(sg_in1.percentile(pctl))*c2v/amp*1e6
+    asd = _asd/(2.0*np.pi*_asd.frequencies.value)
+    return asd
+
+if False:
+    print('Read spectrogram')
+    x = Spectrogram.read('./tmp/SG_LongTerm_X.hdf5')
+    y = Spectrogram.read('./tmp/SG_LongTerm_Y.hdf5')
+    z = Spectrogram.read('./tmp/SG_LongTerm_Z.hdf5')
+    h = (x**2+y**2)**(0.5)
+    h.name = 'Horizontal'
+    h.channel = 'Horizontal'
+    h.write('./tmp/SG_LongTerm_H.hdf5',format='hdf5',overwrite=True)
+else:
+    h = Spectrogram.read('./tmp/SG_LongTerm_H.hdf5',format='hdf5')
+
+
+if True:
+    h = h.ratio('median')    
+    #h = h.crop_frequencies(0.1,0.2)
+    plot = h.plot(norm='log', vmin=.1, vmax=10, cmap='Spectral_r',epoch=h.t0)
+    ax = plot.gca()
+    ax.set_yscale('log')
+    ax.set_ylim(1e-2, 10)
+    ax.colorbar(label='Relative amplitude')
+    plot.savefig('./tmp/spectrogram.png')
+
+    
 if True:
     low,high = 0.10,0.30
     plot_band_histgram(h,low,high,scale=0.85,loc=0.1)
