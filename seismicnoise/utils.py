@@ -51,7 +51,7 @@ def get_seis_chname(start,end,place='EXV'):
 
 
 
-def random_segments(start,end,tlen=2**12,n=200,seed=3434):
+def random_segments(start,end,tlen=2**12,nseg=10,seed=3434,**kwargs):
     ''' Return segment list randomly in term you designated
     
         
@@ -61,7 +61,7 @@ def random_segments(start,end,tlen=2**12,n=200,seed=3434):
         Start time 
     end : `float`
         End time
-    n : `int`, optional
+    nseg : `int`, optional
         The number of segments
     seed : `int`, optional
         Seed. 3434 is a default value.
@@ -76,91 +76,127 @@ def random_segments(start,end,tlen=2**12,n=200,seed=3434):
         SegmentList.
     '''
     from numpy.random import randint
+
+    write = kwargs['write']
+
     np.random.seed(seed=seed)
     ini = range(start,end,tlen)
-    #log.debug(int)
-    #log.debug(randint(0,len(ini)))
-    _start = np.array([ ini[randint(0,len(ini))] for i in range(0,n)])
-    #log.debug(_start)
+    _start = np.array([ ini[randint(0,len(ini))] for i in range(0,nseg)])
     _end = _start + tlen
     segmentlist = SegmentList(map(Segment,zip(_start,_end)))
+
+    if write:
+        segmentlist.write('./segmentlist/base.txt')
+
     return segmentlist
 
-def read_and_write_timeseries(sources,start,end,fname,**kwargs):
+def _check_nodata(sources,chname,start,end,sample_freq=32,**kwargs):
     '''
-    '''
-    chname = get_seis_chname(start,end)
-    nds = kwargs.pop('nds',True)
+
+    Parameters
+    ----------
+    sources : list of str
+        Path to sources. 
+    chname :  list of str
+        Channel names. It's passed to 
+    start : int
+    end : int
+    sample_freq : int
+    
+    '''    
+    write_gwf = kwargs.pop('write_gwf',False)
+    prefix = kwargs.pop('prefix','./tmp')
     try:
-        if nds:
-            data = TimeSeriesDict.fetch(chname,host='10.68.10.122',port=8088,verbose=False,pad=0.0)            
-        else:
-            data = TimeSeriesDict.read(sources,chname,**kwargs)
-        data = data.resample(32)
+        data = TimeSeriesDict.read(sources,chname,**kwargs)
+        data = data.resample(sample_freq)
         data = data.crop(start,end)
         assert None not in [d.name for d in data.values()], 'not exit!'
-        data.write(fname,format='gwf.lalframe')
-        ok = True
-    except ValueError as e:       
-        #log.debug(traceback.format_exc())
-        ok = False
-    except RuntimeError as e:       
-        #log.debug(traceback.format_exc())
-        #log.debug(chname)
-        ok = False
-        #exit()
-    except TypeError as e:       
+    except ValueError as e:
         log.debug(traceback.format_exc())
-        #log.debug(chname)
-        ok = False
-        #exit()
+        return 'No Data (Channel not found)'
+    except RuntimeError as e:       
+        log.debug(traceback.format_exc())
+        return 'No Data (RunTimeError)'
+    except IndexError as e:
+        log.debug(traceback.format_exc())
+        return 'No Data (Missing frame files)'
     except:
         log.debug(traceback.format_exc())
         raise ValueError('Unknown error. Please comfirm.')
-    return ok
+    
+    if write_gwf:
+        fname = gwf_fname(start,end,prefix)
+        data.write(fname,format='gwf.lalframe')
+        return 'OK. Now Writting..'
+    return 'OK. Exists.'
 
-def save_timeseriesdict(seglist,nds=True,trend='full',stype='',nproc=2,prefix='./data'):
+def gwf_fname(start,end,prefix):
+    return gwf_fmt.format(prefix=prefix,start=start,end=end)
+
+def img_ts_fname(start,end,prefix):
+    return img_ts_fmt.format(prefix=prefix,start=start,end=end)
+
+
+def diff(seglist,nodata):
+    new = SegmentList()
+    for segment in seglist:
+        flag = 0
+        for _nodata in nodata:
+            if segment != _nodata:
+                flag += 1
+            else:
+                break
+        if flag==len(nodata):
+            new.append(segment)
+    return new
+
+def check_nodata(segmentlist,**kwargs):
     ''' 
     
     '''
     log.debug('Save timeseriesdict..')
     from Kozapy.utils import filelist
+    skip = kwargs.pop('skip',False)
+    check = kwargs.pop('check',True)
+    write = kwargs.pop('write',True)
+    prefix = kwargs.pop('prefix','./data')
+    fnames = [gwf_fname(start,end,prefix) for start,end in segmentlist]
+    exists = [os.path.exists(fname) for fname in fnames]
 
-    bad = SegmentList()
-    for i,segment in enumerate(seglist):
-        start, end = segment
-        sources = filelist(start,end,trend=trend,place='kashiwa')
-        fname = gwf_fmt.format(prefix=prefix,start=start,end=end)
-        chname = get_seis_chname(start,end)
-        if not trend=='full':
-            chname = [ch+'.'+stype for ch in chname]
-        if trend=='full':
-            stype = ''
-        if not os.path.exists(fname):
-            kwargs = {'format':'gwf.lalframe','nproc':nproc,'pad':0.0,'nds':nds}
-            ok = read_and_write_timeseries(sources,start,end,fname,**kwargs)
-            if ok:
-                log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'Saving..')
-            else:
-                bad.append(segment)
-                log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'No Data')
+    checked = [segmentlist[i] for i,exist in enumerate(exists) if exist]
+    log.debug('{0}(/{1}) segments are existed.'.format(len(checked),len(segmentlist)))
+    if len(checked)==len(segmentlist):
+        log.debug('Then, all segments are existed.')
+        return segmentlist,nodata
+
+    not_checked = [segmentlist[i] for i,exist in enumerate(exists) if not exist]
+    log.debug('{0}(/{1}) segments are not checked before'.format(len(not_checked),len(segmentlist)))
+    n = len(not_checked)
+    nodata = SegmentList()
+    for i,segment in enumerate(not_checked):
+        chname = get_seis_chname(segment[0],segment[1])
+        sources = filelist(segment[0],segment[1])        
+        if check:
+            ans = _check_nodata(sources,chname,segment[0],segment[1],**kwargs)
         else:
-            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname)+'File exist')
-    #
-    new = SegmentList()
-    for segment in seglist:
-        flag = 0
-        for _bad in bad:
-            if segment != _bad:
-                flag += 1
-            else:
-                break
-        if flag==len(bad):
-            new.append(segment)
-    return new,bad
+            ans = 'Skiped. No Data.'
+        log.debug('{0:03d}/{1:03d} {2} '.format(i+1,n,fname) + ans)
+        if 'No Data' in ans:
+            nodata.append(segment)
+
+    exist = diff(segmentlist,nodata)
+    if len(exist)==0:
+        log.debug('No data are existed...')
+        raise ValueError('No data Error.')
+    if write:
+        exist.write('./segmentlist/exist.txt')
+        nodata.write('./segmentlist/nodata.txt')
+
+    log.debug('{0} segments are existed'.format(len(exist)))
+    return exist,nodata
     
 
-def _check_badsegment(segment,trend='full',stype='',prefix='./data',nproc=2):
+def _check_badsegment(segment,trend='full',stype='',prefix='./data',nproc=2,**kwargs):
     '''
     1 bit : no data
     2 bit : lack of data
@@ -192,7 +228,7 @@ def _check_badsegment(segment,trend='full',stype='',prefix='./data',nproc=2):
         raise ValueError('!!!')
 
 
-def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./data'):
+def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./data',**kwargs):
     '''
 
     '''
@@ -204,10 +240,18 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
               8:'miss_calib',
               16:'big_eq'}
 
+    write = kwargs.pop('write',True)
+
+    prefix = kwargs.pop('prefix','./data')
+    fnames = [img_ts_fname(start,end,prefix) for start,end in seglist]
+    exists = [os.path.exists(fname) for fname in fnames]
+    checked = [seglist[i] for i,exist in enumerate(exists) if exist]
+    not_checked = [seglist[i] for i,exist in enumerate(exists) if not exist]
+    
     bad = SegmentList()
     eq = SegmentList()
     for i,segment in enumerate(seglist):
-        data,bad_status = _check_badsegment(segment,trend='full',stype='',nproc=2)
+        data,bad_status = _check_badsegment(segment,trend='full',stype='',nproc=2,**kwargs)
         if bad_status-16>=0:
             eq.append(segment)
         elif bad_status and not (bad_status-16>=0):
@@ -218,16 +262,12 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
             log.debug(bad_status)
             log.debug('!')
             raise ValueError('!')
-        start,end = segment        
+        start,end = segment
         fname_img = img_ts_fmt.format(prefix=prefix,start=start,end=end)
         log.debug('{0:03d}/{1:03d} {2} {3}'.format(i,len(seglist),fname_img,bad_status))
         chname = get_seis_chname(start,end)
-        if not trend=='full':
-            chname = [ch+'.'+stype for ch in chname]
         if plot and not os.path.exists(fname_img):
             plot_timeseries(data,start,end,bad_status,fname_img)
-
-
     # 
     new = SegmentList()    
     for segment in seglist:
@@ -250,22 +290,43 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
                 break
         if flag==len(eq):
             new.append(segment)
+    if write:
+        new.write('./segmentlist/good.txt')    
+        bad.write('./segmentlist/bad.txt')    
+        eq.write('./segmentlist/eq.txt')
     return new,bad,eq
 
-def save_longterm_spectrogram(axis,good,prefix='./data'):
+
+def read_segmentlist(prefix='./segmentlist'):
+    base = SegmentList.read('./segmentlist/base.txt')
+    nodata = SegmentList.read('./segmentlist/nodata.txt')
+    good = SegmentList.read('./segmentlist/good.txt')
+    bad = SegmentList.read('./segmentlist/bad.txt')
+    eq = SegmentList.read('./segmentlist/eq.txt')
+    fmt = '{0} \t - {1}\t - {2}\t - {3} \t= {4}'
+    log.debug(fmt.format('All','None','Lack','EQ','Good'))
+    log.debug(fmt.format(len(base),len(nodata),len(bad),len(eq),len(good)))
+    if not (len(base)-len(nodata)-len(bad)-len(eq)==len(good)):
+        log.debug('SegmentListError!')
+        raise ValueError('!')
+    return good,nodata,bad,eq
+
+
+def save_longterm_spectrogram(axis,good,prefix='./data',**kwargs):
     fname = [prefix+'/{0}_{1}_{2}.hdf5'.format(axis,start,end) for start,end in good]
     specgrams = Spectrogram.read(fname[0],format='hdf5')    
     for fname in fname[1:]:
         try:
             specgrams.append(Spectrogram.read(fname,format='hdf5'),gap='ignore')        
         except:
+            log.debug(traceback.format_exc())
             raise ValueError('AAAA')
     fname_hdf5 = prefix + '/SG_LongTerm_{0}.hdf5'.format(axis)
     specgrams.write(fname_hdf5,format='hdf5',overwrite=True)
     log.debug('Saved {0}'.format(fname_hdf5))
 
 
-def save_spectrogram(seglist,plot=True,nproc=2,write=True,nodata=False,trend='full',stype='',prefix='./data'):
+def save_spectrogram(seglist,plot=True,nproc=2,write=True,nodata=False,trend='full',stype='',prefix='./data',**kwargs):
     '''
     
     '''    
@@ -273,18 +334,16 @@ def save_spectrogram(seglist,plot=True,nproc=2,write=True,nodata=False,trend='fu
     bad = SegmentList()
     for i,segment in enumerate(seglist):
         start,end = segment        
-        #fname = gwf_fmt.format(start,end)
         fname = gwf_fmt.format(prefix=prefix,start=start,end=end)
         chname = get_seis_chname(start,end)
         try:
-            #log.debug(fname)
             data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
             data = data.crop(start,end)
-            # DEBUG: Returning FrameH::Subset: 0 for frame at offset:
-            # 0 with 0 type elements with 0 user elements with 0 detectSim lements with 0
-            # detectProc elements with 1 history elements with 0 auxData elements with 0 auxTable elements
         except:
+            log.debug(traceback.format_exc())
             nodata = True
+            raise ValueError('No such data {0}'.format(fname))
+
         label = [d.replace('_','\_') for d in data]
         fname_img = img_fmt.format(prefix=prefix,start=start,end=end)
         if os.path.exists(fname_img):
@@ -302,7 +361,7 @@ def save_spectrogram(seglist,plot=True,nproc=2,write=True,nodata=False,trend='fu
 
 
 
-def allsegmentlist(start,end,tlen=2**12):
+def allsegmentlist(start,end,tlen=2**12,**kwargs):
     '''
     
     Parameters
@@ -312,6 +371,7 @@ def allsegmentlist(start,end,tlen=2**12):
     end : `int`
     
     '''
+    write = kwargs['write']
     seglist = SegmentList()
     i = 0
     while True:
@@ -320,15 +380,21 @@ def allsegmentlist(start,end,tlen=2**12):
         else:
             seglist.append(Segment(start+i*tlen,start+(i+1)*tlen))
             i += 1
+    if write:
+        seglist.write('./segmentlist/base.txt')
+    
     return seglist
 
 
 def fw_segments(fw_name='fw0',scp=False):
     ''' Return the segment list when the frame writer could write data.
 
-    Information about when the fw0 write data is given by a text file named "fw0-latest.txt".  This text file is generated by a script written by T. Yamamoto. Then we can make a segment list by translating this file.
+    Information about when the fw0 write data is given by a text file 
+    named "fw0-latest.txt". This text file is generated by a script 
+    written by T. Yamamoto. Then we can make a segment list by 
+    translating this file.
 
-    "fw0-latest.txt" is saved on /users/DGS/Frame.
+    MEMO:"fw0-latest.txt" is saved on /users/DGS/Frame.
 
     Parameters
     ----------
