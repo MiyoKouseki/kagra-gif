@@ -1,6 +1,7 @@
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
+import traceback
 
 from gwpy.segments import DataQualityFlag
 
@@ -26,21 +27,22 @@ def plot_averaged_asd(specgrams,fname):
     plt.close()
 
 
-def plot_segmentlist(base,nodata,bad,eq,good,start,end,fname='./segment.png'):
+def plot_segmentlist(total,nodata,lackofdata,glitch,available,start,end,fname='./segment.png',**kwargs):
     '''
     '''    
-    good = DataQualityFlag(name='Good',active=good,known=[(start,end)])
+    available = DataQualityFlag(name='Available',active=available,known=[(start,end)])
     nodata = DataQualityFlag(name='No Frame Files',active=nodata,known=[(start,end)])
-    bad = DataQualityFlag(name='Lack of Data',active=bad,known=[(start,end)])
-    eq = DataQualityFlag(name='Glitches',active=eq,known=[(start,end)])
-    base = DataQualityFlag(name='All',active=base,known=[(start,end)])
-    plot = good.plot(figsize=(15,5),epoch=start)
+    lackofdata = DataQualityFlag(name='Lack of Data',active=lackofdata,known=[(start,end)])
+    glitch = DataQualityFlag(name='Glitche',active=glitch,known=[(start,end)])
+    total = DataQualityFlag(name='Total',active=total,known=[(start,end)])
+    plot = available.plot(figsize=(25,5),epoch=start,title='Available Segments')
     ax = plot.gca()
+    ax.plot(glitch)
+    ax.plot(lackofdata)
     ax.plot(nodata)
-    ax.plot(bad)
-    ax.plot(eq)
-    ax.plot(base)
+    ax.plot(total)
     ax.set_xscale('days')
+    fname = kwargs.pop('prefix','./data') + '/segment.png'
     plt.savefig(fname)
 
 
@@ -88,7 +90,12 @@ def plot_timeseries(data,start,end,bad_status,fname_img):
         main_ax.plot([start,end],[mean+std5,mean+std5],'k')
         main_ax.plot([start,end],[mean-std5,mean-std5],'k')
         x_hist = fig.add_subplot(grid[i,-1],sharey=main_ax)
-        x_hist.hist(d.value,bins=50,orientation=u'horizontal',histtype='step',)
+        try:
+            x_hist.hist(d.value,bins=50,orientation=u'horizontal',histtype='step')
+        except ValueError as e:
+            # Error in "5415/7457 ./data/TS_1234833538_1234837634.png 20"
+            #log.debug(traceback.format_exc())            
+            x_hist.axhspan(mean-std10, mean+std10, alpha=0.5, color='Yellow')
         main_ax.set_ylim(mean-std10,mean+std10)
         x_hist.set_ylim(mean-std10,mean+std10)
         if bad_status:
