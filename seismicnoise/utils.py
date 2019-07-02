@@ -15,10 +15,25 @@ from gwpy.spectrogram import Spectrogram
 
 from plot import plot_asd,plot_timeseries # kesu!
 
-gwf_fmt = '{prefix}/{start}_{end}.gwf'
-img_asd_fmt = '{prefix}/ASD_{start}_{end}.png'
-img_ts_fmt = '{prefix}/TS_{start}_{end}.png'
-sg_fmt = '{prefix}/{axis}_{start}_{end}.hdf5'
+
+fmt_gwf     = '{prefix}/{start}_{end}.gwf'
+fmt_png_asd = '{prefix}/ASD_{start}_{end}.png'
+fmt_png_ts  = '{prefix}/TS_{start}_{end}.png'
+fmt_hdf5_sg = '{prefix}/{axis}_{start}_{end}.hdf5'
+
+
+def fname_gwf(start,end,prefix):
+    return fmt_gwf.format(prefix=prefix,start=start,end=end)
+
+def fname_png_ts(start,end,prefix):
+    return fmt_png_ts.format(prefix=prefix,start=start,end=end)
+
+def fname_png_asd(start,end,prefix):
+    return fmt_png_asd.format(prefix=prefix,start=start,end=end)
+
+def fname_hdf5_sg(start,end,prefix,axis):
+    return fmt_hdf5_sg.format(axis=axis,prefix=prefix,start=start,end=end)
+
 
 
 def get_seis_chname(start,end,place='EXV'):
@@ -112,32 +127,24 @@ def _check_nodata(sources,chname,start,end,sample_freq=32,**kwargs):
         data = data.crop(start,end)
         assert None not in [d.name for d in data.values()], 'not exit!'
     except ValueError as e:
-        log.debug(traceback.format_exc())
-        return 'No Data (Channel not found)'
+        #log.debug(traceback.format_exc())
+        return 'No Data 01'
     except RuntimeError as e:       
-        log.debug(traceback.format_exc())
-        return 'No Data (RunTimeError)'
+        #log.debug(traceback.format_exc())
+        return 'No Data 02'
     except IndexError as e:
-        log.debug(traceback.format_exc())
-        return 'No Data (Missing frame files)'
+        #log.debug(traceback.format_exc())
+        return 'No Data 03'
     except:
         log.debug(traceback.format_exc())
         raise ValueError('Unknown error. Please comfirm.')
     
     if write_gwf:
-        fname = gwf_fname(start,end,prefix)
+        fname = fname_gwf(start,end,prefix)
         data.write(fname,format='gwf.lalframe')
         return 'OK. Now Writting..'
     return 'OK. Exists.'
 
-def gwf_fname(start,end,prefix):
-    return gwf_fmt.format(prefix=prefix,start=start,end=end)
-
-def img_ts_fname(start,end,prefix):
-    return img_ts_fmt.format(prefix=prefix,start=start,end=end)
-
-def img_asd_fname(start,end,prefix):
-    return img_asd_fmt.format(prefix=prefix,start=start,end=end)
 
 def diff(seglist,nodata):
     new = SegmentList()
@@ -163,7 +170,7 @@ def check_nodata(segmentlist,**kwargs):
     check = kwargs.pop('check',True)
     write = kwargs.pop('write',True)
     prefix = kwargs.pop('prefix','./data')
-    fnames = [gwf_fname(start,end,prefix) for start,end in segmentlist]
+    fnames = [fname_gwf(start,end,prefix) for start,end in segmentlist]
     exists = [os.path.exists(fname) for fname in fnames]
 
     # 
@@ -172,18 +179,16 @@ def check_nodata(segmentlist,**kwargs):
     if len(checked)==len(segmentlist):
         log.debug('Then, all segments are existed.')
         return segmentlist,nodata
-    #
+    # 
     not_checked = [segmentlist[i] for i,exist in enumerate(exists) if not exist]
+
     log.debug('{0}(/{1}) are not checked'.format(len(not_checked),len(segmentlist)))
     n = len(not_checked)
     nodata = SegmentList()
     for i,segment in enumerate(not_checked):
         chname = get_seis_chname(segment[0],segment[1])
         sources = filelist(segment[0],segment[1])        
-        if check:
-            ans = _check_nodata(sources,chname,segment[0],segment[1],**kwargs)
-        else:
-            ans = 'Skiped. No Data.'
+        ans = _check_nodata(sources,chname,segment[0],segment[1],**kwargs)
         log.debug('{0:03d}/{1:03d} {2} '.format(i+1,n,fname) + ans)
         if 'No Data' in ans:
             nodata.append(segment)
@@ -200,7 +205,7 @@ def check_nodata(segmentlist,**kwargs):
     return exist,nodata
     
 
-def _check_badsegment(segment,data=None,**kwargs):
+def _check_badsegment(segment,data=None,prefix='./data',**kwargs):
     ''' Check whether given segment is good or not.
     
     1. Read timeseriese data from frame file saved in local place. 
@@ -214,10 +219,10 @@ def _check_badsegment(segment,data=None,**kwargs):
     4 bit : big earthquake
     '''    
     start,end = segment
-    fname = gwf_fmt.format(prefix=prefix,start=start,end=end)
-    chname = get_seis_chname(start,end)
+    fname = fname_gwf(start,end,prefix)
+    chname = get_seis_chname(start,end)    
     try:
-        data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
+        data = TimeSeriesDict.read(fname,chname,verbose=False,**kwargs)
         lack_of_data = any([0.0 in d.value for d in data.values()] )*4
         miss_calib = any([ 1000.0 < d.mean() for d in data.values()])*8
         bigeq = any([any((d.std()*6)<(d-d.mean()).abs().value) for d in data.values()])*16
@@ -238,7 +243,7 @@ def _check_badsegment(segment,data=None,**kwargs):
         raise ValueError('!!!')
 
 
-def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./data',**kwargs):
+def check_badsegment(seglist,prefix='./data',**kwargs):
     '''
 
     '''
@@ -253,7 +258,7 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
     write = kwargs.pop('write',True)
 
     prefix = kwargs.pop('prefix','./data')
-    fnames = [img_ts_fname(start,end,prefix) for start,end in seglist]
+    fnames = [fname_png_ts(start,end,prefix) for start,end in seglist]
     exists = [os.path.exists(fname) for fname in fnames]
     checked = [seglist[i] for i,exist in enumerate(exists) if exist]
     not_checked = [seglist[i] for i,exist in enumerate(exists) if not exist]
@@ -261,7 +266,7 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
     bad = SegmentList()
     eq = SegmentList()
     for i,segment in enumerate(seglist):
-        data,bad_status = _check_badsegment(segment,trend='full',stype='',nproc=2,**kwargs)
+        data,bad_status = _check_badsegment(segment,**kwargs)
         if bad_status-16>=0:
             eq.append(segment)
         elif bad_status and not (bad_status-16>=0):
@@ -273,7 +278,7 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
             log.debug('!')
             raise ValueError('!')
         start,end = segment
-        fname_img = img_ts_fmt.format(prefix=prefix,start=start,end=end)
+        fname_img = fname_png_ts(start,end,prefix)
         log.debug('{0:03d}/{1:03d} {2} {3}'.format(i,len(seglist),fname_img,bad_status))
         chname = get_seis_chname(start,end)
         if plot and not os.path.exists(fname_img):
@@ -307,19 +312,23 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
     return new,bad,eq
 
 
-def read_segmentlist(prefix='./segmentlist'):
-    total = SegmentList.read('./segmentlist/total.txt')
-    nodata = SegmentList.read('./segmentlist/nodata.txt')
-    available = SegmentList.read('./segmentlist/available.txt')
-    lackofdata = SegmentList.read('./segmentlist/lackofdata.txt')
-    eq = SegmentList.read('./segmentlist/glitch.txt')
-    fmt = '{0} \t - {1}\t - {2}\t - {3} \t= {4}'
-    log.debug(fmt.format('All','None','Lack','Glitch','Available'))
-    log.debug(fmt.format(len(total),len(nodata),len(lackofdata),len(eq),len(available)))
-    if not (len(total)-len(nodata)-len(lackofdata)-len(eq)==len(available)):
+def read_segmentlist(total,prefix='./segmentlist',skip=True,**kwargs):
+    if skip:
+        log.debug('Skip chekking segment')
+        total = SegmentList.read('./segmentlist/total.txt')
+        nodata = SegmentList.read('./segmentlist/nodata.txt')
+        available = SegmentList.read('./segmentlist/available.txt')
+        lackofdata = SegmentList.read('./segmentlist/lackofdata.txt')
+        glitch = SegmentList.read('./segmentlist/glitch.txt')
+    else:
+        available,nodata = check_nodata(total,**kwargs)
+        available,lackofdata,glitch = check_badsegment(available,**kwargs)
+        log.debug('Checking done. Close.')
+        exit()
+    if not (len(total)-len(nodata)-len(lackofdata)-len(glitch)==len(available)):
         log.debug('SegmentListError!')
         raise ValueError('!')
-    return available,nodata,lackofdata,eq
+    return available,nodata,lackofdata,glitch
 
 def _save_longterm_spectrogram(axis,idnum,fname,**kwargs):
     '''
@@ -372,7 +381,7 @@ def _save_spectrogram(sg,fname_hdf5):
 
 def fname_hdf5(segment,prefix):
     start,end = segment
-    fname_hdf5_fmt = sg_fmt.format(prefix=prefix,axis='{axis}',start=start,end=end)
+    fname_hdf5_fmt = fname_hdf5_sg(start,end,prefix,axis='{axis}')
     fnamelist = [fname_hdf5_fmt.format(axis=axis) for axis in ['X','Y','Z']]
     return fnamelist
 
@@ -397,14 +406,14 @@ def save_spectrogram(segmentlist,fftlength=100,overlap=50,**kwargs):
     write = kwargs.pop('write',True)
     skip = kwargs.pop('skip',False)
 
-    fnames = [img_asd_fname(start,end,prefix) for start,end in segmentlist]
+    fnames = [fname_png_asd(start,end,prefix) for start,end in segmentlist]
     not_checked = _check_skip(segmentlist,fnames)
 
     log.debug('{0}(/{1}) are not checked'.format(len(not_checked),len(segmentlist)))
     log.debug('Save spectrograms..')
     for i,segment in enumerate(not_checked):
         try:
-            fname = gwf_fmt.format(prefix=prefix,start=segment[0],end=segment[1])
+            fname = fname_gwf(start,end,prefix)
             chname = get_seis_chname(segment[0],segment[1])
             data = TimeSeriesDict.read(fname,chname,**kwargs)
             data = data.crop(segment[0],segment[1])
@@ -416,12 +425,12 @@ def save_spectrogram(segmentlist,fftlength=100,overlap=50,**kwargs):
         kwargs['overlap'] = overlap
         sglist = _calc_spectrogram(data,segment,**kwargs)
         asdlist = [sg.percentile(50) for sg in sglist]
-        fname = img_asd_fname(segment[0],segment[1],prefix)
+        fname = fname_png_asd(segment[0],segment[1],prefix)
         plot_asd(asdlist,fname,**kwargs)
         log.debug('{0:03d}/{1:03d} {2} '.format(i,len(segmentlist),fname)+'Plot')
 
 
-def allsegmentlist(start,end,tlen=2**12,**kwargs):
+def allsegmentlist(start,end,tlen=2**12,write=True,**kwargs):
     '''
     
     Parameters
@@ -431,7 +440,6 @@ def allsegmentlist(start,end,tlen=2**12,**kwargs):
     end : `int`
     
     '''
-    write = kwargs['write']
     seglist = SegmentList()
     i = 0
     while True:
@@ -455,7 +463,7 @@ def save_asd(axis,available,percentile=50,**kwargs):
 
     asd_fmt = '{0}/{1}_{2:02d}_LongTerm.hdf5'.format(prefix,axis,percentile)
     if os.path.exists(asd_fmt):
-        log.debug(asd_fmt+' Read')
+        #log.debug(asd_fmt+' Read')
         return FrequencySeries.read(asd_fmt,format='hdf5')
 
     log.debug(asd_fmt+' Saving {0:02d} percentile'.format(percentile))
