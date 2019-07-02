@@ -12,7 +12,10 @@ from gwpy.segments import SegmentList
 from gwpy.time import tconvert
 
 from plot import plot_timeseries,plot_segmentlist,plot_averaged_asd
-from utils import allsegmentlist,check_nodata,check_badsegment,save_spectrogram,save_longterm_spectrogram,random_segments,read_segmentlist
+from utils import allsegmentlist,random_segments,read_segmentlist
+from utils import check_nodata,check_badsegment
+from utils import save_spectrogram, save_longterm_spectrogram, save_asd
+
 
 ''' Seismic Noise
 
@@ -29,43 +32,46 @@ if __name__ == "__main__":
     test = False
     skip_check = True
     save_spectrogram_data = True
-    kwargs = {'write':True, 'write_gwf':False, 'nproc':8, 'skip':skip_check}
+    kwargs = {'write':True, 'write_gwf':False, 'nproc':8, 
+              'skip':skip_check,'prefix':'./data'}
+
     
     log.info('Take segmentlists')
     if test:
-        kwargs['prefix'] = './data'
         base = random_segments(start,end,nseg=30,**kwargs)
     else:
-        #end   = int(tconvert("Jul 01 2018 00:00:00 JST"))
-        kwargs['prefix'] = './data'
         base = allsegmentlist(start,end,**kwargs)
 
 
     log.info('Check segments')
     if skip_check:
         log.info('Skip chekking')
-        good,nodata,bad,eq = read_segmentlist(prefix='./segmentlist')
+        available,nodata,bad,eq = read_segmentlist(prefix='./segmentlist')
         log.info('Plot segment.png')
-        plot_segmentlist(base,nodata,bad,eq,good,start,end,**kwargs)
+        plot_segmentlist(base,nodata,bad,eq,available,start,end,**kwargs)
     else:
         log.info('Chekking..')
         kwargs['skip'] = False
         kwargs['check'] = False
-        good,nodata = check_nodata(base,**kwargs)
-        good,bad,eq = check_badsegment(good,**kwargs)
+        available,nodata = check_nodata(base,**kwargs)
+        available,bad,eq = check_badsegment(available,**kwargs)
         log.info('Checking have done. Close.')
         exit()
 
+    if False:
+        log.info('Saving spectrogram2')
+        kwargs.pop('write_gwf')
+        kwargs['skip'] = False
+        save_spectrogram(available,fftlength=100,overlap=50,**kwargs)
+        log.info('Calculate averaged ASD')
+        save_longterm_spectrogram('X',available,**kwargs)
+        save_longterm_spectrogram('Y',available,**kwargs)
+        save_longterm_spectrogram('Z',available,**kwargs)
 
-    log.info('Saving spectrogram2')
-    if save_spectrogram_data:
-        save_spectrogram(good,**kwargs)
-        
-
-    log.info('Calculate averaged ASD')
-    save_longterm_spectrogram('X',good,**kwargs)
-    save_longterm_spectrogram('Y',good,**kwargs)
-    save_longterm_spectrogram('Z',good,**kwargs)
-
+    log.info('Calculate percentile.')
+    for axis in ['X','Y','Z']:
+        for pctl in [5,10,50,90,95]:
+            save_asd(axis,available,percentile=pctl,**kwargs)
 
     log.debug('Finish!')
+    

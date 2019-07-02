@@ -16,7 +16,7 @@ from gwpy.spectrogram import Spectrogram
 from plot import plot_asd,plot_timeseries # kesu!
 
 gwf_fmt = '{prefix}/{start}_{end}.gwf'
-img_fmt = '{prefix}/ASD_{start}_{end}.png'
+img_asd_fmt = '{prefix}/ASD_{start}_{end}.png'
 img_ts_fmt = '{prefix}/TS_{start}_{end}.png'
 sg_fmt = '{prefix}/{axis}_{start}_{end}.hdf5'
 
@@ -86,7 +86,7 @@ def random_segments(start,end,tlen=2**12,nseg=10,seed=3434,**kwargs):
     segmentlist = SegmentList(map(Segment,zip(_start,_end)))
 
     if write:
-        segmentlist.write('./segmentlist/base.txt')
+        segmentlist.write('./segmentlist/random.txt')
 
     return segmentlist
 
@@ -136,6 +136,8 @@ def gwf_fname(start,end,prefix):
 def img_ts_fname(start,end,prefix):
     return img_ts_fmt.format(prefix=prefix,start=start,end=end)
 
+def img_asd_fname(start,end,prefix):
+    return img_asd_fmt.format(prefix=prefix,start=start,end=end)
 
 def diff(seglist,nodata):
     new = SegmentList()
@@ -150,6 +152,7 @@ def diff(seglist,nodata):
             new.append(segment)
     return new
 
+
 def check_nodata(segmentlist,**kwargs):
     ''' 
     
@@ -163,14 +166,15 @@ def check_nodata(segmentlist,**kwargs):
     fnames = [gwf_fname(start,end,prefix) for start,end in segmentlist]
     exists = [os.path.exists(fname) for fname in fnames]
 
+    # 
     checked = [segmentlist[i] for i,exist in enumerate(exists) if exist]
     log.debug('{0}(/{1}) segments are existed.'.format(len(checked),len(segmentlist)))
     if len(checked)==len(segmentlist):
         log.debug('Then, all segments are existed.')
         return segmentlist,nodata
-
+    #
     not_checked = [segmentlist[i] for i,exist in enumerate(exists) if not exist]
-    log.debug('{0}(/{1}) segments are not checked before'.format(len(not_checked),len(segmentlist)))
+    log.debug('{0}(/{1}) are not checked'.format(len(not_checked),len(segmentlist)))
     n = len(not_checked)
     nodata = SegmentList()
     for i,segment in enumerate(not_checked):
@@ -196,13 +200,19 @@ def check_nodata(segmentlist,**kwargs):
     return exist,nodata
     
 
-def _check_badsegment(segment,trend='full',stype='',prefix='./data',nproc=2,**kwargs):
-    '''
+def _check_badsegment(segment,data=None,**kwargs):
+    ''' Check whether given segment is good or not.
+    
+    1. Read timeseriese data from frame file saved in local place. 
+       If data could not be read, return "No Data" flag.
+    2. Check lack of data. 
+    
+
     1 bit : no data
     2 bit : lack of data
     3 bit : missed caliblation 
     4 bit : big earthquake
-    '''
+    '''    
     start,end = segment
     fname = gwf_fmt.format(prefix=prefix,start=start,end=end)
     chname = get_seis_chname(start,end)
@@ -291,74 +301,124 @@ def check_badsegment(seglist,plot=True,nproc=2,stype='',trend='full',prefix='./d
         if flag==len(eq):
             new.append(segment)
     if write:
-        new.write('./segmentlist/good.txt')    
-        bad.write('./segmentlist/bad.txt')    
-        eq.write('./segmentlist/eq.txt')
+        new.write('./segmentlist/available.txt')    
+        bad.write('./segmentlist/lackofdata.txt')
+        eq.write('./segmentlist/glitch.txt')
     return new,bad,eq
 
 
 def read_segmentlist(prefix='./segmentlist'):
-    base = SegmentList.read('./segmentlist/base.txt')
+    total = SegmentList.read('./segmentlist/total.txt')
     nodata = SegmentList.read('./segmentlist/nodata.txt')
-    good = SegmentList.read('./segmentlist/good.txt')
-    bad = SegmentList.read('./segmentlist/bad.txt')
-    eq = SegmentList.read('./segmentlist/eq.txt')
+    available = SegmentList.read('./segmentlist/available.txt')
+    lackofdata = SegmentList.read('./segmentlist/lackofdata.txt')
+    eq = SegmentList.read('./segmentlist/glitch.txt')
     fmt = '{0} \t - {1}\t - {2}\t - {3} \t= {4}'
-    log.debug(fmt.format('All','None','Lack','EQ','Good'))
-    log.debug(fmt.format(len(base),len(nodata),len(bad),len(eq),len(good)))
-    if not (len(base)-len(nodata)-len(bad)-len(eq)==len(good)):
+    log.debug(fmt.format('All','None','Lack','Glitch','Available'))
+    log.debug(fmt.format(len(total),len(nodata),len(lackofdata),len(eq),len(available)))
+    if not (len(total)-len(nodata)-len(lackofdata)-len(eq)==len(available)):
         log.debug('SegmentListError!')
         raise ValueError('!')
-    return good,nodata,bad,eq
+    return available,nodata,lackofdata,eq
 
-
-def save_longterm_spectrogram(axis,good,prefix='./data',**kwargs):
-    fname = [prefix+'/{0}_{1}_{2}.hdf5'.format(axis,start,end) for start,end in good]
-    specgrams = Spectrogram.read(fname[0],format='hdf5')    
+def _save_longterm_spectrogram(axis,idnum,fname,**kwargs):
+    '''
+    '''
+    prefix = kwargs.pop('prefix','./data')
+    specgrams = Spectrogram.read(fname[0],format='hdf5')
     for fname in fname[1:]:
         try:
             specgrams.append(Spectrogram.read(fname,format='hdf5'),gap='ignore')        
         except:
             log.debug(traceback.format_exc())
             raise ValueError('AAAA')
-    fname_hdf5 = prefix + '/SG_LongTerm_{0}.hdf5'.format(axis)
+    fname_hdf5 = prefix + '/SG_LongTerm_{0}_{1}.hdf5'.format(axis,idnum)
+    log.debug('{0} Combined'.format(fname_hdf5))
     specgrams.write(fname_hdf5,format='hdf5',overwrite=True)
-    log.debug('Saved {0}'.format(fname_hdf5))
+    log.debug('{0} Saved'.format(fname_hdf5))
+    
+
+def save_longterm_spectrogram(axis,available,prefix='./data',**kwargs):
+    fname = [prefix+'/{0}_{1}_{2}.hdf5'.format(axis,start,end) for start,end in available]
+    divnum = 4
+    try:
+        bins = int(len(fname)/divnum)
+        fnamelist = [fname[bins*i:bins*(i+1)] for i in range(0,divnum)]
+        fnamelist.append(fname[bins*divnum:])
+        n = len(fname)
+        if n-(divnum*bins)!=len(fnamelist[-1]):
+            log.debug('{0}-{1}*{2} != {3}'.format(n,divnum,bins,len(fnamelist[-1])))
+    except:
+        log.debug(traceback.format_exc())
+        raise ValueError('!!!!!')
+    for idnum,fname in enumerate(fnamelist):
+        log.debug('{0}/({1}) {2}-axis'.format(idnum+1,len(fnamelist),axis))
+        _save_longterm_spectrogram(axis,idnum,fname)
+
+def _check_skip(segmentlist,fnames):
+    exists = [os.path.exists(fname) for fname in fnames]
+    saved = [segmentlist[i] for i,exist in enumerate(exists) if exist]
+    log.debug('{0}(/{1}) are existed.'.format(len(saved),len(segmentlist)))
+    if len(saved)==len(segmentlist):
+        log.debug('So, Do nothing.')
+        return []
+    not_checked = [segmentlist[i] for i,exist in enumerate(exists) if not exist]
+    return not_checked
+
+def _save_spectrogram(sg,fname_hdf5):
+    sg.write(fname_hdf5,format='hdf5',overwrite=True)
+    log.debug(fname_hdf5,'Saved')
 
 
-def save_spectrogram(seglist,plot=True,nproc=2,write=True,nodata=False,trend='full',stype='',prefix='./data',**kwargs):
+def fname_hdf5(segment,prefix):
+    start,end = segment
+    fname_hdf5_fmt = sg_fmt.format(prefix=prefix,axis='{axis}',start=start,end=end)
+    fnamelist = [fname_hdf5_fmt.format(axis=axis) for axis in ['X','Y','Z']]
+    return fnamelist
+
+def _calc_spectrogram(data,segment,**kwargs):
+    write  = kwargs.pop('write',False)
+    write = False
+    prefix = kwargs.pop('prefix','./data')
+    sglist = [d.spectrogram2(**kwargs)**(1/2.) for d in data.values()]
+    if write:
+        fnamelist = fname_hdf5(segment,prefix)
+        #[_save_spectrogram(sg,fname) for fname,sg in zip(fnamelist,sglist)]
+        #[_save_averaged_asd(sg,fname) for fname,sg in zip(fnamelist,sglist)]
+    return sglist
+
+def save_spectrogram(segmentlist,fftlength=100,overlap=50,**kwargs):
     '''
     
     '''    
-    log.debug('Save spectrograms ')
-    bad = SegmentList()
-    for i,segment in enumerate(seglist):
-        start,end = segment        
-        fname = gwf_fmt.format(prefix=prefix,start=start,end=end)
-        chname = get_seis_chname(start,end)
+    log.debug('Save spectrograms')
+    lackofdata = SegmentList()
+    prefix = kwargs.pop('prefix','./data')
+    write = kwargs.pop('write',True)
+    skip = kwargs.pop('skip',False)
+
+    fnames = [img_asd_fname(start,end,prefix) for start,end in segmentlist]
+    not_checked = _check_skip(segmentlist,fnames)
+
+    log.debug('{0}(/{1}) are not checked'.format(len(not_checked),len(segmentlist)))
+    log.debug('Save spectrograms..')
+    for i,segment in enumerate(not_checked):
         try:
-            data = TimeSeriesDict.read(fname,chname,nproc=nproc,verbose=False)
-            data = data.crop(start,end)
+            fname = gwf_fmt.format(prefix=prefix,start=segment[0],end=segment[1])
+            chname = get_seis_chname(segment[0],segment[1])
+            data = TimeSeriesDict.read(fname,chname,**kwargs)
+            data = data.crop(segment[0],segment[1])
         except:
             log.debug(traceback.format_exc())
-            nodata = True
             raise ValueError('No such data {0}'.format(fname))
-
-        label = [d.replace('_','\_') for d in data]
-        fname_img = img_fmt.format(prefix=prefix,start=start,end=end)
-        if os.path.exists(fname_img):
-            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img)+'Exist')
-        elif not nodata and plot:
-            kwargs={'nproc':nproc}
-            fname_hdf5 = sg_fmt.format(prefix=prefix,axis='{axis}',start=start,end=end)
-            plot_asd(segment,data,fname_img,fname_hdf5,**kwargs)
-            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img)+'Plot')
-        elif nodata:
-            log.debug('{0:03d}/{1:03d} {2} '.format(i,len(seglist),fname_img)+'No Data')
-        else:
-            raise ValueError('!')
-
-
+        # plot
+        kwargs['fftlength'] = fftlength
+        kwargs['overlap'] = overlap
+        sglist = _calc_spectrogram(data,segment,**kwargs)
+        asdlist = [sg.percentile(50) for sg in sglist]
+        fname = img_asd_fname(segment[0],segment[1],prefix)
+        plot_asd(asdlist,fname,**kwargs)
+        log.debug('{0:03d}/{1:03d} {2} '.format(i,len(segmentlist),fname)+'Plot')
 
 
 def allsegmentlist(start,end,tlen=2**12,**kwargs):
@@ -381,40 +441,28 @@ def allsegmentlist(start,end,tlen=2**12,**kwargs):
             seglist.append(Segment(start+i*tlen,start+(i+1)*tlen))
             i += 1
     if write:
-        seglist.write('./segmentlist/base.txt')
+        seglist.write('./segmentlist/total.txt')
     
     return seglist
 
 
-def fw_segments(fw_name='fw0',scp=False):
-    ''' Return the segment list when the frame writer could write data.
 
-    Information about when the fw0 write data is given by a text file 
-    named "fw0-latest.txt". This text file is generated by a script 
-    written by T. Yamamoto. Then we can make a segment list by 
-    translating this file.
+def save_asd(axis,available,percentile=50,**kwargs):
+    prefix = kwargs.pop('prefix','./data')
+    write = kwargs.pop('write',None)
+    write_gwf = kwargs.pop('write_gwf',None)
+    skip = kwargs.pop('skip',None)
 
-    MEMO:"fw0-latest.txt" is saved on /users/DGS/Frame.
+    asd_fmt = '{0}/{1}_{2:02d}_LongTerm.hdf5'.format(prefix,axis,percentile)
+    if os.path.exists(asd_fmt):
+        log.debug(asd_fmt+' Read')
+        return FrequencySeries.read(asd_fmt,format='hdf5')
 
-    Parameters
-    ----------
-    fw_name : `str`, optional
-        Name of the frame writer. KAGRA have a fw0 and fw1. Default is fw0.
-    scp : `str`, optional
-        If download from control machine, please choose True. In default, False.
-
-    Returns
-    -------
-    ok : `gwpy.segments.SegmentList`
-        SegmentList whihch only contain segments when fw has write data on main strage.
-    '''
-    if scp:
-        cmd = 'scp controls@k1ctr7:/users/DGS/Frame/{0}-latest.txt ./ '.format(fw_name)
-        download = subprocess.call(cmd, shell=True)
-
-    cmd = "less ./{0}-latest.txt".format(fw_name) 
-    cmd += " | awk '{if ($4>86400) print $1 , $2}' > tmp_{0}.txt".format(fw_name)
-    make_tmp_txt = subprocess.call(cmd,shell=True)
-    ok = SegmentList.read('tmp_{0}.txt'.format(fw_name))
-    remove_tmp_txt = subprocess.call("rm tmp_{0}.txt".format(fw_name), shell=True)
-    return ok
+    log.debug(asd_fmt+' Saving {0:02d} percentile'.format(percentile))
+    fnamelist = [prefix+'/{0}_{1}_{2}.hdf5'.format(axis,start,end) for start,end in available]  
+    specgrams = Spectrogram.read(fnamelist[0],format='hdf5')
+    [specgrams.append(Spectrogram.read(fname,format='hdf5'),gap='ignore') \
+     for fname in fnamelist]
+    asd = specgrams.percentile(percentile)
+    asd.write(asd_fmt,format='hdf5',overwrite=True)
+    return asd

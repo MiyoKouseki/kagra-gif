@@ -46,19 +46,13 @@ def plot_segmentlist(total,nodata,lackofdata,glitch,available,start,end,fname='.
     plt.savefig(fname)
 
 
-def plot_asd(segment,data,fname_img,fname_hdf5,**kwargs):
+def plot_asd(asdlist,fname_img,**kwargs):
     '''
     '''
-    axis = ['X','Y','Z']    
     fig ,ax = plt.subplots(1,1)
     nproc = kwargs.pop('nproc',2)
-    for i,d in enumerate(data.values()):
-        sg = d.spectrogram2(fftlength=100, overlap=50,nproc=nproc) ** (1/2.)
-        asd = sg.percentile(50)        
-        _fname_hdf5 = fname_hdf5.format(axis=axis[i])
-        log.debug(' -: {0} '.format(_fname_hdf5)+'Save')
-        sg.write(_fname_hdf5,format='hdf5',overwrite=True)
-        ax.loglog(asd,label=d.name.replace('_','\_'))
+    for asd in asdlist:
+        ax.loglog(asd,label=asd.name.replace('_','\_'))
     ax.legend(loc='lower left')
     ax.set_ylim(5e-3,50)
     ax.set_ylabel('Velocity [um/sec/rtHz]')

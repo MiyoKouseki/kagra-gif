@@ -8,7 +8,7 @@ class Logger:
     def __init__(self, name=__name__):
         self.logger = getLogger(name)
         self.logger.setLevel(DEBUG)
-        formatter = Formatter("[%(asctime)s] [%(process)d] [%(name)s] [%(levelname)s] %(message)s")
+        formatter = Formatter("[%(asctime)s] [%(levelname)s] %(message)s")
 
         # stdout
         handler = StreamHandler()
