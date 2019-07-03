@@ -7,9 +7,9 @@ Notification   = Never
 request_memory = 1 GB
 
 Executable = /usr/bin/python 
-Error      = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main.$(Process).err
-Log        = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main.$(Process).log
-Output     = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main.$(Process).out
+Error      = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main2.$(Process).err
+Log        = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main2.$(Process).log
+Output     = /home/kouseki.miyo/kagra-gif/seismicnoise/log/main2.$(Process).out
 
 RequestCpus    = 16
 Arguments  = /home/kouseki.miyo/kagra-gif/seismicnoise/main.py

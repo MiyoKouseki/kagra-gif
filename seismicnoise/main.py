@@ -5,16 +5,14 @@ __author__ = 'Koseki Miyo'
 import warnings
 warnings.filterwarnings('ignore')
 
-import logger
-log = logger.Logger('main')
-
 from gwpy.segments import SegmentList
 from gwpy.time import tconvert
 
-from plot import plot_timeseries,plot_segmentlist,plot_averaged_asd
-from utils import allsegmentlist,random_segments,read_segmentlist
-from utils import check_nodata,check_badsegment
-from utils import save_spectrogram, save_longterm_spectrogram, save_asd
+from lib.plot import plot_timeseries,plot_segmentlist,plot_averaged_asd
+from lib.segment import divide_segmentlist,random_segments,read_segmentlist
+from lib.utils import save_spectrogram, save_longterm_spectrogram, save_asd
+import lib.logger
+log = lib.logger.Logger('main')
 
 
 ''' Seismic Noise
@@ -22,41 +20,33 @@ from utils import save_spectrogram, save_longterm_spectrogram, save_asd
 '''
 
             
-if __name__ == "__main__":    
+if __name__ == "__main__":
     log.info('# ------------------------------')
     log.info('# Start SeismicNoise            ')
     log.info('# ------------------------------')
-    start = int(tconvert("Jun 01 2018 00:00:00 JST"))
-    end   = int(tconvert("Jun 02 2019 00:00:00 JST"))
-    test = False
-    skip = True
-    kwargs = {'nproc':8, 'prefix':'./data'}
+    start = 1211817600 # 2018-05-31T15:59:42 UCT 
+    end   = 1245372032 # 2019-06-24T00:40:14 UTC (end = start+2**25)
+    kwargs = {'nproc':16, 'prefix':'./data'}
     
-    log.info('Get segmentlists')
-    if test:
-        log.info('Getting random segments')
-        total = random_segments(start,end,nseg=30,write=True,**kwargs)
-    else:
-        log.info('Getting all segments')
-        total = allsegmentlist(start,end,write=True,**kwargs)
-
-
-    log.info('Check segments')    
-    available,nodata,lackofdata,glitch = read_segmentlist(total,skip=False)
+    log.info('Get Segments')
+    #total = random_segments(start,end,nseg=6000,write=True,**kwargs)
+    total = divide_segmentlist(start,end,bins=4096,**kwargs)
+    
+    log.info('Check Segments')
+    good,none,lack,glitch = read_segmentlist(total,skip=False,**kwargs)
     fmt = '{0} \t - {1}\t - {2}\t - {3} \t = {4}'
-    log.info(fmt.format('All','None','Lack','Glitch','Available'))
-    log.info(fmt.format(len(total),len(nodata),len(lackofdata),
-                        len(glitch),len(available)))
+    log.info(fmt.format('All','NoData','LackOfData','Glitch','Available'))
+    log.info(fmt.format(len(total),len(none),len(lack),len(glitch),len(good)))
 
 
-    log.info('Plot segmentlist')    
-    plot_segmentlist(total,nodata,lackofdata,glitch,available,start,end,**kwargs)
+    log.info('Plot Segments')
+    plot_segmentlist(total,none,lack,glitch,good,start,end,**kwargs)
+    
 
-
-    log.info('Calculate percentile.')
+    log.info('Calculate Percentile')
     for axis in ['X','Y','Z']:
         for pctl in [5,10,50,90,95]:
-            save_asd(axis,available,percentile=pctl,**kwargs)
+            save_asd(axis,good,percentile=pctl,**kwargs)
 
     log.debug('Finish!')
     
