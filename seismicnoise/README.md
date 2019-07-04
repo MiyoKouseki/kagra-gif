@@ -1,6 +1,6 @@
 # Long Term Seismic Noise
 ## Overview
-Long term seismic noise spectra of KAGRA is calculated. Although such long term spectra are also calculated in 2012 by T. Sekiguchi in the mine of CLIO not in that of KAGRA. In comparison with past calculation, this new calculation gives an actual seismic noise spectra of KAGRA.
+Long term seismic noise spectra of KAGRA is calculated. Although such long term spectra are also calculated in 2012 by T. Sekiguchi, it is the seismic noise spectra in the mine of CLIO not in KAGRA. In comparison with this past calculation, this new calculation gives an actual seismic noise spectra of KAGRA.
 
 This long spectra are taken from almost 1 year period using a seismometer at 2nd floor in the X-end station, which is named EXV. In EXV area, there are less human activity than both the Y-end station and the corner station because of no gateway to outside in X-end.
 
@@ -36,22 +36,26 @@ Long data is divided to small segments, which length is 4096 seconds. The number
 If gwpy could not read frame files in a segment, this segment is defined as a "No Frame File" data segment. In this case, no frame file are saved on local working directory. All of this segments are listed in **'./segmentlist/nodata.txt'**
 
 
-サンプル図
-
 #### Lack of data
-If there are zero values or constant values in a segment, this segment is defined as a "Lack of data" segment. 
+If there are zero values in a segment, this segment is defined as a "Lack of data" segment. 
 
-サンプル図
+<img src="./result/1212477056_1212481152_TS.png" alt="LackofData" width=400/>
+
 
 #### Glitch data
 If there are glitch described below in a segment, this segment is defined as "Glitch" data. The glitch is a signal which exceeds six times of standard deviation in given data segment. Glitch data include not only earth quakes but also electrical glitches. If one want to take glitched only related ground motion, earth quake events table are required.
 
-サンプル図
+##### Earth quake glitch
+<img src="./result/1211973248_1211977344_TS.png" alt="EarthQuake" width=400/>
+
+##### Unknown glitch
+<img src="./result/1211874944_1211879040_TS.png" alt="Unknown" width=400/>
 
 #### Available data
 If there are no bad signal mentioned above in a segment, this segment is defined as "Available" data.
 
-サンプル図
+<img src="./result/1211858560_1211862656_TS.png" alt="Available" width=400/>
+
 
 ## Script
 ## Results
