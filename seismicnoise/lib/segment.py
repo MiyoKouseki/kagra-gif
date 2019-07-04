@@ -104,12 +104,12 @@ def read_segmentlist(total,skip=True,**kwargs):
     if skip:
         log.debug('Skip chekking segment')
         total  = SegmentList.read('./segmentlist/total.txt')
-        none   = SegmentList.read('./segmentlist/none.txt')
+        none   = SegmentList.read('./segmentlist/nodata.txt')
         good   = SegmentList.read('./segmentlist/good.txt')
         lack   = SegmentList.read('./segmentlist/lack.txt')
         glitch = SegmentList.read('./segmentlist/glitch.txt')
     else:
-        good,none        = check_nodata(total,**kwargs)
+        good,none        = check_nodata(total,skip=True,**kwargs)
         good,lack,glitch = check_baddata(good,**kwargs)
         log.debug('Checking done. Close.')
         exit()

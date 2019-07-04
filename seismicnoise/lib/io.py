@@ -25,6 +25,9 @@ def existance(args,ftype='gwf',prefix='./data',**kwargs):
         if ftype=="gwf":
             segmentlist = args
             fnames = [fname_gwf(start,end,prefix) for start,end in segmentlist]
+        elif ftype=="png_ts":
+            segmentlist = args
+            fnames = [fname_png_ts(start,end,prefix) for start,end in segmentlist]
         else:
             raise ValueError('!!')
         exists = [os.path.exists(fname) for fname in fnames]

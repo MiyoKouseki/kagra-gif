@@ -77,10 +77,10 @@ def plot_timeseries(data,start,end,bad_status,fname_img):
         main_ax.set_ylabel('Velocity [um/sec]')
         main_ax.set_xscale('minutes')
         main_ax.legend()
-        main_ax.plot([start,end],[d.mean(),d.mean()],'k')
-        std5 = d.std()*5
-        std10 = d.std()*10
-        mean = d.mean()
+        main_ax.plot([start,end],[d.mean().value,d.mean().value],'k')
+        std5 = d.std().value*6
+        std10 = d.std().value*10
+        mean = d.mean().value
         main_ax.plot([start,end],[mean+std5,mean+std5],'k')
         main_ax.plot([start,end],[mean-std5,mean-std5],'k')
         x_hist = fig.add_subplot(grid[i,-1],sharey=main_ax)

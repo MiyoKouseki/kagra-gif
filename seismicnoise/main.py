@@ -26,22 +26,23 @@ if __name__ == "__main__":
     log.info('# ------------------------------')
     start = 1211817600 # 2018-05-31T15:59:42 UCT 
     end   = 1245372032 # 2019-06-24T00:40:14 UTC (end = start+2**25)
-    kwargs = {'nproc':16, 'prefix':'./data'}
+    kwargs = {'nproc':4, 'prefix':'./data'}
+
     
     log.info('Get Segments')
     #total = random_segments(start,end,nseg=6000,write=True,**kwargs)
     total = divide_segmentlist(start,end,bins=4096,**kwargs)
+
     
     log.info('Check Segments')
     good,none,lack,glitch = read_segmentlist(total,skip=False,**kwargs)
     fmt = '{0} \t - {1}\t - {2}\t - {3} \t = {4}'
     log.info(fmt.format('All','NoData','LackOfData','Glitch','Available'))
     log.info(fmt.format(len(total),len(none),len(lack),len(glitch),len(good)))
-
-
     log.info('Plot Segments')
-    plot_segmentlist(total,none,lack,glitch,good,start,end,**kwargs)
-    
+    plot_segmentlist(total,none,lack,glitch,good,start,end,**kwargs)    
+    exit()
+
 
     log.info('Calculate Percentile')
     for axis in ['X','Y','Z']:
