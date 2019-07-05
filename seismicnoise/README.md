@@ -23,38 +23,36 @@ IN1\_DQ channels of the EXV seismometer have been changing in past 1 year. From 
 
 || INPUT Channel Name | Start | End |
 |:-:|:-------------|:---------:| :------:| 
-|1| K1:PEM\_EX1\_SEIS\_{WE,NS,Z}\_SENSINF\_IN1\_DQ | 2018-03-01 00:00:00 | 2018-07-28 00:00:00 | 
-|2| K1:PEM\_EXV\_SEIS\_{WE,NS,Z}\_SENSINF\_IN1\_DQ | 2018-07-29 00:00:00 | 2018-11-25 00:00:00 | 
-|3| K1:PEM\_EXV\_GND\_TR120Q\_{X,Y,Z}\_IN1\_DQ | 2018-11-30 00:00:00 | 2019-01-28 00:00:00 | 
+|1| K1:PEM\_EX1\_SEIS\_{WE,NS,Z}\_SENSINF\_IN1\_DQ | 2018-03-01 00:00:00 | 2018-07-28 08:00:00 | 
+|2| K1:PEM\_EXV\_SEIS\_{WE,NS,Z}\_SENSINF\_IN1\_DQ | 2018-07-28 09:00:00 | 2018-11-29 11:00:00 | 
+|3| K1:PEM\_EXV\_GND\_TR120Q\_{X,Y,Z}\_IN1\_DQ | 2018-11-28 12:00:00 | 2019-01-28 09:00:00 | 
 |4| K1:PEM\_SEIS\_EXV\_GND\_{EW,NS,UD}\_IN1\_DQ | 2019-01-29 00:00:00 | --- | 
 
-### Data segment
+## Inspection of data 
 Long data is divided to small segments, which length is 4096 seconds. The number of the segments is 2**25/4096 = 8192. These segments are checked whether data are good or not, wihch is described following sub-section. 
 
-### Data status
-#### No Frame File 
+### No Frame File
 If gwpy could not read frame files in a segment, this segment is defined as a "No Frame File" data segment. In this case, no frame file are saved on local working directory. All of this segments are listed in **'./segmentlist/nodata.txt'**
 
 
-#### Lack of data
+### Lack of data
 If there are zero values in a segment, this segment is defined as a "Lack of data" segment. 
 
-<img src="./result/1212477056_1212481152_TS.png" alt="LackofData" width=400/>
+<img src="./result/1212477056_1212481152_TS.png" alt="LackofData" width=300/>
 
 
-#### Glitch data
-If there are glitch described below in a segment, this segment is defined as "Glitch" data. The glitch is a signal which exceeds six times of standard deviation in given data segment. Glitch data include not only earth quakes but also electrical glitches. If one want to take glitched only related ground motion, earth quake events table are required.
+### Glitch data
+If there are glitch in a segment, this segment is defined as the "Glitch data". The glitch is a signal which exceeds six times of standard deviation in given data segment. Glitch data include not only earth quakes but also electrical glitches. If one want to take glitched only related ground motion, earth quake events table are required.
 
-##### Earth quake glitch
-<img src="./result/1211973248_1211977344_TS.png" alt="EarthQuake" width=400/>
+**Earth quake glitch** and **Unknown glitch**
 
-##### Unknown glitch
-<img src="./result/1211874944_1211879040_TS.png" alt="Unknown" width=400/>
+<img src="./result/1211973248_1211977344_TS.png" alt="EarthQuake" width=300/>
+<img src="./result/1211874944_1211879040_TS.png" alt="Unknown" width=300/>
 
-#### Available data
-If there are no bad signal mentioned above in a segment, this segment is defined as "Available" data.
+### Available data
+If there are no bad signal mentioned above in a segment, this segment is defined as "Available data".
 
-<img src="./result/1211858560_1211862656_TS.png" alt="Available" width=400/>
+<img src="./result/1211858560_1211862656_TS.png" alt="Available" width=300/>
 
 
 ## Script
