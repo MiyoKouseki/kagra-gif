@@ -1,13 +1,11 @@
+import lib.logger
+log = lib.logger.Logger(__name__)
 
 def get_seis_chname(start,end,place='EXV'):
     '''
     
     '''
-    #K1:PEM-EX1_SEIS_WE_SENSINF_IN1_DQ : 1203897618 - 1216771218 , 2018-03-01T00:00:00 - 2018-07-28T00:00:00
-    #K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ : 1216857618 - 1227139218 , 2018-07-29T00:00:00 - 2018-11-25T00:00:00 
-    #K1:PEM-EXV_GND_TR120Q_X_IN1_DQ    : 1227571218 - 1232668818 , 2018-11-30T00:00:00 - 2019-01-28T00:00:00  
-    #K1:PEM-SEIS_EXV_GND_X_IN1_DQ      : 1232668818 - <>         , 2019-01-28T00:00:00 - <>
-    if start > 1232755218:                          # 01/29 10:00 2019 - Today
+    if start > 1232755218:                          # 01/29 00:00 2019 - Today
         chname = ['K1:PEM-SEIS_EXV_GND_EW_IN1_DQ',
                   'K1:PEM-SEIS_EXV_GND_NS_IN1_DQ',
                   'K1:PEM-SEIS_EXV_GND_UD_IN1_DQ']

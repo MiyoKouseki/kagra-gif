@@ -5,9 +5,10 @@ import traceback
 import numpy as np
 from gwpy.segments import Segment,SegmentList
 
+
 from lib.channel import get_seis_chname
 from lib.plot import plot_asd,plot_timeseries # kesu!
-from lib import io
+from lib import iofunc
 from check import check_nodata,check_baddata
 
 def diff(seglist,nodata):
@@ -87,10 +88,10 @@ def divide_segmentlist(start,end,bins=4096,write=True,**kwargs):
     _start = range(start     ,end     ,bins)
     _end   = range(start+bins,end+bins,bins)
     segmentlist = SegmentList([Segment(s,e) for s,e in zip(_start,_end)])
-
+    log.debug(segmentlist[0])
+    log.debug(segmentlist[-1])
     if write:
         segmentlist.write('./segmentlist/total.txt')
-        
     return segmentlist
 
 
@@ -105,8 +106,8 @@ def read_segmentlist(total,skip=True,**kwargs):
         log.debug('Skip chekking segment')
         total  = SegmentList.read('./segmentlist/total.txt')
         none   = SegmentList.read('./segmentlist/nodata.txt')
-        good   = SegmentList.read('./segmentlist/good.txt')
-        lack   = SegmentList.read('./segmentlist/lack.txt')
+        good   = SegmentList.read('./segmentlist/available.txt')
+        lack   = SegmentList.read('./segmentlist/lackofdata.txt')
         glitch = SegmentList.read('./segmentlist/glitch.txt')
     else:
         good,none        = check_nodata(total,skip=True,**kwargs)
@@ -117,3 +118,4 @@ def read_segmentlist(total,skip=True,**kwargs):
         log.debug('SegmentListError!')
         raise ValueError('Missmatch SegmentLists!')
     return good,none,lack,glitch
+

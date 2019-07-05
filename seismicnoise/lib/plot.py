@@ -90,8 +90,11 @@ def plot_timeseries(data,start,end,bad_status,fname_img):
             # Error in "5415/7457 ./data/TS_1234833538_1234837634.png 20"
             #log.debug(traceback.format_exc())            
             x_hist.axhspan(mean-std10, mean+std10, alpha=0.5, color='Yellow')
-        main_ax.set_ylim(mean-std10,mean+std10)
-        x_hist.set_ylim(mean-std10,mean+std10)
+        try:
+            main_ax.set_ylim(mean-std10,mean+std10)
+            x_hist.set_ylim(mean-std10,mean+std10)
+        except:
+            pass
         if bad_status:
             main_ax.axvspan(start, end, alpha=0.5, color='red')
     plt.savefig(fname_img)

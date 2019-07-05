@@ -3,7 +3,7 @@ import traceback
 #from tqdm import tqdm
 import lib.logger
 log = lib.logger.Logger(__name__)
-from lib import io
+from lib import iofunc
 import Kozapy.utils.filelist as existedfilelist
 from channel import get_seis_chname
 from gwpy.timeseries import TimeSeriesDict
@@ -30,7 +30,7 @@ def diff(segmentlist,nodata):
 def write(data,fname,**kwargs):
     '''
     '''
-    if io.existance(fname):
+    if iofunc.existance(fname):
         return 'Exist'
 
     try:
@@ -66,7 +66,7 @@ def _check_nodata(segment,sample_freq=32,headder='',prefix='./data',**kwargs):
     
     '''    
     start,end = segment
-    fname = io.fname_gwf(start,end,prefix)
+    fname = iofunc.fname_gwf(start,end,prefix)
 
     if lack_gwf(start,end):
         data,ans = None,'Nodata [noGWF]'
@@ -141,7 +141,7 @@ def check_nodata(segmentlist,prefix='./data',write=True,skip=False,**kwargs):
     if not skip:
         log.debug('Find segments')
         # find unchecked segments
-        exists = io.existance(segmentlist,ftype='gwf')
+        exists = iofunc.existance(segmentlist,ftype='gwf')
         not_checked = [segmentlist[i] for i,exist in enumerate(exists) if not exist]
         log.debug('{0}(/{1}) are not checked'.format(len(not_checked),len(segmentlist)))
         n = len(not_checked)
@@ -183,7 +183,8 @@ def _check_baddata(segment,data=None,prefix='./data',**kwargs):
     4 bit : big earthquake
     '''    
     start,end = segment
-    fname = io.fname_gwf(start,end,prefix)
+    fname = iofunc.fname_gwf(start,end,prefix)
+    fname = existedfilelist(start,end)
     chname = get_seis_chname(start,end)    
     try:
         data = TimeSeriesDict.read(fname,chname,verbose=False,**kwargs)
@@ -213,7 +214,7 @@ def check_baddata(segmentlist,prefix='./data',write=True,plot=True,**kwargs):
     '''
     log.debug('Checking bad segments')
             
-    exists = io.existance(segmentlist,ftype='png_ts')
+    exists = iofunc.existance(segmentlist,ftype='png_ts')
     checked = [segmentlist[i] for i,exist in enumerate(exists) if exist]
     not_checked = [segmentlist[i] for i,exist in enumerate(exists) if not exist]
     
@@ -233,11 +234,11 @@ def check_baddata(segmentlist,prefix='./data',write=True,plot=True,**kwargs):
             log.debug('!')
             raise ValueError('!')
         start,end = segment
-        fname_img = io.fname_png_ts(start,end,prefix)
+        fname_img = iofunc.fname_png_ts(start,end,prefix)
         log.debug('{0:03d}/{1:03d} {2} {3}'.format(i,len(segmentlist),fname_img,bad_status))
         chname = get_seis_chname(start,end)
-        if plot and not os.path.exists(fname_img):
-            plot_timeseries(data,start,end,bad_status,fname_img)
+        #if plot and not os.path.exists(fname_img):
+        #    plot_timeseries(data,start,end,bad_status,fname_img)
     # 
     new = SegmentList()    
     for segment in segmentlist:
@@ -265,3 +266,5 @@ def check_baddata(segmentlist,prefix='./data',write=True,plot=True,**kwargs):
         bad.write('./segmentlist/lackofdata.txt')
         eq.write('./segmentlist/glitch.txt')
     return new,bad,eq
+
+    

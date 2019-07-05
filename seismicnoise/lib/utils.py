@@ -9,11 +9,11 @@ from gwpy.frequencyseries import FrequencySeries
 from gwpy.spectrogram import Spectrogram
 
 from lib.channel import get_seis_chname
-from lib.io import fname_gwf,fname_png_ts,fname_png_asd,fname_hdf5_sg
+from lib.iofunc import fname_gwf,fname_png_ts,fname_png_asd,fname_hdf5_sg
 import lib.logger
 log = lib.logger.Logger(__name__)
-
     
+import Kozapy.utils.filelist as existedfilelist
 
 def _save_longterm_spectrogram(axis,idnum,fname,**kwargs):
     '''
@@ -77,7 +77,7 @@ def _calc_spectrogram(data,segment,**kwargs):
     sglist = [d.spectrogram2(**kwargs)**(1/2.) for d in data.values()]
     if write:
         fnamelist = fname_hdf5(segment,prefix)
-        #[_save_spectrogram(sg,fname) for fname,sg in zip(fnamelist,sglist)]
+        [_save_spectrogram(sg,fname) for fname,sg in zip(fnamelist,sglist)]
         #[_save_averaged_asd(sg,fname) for fname,sg in zip(fnamelist,sglist)]
     return sglist
 
@@ -98,9 +98,13 @@ def save_spectrogram(segmentlist,fftlength=2**10,overlap=2**9,**kwargs):
     log.debug('Save spectrograms..')
     for i,segment in enumerate(not_checked):
         try:
-            fname = fname_gwf(start,end,prefix)
+            #fname = fname_gwf(start,end,prefix)
+            fname = existedfilelist(segment[0],segment[1])
             chname = get_seis_chname(segment[0],segment[1])
+            hoge = kwargs.pop('fftlength','None')
+            hoge = kwargs.pop('overlap','None')
             data = TimeSeriesDict.read(fname,chname,**kwargs)
+            data = data.resample(32)
             data = data.crop(segment[0],segment[1])
         except:
             log.debug(traceback.format_exc())
@@ -109,9 +113,9 @@ def save_spectrogram(segmentlist,fftlength=2**10,overlap=2**9,**kwargs):
         kwargs['fftlength'] = fftlength
         kwargs['overlap'] = overlap
         sglist = _calc_spectrogram(data,segment,**kwargs)
-        asdlist = [sg.percentile(50) for sg in sglist]
+        #asdlist = [sg.percentile(50) for sg in sglist]
         fname = fname_png_asd(segment[0],segment[1],prefix)
-        plot_asd(asdlist,fname,**kwargs)
+        #plot_asd(asdlist,fname,**kwargs)
         log.debug('{0:03d}/{1:03d} {2} '.format(i,len(segmentlist),fname)+'Plot')
 
 
