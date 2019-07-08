@@ -1,0 +1,48 @@
+from gwpy.segments import DataQualityFlag
+
+
+
+def divide_into_bins(start,end,bins=4096,write=True,**kwargs):
+    ''' Divide given period into some bins.
+    
+    Parameters
+    ----------
+    start : `int`
+        GPS start time of given period
+    end : `int`
+        GPS end time of given period
+    bins : `int`, optional
+        The number of bins. Unit is second. Default value is 4096 =(2**12).
+
+    Returns
+    -------
+    bins : `gwpy.segments.DataQualityFlag`
+        bins
+    '''
+    if ((end-start) % bins) != 0:
+        raise ValueError('Not divisible!')
+
+    return = DataQualityFlag(known=[[start,end]],
+                             active=zip(range(start,end,bins),
+                                       range(start+bins,end,bins))))    
+
+
+def seismometer_flags(total,skip=True,**kwargs):
+    '''
+    '''
+    if skip:
+        log.debug('Skip chekking segment')
+        total  = SegmentList.read('./segmentlist/total.txt')
+        none   = SegmentList.read('./segmentlist/nodata.txt')
+        good   = SegmentList.read('./segmentlist/good.txt')
+        lack   = SegmentList.read('./segmentlist/lack.txt')
+        glitch = SegmentList.read('./segmentlist/glitch.txt')
+    else:
+        good,none        = check_nodata(total,skip=True,**kwargs)
+        good,lack,glitch = check_baddata(good,**kwargs)
+        log.debug('Checking done. Close.')
+        exit()
+    if not (len(total)-len(none)-len(lack)-len(glitch)==len(good)):
+        log.debug('SegmentListError!')
+        raise ValueError('Missmatch SegmentLists!')
+    return good,none,lack,glitch

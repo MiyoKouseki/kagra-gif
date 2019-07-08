@@ -1,7 +1,7 @@
 import lib.logger
 log = lib.logger.Logger(__name__)
 
-def get_seis_chname(start,end,place='EXV'):
+def get_seis_chname(start,end,place='EXV',axis='all'):
     '''
     
     '''
@@ -23,5 +23,10 @@ def get_seis_chname(start,end,place='EXV'):
                   'K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ']
     else:
         chname = None
+
+    if not axis == 'all':
+        dic = {'X':0,'Y':1,'Z':2}        
+        return  chname[dic[axis]]
+    
     return chname
 

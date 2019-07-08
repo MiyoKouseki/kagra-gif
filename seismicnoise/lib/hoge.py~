@@ -1,0 +1,5 @@
+from gwpy.segments import SegmentList#,DataQualityFlag
+
+#total  = SegmentList.read('../segmentlist/total.txt')
+
+print total
