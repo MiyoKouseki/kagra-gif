@@ -30,7 +30,7 @@ def peterson_noise_model(unit='um/sec'):
 
     
 def _percentile(axis,pctl=50,unit='um/sec',**kwargs):
-    _asd = FrequencySeries.read('./tmp/{0}_{1:02d}_LongTerm.hdf5'.format(axis,pctl))
+    _asd = FrequencySeries.read('./LongTerm_{0}_{1}.hdf5'.format(axis,pctl))**0.5
     amp = 10**(30.0/20.0)
     c2v = 20.0/2**15    
     _asd = v2vel(_asd)*c2v/amp*1e6
@@ -59,13 +59,13 @@ if __name__ == '__main__':
     #
     tr120 = Trillium('120QA')
     v2vel = tr120.v2vel    
-    #    
+    #
     h50 = percentile('H',pctl=50,unit=unit)
     h10 = percentile('H',pctl=10,unit=unit)
     h90 = percentile('H',pctl=90,unit=unit)
     z50 = percentile('Z',pctl=50,unit=unit)
     z10 = percentile('Z',pctl=10,unit=unit)
-    z90 = percentile('Z',pctl=90,unit=unit)    
+    z90 = percentile('Z',pctl=90,unit=unit)
     nlnm,nhnm = peterson_noise_model(unit=unit)
     selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6
     #
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     ax.set_xlabel('Frequency [Hz]')
     ax.set_xlim(1e-2,8)
     if unit=='um/sec':
-        ax.set_ylim(1e-4,20)
+        ax.set_ylim(1e-5,20)
         ax.set_ylabel('Velocity [um/sec/rtHz]')        
     elif unit=='um':
         ax.set_ylim(5e-6,20)

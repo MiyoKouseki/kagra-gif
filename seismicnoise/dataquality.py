@@ -160,7 +160,16 @@ def danger():
     pass
 
 
+
+
+
 if __name__ == '__main__':
+    segments = np.loadtxt('newfound_lackofdata.txt',dtype=np.int)
+    #print data
+    #exit()
     with DataQuality() as db:
         rows = db.ask('select * from EXV_SEIS WHERE flag=4')
-        db.to_txt(rows)
+        #for start,end in segments:
+        #    db.update_flag('EXV_SEIS',start,end,LACK_OF_DATA)
+        print db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps=1213312640')
+        #db.to_txt(rows)
