@@ -36,8 +36,10 @@ def _percentile(axis,pctl=50,unit='um/sec',**kwargs):
     _asd = v2vel(_asd)*c2v/amp*1e6
     if unit=='um':
         asd = _asd/(2.0*np.pi*_asd.frequencies.value)
+        asd.write('./LongTerm_{0}_{1}_DISP.txt'.format(axis,pctl),format='txt')        
     elif unit=='um/sec':
         asd = _asd
+        asd.write('./LongTerm_{0}_{1}_VELO.txt'.format(axis,pctl),format='txt')
     else:
         raise ValueError('!!1')
     return asd
