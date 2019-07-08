@@ -1,10 +1,15 @@
 # Long Term Seismic Noise
 ##### Table of Contents  
-1. [Overview](#Overview)
-2. [Long Term Data](#LongTermData)
-3. [Inspection](#Inspection)
-4. [Scripts](#Scripts)
-
+1. [Overview](#overview)
+2. [Long Term Data](#long-term-data)
+	* [Period](#period)
+	* [Channel Names](#channel-names)
+3. [Data Inspection](#data-inspection)
+	* [Lack of Data](#lack-of-data)
+	* [Glitch Data](#glitch-data) 
+	* [Available Data](#available-data)
+4. [Calculation Codes](#calculation-codes)
+5. [Results](#results)
 
 ## Overview
 Long term seismic noise spectra of KAGRA is calculated. Although such long term spectra are also calculated in 2012 by T. Sekiguchi, it is the seismic noise spectra in the mine of CLIO not in KAGRA. In comparison with this past calculation, this new calculation gives an actual seismic noise spectra of KAGRA.
@@ -35,14 +40,13 @@ IN1\_DQ channels of the EXV seismometer have been changing in past 1 year. From 
 |3| K1:PEM\_EXV\_GND\_TR120Q\_{X,Y,Z}\_IN1\_DQ | 2018-11-28 12:00:00 | 2019-01-28 09:00:00 | 
 |4| K1:PEM\_SEIS\_EXV\_GND\_{EW,NS,UD}\_IN1\_DQ | 2019-01-29 00:00:00 | --- | 
 
-## Inspection of data 
+## Data Inspection
 Long data is divided to small segments, which length is 4096 seconds. The number of the segments is 2**25/4096 = 8192. These segments are checked whether data are good or not, wihch is described following sub-section. 
-
-### No Frame File
-If gwpy could not read frame files in a segment, this segment is defined as a "No Frame File" data segment. In this case, no frame file are saved on local working directory. All of this segments are listed in **'./segmentlist/nodata.txt'**
 
 
 ### Lack of data
+If gwpy could not read frame files in a segment, this segment is defined as a "No Frame File" data segment. In this case, no frame file are saved on local working directory. All of this segments are listed in **'./segmentlist/nodata.txt'**
+
 If there are zero values in a segment, this segment is defined as a "Lack of data" segment. 
 
 <img src="./result/1212477056_1212481152_TS.png" alt="LackofData" width=300/>
@@ -62,5 +66,5 @@ If there are no bad signal mentioned above in a segment, this segment is defined
 <img src="./result/1211858560_1211862656_TS.png" alt="Available" width=300/>
 
 
-##Scripts
+## Calculation Codes
 ## Results
