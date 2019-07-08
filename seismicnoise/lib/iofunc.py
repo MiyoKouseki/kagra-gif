@@ -5,6 +5,8 @@ fmt_gwf     = '{prefix}/{gps5}/{start}_{end}.gwf'
 fmt_png_asd = '{prefix}/{gps5}/{start}_{end}_ASD.png'
 fmt_png_ts  = '{prefix}/{gps5}/{start}_{end}_TS.png'
 fmt_hdf5_sg = '{prefix}/{gps5}/{start}_{end}_{axis}.hdf5'
+fmt_hdf5_longasd = '{prefix}/LongTerm_{axis}_{percentile}.hdf5'
+fmt_hdf5_asd = '{prefix}/{gps5}/{start}_{end}_{axis}.hdf5'
 
 def fname_gwf(start,end,prefix):
     gps5 = str(start)[:5]
@@ -21,6 +23,14 @@ def fname_png_asd(start,end,prefix):
 def fname_hdf5_sg(start,end,prefix,axis):
     gps5 = str(start)[:5]
     return fmt_hdf5_sg.format(axis=axis,prefix=prefix,gps5=gps5,start=start,end=end)
+
+def fname_hdf5_longasd(prefix,axis,percentile):
+    return fmt_hdf5_longasd.format(prefix=prefix,axis=axis,percentile=percentile)
+
+def fname_hdf5_asd(start,end,prefix,axis):
+    gps5 = str(start)[:5]
+    return fmt_hdf5_asd.format(prefix=prefix,gps5=gps5,start=start,end=end,axis=axis)
+
 
 
 def existance(args,ftype='gwf',prefix='./data',**kwargs):

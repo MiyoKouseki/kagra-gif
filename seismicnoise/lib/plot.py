@@ -27,22 +27,18 @@ def plot_averaged_asd(specgrams,fname):
     plt.close()
 
 
-def plot_segmentlist(total,nodata,lackofdata,glitch,available,start,end,fname='./segment.png',**kwargs):
+def plot_segmentlist(*args,**kwargs):
     '''
-    '''    
-    available = DataQualityFlag(name='Available',active=available,known=[(start,end)])
-    nodata = DataQualityFlag(name='No Frame Files',active=nodata,known=[(start,end)])
-    lackofdata = DataQualityFlag(name='Lack of Data',active=lackofdata,known=[(start,end)])
-    glitch = DataQualityFlag(name='Glitche',active=glitch,known=[(start,end)])
-    total = DataQualityFlag(name='Total',active=total,known=[(start,end)])
-    plot = available.plot(figsize=(25,5),epoch=start,title='Available Segments')
+    '''        
+    start = args[0].known[0].start
+    end = args[0].known[0].end
+    plot = args[0].plot(figsize=(25,5),epoch=start,xlim=(start,end))
     ax = plot.gca()
-    ax.plot(glitch)
-    ax.plot(lackofdata)
-    ax.plot(nodata)
-    ax.plot(total)
-    ax.set_xscale('days')
-    fname = kwargs.pop('prefix','./data') + '/segment.png'
+    for data in args[1:]:
+        ax.plot(data,label=data.name)
+    fname = kwargs.pop('fname')
+    ax.set_xlim(start,end)
+    log.debug(fname)
     plt.savefig(fname)
 
 
