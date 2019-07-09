@@ -11,6 +11,7 @@ from gwpy.timeseries import TimeSeries
 
 from miyopy.gif import (GifData,KagraGoticStrain,gps2datestr)
 from gwpy.plot import Plot
+from gwpy.time import tconvert
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -18,8 +19,8 @@ warnings.filterwarnings("ignore")
 
 
 def main_compare_gif_gotic2():
-    start = 'Oct 15 2018 00:00:00'
-    end = 'Oct 21 2018 00:00:00'
+    start = tconvert('Oct 15 2018 00:00:00')
+    end = tconvert('Oct 21 2018 00:00:00')
 
     # gif data
     pfx = '/Users/miyo/Dropbox/KagraData/gif/'
