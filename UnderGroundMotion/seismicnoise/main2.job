@@ -1,0 +1,44 @@
+
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/UnderGroundMotion/seismicnoise
+Notification   = Never
++Group         = "Xc"
+request_memory = 2 GB
+
+Executable = /usr/bin/python 
+Error      = ./log/main.$(Process).err
+Log        = ./log/main.$(Process).log
+Output     = ./log/main.$(Process).out
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1211817600 --end 1216011904
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1216011904 --end 1220206208
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1220206208 --end 1224400512
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1224400512 --end 1228594816
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1228594816 --end 1232789120
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1232789120 --end 1236983424
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1236983424 --end 1241177728
+Queue
+
+RequestCpus    = 2
+Arguments  = ./main.py --start 1241177728 --end 1245372032
+Queue
