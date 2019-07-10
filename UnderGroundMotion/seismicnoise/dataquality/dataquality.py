@@ -26,9 +26,24 @@ GLITCH       = 0b1000 # 8
 
 
 class DataQuality(object):
-    def __init__(self):
-        self.conn = sqlite3.connect('dqflag.db')
+    def __init__(self,dbname):
+        self.conn = sqlite3.connect(dbname)
         self.cursor = self.conn.cursor()
+
+    def check_db(self):
+        with DataQuality('./dataquality/dqflag.db') as db:
+            total      = db.ask('select startgps,endgps from EXV_SEIS')
+            available  = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0')
+            lackoffile = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
+            lackofdata = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
+            glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
+            use        = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
+                                'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                           args.end))
+
+        bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
+        if bad!=0:
+            raise ValueError('SegmentList Error: Missmatch the number of segments.')
         
     def __enter__(self):
         print("Hello!")
@@ -164,11 +179,11 @@ def danger():
 
 
 if __name__ == '__main__':
-    segments = np.loadtxt('newfound_lackofdata.txt',dtype=np.int)
+    #segments = np.loadtxt('newfound_lackofdata.txt',dtype=np.int)
     #print data
     #exit()
     with DataQuality() as db:
-        rows = db.ask('select * from EXV_SEIS WHERE flag=4')
+        #rows = db.ask('select * from EXV_SEIS WHERE flag=4')
         #for start,end in segments:
         #    db.update_flag('EXV_SEIS',start,end,LACK_OF_DATA)
         print db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps=1213312640')
