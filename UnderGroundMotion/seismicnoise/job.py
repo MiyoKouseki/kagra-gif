@@ -28,5 +28,5 @@ text = body
 for start,end in segments:
     body += queue.format(start,end)
 
-with open('main2.job','w') as f:
+with open('main_multi.job','w') as f:
     f.write(body)
