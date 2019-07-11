@@ -76,10 +76,15 @@ v2vel = tr120.v2vel
 
 unit = 'um'
 
+import tarfile
+tar = tarfile.open('./data2/LongTerm_8_divided.tgz', 'r')
+for tarinfo in tar:
+    print tarinfo.name
+exit()
 import matplotlib.cm as cm
 for axis in ['Vertical','Horizontal']:
     fig,ax = plt.subplots(1,1,figsize=(8,8))    
-    fname_img = './tmp/LongTerm_{0}.png'.format(axis[0])
+    fname_img = './results/LongTerm_{0}.png'.format(axis[0])
     for i,(start,end) in enumerate(segments):
         tlen = end - start
         bins = tlen/8
@@ -111,6 +116,7 @@ for axis in ['Vertical','Horizontal']:
     plt.savefig(fname_img)
     plt.close()
 #
+exit()
 #
 for i,(start,end) in enumerate(segments):
     fig,ax = plt.subplots(1,1,figsize=(8,8))
@@ -140,4 +146,3 @@ for i,(start,end) in enumerate(segments):
         ax.set_ylabel('Displacement [um/rtHz]')    
     plt.savefig(fname_img)
     plt.close()
-
