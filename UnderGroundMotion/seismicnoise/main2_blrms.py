@@ -26,28 +26,22 @@ miyako = TimeSeries.read('./data_jma/miyako_press.gwf','JMA:MIYAKO-PRESS')
 
 c2v = 20.0/2**15
 gain = 10**(30.0/20)    
-blrms100_300 = TimeSeries.read('./data2/LongTerm_Z_BLRMS_100_300mHz.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
+blrms100_300 = TimeSeries.read('./data2/blrms/Z_100_300mHz_1211817600_1245372032.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
 blrms100_300 = blrms100_300/gain*c2v/1000*1e6
-blrms0_100 = TimeSeries.read('./data2/LongTerm_Z_BLRMS_0_100mHz.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
-blrms0_100 = blrms0_100/gain*c2v/1000*1e6
-blrms200_300 = TimeSeries.read('./data2/LongTerm_Z_BLRMS_200_300mHz.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
-blrms200_300 = blrms200_300/gain*c2v/1000*1e6
-blrms100_200 = TimeSeries.read('./data2/LongTerm_Z_BLRMS_100_200mHz.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
+#blrms200_300 = TimeSeries.read('./data2/blrms/Z_200_300mHz_1211817600_1245372032.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
+#blrms200_300 = blrms200_300/gain*c2v/1000*1e6
+blrms100_200 = TimeSeries.read('./data2/blrms/Z_100_200mHz_1211817600_1245372032.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
 blrms100_200 = blrms100_200/gain*c2v/1000*1e6
-blrms1_3 = TimeSeries.read('./data2/LongTerm_Z_BLRMS_1_3Hz.gwf','K1:PEM-EX1_SEIS_Z_SENSINF_IN1_DQ')
-blrms1_3 = blrms1_3/gain*c2v/1000*1e6
 
 t0 = blrms100_300.t0
 print from_gps(t0.value)
-tlen = 3600*24*30*6*u.s
+tlen = 3600*24*30*12*u.s
 #t0 = t0 + tlen
 tend = t0 + tlen
 #
 blrms100_300 = blrms100_300.crop(t0.value,(t0+tlen).value)
-blrms200_300 = blrms200_300.crop(t0.value,(t0+tlen).value)
+#blrms200_300 = blrms200_300.crop(t0.value,(t0+tlen).value)
 blrms100_200 = blrms100_200.crop(t0.value,(t0+tlen).value)
-blrms0_100   = blrms0_100.crop(t0.value,(t0+tlen).value)
-blrms1_3     = blrms1_3.crop(t0.value,(t0+tlen).value)*10
 #
 toyama      = toyama.crop(t0.value,(t0+tlen).value)
 takayama    = takayama.crop(t0.value,(t0+tlen).value)
@@ -65,7 +59,7 @@ miyako      = miyako.crop(t0.value,(t0+tlen).value)
 fig,(ax,ax2,ax3) = plt.subplots(3,1,figsize=(19,7),sharex=True)
 ax.plot(blrms100_300,'ko',markersize=1,label='Vertical: 100-300 mHz')
 ax2.plot(blrms100_200,'bo',markersize=1,label='Vertical: 100-200 mHz')
-ax2.plot(blrms200_300,'ro',markersize=1,label='Vertical: 200-300 mHz')
+#ax2.plot(blrms200_300,'ro',markersize=1,label='Vertical: 200-300 mHz')
 #ax.plot(blrms0_100,'ko',markersize=1,label='Vertical: 0-100 mHz')
 #ax.plot(blrms1_3,'ro',markersize=1,label='Z: 1-3 Hz')
 ax3.plot(toyama,'go',markersize=1,label='Toyama')
