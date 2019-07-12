@@ -1,25 +1,32 @@
-\documentclass[a4paper,12pt]{jsarticle}
-\bibliographystyle{junsrt}
-\usepackage{ascmac}
-\usepackage{empheq}
-\usepackage{amsmath,amssymb}
-\usepackage{bm}
-\usepackage[dvipdfmx]{graphicx,color}
-\usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
-\usepackage{braket}
+\documentclass[a4paper,12pt]{book}
+\usepackage[dvipdfmx]{graphicx,color,hyperref}
+%\usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
 \usepackage{here}
-\usepackage{comment}
-\title{Length fluctuation of baseline}
-\author{Koseki Miyo}
+%
+% ハイパーリンクを付ける設定
+\usepackage{pxjahyper}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  bookmarks=true, 
+  bookmarksnumbered=true,
+  pdfborder={0 0 0},
+  bookmarkstype=toc
+}
+% 本文
 \begin{document}
 \setcounter{tocdepth}{2}
-\maketitle
-\abstract{大型重力波望遠鏡の安定性にとって問題となる脈動帯域以下の基線長伸縮について述べている。第一世代のような基線長が短い検出器では、腕共振器の鏡はそれぞれ同相でうごくため逆相成分である基線長伸縮は十分小さく低減されていた。しかし第二世代になると基線長伸縮は十分に低減されず、また高フィネスで線幅の小さい腕共振器を必要とするため、共振器制御は不安定になってしまう。本文書では、脈動が等方的に到来するという仮定に基づいて、この基線長伸縮の低減効果をモデル化した。このモデルによれば、KAGRAのアームの岩盤はVirgoと比べて、およそ$0.2\, \mathrm{Hz}$にある Second Microseism による基線長伸縮を10倍低減できることがわかった。この結果は、地下検出器は地面振動雑音や Newtonian 雑音 の低減だけでなく、干渉計の安定性の点においても優れていることを示唆している。}
-
-\abstract{Length fluctuation of the baseline makes laser interferometric gravitational-wave detectors to be unstable. This disturbance is caused by seismic noises such as microseisms or earth quake bellow a few 100 mHz. Such low frequency motions are not reduced sufficiently even using the viblation isolation systems. In this paper, 
-}
-
 \tableofcontents
+
+
+\section{Introduction}
+\subsection{KAGRA Site}
+\section{Theory of Seismic Waves}
+\subsection{Body Waves}
+\subsection{Surface Waves}
+\section{}
+\section{Seismic Noise}
 
 \section{基線長伸縮}
 地面振動は共振器を同相と逆相に動かす。同相は共振器の重心移動成分で逆相は共振器長伸縮成分である。同相と逆相成分は独立しているが、共振器鏡の地面応答がITMとETMで異なると同相から逆相成分へのカップリングが生じる。このカップリングは同相雑音除去比または Common Mode Rejection Ratio (CMRR) として知られている。CMRRが大きいと同相入力は逆相へカップルしにくくなる。一方で地面振動は二点間の距離が弾性波の波長に対して十分小さければ、ほとんど同相で動き、逆相成分を持たない。本章ではこの逆相の低減比をCommon and Differential Ratio (CDMR) として定義する(式\ref{eq:eq23})。\footnote[3]{このCDMRのことをCMRRと言っている場面がみられるが、それは正しくないように思う。元来、CMRRは差動増幅器の同相入力応答と逆相入力応答の比で定義されている。これはシステムに同相で入力したときにどれだけ逆相にカップルするかというカップリング係数である。CDMRは、システムに入力される同相と逆相成分がどの程度の割合なのかという量である。}CDMRが大きければITMとETMの逆相成分は同相成分より小さくなる。以上のことから、共振器長制御にとって、「CDMRの大きい地面にCMRRの高い共振器を置くこと」が大事であるといえる。
@@ -137,10 +144,7 @@ $P_{\mathrm{comm}},P_{\mathrm{diff}}$は同相成分と逆相成分について�
 \end{figure}
 
 
-\subsection{まとめ}
 
 \appendix
-
-\bibliography{./cdmr_reference}
-
+%\bibliography{./reference}
 \end{document}
