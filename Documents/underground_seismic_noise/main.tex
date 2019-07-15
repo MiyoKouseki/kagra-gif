@@ -49,26 +49,28 @@
 \subsection{The Earth Quakes}
 \subsection{The Earth Tide}
 \subsection{...}
-\section{Seismic Noise Rejection in the Arm Cavity}
-\subsection{Rejection of the Cavity Length}
-The seismic noise shakes both common and differential motion of the arm cavity. The common motion is the center of mass of that, and the differential motion is the arm length. These motions are same each other, when two points move with no correlation. However, If there is a coherence, the differential motion is less than common motion. This redcution effects relax to control the arm cavity.
+\section{Seismic Noise Reduction in the Arm Cavity}
+\subsection{Introduction}
+The seismic noise shakes both the common and the differential motion of the arm cavity. The common motion moves the center of mass of that, and the differential motion moves the arm length. These motions are the same each other, when two mirrors in the cavity moves with no correlation. However, If there is the coherence, the differential motion is less than common motion. 
 
-A ratio of these motions depends on the arm length and the wave length of seismic motion which propagates along the arm. If wave length is much smaller than the wave length, two mirrors in the cavity are move together. It means that the common motion is greater than differential motion. This effect is remain as long as coherence of these mirrors is exist.
+A ratio of these motions depends on both the arm length and the wave length of seismic motion which propagates along the arm. If the arm length is much smaller than the wave length, two mirrors in the cavity moves together. It means that the common motion is greater than differential motion. This effect is remain as long as coherence of these mirrors is exist.
 
-In fact, arm length fluctuation is caused by not only differential motion of the ground but also the coupling from the common motion. This coupling ratio is kwnon as the Common Mode Rejection Ratio (CMRR). This is defined as the ratio of the powers of the differential-mode response over the common-mode response in a system. For example, in the case of ideal arm cavity, CMRR is infinity because response of the differential motion of the arm is 1 and that of the common motion is 0. In the actual case, differencies in the ground responce of each mirrors causes the coupling.
+In fact, arm length fluctuation is caused by not only the differential motion of the ground but also the coupling from the common motion to the length. This coupling ratio is kwnon as the Common Mode Rejection Ratio (CMRR). This is defined as the ratio of the powers of the differential-mode response over the common-mode response in a system. For example, in the case of ideal arm cavity, CMRR is infinity because the common response from the ground to optics is 0. However, in the actual case, the commom response is not 0 because there are some differencies in the responses of two mirrors. 
 
-In this section, a ratio of the powers of the differential motion over common motion in the ground is defined as Common and Differential Motion Ratio (CDMR), and described in detail.
+In this section, a ratio of the powers of the differential motion over common motion in the ground is defined as Common and Differential Motion Ratio (CDMR), and described in detail. This redcution effects could relax to control the arm cavity. 
 
-\subsection{Rejection Rate}
+
+\subsection{Differential Motion Reduction}
+Motions of two mirrors in the arm cavity can be represented as the differential and the common motion. These motions are defined and calculated with the coherence between these two mirrors. In folowing disscuss, the mirrors are fixed on the ground and these of CMRR is high enough to ignore the coupling from common motion of ground to differential motion of the mirrors.
+
 \subsubsection{Differential Motion and Common Motion}
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=8.0cm]{./img_cdmr_xarm.png}
+    \includegraphics[width=8.0cm]{./img_cdmr_arm.png}
   \end{center}
   \caption{Displacements of two points,$x_1,\,x_2$. Displacements of each location are represented as $u(x_1,t),\, u(x_2,t)$, in the case displacement field is given with $u(x,t)$, where $x$ is location of the point and $t$ is a time.
   }\label{img:img_diffcomm}  
 \end{figure}
-
 
 Displacement of both differential motion and common motion of two points shown in Figure\ref{img:img_diffcomm} is defined as
 \begin{eqnarray}\label{eq:eq22}
@@ -76,6 +78,8 @@ Displacement of both differential motion and common motion of two points shown i
   u_{\mathrm{comm}}  \equiv \frac{u_{1}+u_{2}}{\sqrt{2}}
 \end{eqnarray}
 , where $u_{1}(x,t)$ and $u_2(x,t)$ are the displacement in each points.
+
+
 
 \subsubsection{Common and Differential Motion Ratio (CDMR)}
 Common and Differential Motion Ratio (CDMR) is defined as the powers of common motion over the differential motion as bellow,
@@ -125,7 +129,6 @@ Therefore, one can compute the CDMR as
 \end{equation}
 
 
-
 \subsubsection{Uniform Plane Wave Model}
 The CDMR when the plane waves are distributed uniformly around the azimuth is discussed. This model can be applied in the case microseisms excite the ground. The coherence is equal to the integral over all direction.
 \begin{eqnarray} \label{eq:eq19}
@@ -135,6 +138,16 @@ where the coherence is normized azimuth angle. Therefore, the CDMR is given as
 \begin{equation}  \label{eq:eq20}
   \mathrm{CDMR} = \sqrt{\frac{1+J_0(\frac{L\omega}{c})}{1-J_0(\frac{L\omega}{c})}} .
 \end{equation}
+
+
+\subsubsection{Reduction in the X-arm}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=11.0cm]{./img_cdmr_xarm.png}
+  \end{center}
+  \caption{\textbf{(Caution!! This plot shows the case of single plane wave.)} CDMR in the case of the uniform plane wave model.(Upper) The amplitude spectrum densities of the differential and common motion in X arm cavity which is measured by seismometers near the each ITMX and ETMX chambers. (Lower) CDMR which is a ratio of the amplitudes of the common motion over differential motion, is shown in black line. Green Line is CDMR in the case the uniform plane wave model. Blue line is CDMR with no correlation between each mirrors.}\label{img:img_cdmr_xarm}
+\end{figure}
 
 
 \subsection{Comparizon with surface detectors}
@@ -164,7 +177,7 @@ I'm tired. I'll write tomorrow.
   \begin{center}
     \includegraphics[width=9.5cm]{./img_CDMR.png}
   \end{center}
-  \caption{Comparizon of the Rejection effect between KAGRA and Virgo. Eq.(\ref{eq:eq34}) with the phase velocity on the Fig.(\ref{img:img_RwaveVelocity})}
+  \caption{Comparizon of the Reduction effect between KAGRA and Virgo. Eq.(\ref{eq:eq34}) with the phase velocity on the Fig.(\ref{img:img_RwaveVelocity})}
   \label{img:img_dmrr}
 \end{figure}
 
