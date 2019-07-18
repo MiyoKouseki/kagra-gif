@@ -1,0 +1,49 @@
+This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: main.aux
+The style file: junsrt.bst
+Database file #1: ./groundmotion_reference.bib
+Warning--empty journal in 竹本2003
+You've used 1 entry,
+            2270 wiz_defined-function locations,
+            543 strings with 4278 characters,
+and the built_in function-call counts, 353 in all, are:
+= -- 11
+> -- 34
+< -- 0
++ -- 12
+- -- 11
+* -- 24
+:= -- 63
+add.period$ -- 3
+call.type$ -- 1
+change.case$ -- 1
+chr.to.int$ -- 0
+cite$ -- 2
+duplicate$ -- 13
+empty$ -- 21
+format.name$ -- 22
+if$ -- 72
+int.to.chr$ -- 0
+int.to.str$ -- 1
+missing$ -- 1
+newline$ -- 8
+num.names$ -- 1
+pop$ -- 9
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 9
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 1
+width$ -- 2
+write$ -- 11
+is.kanji.str$ -- 18
+(There was 1 warning)
