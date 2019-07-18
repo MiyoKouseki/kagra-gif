@@ -11,5 +11,5 @@ Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
 
 RequestCpus    = 4
-Arguments  = ./main.py 
+Arguments  = ./main.py --nproc 8
 Queue

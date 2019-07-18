@@ -14,7 +14,7 @@ Output     = ./log/main.$(Process).out
 
 queue = '''
 RequestCpus    = 2
-Arguments  = ./main.py --start {0} --end {1}
+Arguments  = ./main.py --start {0} --end {1} --nproc 2
 Queue
 '''
 

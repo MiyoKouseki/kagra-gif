@@ -5,6 +5,7 @@ import traceback
 import os
 import numpy as np
 
+import astropy.units as u
 from gwpy.time import tconvert
 from gwpy.timeseries import TimeSeries,TimeSeriesDict
 from gwpy.spectrogram import Spectrogram
@@ -15,7 +16,7 @@ from lib.plot import plot_segmentlist
 import lib.logger
 log = lib.logger.Logger('main')
 from lib.channel import get_seis_chname
-from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd
+from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd,fname_gwf_longblrms
 
 
 ''' Seismic Noise
@@ -41,13 +42,16 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
     '''
     nproc = kwargs.pop('nproc',4)
     bandpass = kwargs.pop('bandpass',None)
+    blrms = kwargs.pop('blrms',None)
+    fftlen = kwargs.pop('fftlen',2**8)
+    overlap = fftlen/2
 
     # check existance of the spectrogram data
     fname_hdf5 = fname_hdf5_asd(start,end,prefix,axis)
     if os.path.exists(fname_hdf5):
         specgram = Spectrogram.read(fname_hdf5)
-        if bandpass:
-            timeseries = specgram.crop_frequencies(bandpass[0],bandpass[1]).sum(axis=1)
+        if blrms:
+            timeseries = specgram.crop_frequencies(blrms[0],blrms[1]).sum(axis=1)
             return timeseries
         return specgram
     
@@ -84,7 +88,7 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
         raise ValueError('data broken')
 
     # calculate from timeseries data
-    specgram = data.spectrogram2(fftlength=2**8,overlap=2**7,nproc=nproc)
+    specgram = data.spectrogram2(fftlength=fftlen,overlap=overlap,nproc=nproc)
     specgram.write(fname_hdf5,format='hdf5',overwrite=True)
     return specgram
     
@@ -95,18 +99,8 @@ if __name__ == "__main__":
     parser.add_argument('--start',type=int,default=1211817600)
     parser.add_argument('--end',type=int,default=1245372032)
     parser.add_argument('--nproc',type=int,default=8)
-    parser.add_argument('--percentile', action='store_false')
-    parser.add_argument('--alldata', action='store_false')
     args = parser.parse_args()
     nproc = args.nproc
-    run_percentile = args.percentile
-    alldata = args.alldata
-    if args.start!=1211817600 or args.end!=1245372032:
-        alldata = True 
-
-    log.info('# ----------------------------------------')
-    log.info('# Start SeismicNoise            ')
-    log.info('# ----------------------------------------')
 
     # Get segments
     from dataquality.dataquality import DataQuality
@@ -118,33 +112,29 @@ if __name__ == "__main__":
         glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
         use        = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
                         'and startgps>={0} and endgps<={1}'.format(args.start,args.end))
-
     bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
     if bad!=0:
         raise ValueError('SegmentList Error: Missmatch the number of segments.')
 
-    # Plot segmentlist
-    if False:
-        from lib.plot import plot_segmentlist
-        start, end = total[0][0],total[-1][1]
-        from gwpy.segments import DataQualityAlldata
-        available = DataQualityAlldata(name='Available',active=available,
-                                    known=[(start,end)])
-        lackoffile = DataQualityAlldata(name='No Frame Files',active=lackoffile,
-                                     known=[(start,end)])
-        lackofdata = DataQualityAlldata(name='Lack of Data',active=lackofdata,
-                                     known=[(start,end)])
-        glitch = DataQualityAlldata(name='Glitche',active=glitch,known=[(start,end)])
-        total = DataQualityAlldata(name='Total',active=total,known=[(start,end)])
-        plot_segmentlist(available,lackoffile,lackofdata,glitch,total,
-                         fname='./segment.png')
-        exit()
+
+    log.info('# ----------------------------------------')
+    log.info('# Start SeismicNoise                      ')
+    log.info('# ----------------------------------------')
+
+    # Setup
+    bandlimited = True
+    rms = True
+    if bandlimited and rms:
+        kwargs = {'nproc':nproc,'blrms':(0.2,0.3)}
+        default = {'gap':'pad','pad':0.0}
+    else:
+        kwargs = {'nproc':nproc,'bandpass':False}
+        default = {'gap':'ignore'}    
+    fftlen = 2**8
+    enbw = (1./fftlen)*u.Hz*1.5
 
 
     # Main
-    blrms = False
-    #kwargs = {'nproc':nproc,'bandpass':(0.0,0.1)}
-    kwargs = {'nproc':nproc}
     start,end = use[0]
     x_array2ds = get_array2d(start,end,axis='X',**kwargs)
     y_array2ds = get_array2d(start,end,axis='Y',**kwargs)
@@ -155,36 +145,58 @@ if __name__ == "__main__":
         array2d_x = get_array2d(start,end,axis='X',**kwargs)
         array2d_y = get_array2d(start,end,axis='Y',**kwargs)
         array2d_z = get_array2d(start,end,axis='Z',**kwargs)
-        if not blrms:
-            x_array2ds.append(array2d_x,gap='ignore')
-            y_array2ds.append(array2d_y,gap='ignore')
-            z_array2ds.append(array2d_z,gap='ignore')
-        elif blrms:
-            x_array2ds.append(array2d_x,gap='pad',pad=0.0)
-            y_array2ds.append(array2d_y,gap='pad',pad=0.0)
-            z_array2ds.append(array2d_z,gap='pad',pad=0.0)
-
-    # Main : Percentile
-    run_percentile = True
+        x_array2ds.append(array2d_x,**default)
+        y_array2ds.append(array2d_y,**default)
+        z_array2ds.append(array2d_z,**default)
+            
+    # Main : `n`th Percentile
     suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
-    if run_percentile:
+    run_percentile = True
+    if run_percentile and not bandlimited:
         for pctl in [10,50,90]:
             percentile(x_array2ds,pctl,'X',suffix=suffix)
             percentile(y_array2ds,pctl,'Y',suffix=suffix)
             percentile(z_array2ds,pctl,'Z',suffix=suffix)
 
-    # Main : BLRMS
+
+    # Main : Band Limited Root Mean Square
+    blrms = True
+    if blrms and bandlimited:
+        log.debug(enbw)
+        x_blrms = (x_array2ds*enbw)**0.5 # ct
+        y_blrms = (y_array2ds*enbw)**0.5 # ct
+        z_blrms = (z_array2ds*enbw)**0.5 # ct
+        log.debug(x_blrms)
+        low = int(kwargs['blrms'][0]*1000)
+        high = int(kwargs['blrms'][1]*1000)
+        suffix = '_{start}_{end}'.format(start=args.start,end=args.end)        
+        x_fname = fname_gwf_longblrms('X',low,high,suffix=suffix)
+        y_fname = fname_gwf_longblrms('Y',low,high,suffix=suffix)
+        z_fname = fname_gwf_longblrms('Z',low,high,suffix=suffix)
+        log.debug(x_fname)
+        x_blrms.write(x_fname)
+        log.debug(y_fname)
+        y_blrms.write(y_fname)
+        log.debug(z_fname)
+        z_blrms.write(z_fname)
+
+        
+    # Main : plot Segment List
     if False:
-        import astropy.units as u
-        x_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
-        x_array2ds = x_array2ds**0.5
-        x_array2ds.write('./data/LongTerm_X_BLRMS_0_100mHz.gwf')
-        y_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
-        y_array2ds = y_array2ds**0.5
-        y_array2ds.write('./data/LongTerm_Y_BLRMS_0_100mHz.gwf')
-        z_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
-        z_array2ds = z_array2ds**0.5
-        z_array2ds.write('./data/LongTerm_Z_BLRMS_0_100mHz.gwf')
+        from lib.plot import plot_segmentlist
+        start, end = total[0][0], total[-1][1]
+        from gwpy.segments import DataQualityFlag
+        available = DataQualityFlag(name='Available',active=available,
+                                    known=[(start,end)])
+        lackoffile = DataQualityFlag(name='No Frame Files',active=lackoffile,
+                                     known=[(start,end)])
+        lackofdata = DataQualityFlag(name='Lack of Data',active=lackofdata,
+                                     known=[(start,end)])
+        glitch = DataQualityFlag(name='Glitche',active=glitch,known=[(start,end)])
+        total = DataQualityFlag(name='Total',active=total,known=[(start,end)])
+        plot_segmentlist(available,lackoffile,lackofdata,glitch,total,
+                         fname='./result/segment.png')
+    
         
     # Finish!
     log.debug('Finish!')
