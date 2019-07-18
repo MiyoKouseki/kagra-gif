@@ -9,7 +9,7 @@
 \usepackage{braket}
 \usepackage{here}
 \usepackage{comment}
-\usepackage{jtygm} % Warning
+\usepackage{jtygm} % To avoid warning
 \usepackage[hang,small,bf]{caption}
 \usepackage[subrefformat=parens]{subcaption}
 \captionsetup{compatibility=false}
@@ -61,6 +61,53 @@ I have to explain how earth quake shake the KAGRA site and how serious for inter
 \end{itemize}
 
 \subsection{...}
+
+
+
+
+\section{Phase Velocity Estimation}
+\subsection{Introduction}
+Estimation of the phase velocity is a crew to know how the ground is shaked by the seismic noise. 
+弾性波の位相速度を見積もることは、地面がどのように揺らされているか知る手がかりになる。
+
+
+
+
+次節で詳しく述べるように、位相速度が大きいほど逆相成分がよく低減される。そのため位相速度をもとめることは重要である。
+
+\subsection{Setup}
+\subsection{Results}
+I'm tired. I'll write tomorrow.
+\begin{figure}[H] 
+ \begin{minipage}{0.5\hsize}
+  \begin{center}
+    \includegraphics[width=8.0cm]{./img_coherence_result.png}    
+  \end{center}
+  \subcaption{}  
+  \label{img:img_coherence_result}
+ \end{minipage}
+ \begin{minipage}{0.5\hsize}
+  \begin{center}
+    \includegraphics[width=8.0cm]{./img_RwaveVelocity.png}    
+  \end{center}
+  \subcaption{}
+  \label{img:img_RwaveVelocity}  
+ \end{minipage}
+  \caption{(a) The complex coherence between two points. Red solid line is a complex coherence in 3000 m distance. Blue one is a coherence in 22 m distance. Black dashed line is given by Eq.(\ref{eq:eq19}) with asuming a profile of the phase velocity on Fig.(\ref{img:img_RwaveVelocity}). (b) The phase velocity of the Rayleigh wave. Black solid line is sited from M.Beker's PhD thesis. Red one is taken by fitting the measured data on Fig.(\ref{img:img_coherence_result})} 
+\end{figure}
+
+\subsubsection{}
+
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=9.5cm]{./img_CDMR.png}
+  \end{center}
+  \caption{Comparizon of the Reduction effect between KAGRA and Virgo. Differential motion represented in Eq.(\ref{eq:eq34}).   the phase velocity on the Fig.(\ref{img:img_RwaveVelocity})}
+  \label{img:img_dmrr}
+\end{figure}
+
+
 \section{Differential Motion Reduction}
 \subsection{Introduction}
 The seismic noise shakes both the common and the differential motion of the arm baseline. The common motion moves the center of mass of that, and the differential motion changes the arm length. Amplitudes of these are the same each other, when the two points in the arm moves with no correlation. However, if there are some coherencies, the differential motion is less than the common motion. It is important property of the ground for controling the arm length.
@@ -183,44 +230,9 @@ where the coherence is normized azimuth angle. Therefore, the CDMR is given as
 
 
 
-
-
-
 \subsection{Comparizon with Surface Detectors}
 When length of the arm is almost the same, CDMR depends only on the phase velocity on of the ground, according to models in Eq.(\ref{eq:eq18}), Eq.(\ref{eq:eq20}). The phase Velocity is ...
 
-
-
-\subsubsection{Phase Velocity Estimation}
-I'm tired. I'll write tomorrow.
-\begin{figure}[H] 
- \begin{minipage}{0.5\hsize}
-  \begin{center}
-    \includegraphics[width=8.0cm]{./img_coherence_result.png}    
-  \end{center}
-  \subcaption{}  
-  \label{img:img_coherence_result}
- \end{minipage}
- \begin{minipage}{0.5\hsize}
-  \begin{center}
-    \includegraphics[width=8.0cm]{./img_RwaveVelocity.png}    
-  \end{center}
-  \subcaption{}
-  \label{img:img_RwaveVelocity}  
- \end{minipage}
-  \caption{(a) The complex coherence between two points. Red solid line is a complex coherence in 3000 m distance. Blue one is a coherence in 22 m distance. Black dashed line is given by Eq.(\ref{eq:eq19}) with asuming a profile of the phase velocity on Fig.(\ref{img:img_RwaveVelocity}). (b) The phase velocity of the Rayleigh wave. Black solid line is sited from M.Beker's PhD thesis. Red one is taken by fitting the measured data on Fig.(\ref{img:img_coherence_result})} 
-\end{figure}
-
-\subsubsection{}
-
-
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=9.5cm]{./img_CDMR.png}
-  \end{center}
-  \caption{Comparizon of the Reduction effect between KAGRA and Virgo. Differential motion represented in Eq.(\ref{eq:eq34}).   the phase velocity on the Fig.(\ref{img:img_RwaveVelocity})}
-  \label{img:img_dmrr}
-\end{figure}
 
 
 \section{Summary of the Chapter}
