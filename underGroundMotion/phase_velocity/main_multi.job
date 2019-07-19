@@ -1,7 +1,7 @@
 
 Universe       = vanilla 
 GetEnv         = True
-Initialdir     = /home/kouseki.miyo/kagra-gif/UnderGroundMotion/phase_velocity
+Initialdir     = /home/kouseki.miyo/kagra-gif/underGroundMotion/phase_velocity
 Notification   = Never
 +Group         = "Xc"
 request_memory = 1 GB
