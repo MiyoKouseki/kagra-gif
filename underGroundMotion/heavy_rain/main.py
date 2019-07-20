@@ -4,18 +4,18 @@ from gwpy.time import tconvert
 
 import re
 
-def coherence_specgram(me,other,stride,fftlen,overlap):
-    specgram = me.coherence_spectrogram(other,stride,fftlen,overlap)
+def coherence_specgram(me,you,stride,fftlen,overlap):
+    specgram = me.coherence_spectrogram(you,stride,fftlen,overlap)
     ans = re.search(r"K1.*SEIS_(?P<name>[A-Z]+)_GND_(?P<axis>[A-Z]+)", str(me.name))
     if ans:
         me_name = ans.group('name')
         me_axis = ans.group('axis')
-    ans = re.search(r"K1.*SEIS_(?P<name>[A-Z]+)_GND_(?P<axis>[A-Z]+)", str(other.name))
+    ans = re.search(r"K1.*SEIS_(?P<name>[A-Z]+)_GND_(?P<axis>[A-Z]+)", str(you.name))
     if ans:
-        other_name = ans.group('name')
-        other_axis = ans.group('axis')
-    fname = './COH_{0}_{1}_{2}.png'.format(me_name,other_name,me_axis)
-    title = '{0} vs {1} with each {2} Axes'.format(me_name,other_name,me_axis)
+        you_name = ans.group('name')
+        you_axis = ans.group('axis')
+    fname = './results/COH_{0}_{1}_{2}.png'.format(me_name,you_name,me_axis)
+    title = '{0} vs {1} with each {2} Axes'.format(me_name,you_name,me_axis)
     plot = specgram.imshow( vmin=0, vmax=1, title=title)
     ax = plot.gca()
     ax.set_yscale('log')
@@ -37,7 +37,7 @@ def specgram(data,stride,fftlen,overlap):
     ax.set_yscale('log')
     ax.set_ylim(1e-2, 8)
     ax.colorbar(label=r'Velocity [um/sec/$\sqrt{\mathrm{Hz}}$]')
-    fname = './SG_{0}_{1}.png'.format(me_name,me_axis)
+    fname = './results/SG_{0}_{1}.png'.format(me_name,me_axis)
     plot.savefig(fname)
     plot.close()
     print fname
