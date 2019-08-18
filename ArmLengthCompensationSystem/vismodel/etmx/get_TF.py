@@ -48,7 +48,7 @@ pole = np.array([zpq2zpk(qf) for qf in pole_QFK]).flatten()
 zero = np.array([zpq2zpk(qf) for qf in zero_QFK]).flatten()
 
 # 2.
-def fqk(freq,*param):
+def qfk(freq,*param):
     Gain = param[0]
     N = (len(param)-1)/2
     pole_f0 = param[1:N+1][::2]
@@ -65,41 +65,41 @@ def fqk(freq,*param):
         h *= (2.*np.pi)**2*(-f**2+zf0/zQ*(1j*f)+zf0**2)
     return h
 
-def deco(fqk):
+def deco(qfk):
     def wrapper(*args, **kwargs):
-        return np.abs(fqk(*args, **kwargs))
+        return np.abs(qfk(*args, **kwargs))
     return wrapper
 
 @deco
-def fqk_mag(freq,*param):
-    return fqk(freq,*param)
+def qfk_mag(freq,*param):
+    return qfk(freq,*param)
+
+if __name__ == '__main__':
+    param = np.r_[Gain,pole_QFK.flatten(),zero_QFK.flatten()]
+    #h = qfk(freq,*param)
+    #_mag,_phase = np.abs(h),np.rad2deg(np.angle(h))
+    #_h = qfk_mag(_freq,*param)
 
 
-param = np.r_[Gain,pole_QFK.flatten(),zero_QFK.flatten()]
-#h = fqk(freq,*param)
-#_mag,_phase = np.abs(h),np.rad2deg(np.angle(h))
-#_h = fqk_mag(_freq,*param)
+    data = np.loadtxt('tfmodel.txt')
+    freq = data[:,0]
+    mag = data[:,1]
+    phase = data[:,2]
+    p_init = param
+    p_opt, cov = optimize.curve_fit(qfk_mag, freq, mag, p0=p_init)
+    _freq = np.logspace(-2,2,1e6)
+    h = qfk(_freq,*p_opt)
+    _mag,_phase = np.abs(h),np.rad2deg(np.angle(h))
 
 
-data = np.loadtxt('tfmodel.txt')
-freq = data[:,0]
-mag = data[:,1]
-phase = data[:,2]
-p_init = param
-p_opt, cov = optimize.curve_fit(fqk_mag, freq, mag, p0=p_init)
-#print p_opt
-#print param
-_freq = np.logspace(-2,2,1e6)
-h = fqk(_freq,*p_opt)
-_mag,_phase = np.abs(h),np.rad2deg(np.angle(h))
-
-
-#exit()
-fig , [ax0,ax1] = plt.subplots(2,1)
-ax0.loglog(freq,mag,'ko',markersize=1)
-ax0.loglog(_freq,_mag,'r',linewidth=1)
-ax1.semilogx(freq,phase,'ko',markersize=1)
-ax1.semilogx(_freq,_phase,'r',linewidth=1)
-ax1.set_ylim(-180,180,90)
-ax1.set_yticks(np.arange(-180,181,90))
-plt.savefig('hoge.png')
+    fig , [ax0,ax1] = plt.subplots(2,1)
+    ax0.loglog(freq,mag,'ko',markersize=1)
+    ax0.loglog(_freq,_mag,'r',linewidth=1)
+    ax0.set_ylabel('Magnitude')
+    ax1.semilogx(freq,phase,'ko',markersize=1)
+    ax1.semilogx(_freq,_phase,'r',linewidth=1)
+    ax1.set_ylim(-180,180,90)
+    ax1.set_yticks(np.arange(-180,181,90))
+    ax1.set_xlabel('Frequency [Hz]')
+    ax1.set_ylabel('Phase [Deg.]')
+    plt.savefig('./TF_ETMX.png')
