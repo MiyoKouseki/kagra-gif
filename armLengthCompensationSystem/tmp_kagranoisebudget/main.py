@@ -1,0 +1,36 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+freq,m_tm2tm,p_tm2tm = np.loadtxt('TypeA_TM2TM.dat',unpack=True)
+freq,m_im2tm,p_im2tm = np.loadtxt('TypeA_IM2TM.dat',unpack=True)
+freq,m_mn2tm,p_mn2tm = np.loadtxt('TypeA_MN2TM.dat',unpack=True)
+fig,(ax0,ax1) = plt.subplots(2,1)
+ax0.loglog(freq,m_tm2tm,label='tm2tm')
+ax0.loglog(freq,m_im2tm,label='im2tm')
+ax0.loglog(freq,m_mn2tm,label='mn2tm')
+ax0.set_ylim(1e-10,1e1)
+ax0.set_xlim(1e-1,1e1)
+ax0.legend()
+ax1.semilogx(freq,p_tm2tm,label='tm2tm')
+ax1.semilogx(freq,p_im2tm,label='im2tm')
+ax1.semilogx(freq,p_mn2tm,label='mn2tm')
+ax1.set_ylim(-180,180)
+ax1.set_xlim(1e-1,1e1)
+ax1.legend()
+plt.savefig('tf_payload.png')
+plt.close()
+
+#
+freq,m_tm2tm,p_tm2tm = np.loadtxt('TypeA_seismic_TF.dat',unpack=True)
+fig,(ax0,ax1) = plt.subplots(2,1)
+ax0.loglog(freq,m_tm2tm,label='gnd2tm')
+ax0.set_ylim(1e-10,1e1)
+ax0.set_xlim(1e-1,1e1)
+ax0.legend()
+ax1.semilogx(freq,p_tm2tm,label='gnd2tm')
+ax1.set_ylim(-180,180)
+ax1.set_xlim(1e-1,1e1)
+ax1.legend()
+plt.savefig('tf_gnd2tm.png')
+plt.close()

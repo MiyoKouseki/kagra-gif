@@ -126,7 +126,10 @@ ctr_itmx = np.sqrt(ctr_geo**2 + ctr_lvdt**2 + ctr_seisITMX**2)
 ctr_spsncr = np.sqrt(ctr_geo**2 + ctr_lvdt**2)
 #
 supersensor = np.sqrt((lvdt*mag_lp)**2 + (geo*mag_hp)**2)
-    
+
+
+
+
 if plot_stage_motion:
     #
     # ETMX
@@ -153,53 +156,7 @@ if plot_stage_motion:
     ax0.text(2.3, 1e-6, 'BW : 1.95e-03, Window : hanning, AVE : 8', rotation=90,ha='left',va='bottom')
     plt.savefig('./results/img_stage_motion_ETMX.png')
     print('plot ./results/img_stage_motion_ETMX.png')
-
-if plot_stage_motion:
-    #
-    # ITMX
-    #
-    fig ,ax0 = plt.subplots(1,1,figsize=(7,6))
-    plt.title('Stage motion of the ITMX pre-isolator')
-    ax0.loglog(ctr ,'k',label='Stage motion',linewidth=5,zorder=1)
-    ax0.loglog(ctr.rms(df=df) ,'k--',label='Stage motion (RMS)',linewidth=3,zorder=1)
-    ax0.loglog(ctr_seisITMX ,'b',label='2. Ground noise @ ITMX',linewidth=2)
-    ax0.loglog(ctr_spsncr,'r',label='4. Supersensor noise',linewidth=2)
-    ax0.set_xlim(1e-3,2e1)
-    ax0.set_ylim(1e-5,5e0)
-    ax0.set_xlabel('Frequency [Hz]',fontsize=15)
-    ax0.set_ylabel('Displacement [um/rtHz]',fontsize=15)
-    ax0.grid(b=True, which='major', color='gray', linestyle=':')
-    ax0.grid(b=True, which='minor', color='gray', linestyle=':')
-    ax0.legend(loc='lower left')
-    ax0.text(21, 1e-5, 'START : {0}'.format('Dec 10 2018 00:00:00 UTC'), rotation=90,ha='left',va='bottom')
-    ax0.text(26, 1e-5, 'BW : 1.95e-03, Window : hanning, AVE : 8', rotation=90,ha='left',va='bottom')
-    plt.savefig('./results/img_stage_motion_ITMX.png')
-    print('plot ./results/img_stage_motion_ITMX.png')    
-
-if plot_stage_motion:
-    #
-    # CAVITY
-    #
-    fig ,ax0 = plt.subplots(1,1,figsize=(7,6))
-    plt.title('Stage motion of the X arm cavity')
-    ax0.loglog(ctr_seisETMX ,'g',label='1. Length displacement noise ',linewidth=2)
-    ax0.loglog(ctr ,'k',label='Stage motion',linewidth=5,zorder=1)
-    ax0.loglog(ctr.rms(df=df) ,'k--',label='Stage motion (RMS)',linewidth=3,zorder=1)
-    ax0.loglog(0,0,'b',label='2. Ground noise Arm',linewidth=2)
-    ax0.loglog(ctr_strain,'y',label='3. Strainmeter noise (Preliminary)',linewidth=2) 
-    ax0.loglog(ctr_spsncr,'r',label='4. Supersensor noise',linewidth=2)
-    ax0.set_xlim(1e-3,2e1)
-    ax0.set_ylim(1e-5,5e0)
-    ax0.set_xlabel('Frequency [Hz]',fontsize=15)
-    ax0.set_ylabel('Displacement [um/rtHz]',fontsize=15)
-    ax0.grid(b=True, which='major', color='gray', linestyle=':')
-    ax0.grid(b=True, which='minor', color='gray', linestyle=':')
-    ax0.legend(loc='lower left')
-    ax0.text(21, 1e-5, 'START : {0}'.format('Dec 10 2018 00:00:00 UTC'), rotation=90,ha='left',va='bottom')
-    ax0.text(26, 1e-5, 'BW : 1.95e-03, Window : hanning, AVE : 8', rotation=90,ha='left',va='bottom')
-    plt.savefig('./results/img_stage_motion.png')
-    print('plot ./results/img_stage_motion.png')    
-    
+    exit()
 
 if plot_servo:
     fig ,[ax0,ax1] = plt.subplots(2,1,figsize=(10,9),dpi=100)
