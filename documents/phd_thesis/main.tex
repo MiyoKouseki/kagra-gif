@@ -2,9 +2,13 @@
 \usepackage[dvipdfmx]{graphicx,color,hyperref}
 %\usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\captionsetup{compatibility=false}
 %
 % ハイパーリンクを付ける設定
 \usepackage{pxjahyper}
+\usepackage{here}
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
@@ -29,9 +33,9 @@
 \maketitle
 \tableofcontents
 \include{chap1} % Background
-\include{chap2} % Geophysics Interferometer (GIF)
-\include{chap3} % Underground Seismic Noise
-\include{chap4} % Global Seismic Control Using the GIF
+\include{../gif/contents} % Geophysics Interferometer (GIF)
+\include{../underground_seismic_noise/contents} % Underground Seismic Noise
+\include{../arm_length_compensation_system/contents} % Global Seismic Control Using the GIF
 \include{chap5} % Conculusion and Future Directions
 \appendix
 %\bibliography{./reference}

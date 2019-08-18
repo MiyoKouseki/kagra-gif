@@ -8,7 +8,7 @@ def act_lim(fmax,width,mass):
     return vel.decompose()
 
 if __name__ == '__main__':
-    axis = 'Z'
+    axis = 'Y'
     asd_10 = FrequencySeries.read('./LongTermSeismicNoise/LongTerm_{0}_10_VELO.txt'.format(axis)) # um/sec/rtHz
     asd_50 = FrequencySeries.read('./LongTermSeismicNoise/LongTerm_{0}_50_VELO.txt'.format(axis)) # um/sec/rtHz
     asd_90 = FrequencySeries.read('./LongTermSeismicNoise/LongTerm_{0}_90_VELO.txt'.format(axis)) # um/sec/rtHz
@@ -16,10 +16,11 @@ if __name__ == '__main__':
 
     df = asd_10.df.value
     blrms = lambda asd,l,h : np.sqrt((asd**2).crop(l,h).sum()*df*1.5) 
-    for asd,name in zip([asd_10,asd_50,asd_90],['10','50','90']):
+    for asd,name in zip([asd_50,asd_90],['50','90']):
+        print '--- {1} {0}th'.format(name,axis)
         for l,h in zip([0.03,0.10,0.30,1.0,3.0,10.0],[0.10,0.30,1.0,3.0,10.0]):
             a = blrms(asd,l,h)
-            print '{4} {0}th {1:4.1f} - {2:4.1f} Hz : {3:3.2e} um/sec'.format(name,l,h, a,axis)
+            print '{0:5.2f} - {1:5.2f} Hz : {2:3.1e} um/sec'.format(l,h, a)
             ax.hlines(a,l,h,linestyle='--',linewidth=2,color='red')
     ax.plot_mmm(asd_50,asd_10,asd_90,label='Ground Motion (10th,50th,90th)',color='k')
     
