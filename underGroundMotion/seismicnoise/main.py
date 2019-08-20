@@ -143,7 +143,6 @@ if __name__ == "__main__":
 
     # Main
     blrms = False
-    #kwargs = {'nproc':nproc,'bandpass':(0.0,0.1)}
     kwargs = {'nproc':nproc}
     start,end = use[0]
     x_array2ds = get_array2d(start,end,axis='X',**kwargs)
@@ -155,11 +154,11 @@ if __name__ == "__main__":
         array2d_x = get_array2d(start,end,axis='X',**kwargs)
         array2d_y = get_array2d(start,end,axis='Y',**kwargs)
         array2d_z = get_array2d(start,end,axis='Z',**kwargs)
-        if not blrms:
+        if not blrms: # get Long Spectrogram
             x_array2ds.append(array2d_x,gap='ignore')
             y_array2ds.append(array2d_y,gap='ignore')
             z_array2ds.append(array2d_z,gap='ignore')
-        elif blrms:
+        elif blrms: # get Long TimeSeries
             x_array2ds.append(array2d_x,gap='pad',pad=0.0)
             y_array2ds.append(array2d_y,gap='pad',pad=0.0)
             z_array2ds.append(array2d_z,gap='pad',pad=0.0)
@@ -167,14 +166,14 @@ if __name__ == "__main__":
     # Main : Percentile
     run_percentile = True
     suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
-    if run_percentile:
-        for pctl in [10,50,90]:
+    if run_percentile and not blrms:
+        for pctl in [1,5,10,50,90,95,99]:
             percentile(x_array2ds,pctl,'X',suffix=suffix)
             percentile(y_array2ds,pctl,'Y',suffix=suffix)
             percentile(z_array2ds,pctl,'Z',suffix=suffix)
 
     # Main : BLRMS
-    if False:
+    if blrms:
         import astropy.units as u
         x_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
         x_array2ds = x_array2ds**0.5
