@@ -24,6 +24,8 @@
 
 **中身**
 
+* **SuspensionControlModel**
+   * VISのサスペンション制御のためのMatlabモデル。
 * **etmx** : etmxのIPのアクチュエータからLVDTへの伝達関数
 	* **etmx/tfmodel.txt** : 実測データ
 	* **etmx/get_TF.m** : 実測データをフィッティングするLuciaのMatlabコード
