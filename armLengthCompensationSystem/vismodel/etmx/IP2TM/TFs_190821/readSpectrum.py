@@ -20,14 +20,15 @@ def zpq2zpk(fq,omega=True):
     else:
         return [-1*w0,np.nan] # [rad Hz]
     
-d = DttData('IP_Lexc_w_LVDT-damping.xml')
+d = DttData('IP_Lexc_wo_control.xml')
+print dir(d)
+print d.getAllSpectrumName()
 chnameA = 'K1:VIS-ETMX_IP_TEST_L_EXC'
-chnameB = 'K1:VIS-ETMX_TM_DAMP_L_IN1_DQ'
+chnameB = 'K1:VIS-ETMX_TM_DAMP_L_IN1'
 f,asd = d.getASD(chnameA,ref=False)
 f,coh,coh_deg = d.getCoherence(chnameB,chnameA,ref=False)
 f,mag,deg = d.getTF(chnameB,chnameA)
 
-# 
 zeros = np.array([[0.0,10],
                   [0.162,1],
                   [0.66,150],
@@ -77,3 +78,4 @@ ax[1].legend(loc='upper right')
 ax[2].legend(loc='upper left')
 plt.savefig('hoge.png')
 plt.close()
+
