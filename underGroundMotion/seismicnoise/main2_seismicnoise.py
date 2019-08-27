@@ -6,6 +6,9 @@ from miyopy.utils.trillium import Trillium
 from obspy.signal.spectral_estimation import get_nhnm, get_nlnm
 from gwpy.types.array2d import Array2D
 
+tr120 = Trillium('120QA')
+v2vel = tr120.v2vel    
+
 
 def peterson_noise_model(unit='um/sec'):
     '''
@@ -29,8 +32,8 @@ def peterson_noise_model(unit='um/sec'):
         raise ValueError(unit)
 
     
-def _percentile(axis,pctl=50,unit='um/sec',**kwargs):
-    _asd = FrequencySeries.read('./data2/LongTerm_{0}_{1}.hdf5'.format(axis,pctl))**0.5
+def _percentile(axis,pctl=50,unit='um/sec',suffix='',**kwargs):
+    _asd = FrequencySeries.read('./data2/LongTerm_{0}_{1}_{2}.hdf5'.format(axis,pctl,suffix))**0.5
     amp = 10**(30.0/20.0)
     c2v = 20.0/2**15    
     _asd = v2vel(_asd)*c2v/amp*1e6
@@ -56,24 +59,31 @@ def percentile(axis,**kwargs):
         raise ValueError('!!!')
 
 
-if __name__ == '__main__':
-    unit = 'um'
+def hoge(suffix=''):
+    unit = 'um/sec'
     #
-    tr120 = Trillium('120QA')
-    v2vel = tr120.v2vel    
     #
-    h50 = percentile('H',pctl=50,unit=unit)
-    h10 = percentile('H',pctl=10,unit=unit)
-    h90 = percentile('H',pctl=90,unit=unit)
-    z50 = percentile('Z',pctl=50,unit=unit)
-    z10 = percentile('Z',pctl=10,unit=unit)
-    z90 = percentile('Z',pctl=90,unit=unit)
+    #suffix = '1211817600_1245372032' # 1 year
+    #suffix = '1228594816_1232789120' # 12/11- 
+    h50 = percentile('H',pctl=50,unit=unit,suffix=suffix)
+    h01 = percentile('H',pctl=1,unit=unit,suffix=suffix)
+    h99 = percentile('H',pctl=99,unit=unit,suffix=suffix)
+    h99_rms = h99.rms()
+    h10 = percentile('H',pctl=10,unit=unit,suffix=suffix)
+    h90 = percentile('H',pctl=90,unit=unit,suffix=suffix)
+    h90_rms = h90.rms()    
+    z50 = percentile('Z',pctl=50,unit=unit,suffix=suffix)
+    z01 = percentile('Z',pctl=1,unit=unit,suffix=suffix)
+    z99 = percentile('Z',pctl=99,unit=unit,suffix=suffix)
     nlnm,nhnm = peterson_noise_model(unit=unit)
     selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6
     #
     fig, ax = plt.subplots(1,1,figsize=(9,7))
-    ax.plot_mmm(h50,h10,h90,label='Horizontal (10,50,90 percentile)',color='blue')
-    ax.plot_mmm(z50,z10,z90,label='Vertical (10,50,90 percentile)',color='red')
+    ax.plot_mmm(h50,h01,h99,label='Horizontal (1,50,99 percentile)',color='blue')
+    ax.plot_mmm(h50,h10,h90,label='Horizontal (10,50,90 percentile)',color='green')
+    ax.plot_mmm(z50,z01,z99,label='Vertical (1,50,99 percentile)',color='red')
+    ax.loglog(h99_rms)
+    ax.loglog(h90_rms)
     ax.loglog(selfnoise,'g--',label='Selfnoise of Seismometer',alpha=1.0)
     ax.loglog(nlnm[0],nlnm[1],'k--')
     ax.loglog(nhnm[0],nhnm[1],'k--',label='Peterson Low and High Noise Models')
@@ -89,5 +99,15 @@ if __name__ == '__main__':
         ax.set_ylabel('Displacement [um/rtHz]')
     ax.legend(fontsize=15,loc='lower left')
     plt.suptitle('Seismic Noise of KAGRA',fontsize=40)
-    plt.savefig('./results/seismicnoise.png')
+    fname = './results/seismicnoise_{0}.png'.format(suffix)
+    print fname
+    plt.savefig(fname)
     plt.close()
+
+if __name__ == '__main__':    
+    import os
+    files = os.listdir('./data2')
+    files = filter(lambda x:'X_99_' in x, files)
+    suffix_list = map(lambda x: x.split('_99_')[1][:-5], files)
+    for suffix in suffix_list:
+        hoge(suffix=suffix)
