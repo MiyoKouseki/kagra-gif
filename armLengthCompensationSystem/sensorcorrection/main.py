@@ -1,25 +1,33 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from gwpy.timeseries import TimeSeriesDict
+from gwpy.timeseries import TimeSeriesDict,TimeSeries
 from gwpy.time import tconvert
 
 import re
 import warnings
 warnings.filterwarnings('ignore')
 
+
+''' 
+'''
     
 #start = tconvert('Jul 20 2019 19:00:00 JST')
-end   = tconvert('Jul 20 2019 21:25:00 JST')
+end   = tconvert('Sep 01 2019 00:00:00 JST')
 start = end - 2**11
-channels = ['K1:PEM-SEIS_EXV_GND_X_OUT_DQ',
-            'K1:PEM-SEIS_IXV_GND_X_OUT_DQ',
+channels = ['K1:PEM-SEIS_IXV_GND_X_OUT_DQ',
             'K1:GIF-X_STRAIN_IN1_DQ',
             'K1:ALS-X_PDH_SLOW_DAQ_OUT_DQ'
            ]
-    
-data = TimeSeriesDict.fetch(channels,start,end,host='10.68.10.122',port=8088,
-                            verbose=True,pad=0.0)
 
+kwargs = {'host':'10.68.10.122','port':8088,'verbose':True,'pad':0.0}
+seis = TimeSeries.fetch('K1:PEM-SEIS_EXV_GND_X_OUT_DQ',start,end,**kwargs)
+lvdt = TimeSeries.fetch('K1:VIS-ETMX_IP_DAMP_L_IN1_DQ',start,end,**kwargs)
+geo = TimeSeries.fetch('K1:VIS-ETMX_IP_DAMP_L_IN1_DQ',start,end,**kwargs)
+#data = TimeSeriesDict.fetch(channels,start,end,**kwargs)
+
+
+
+exit()
 
 exv_x = data.values()[0]
 ixv_x = data.values()[1]
@@ -54,8 +62,8 @@ gif = gif
 comm = comm/(2.0*np.pi*comm.frequencies.value)
 diff = diff/(2.0*np.pi*diff.frequencies.value)
 
-_csd = gif.csd(diff, fftlength=2**6, overlap=2**5) # 2**7 = 128
-_coh = _csd/gif/diff
+#_csd = gif.csd(diff, fftlength=2**6, overlap=2**5) # 2**7 = 128
+#_coh = _csd/gif/diff
 
 
 # plot Coherence
@@ -69,7 +77,7 @@ ax0.set_ylabel('Diplacement [um/rtHz]')
 ax0.set_ylim(1e-3,1e1)
 ax0.set_xlim(3e-2, 10)
 ax1.semilogx(coh_gif_diff,label='GIF vs Seis Diff',color='g',linestyle='-')
-ax1.semilogx(_coh.abs(),label='GIF vs Seis Diff',color='g',linestyle='-')
+#ax1.semilogx(_coh.abs(),label='GIF vs Seis Diff',color='g',linestyle='-')
 ax1.semilogx(coh_gif_pdh,label='PDH vs GIF',color='k',linestyle='-')
 ax1.semilogx(coh_pdh_diff,label='PDH vs Diffs',color='b',linestyle='-')
 ax1.semilogx(coh_pdh_comm,label='PDH vs Comms',color='b',linestyle='--')
@@ -80,5 +88,3 @@ ax1.set_xlim(3e-2, 10)
 plt.legend(fontsize=15,loc='upper tight')
 plt.savefig('hoge.png')
 plt.close()
-
-
