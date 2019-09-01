@@ -47,14 +47,14 @@ ntr120 = FrequencySeries(ntr120,frequencies=f)*1e6
 
 # Servo
 prefix = os.getcwd() + '/vismodel/SuspensionControlModel/script/typeA/'
-matfile = prefix + 'servo/servoBFL.mat'
+matfile = prefix + 'servo/servoIPL.mat'
 import scipy
 from scipy.signal import zpk2tf
 mat_dict = scipy.io.loadmat(matfile,struct_as_record=False)
-servoBFL = mat_dict['servoBFL_st'][0][0]
-z = servoBFL.Z[0][0][:,0]
-p = servoBFL.P[0][0][:,0]
-k = servoBFL.K[0][0]
+servoIPL = mat_dict['servoIPL_st'][0][0]
+z = servoIPL.Z[0][0][:,0]
+p = servoIPL.P[0][0][:,0]
+k = servoIPL.K[0][0]
 servo = matlab.tf(*zpk2tf(z,p,k))
 
 
@@ -63,48 +63,23 @@ print ('Read TypeA response')
 matfile = prefix + 'linmod/noctrl.mat'
 noctrl = TypeA(matfile=matfile,actual=False)
 H_gnd2tm_noctrl = noctrl.siso('accGndL','dispTML')
-P_bf2bf_noctrl = noctrl.siso('noiseActBFL','LVDT_BFL')
+#H_gnd2tm_noctrl = noctrl.siso('accGndL','dispIML')
+#H_gnd2ip_noctrl = noctrl.siso('accGndL','GEO_IPL')
+P_ip2ip_noctrl = noctrl.siso('noiseActIPL','LVDT_IPL')
 
 
-
-# Ipdcbfdamp Control Response
+# IPdcDamp Control Response
 print ('Read TypeA response')
-matfile = prefix + 'linmod/ipdcbfdamp.mat'
-ipdcbfdamp = TypeA(matfile=matfile,actual=False)
-H_gnderr2tm = ipdcbfdamp.siso('accGndL','dispTML')
-H_gndfb2tm = ipdcbfdamp.siso('dispGndL_err','dispTML')
-H_nlvdt2tm = ipdcbfdamp.siso('noiseLVDT_BFL','dispTML')
-sens = ipdcbfdamp.siso('noiseActBFL','actBFLmon') # 1/(1+G)
-comp = ipdcbfdamp.siso('injBFL','pre_fbBFLmon') # G/(1+G)
-matfile = prefix + 'linmod/ipdcbfdamp_oltf.mat'
-ipdcbfdamp_oltf = TypeA(matfile=matfile,actual=False)
-oltf = ipdcbfdamp_oltf.siso('injBFL','pre_fbBFLmon')
-# ----
-# zeta = 0.4 #0.2
-# theta = np.arctan(np.sqrt(1-zeta**2)/zeta)
-# tan = np.sqrt(1-zeta**2)/zeta
-# Tn = 60 #sec
-# bw = 3*Tn/zeta
-# print np.rad2deg(theta),bw
-# plt.figure(figsize=(7,7))
-# poles,zeros = control.pzmap(H_gnd2tm_noctrl,Plot=False,grid=False)
-# #poles,zeros = control.pzmap(H_gnderr2tm+H_gndfb2tm,Plot=False,grid=False)
-# #plt.plot(poles.real,poles.imag,'o',label='Pole')
-# #plt.plot(zeros.real,zeros.imag,'x',label='Zero')
-# plt.loglog(np.abs(poles.real),np.abs(poles.imag),'o',label='Pole')
-# plt.loglog(np.abs(zeros.real),np.abs(zeros.imag),'x',label='Zero')
-# re = np.logspace(-3,3,1000)
-# plt.loglog(re,re*tan,'k')
-# plt.vlines(3.0/Tn,1e-3,1e3,'k')
-# plt.xlim(1e-5,1e3)
-# plt.ylim(1e-5,1e3)
-# plt.xlabel('Re')
-# plt.ylabel('Im')
-# plt.legend(fontsize=20)
-# plt.savefig('hoge.png')
-# plt.close()
-# exit()
-# ----
+matfile = prefix + 'linmod/ipdcdamp.mat'
+ipdcdamp = TypeA(matfile=matfile,actual=False)
+H_gnderr2tm = ipdcdamp.siso('accGndL','dispTML')
+H_gndfb2tm = ipdcdamp.siso('dispGndL_err','dispTML')
+H_nlvdt2tm = ipdcdamp.siso('noiseLVDT_IPL','dispTML')
+sens = ipdcdamp.siso('noiseActIPL','actIPLmon') # 1/(1+G)
+comp = ipdcdamp.siso('injIPL','pre_fbIPLmon') # G/(1+G)
+matfile = prefix + 'linmod/ipdcdamp_oltf.mat'
+ipdcdamp_oltf = TypeA(matfile=matfile,actual=False)
+oltf = ipdcdamp_oltf.siso('injIPL','pre_fbIPLmon')
 
 # ---------------------------------------------
 # Frequency Response
@@ -130,21 +105,26 @@ total = np.sqrt( \
         )
 fig,ax = plt.subplots(1,1,figsize=(8,8))
 ax.set_title('TML Motion')
-ax.loglog(gnd,label='Ground',color='black',linewidth=2,alpha=1,zorder=1)
+ax.loglog(gnd,label='Seismic Noise',color='black',linewidth=2,alpha=1,zorder=1)
 ax.loglog(gnd.rms(),color='black',linestyle='dashdot',linewidth=2,zorder=1)
 ax.loglog((gnd*H_gnd2tm_noctrl).abs(),label='No Control',color='gray',linewidth=2)
 ax.loglog((gnd*H_gnd2tm_noctrl).abs().rms(),color='gray',linewidth=2,linestyle='--')
 ax.loglog(total.abs(),label='Sum',color='r',linewidth=6,alpha=0.8,zorder=1)
 ax.loglog(total.abs().rms(),color='r',linewidth=2,linestyle='dashdot',zorder=1)
-ax.loglog((gnd*H_gnderr2tm).abs(),'--',label='Seismic Noise from Suspension',linewidth=2)
-ax.loglog((gnd*H_gndfb2tm).abs(),'--',label='Seismic Noise from LVDT',linewidth=2)
-ax.loglog((nlvdt*H_nlvdt2tm).abs(),'--',label='Sensor Noise',linewidth=2)
+ax.loglog((gnd*H_gnderr2tm).abs(),'--',label='Seismic Noise (Suspension Contrib.)',linewidth=2)
+ax.loglog((gnd*H_gndfb2tm).abs(),'--',label='Seismic Noise (Sensor Contrib.)',linewidth=2)
+#ax.loglog((nlvdt*H_nlvdt2tm).abs(),'--',label='Sensor Noise',linewidth=2)
 ax.set_xlabel('Frequency [Hz]')
 ax.set_ylabel('Displacement [um/rtHz or um]')
-ax.set_ylim(1e-5,1e1)
-ax.set_xlim(1e-2,1e1)
+ax.set_ylim(1e-3,3e1)
+ax.set_xlim(1e-2,2e0)
 ax.legend(fontsize=15,loc='lower left')
 plt.savefig('TML.png')
+plt.close()
+
+
+
+
 # ---------------------------------------------
 print ('Plot Noise')
 fig,ax = plt.subplots(1,1,figsize=(8,8))
@@ -160,40 +140,48 @@ ax.set_ylim(1e-6,1e1)
 ax.set_xlim(1e-2,1e1)
 ax.legend(fontsize=15,loc='lower left')
 plt.savefig('Noise.png')
-
+plt.close()
 
 # ---------------------------------------------
 # Closed Loop
 # ---------------------------------------------
 print ('Plot CLTF, Gnd2TM')
-fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
+from matplotlib.gridspec import GridSpec
+fig = plt.figure(figsize=(8,8))
+gs = GridSpec(2, 1, height_ratios=[3, 1])
+ax2 = fig.add_subplot(gs[1])
+ax = fig.add_subplot(gs[0],sharex=ax2)
+#fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
 ax.set_title('Ground to TML')
-ax.hlines(y=1e0, xmin=1e-4, xmax=1e1, color='k',linewidth=2,linestyle=':')
+ax.hlines(y=1, xmin=1e-2, xmax=10, color='k',linewidth=2,linestyle=':')
 ax.loglog(H_gnd2tm_noctrl.abs(),label='No Control',color='k',linewidth=2,linestyle='-')
 ax.loglog((H_gndfb2tm+H_gnderr2tm).abs(),label='Total',color='r',linewidth=6)
-ax.loglog(H_gnderr2tm.abs(),label='Ps/(1+G) (from Suspension)',color='b',linewidth=2,linestyle='--')
-ax.loglog(H_gndfb2tm.abs(),label='G/(1+G) (from LVDT)',color='g',linewidth=2,linestyle='--')
+ax.loglog(H_gnderr2tm.abs(),label='Ps/(1+G) (Suspension Contrib.)',color='b',linewidth=2,linestyle='--')
+ax.loglog(H_gndfb2tm.abs(),label='G/(1+G) (Sensor Contrib.)',color='g',linewidth=2,linestyle='--')
 ax.set_ylabel('Magnitude')
-ax.set_ylim(1e-5,1e1)
-ax.set_xlim(1e-2,1e1)
+ax.set_ylim(1e-3,3e1)
+#ax.set_xlim(1e-2,1e1)
 ax.legend(fontsize=15,loc='lower left')
 ax2.semilogx(H_gnd2tm_noctrl.angle().rad2deg(),label='No Control',color='k',linewidth=2,linestyle='-')
 ax2.semilogx((H_gndfb2tm+H_gnderr2tm).angle().rad2deg(),label='Total',color='r',linewidth=6)
 ax2.semilogx(H_gnderr2tm.angle().rad2deg(),label='ErrorPoint (for FF)',color='b',linewidth=2,linestyle='--')
 ax2.semilogx(H_gndfb2tm.angle().rad2deg(),label='FeedBackPoint (for SC)',color='g',linewidth=2,linestyle='--')
 ax2.set_ylabel('Phase [Deg.]')
+ax2.set_xlabel('Frequency [Hz]')
 ax2.set_ylim(-180,180)
 ax2.set_yticks(range(-180,181,90))
-ax2.set_xlim(1e-2,1e1)
+#ax2.set_xlim(1e-4,1e2)
+ax2.set_xlim(1e-2,2e0)
 plt.savefig('CLTF.png')
+plt.close()
 # ---------------------------------------------
 # print ('Plot CLTF, Gnd2IP')
-# H_gnderr2ip = ipdcbfdamp.siso('accGndL','GEO_BFL')
-# H_gndfb2ip = ipdcbfdamp.siso('dispGndL_err','GEO_BFL')
+# H_gnderr2ip = ipdcdamp.siso('accGndL','GEO_IPL')
+# H_gndfb2ip = ipdcdamp.siso('dispGndL_err','GEO_IPL')
 # H_gndfb2ip = tf(H_gndfb2ip,omega)/(1j*omega)
 # H_gnderr2ip = tf(H_gnderr2ip,omega)
 # fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
-# ax.set_title('Ground to BFL')
+# ax.set_title('Ground to IPL')
 # ax.loglog(H_gnd2ip_noctrl.abs(),label='No Control',color='k',linewidth=2,linestyle='--')
 # ax.loglog((H_gndfb2ip+H_gnderr2ip).abs(),label='Total',color='r',linewidth=2)
 # ax.loglog(H_gnderr2ip.abs(),label='ErrorPoint',color='b',linewidth=2,linestyle='--')
@@ -216,49 +204,32 @@ plt.savefig('CLTF.png')
 # ---------------------------------------------
 # Servo
 # ---------------------------------------------
-_omega = 2.0*np.pi*np.logspace(-4,3,2002)
+_omega = 2.0*np.pi*np.logspace(-4,3,1001)
 servo = tf(servo,_omega)
-print ('Plot Servo')
-fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
-ax.set_title('Servo Filter')
-ax.loglog(servo.abs(),label='IP Damp',color='r',linewidth=2,linestyle='-')
-ax.set_ylabel('Magnitude')
-#ax.set_ylim(1e-0,1e3)
-ax.set_xlim(1e-2,1e1)
-ax.legend(fontsize=20,loc='lower left')
-ax2.semilogx(servo.angle().rad2deg(),label='IP Damp',color='r',linewidth=2,linestyle='-')
-ax2.set_ylabel('Phase [Deg.]')
-ax2.set_ylim(-180,180)
-ax2.set_yticks(range(-180,181,90))
-ax2.set_xlim(1e-2,1e1)
-plt.savefig('Servo.png')
-
-
-# ---------------------------------------------
-# Open Loop
-# ---------------------------------------------
 oltf = tf(oltf,_omega)
-P_bf2bf_noctrl = tf(P_bf2bf_noctrl,_omega)
+P_ip2ip_noctrl = tf(P_ip2ip_noctrl,_omega)
+# ---------------------------------------------
 print ('Plot OLTF')
 fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
 ax.set_title('OLTF')
-ax.hlines(y=1e0, xmin=1e-4, xmax=1e3, color='k',linewidth=2,linestyle=':')
+ax.hlines(y=1e0, xmin=1e-4, xmax=1e2, color='k',linewidth=2,linestyle=':')
 ax.loglog(oltf.abs(),label='OLTF',color='r',linewidth=2,linestyle='-')
 ax.loglog(servo.abs(),label='Servo',color='b',linewidth=2,linestyle='-')
-ax.loglog(P_bf2bf_noctrl.abs(),label='Pa',color='k',linewidth=2,linestyle='--')
+ax.loglog(P_ip2ip_noctrl.abs()*2e2,label='Pa (Normalized)',color='k',linewidth=2,linestyle='--')
 ax.set_ylabel('Magnitude')
-ax.set_ylim(1e-6,1e3)
-ax.legend(fontsize=20,loc='lower left')
-ax2.hlines(y=-90, xmin=1e-4, xmax=1e3, color='k',linewidth=2,linestyle=':')
-ax2.hlines(y=-150, xmin=1e-4, xmax=1e3, color='k',linewidth=2,linestyle=':')
+ax.set_ylim(1e-2,2e2)
+ax.legend(fontsize=15,loc='upper left')
+ax2.hlines(y=90, xmin=1e-4, xmax=1e2, color='k',linewidth=2,linestyle=':')
+ax2.hlines(y=-150, xmin=1e-4, xmax=1e2, color='k',linewidth=2,linestyle=':')
 ax2.semilogx(oltf.angle().rad2deg(),label='OLTF',color='r',linewidth=2,linestyle='-')
 ax2.semilogx(servo.angle().rad2deg(),label='Servo',color='b',linewidth=2,linestyle='-')
-ax2.semilogx(P_bf2bf_noctrl.angle().rad2deg(),label='Pa',color='k',linewidth=2,linestyle='--')
+ax2.semilogx(P_ip2ip_noctrl.angle().rad2deg(),label='Pa',color='k',linewidth=2,linestyle='--')
 ax2.set_ylabel('Phase [Deg.]')
 ax2.set_ylim(-180,180)
 ax2.set_yticks(range(-180,181,90))
-ax2.set_xlim(1e-3,1e1)
+ax2.set_xlim(1e-4,1e2)
 plt.savefig('OLTF.png')
+plt.close()
 # ---------------------------------------------
 print ('Plot SensitivityFunction')
 fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
@@ -277,6 +248,6 @@ ax2.set_ylabel('Phase [Deg.]')
 ax2.set_ylim(-180,180)
 ax2.set_xlim(1e-2,1e1)
 plt.savefig('SensitivityFunction.png')
-
+plt.close()
 
 print('Done')
