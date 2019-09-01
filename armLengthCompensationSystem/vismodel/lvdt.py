@@ -20,7 +20,7 @@ plt.ylabel('Displacement [um/rtHz]')
 plt.ylim(1e-4,1e0)
 plt.xlabel('Frequency [Hz]')
 plt.savefig('img_noise_etmx_lvdt.png')
-
+plt.close()
 
 
 
