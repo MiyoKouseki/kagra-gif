@@ -17,6 +17,7 @@ from vismodel.geophone import geo,geo_tf
 from miyopy.utils.trillium import selfnoise as ntr120
 
 # Utils
+from control import matlab
 def tf(sys,omega):
     print ('calc sys.freqresp')
     mag, phase, omega = control.matlab.bode(sys,omega,Plot=False)
