@@ -36,7 +36,7 @@ class SusModel(object):
         return control.ctrb(self.A,self.B)
         
 class TypeA(SusModel):
-    def __init__(self,matfile='/Users/miyo/Dropbox/Git/kagra-gif/armLengthCompensationSystem/vismodel/SuspensionControlModel/script/typeA/linmod.mat',actual=False):
+    def __init__(self,matfile='hoge.mat',actual=False):
         if not actual:
             super(TypeA,self).__init__(matfile)
             #super(TypeA,self).__init__()

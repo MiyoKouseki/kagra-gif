@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gwpy.frequencyseries import FrequencySeries
 
-_freq, geo = np.loadtxt('./vismodel/noise/GEOnoiseproto_vel.dat').T
+_freq, geo = np.loadtxt('./noise/GEOnoiseproto_vel.dat').T
 geo = np.sqrt(3)*geo
 geo = FrequencySeries(geo,frequencies=_freq,name='ETMX_GEO_L',unit='um/sec') # m/rtHz
 

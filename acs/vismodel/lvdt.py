@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gwpy.frequencyseries import FrequencySeries
 
-_freq, f0gas, h1, h2, h3 = np.loadtxt('./vismodel/noise/LVDTnoiseETMX_disp.dat').T
+_freq, f0gas, h1, h2, h3 = np.loadtxt('./noise/LVDTnoiseETMX_disp.dat').T
 lvdt = np.sqrt(h1**2 + h2**2 + h3**2)
 lvdt = FrequencySeries(lvdt,frequencies=_freq,name='ETMX_LVDT_L',unit='um') # m/rtHz
 lvdt.override_unit('m')
