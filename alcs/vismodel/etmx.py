@@ -13,8 +13,8 @@ from gwpy.timeseries import TimeSeries
 
 from miyopy import seismodel
 from miyopy.utils.trillium import selfnoise as ntr120
+from miyopy.utils.lvdt import noise as nlvdt
 
-from lvdt import lvdt
 from susmodel import TypeA
 
 
@@ -123,10 +123,10 @@ else:
 # Feedback Sensor Noise
 # ------------------------------------------------------------
 # LVDT
-nlvdt = lvdt.interpolate(df).crop(df,16+df)
-f,ntr120 = ntr120(trillium='120QA',psd='ASD',unit='disp')
-ntr120 = FrequencySeries(ntr120,frequencies=f)*1e6
+nlvdt = nlvdt.interpolate(df).crop(df,16+df)
 
+# Seismometer
+nseis = ntr120(trillium='120QA',psd='ASD',unit='disp')*1e6
 
 # ------------------------------------------------------------
 # Servo Filter
@@ -157,7 +157,6 @@ if not use_oplev and use_arm:
 print ('Read No Control Response')
 matfile = prefix + 'linmod/noctrl.mat'
 noctrl = TypeA(matfile=matfile,actual=False)
-print ofl_sensor
 H_gnd2tm_noctrl = noctrl.siso('accGndL',ofl_sensor)
 P_ip2ip_noctrl = noctrl.siso('noiseActIPL','LVDT_IPL')
 # IP Controled Response
@@ -208,7 +207,6 @@ H_nlvdt2tm = tf(H_nlvdt2tm,omega)
 print ('Plot Noisebudget of TM motion')
 total = np.sqrt( \
         (gnd*(H_gndsus2tm + H_gndsens2tm))**2 \
-#      + (nlvdt*(H_nlvdt2tm))**2
         )
 fig,ax = plt.subplots(1,1,figsize=(8,8))
 ax.set_title('ETMX {0} Motion'.format(sensor_name))
@@ -316,7 +314,7 @@ print ('Plot Sensor Noise')
 fig,ax = plt.subplots(1,1,figsize=(8,8))
 ax.set_title('Noise')
 ax.loglog(gnd,label='Ground',color='black',linewidth=2,alpha=1,zorder=1)
-ax.loglog(ntr120,'--',label='Seismometer Noise',linewidth=2)
+ax.loglog(nseis,'--',label='Seismometer Noise',linewidth=2)
 ax.loglog(nlvdt,'--',label='LVDT Noise',linewidth=2)
 ax.set_xlabel('Frequency [Hz]')
 ax.set_ylabel('Displacement [um/rtHz or um]')
