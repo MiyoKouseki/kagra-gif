@@ -19,15 +19,18 @@ from scipy import signal
 import matplotlib.pyplot as plt
 
 # Read linearized model as ABCD matrix
-mat_dict = scipy.io.loadmat("../../SuspensionControlModel/script/typeA/linmod.mat")
+mat_dict = scipy.io.loadmat("../SuspensionControlModel/script/typeA/linmod/noctrl.mat")
 st = mat_dict['linss']
 A,B,C,D,statename,outputname,inputname,operpoint,ts = st[0][0]
 ss = control.matlab.ss(A, B, C, D)
 inputname = np.asarray([i[0][0] for i in inputname])
-outputname = np.asarray([i[0][0] for i in outputname])    
+outputname = np.asarray([i[0][0] for i in outputname])
+#print filter(lambda x:'TM' in x,outputname)
 # read as SISO
 start = 'controlmodel/noiseActIPL'
+#start = 'controlmodel/accGndL'
 end = 'controlmodel/dispTML'
+end = 'controlmodel/OpLev_TML'
 idx_from = np.where(inputname==start)[0][0]
 idx_to = np.where(outputname==end)[0][0]
 print 'From :',idx_from,inputname[idx_from]
@@ -59,9 +62,9 @@ def zpq2zpk(fq,omega=True):
         return [-1*w0,np.nan] # [rad Hz]
 wrap = lambda phases: ( phases + np.pi) % (2 * np.pi ) - np.pi    
     
-f,mag = np.loadtxt('./TFs_190821/IPL2TML.mag',unpack=True)
-f,deg = np.loadtxt('./TFs_190821/IPL2TML.deg',unpack=True)
-f,coh = np.loadtxt('./TFs_190821/IPL2TML.coh',unpack=True)
+f,mag = np.loadtxt('./TFs_IP2/190821/IPL2TML.mag',unpack=True)
+f,deg = np.loadtxt('./TFs_IP2/190821/IPL2TML.deg',unpack=True)
+f,coh = np.loadtxt('./TFs_IP2/190821/IPL2TML.coh',unpack=True)
 deg = np.rad2deg(wrap((np.unwrap(np.deg2rad(deg))-np.pi)))
 # 
 zeros = np.array([[0.0,10],
@@ -119,5 +122,5 @@ ax[2].set_xlabel('Frequency [Hz]',fontsize=15)
 ax[2].set_ylabel('Coherence',fontsize=15)
 ax[1].set_ylabel('Phase [Deg.]',fontsize=15)
 ax[0].set_ylabel('Magnitude',fontsize=15)
-plt.savefig('hoge.png')
+plt.savefig('img/IPL2TML.png')
 plt.close()
