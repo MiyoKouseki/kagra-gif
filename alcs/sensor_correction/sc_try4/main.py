@@ -89,7 +89,7 @@ if on:
     onoff = 'ON'
     #total = FrequencySeries.read('../vismodel/total_wsc.hdf5')
     #total = 1
-    total = FrequencySeries.read('../vismodel/total_wosc.hdf5')
+    #total = FrequencySeries.read('../vismodel/total_wosc.hdf5')
 else: # OFF
     # 
     start = 'Sep 24 2019 22:08:00 JST'  
@@ -97,8 +97,8 @@ else: # OFF
     #start = 'Sep 24 2019 22:42:00 JST'  
     #end   = 'Sep 24 2019 22:52:00 JST'        
     onoff = 'OFF'
-    total = FrequencySeries.read('../vismodel/total_wosc_1.0.hdf5')
-    total = FrequencySeries.read('../vismodel/total_wosc_1.4.hdf5')
+    #total = FrequencySeries.read('../vismodel/total_wosc_1.0.hdf5')
+    #total = FrequencySeries.read('../vismodel/total_wosc_1.4.hdf5')
 
     
 # setting
