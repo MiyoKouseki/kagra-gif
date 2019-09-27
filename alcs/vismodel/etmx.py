@@ -14,19 +14,8 @@ from gwpy.timeseries import TimeSeries
 from miyopy import seismodel
 from miyopy.utils.trillium import selfnoise as ntr120
 from miyopy.utils.lvdt import noise as nlvdt
-
-from susmodel import TypeA
-
-
-# Utils
-def tf(sys,omega):
-    mag, phase, omega = matlab.bode(sys,omega,Plot=False)
-    mag = np.squeeze(mag)
-    phase = np.squeeze(phase)
-    G = mag*np.exp(1j*phase)
-    freq = omega/(2.0*np.pi)
-    hoge = FrequencySeries(G,frequencies=freq)
-    return hoge
+from miyopy.utils.susmodel import TypeA
+from miyopy.utils.pycontrol import tf
 
 
 nominal     = True
@@ -37,7 +26,6 @@ plot_noctrl = False
 sc = False
 
 # Actual oltf
-#prefix = '/Users/miyo/Dropbox/Git/kagra-gif/acs/vismodel/etmx/190903/'
 prefix = './etmx/190903/'
 fname_mag = 'oltf.0'
 fname_pha = 'oltf.1'
