@@ -1,27 +1,26 @@
 #
 #! coding: utf-8
-import os 
-from scipy import signal
-import scipy
-from scipy.signal import zpk2tf
+import os
 import numpy as np
-from control import matlab
+from scipy.io import loadmat
+from scipy.signal import zpk2tf
 import matplotlib.pyplot as plt
-import control
+
+from control import matlab
 
 from gwpy.frequencyseries import FrequencySeries
 from gwpy.timeseries import TimeSeries
 
 from miyopy import seismodel
-from susmodel import TypeA
-from filt import servo,servo2,servo3,servo4
-from lvdt import lvdt
-from geophone import geo,geo_tf
 from miyopy.utils.trillium import selfnoise as ntr120
+
+from lvdt import lvdt
+from susmodel import TypeA
+
 
 # Utils
 def tf(sys,omega):
-    mag, phase, omega = control.matlab.bode(sys,omega,Plot=False)
+    mag, phase, omega = matlab.bode(sys,omega,Plot=False)
     mag = np.squeeze(mag)
     phase = np.squeeze(phase)
     G = mag*np.exp(1j*phase)
@@ -30,7 +29,7 @@ def tf(sys,omega):
     return hoge
 
 
-nominal     = False
+nominal     = True
 use_oplev   = False
 use_arm     = True
 plot_req    = False
@@ -38,7 +37,8 @@ plot_noctrl = False
 sc = False
 
 # Actual oltf
-prefix = '/Users/miyo/Dropbox/Git/kagra-gif/acs/vismodel/etmx/190903/'
+#prefix = '/Users/miyo/Dropbox/Git/kagra-gif/acs/vismodel/etmx/190903/'
+prefix = './etmx/190903/'
 fname_mag = 'oltf.0'
 fname_pha = 'oltf.1'
 _freq,mag = np.loadtxt(prefix+fname_mag,unpack=True)
@@ -50,13 +50,13 @@ oltf0 = FrequencySeries(mag*np.exp(1j*np.deg2rad(pha)),frequencies=_freq)
 # ------------------------------------------------------------
 # IFO Requirement
 # ------------------------------------------------------------
-prefix = '/Users/miyo/Dropbox/Git/kagra-gif/acs/requirement/JGW-T1809214-v1/BRSE/'
+prefix = '../requirement/JGW-T1809214-v1/BRSE/'
 fname_brse = 'DisplacementNoiseRequirement.dat'
 _freq, _,ETMX_brse,_,_,_,_,_,_ = np.loadtxt(prefix+fname_brse,dtype=np.float32,
                                        delimiter=',',unpack=True)
 req_brse = ETMX_brse*1e6
 req_brse = FrequencySeries(req_brse,frequencies=_freq)
-prefix = '/Users/miyo/Dropbox/Git/kagra-gif/acs/requirement/JGW-T1809214-v1/DRSE/'
+prefix = '../requirement/JGW-T1809214-v1/DRSE/'
 fname_drse = 'DisplacementNoiseRequirement.dat'
 _freq, _,ETMX_drse,_,_,_,_,_,_ = np.loadtxt(prefix+fname_drse,dtype=np.float32,
                                        delimiter=',',unpack=True)
@@ -135,7 +135,7 @@ ntr120 = FrequencySeries(ntr120,frequencies=f)*1e6
 prefix = os.getcwd() + '/SuspensionControlModel/script/typeA/'
 matfile = prefix + 'servo/servoIPL.mat'
 #print matfile
-mat_dict = scipy.io.loadmat(matfile,struct_as_record=False)
+mat_dict = loadmat(matfile,struct_as_record=False)
 servoIPL = mat_dict['servoIPL_st'][0][0]
 z = servoIPL.Z[0][0][:,0]
 p = servoIPL.P[0][0][:,0]
@@ -216,9 +216,11 @@ ax.loglog(gnd,label='Seismic Noise',color='black',linewidth=2,alpha=1,zorder=1)
 #ax.loglog(gnd.rms(),color='black',linestyle='dashdot',linewidth=2,zorder=1)
 total.name='total'
 if sc:
-    total.abs().write('total_wsc.hdf5')
+    pass
+    #total.abs().write('total_wsc.hdf5')
 else:
-    total.abs().write('total_wosc.hdf5')    
+    pass
+    #total.abs().write('total_wosc.hdf5')    
 ax.loglog(total.abs(),label='Sum',color='r',linewidth=3,alpha=0.8,zorder=1)
 ax.loglog(total.abs().rms(),color='r',linewidth=2,linestyle='dashdot',zorder=1)
 ax.loglog((gnd*H_gndsus2tm).abs(),'--',label='Seismic Noise (Suspension Contrib.)',linewidth=2)
@@ -226,7 +228,7 @@ ax.loglog((gnd*H_gndsens2tm).abs(),'--',label='Seismic Noise (Sensor Contrib.)',
 #ax.loglog((nlvdt*H_nlvdt2tm).abs(),'--',label='Sensor Noise',linewidth=2)
 if use_oplev:
     ax.loglog(tm_oplev,label='TM oplev',color='m',linewidth=3,zorder=1)
-if use_arm:
+if use_arm and not nominal:
     ax.loglog(xarm,label='xarm',color='m',linewidth=3,zorder=1)    
 if plot_noctrl:
     ax.loglog((gnd*H_gnd2tm_noctrl).abs(),label='No Control',color='gray',linewidth=2)
@@ -314,7 +316,6 @@ print ('Plot Sensor Noise')
 fig,ax = plt.subplots(1,1,figsize=(8,8))
 ax.set_title('Noise')
 ax.loglog(gnd,label='Ground',color='black',linewidth=2,alpha=1,zorder=1)
-#ax.loglog(ngeo,'--',label='Geophone Noise',linewidth=2)
 ax.loglog(ntr120,'--',label='Seismometer Noise',linewidth=2)
 ax.loglog(nlvdt,'--',label='LVDT Noise',linewidth=2)
 ax.set_xlabel('Frequency [Hz]')
