@@ -21,9 +21,10 @@ from miyopy.utils.pycontrol import tf
 nominal     = True
 use_oplev   = False
 use_arm     = True
-plot_req    = False
+plot_req    = True
 plot_noctrl = False
 sc = False
+
 
 # Actual oltf
 prefix = './etmx/190903/'
@@ -33,8 +34,6 @@ _freq,mag = np.loadtxt(prefix+fname_mag,unpack=True)
 _freq,pha = np.loadtxt(prefix+fname_pha,unpack=True)
 oltf0 = FrequencySeries(mag*np.exp(1j*np.deg2rad(pha)),frequencies=_freq)
 
-
-
 # ------------------------------------------------------------
 # IFO Requirement
 # ------------------------------------------------------------
@@ -43,17 +42,22 @@ fname_brse = 'DisplacementNoiseRequirement.dat'
 _freq, _,ETMX_brse,_,_,_,_,_,_ = np.loadtxt(prefix+fname_brse,dtype=np.float32,
                                        delimiter=',',unpack=True)
 req_brse = ETMX_brse*1e6
-req_brse = FrequencySeries(req_brse,frequencies=_freq)
+print(_freq)
+print(len(_freq))
+_freq = np.logspace(0,4,1000) # re-define
+print(_freq)
+#exit()
+#req_brse = FrequencySeries(req_brse,frequencies=_freq)
 prefix = '../requirement/JGW-T1809214-v1/DRSE/'
 fname_drse = 'DisplacementNoiseRequirement.dat'
 _freq, _,ETMX_drse,_,_,_,_,_,_ = np.loadtxt(prefix+fname_drse,dtype=np.float32,
                                        delimiter=',',unpack=True)
 req_drse = ETMX_drse*1e6
-req_drse = FrequencySeries(req_drse,frequencies=_freq)
+_freq = np.logspace(0,4,1000) # re-define
+#req_drse = FrequencySeries(req_drse,frequencies=_freq)
 
-print req_brse.f0, req_brse.df,req_brse.frequencies.value[-1]
-req_brse = req_brse.crop(1.0,20.0)
-print req_brse.f0, req_brse.df,req_brse.frequencies.value[-1]
+#req_brse = req_brse.crop(1.0,1000.0)
+#req_drse = req_drse.crop(1.0,1000.0)
 
 # ------------------------------------------------------------
 # Seismic Noise
@@ -142,13 +146,13 @@ else:
 if not use_oplev and use_arm:
     ofl_sensor = 'dispTML'    
     
-print ('Read No Control Response')
+print('Read No Control Response')
 matfile = prefix + 'linmod/noctrl.mat'
 noctrl = TypeA(matfile=matfile,actual=False)
 H_gnd2tm_noctrl = noctrl.siso('accGndL',ofl_sensor)
 P_ip2ip_noctrl = noctrl.siso('noiseActIPL','LVDT_IPL')
 # IP Controled Response
-print ('Read IP Controled Response')
+print('Read IP Controled Response')
 matfile = prefix + 'linmod/ipdcdamp.mat'
 ipdcdamp = TypeA(matfile=matfile,actual=False)
 H_gndsus2tm = ipdcdamp.siso('accGndL',ofl_sensor) # 1. Suspension Contrib.
@@ -192,7 +196,7 @@ H_nlvdt2tm = tf(H_nlvdt2tm,omega)
 # ------------------------------------------------------------
 # Noisebudget of TM motion
 # ------------------------------------------------------------
-print ('Plot Noisebudget of TM motion')
+print('Plot Noisebudget of TM motion')
 total = np.sqrt( \
         (gnd*(H_gndsus2tm + H_gndsens2tm))**2 \
         )
@@ -211,6 +215,8 @@ ax.loglog(total.abs(),label='Sum',color='r',linewidth=3,alpha=0.8,zorder=1)
 ax.loglog(total.abs().rms(),color='r',linewidth=2,linestyle='dashdot',zorder=1)
 ax.loglog((gnd*H_gndsus2tm).abs(),'--',label='Seismic Noise (Suspension Contrib.)',linewidth=2)
 ax.loglog((gnd*H_gndsens2tm).abs(),'--',label='Seismic Noise (Sensor Contrib.)',linewidth=2)
+ax.set_ylim(1e-5,2e1)
+ax.set_xlim(4e-2,1e1)
 #ax.loglog((nlvdt*H_nlvdt2tm).abs(),'--',label='Sensor Noise',linewidth=2)
 if use_oplev:
     ax.loglog(tm_oplev,label='TM oplev',color='m',linewidth=3,zorder=1)
@@ -220,14 +226,14 @@ if plot_noctrl:
     ax.loglog((gnd*H_gnd2tm_noctrl).abs(),label='No Control',color='gray',linewidth=2)
     ax.loglog((gnd*H_gnd2tm_noctrl).abs().rms(),color='gray',linewidth=2,linestyle='--')
 if plot_req:
-    ax.loglog(req_brse,label='BRSE Requirement',linewidth=2,alpha=1,zorder=1)
-    ax.loglog(req_drse,label='DRSE Requirement',linewidth=2,alpha=1,zorder=1)
-    ax.set_ylim(1e-24,3e1)
-    ax.set_xlim(5e-3,5e1)    
+    print('!')
+    print(req_brse)
+    ax.loglog(_freq,req_brse,label='BRSE Requirement',linewidth=2,alpha=1,zorder=1)
+    ax.loglog(_freq,req_drse,label='DRSE Requirement',linewidth=2,alpha=1,zorder=1)
+    ax.set_ylim(1e-17,3e1)
+    ax.set_xlim(5e-3,1e4)    
 ax.set_xlabel('Frequency [Hz]')
 ax.set_ylabel('Displacement [um/rtHz or um]')
-ax.set_ylim(1e-5,2e1)
-ax.set_xlim(4e-2,1e1)
 ax.legend(fontsize=15,loc='lower left')
 plt.savefig('./etmx/img/TML.png')
 plt.close()
@@ -236,7 +242,7 @@ plt.close()
 # ------------------------------------------------------------
 # Closed Loop
 # ------------------------------------------------------------
-print ('Plot CLTF, Gnd2TM')
+print('Plot CLTF, Gnd2TM')
 from matplotlib.gridspec import GridSpec
 fig = plt.figure(figsize=(8,8))
 gs = GridSpec(2, 1, height_ratios=[3, 1])
@@ -271,7 +277,7 @@ servo = tf(servo,_omega)
 oltf = tf(oltf,_omega)
 P_ip2ip_noctrl = tf(P_ip2ip_noctrl,_omega)
 
-print ('Plot OLTF')
+print('Plot OLTF')
 plot_ipresponse = False
 fig,(ax,ax2) = plt.subplots(2,1,figsize=(8,8),sharex=True)
 ax.set_title('OLTF')
@@ -298,7 +304,7 @@ plt.close()
 print('Done')
 
 # ------------------------------------------------------------
-print ('Plot Sensor Noise')
+print('Plot Sensor Noise')
 fig,ax = plt.subplots(1,1,figsize=(8,8))
 ax.set_title('Noise')
 ax.loglog(gnd,label='Ground',color='black',linewidth=2,alpha=1,zorder=1)
