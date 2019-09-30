@@ -44,76 +44,76 @@
 **SC1では、GIFの符号がアームの信号に対して合っているか確かめた。**
 
 * SC1\_0
- * a 
+	* a 
 * SC1\_1
- * a
+	* a
 * SC1_2
- * SC matrix\_1\_3 = 1 
- * SC gain = -1
- * Actual SC gain was megative. It was correct sign.
+	* SC matrix\_1\_3 = 1 
+	* SC gain = -1
+	* Actual SC gain was megative. It was correct sign.
 * SC1_3 
- * SC matrix\_1\_3 = -1 
- * SC gain = -1
- * Actual SC gain was positive. It was not correct.
+	* SC matrix\_1\_3 = -1 
+	* SC gain = -1
+	* Actual SC gain was positive. It was not correct.
 * SC1_4
- * SC matrix\_1\_3 = 1 
- * SC gain = -1
- * Correcti sign, but I founnd that control signal was saturating by limitter on SC Filter.
+	* SC matrix\_1\_3 = 1 
+	* SC gain = -1
+	* Correcti sign, but I founnd that control signal was saturating by limitter on SC Filter.
 * SC1_5
- * SC\_gain was same as the SC1\_4, and SC1\_2.
- * Increase the limiter.
+	* SC\_gain was same as the SC1\_4, and SC1\_2.
+	* Increase the limiter.
 
  
 ### SC2
 **SC1ではゲインを上げすぎていたせいか150mHzでコヒーレンスを持っていなかった。なのでSC2では、ゲインを半分にしてどう変わるか調べてみた。**
 
 * SC2_0
- * IP のDCDAMPのゲインは1のまま、SC1_2とかと同じ状態。
+	* IP のDCDAMPのゲインは1のまま、SC1_2とかと同じ状態。
 * SC2_1
- * IP のDCDAMPのゲインは0.5。
+	* IP のDCDAMPのゲインは0.5。
 
 ### SC3
 SCのゲインが合っていないと考え、変えて測定してみた。
 
 * SC3_0
- * SC Gain = 1.4
+	* SC Gain = 1.4
 * SC3_1
- * SC Gain = 1.0
+	* SC Gain = 1.0
 * SC3_2
- * SC Gain = 1.2
+	* SC Gain = 1.2
 * SC3_3
- * SC Gain = 0.8
+ 	* SC Gain = 0.8
 * SC3_4
- * SC Gain = 1.1
+	* SC Gain = 1.1
 * SC3_5
- * SC Gain = 1.0
- * IP Gain = 0.5
- * Include a Glitch caused by GIF
+ 	* SC Gain = 1.0
+ 	* IP Gain = 0.5
+ 	* Include a Glitch caused by GIF
 * SC3_6
- * Gain of SC, IP are the same as SC3\_5
+ 	* Gain of SC, IP are the same as SC3\_5
 * SC3_7
- * Same as the SC2\_0
- * SC Gain = 1.0
- * IP Gain = 1.0
+ 	* Same as the SC2\_0
+ 	* SC Gain = 1.0
+ 	* IP Gain = 1.0
 * SC3_8
- * SC Gain = 1.0
- * IP Gain = 0.0
+ 	* SC Gain = 1.0
+ 	* IP Gain = 0.0
 
 ### SC4
 他の自由度からのカップリングがあることがわかったので、YawとPay以外はすべて切った。FBのループが無くなったので、 150 mHz のピークの問題は 200 mHz に移動。
 
 * SC4_0
- * 
+ 	* 
 * SC4_1
- * ETMX_MN_P12 に 210 mHz の Notchを入れた
+ 	* ETMX_MN_P12 に 210 mHz の Notchを入れた
 * SC4_2
- * ETMX_BF_YAW に 210 mHz の Notchを入れた
+ 	* ETMX_BF_YAW に 210 mHz の Notchを入れた
 * SC4_3
- * P12を改良
+ 	* P12を改良
 * SC4_4
- * ??
+ 	* ??
 * SC4_5
- * ??
+ 	* ??
 * SC4_6
- * ?? 
+ 	* ?? 
 
