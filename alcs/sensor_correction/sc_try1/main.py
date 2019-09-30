@@ -16,24 +16,24 @@ channels = [
     'K1:PEM-SEIS_EXV_GND_X_OUT_DQ',
     'K1:PEM-SEIS_IXV_GND_X_OUT_DQ',    
     ]
-# Seismometer SC (IPdcdamp + IPsc with seismometers)
+# SC1_0 : Seismometer SC (IPdcdamp + IPsc with seismometers)
 start = 'Sep 06 2019 00:30:00 JST'
 end   = 'Sep 06 2019 01:30:00 JST'
-# No Control (IPdcdamp only)
+# SC1_1 : No Control (IPdcdamp only)
 start = 'Sep 06 2019 01:40:00 JST'
 end   = 'Sep 06 2019 02:40:00 JST'
-# # Strainmeter 1st trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-# start = 'Sep 06 2019 02:52:00 JST' # correct sign.
-# end   = 'Sep 06 2019 03:02:00 JST'
-# # Strainmeter 2nd trial (IPdcdamp + GIFsc, mat=-1,gain=-1)
-# start = 'Sep 06 2019 03:10:00 JST' # wrong sign...
-# end   = 'Sep 06 2019 03:20:00 JST'
-# # Strainmeter 3rd trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-# start = 'Sep 06 2019 03:22:00 JST' # dame! , control signal saturated because of output limitter.
-# end   = 'Sep 06 2019 04:00:00 JST'
-# # Strainmeter 4th trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-# start = 'Sep 06 2019 03:42:00 JST' 
-# end   = 'Sep 06 2019 04:42:00 JST'
+# SC1_2 : Strainmeter 1st trial (IPdcdamp + GIFsc, mat=1,gain=-1)
+start = 'Sep 06 2019 02:52:00 JST' # correct sign.
+end   = 'Sep 06 2019 03:02:00 JST'
+# SC1_3 : Strainmeter 2nd trial (IPdcdamp + GIFsc, mat=-1,gain=-1)
+start = 'Sep 06 2019 03:10:00 JST' # wrong sign...
+end   = 'Sep 06 2019 03:20:00 JST'
+# SC1_4 : Strainmeter 3rd trial (IPdcdamp + GIFsc, mat=1,gain=-1)
+start = 'Sep 06 2019 03:22:00 JST' # dame! , control signal saturated because of output limitter.
+end   = 'Sep 06 2019 04:00:00 JST'
+# SC1_5 : Strainmeter 4th trial (IPdcdamp + GIFsc, mat=1,gain=-1)
+start = 'Sep 06 2019 03:42:00 JST' 
+end   = 'Sep 06 2019 04:42:00 JST'
 
 # setting
 fftlen = 2**7
