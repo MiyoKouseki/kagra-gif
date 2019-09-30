@@ -1,7 +1,7 @@
 body = '''
 Universe       = vanilla 
 GetEnv         = True
-Initialdir     = /home/kouseki.miyo/kagra-gif/UnderGroundMotion/seismicnoise
+Initialdir     = /home/kouseki.miyo/kagra-gif/underGroundMotion/seismicnoise
 Notification   = Never
 +Group         = "Xc"
 request_memory = 2 GB
@@ -18,7 +18,7 @@ Arguments  = ./main.py --start {0} --end {1}
 Queue
 '''
 
-jobs = 8
+jobs = 64
 tlen = 2**25
 bins = tlen/jobs
 segments = zip(range(1211817600     ,1245372032+1,bins),
