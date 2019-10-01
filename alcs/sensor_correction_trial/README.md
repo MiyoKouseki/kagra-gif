@@ -1,5 +1,8 @@
 
 # Sensor Correction Trial
+## Measurement Scripts
+template.py : template file to measure 
+
 ## Measurements
 
 |Name| Start(JST)| End(JST) | tlen(min) | IP | BF | Pay| Comment|
