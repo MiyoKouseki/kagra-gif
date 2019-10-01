@@ -6,7 +6,7 @@ from gwpy.timeseries import TimeSeries
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = np.loadtxt('hoge.csv',delimiter=',')
+data = np.loadtxt('waterdrain.csv',delimiter=',')
 minutes = data[:,0]*60 + data[:,1]*1
 time = minutes*60 + float(tconvert('Jul 19 2019 00:00:00 JST'))
 drain = data[:,2]/8000
