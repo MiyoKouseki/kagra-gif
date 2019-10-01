@@ -38,11 +38,11 @@ if __name__ == "__main__":
 
     log.info('# ----------------------------------------')
     log.info('# Start SeismicNoise                      ')
-    log.info('# ----------------------------------------')    
+    log.info('# ----------------------------------------')
 
     random.seed(3434)    
     segments = use
-    segments = random.sample(use,10)
+    #segments = random.sample(use,2)
     n = len(segments)
     import traceback
     for i,(start,end) in enumerate(segments,1):
@@ -87,8 +87,6 @@ if __name__ == "__main__":
             
         #log.debug(data)
 
-        log.debug('#8 {0:04d}/{4} {1} {2} {3}'.format(i,start,end,status,n))
-
         ixv = data.values()[0]
         exv = data.values()[1]
         t0 = ixv.t0
@@ -103,17 +101,26 @@ if __name__ == "__main__":
         coh = csd/asd_exv/asd_ixv
         tf = csd/asd_ixv**2
 
-        gain = (asd_exv/asd_ixv).crop(0.1,0.3).mean()
+        try:
+            gain = (asd_exv/asd_ixv).crop(0.05,0.15).mean()
+            correct_gain = np.isclose(gain,1.0,0.5)
+            exist_coh = coh.crop(0.05,0.15).abs().mean().value > 0.5
+            flag = 0
+            if not correct_gain or not exist_coh:
+                flag += 2
+                log.debug('#9 {0:04d}/{4} {1} {2} {3} {5} Skip'.format(i,start,end,
+                                                                       status,n,flag))
+                continue
+        except:
+            flag += 2
+            log.debug('#9 {0:04d}/{4} {1} {2} {3} {5} Skip'.format(i,start,
+                                                                   end,status,n,flag))
+            continue
 
+        log.debug('#9 {0:04d}/{4} {1} {2} {3} {5}'.format(i,start,end,status,n,flag))
         path = './data2/{0}'.format(str(start)[:5])
         if not os.path.exists(path):
             os.mkdir(path)
-
-        # fname_ts = path + '/{1}_{2}_TS.png'.format(str(start)[:5],start,end) 
-        # plot = data.plot(ylim=(-100,100),epoch=t0)
-        # plot.savefig(fname_ts)
-        # plot.close()
-        # log.debug(fname_ts)
 
         fname_coh = path + '/{1}_{2}_Z.png'.format(str(start)[:5],start,end) 
         fig = plt.figure(figsize=(20,12))
@@ -128,7 +135,7 @@ if __name__ == "__main__":
         ax0.loglog(asd_ixv,label='ixv')
         ax0.loglog(asd_exv,label='exv')
         ax0.set_ylabel('Count [1/rtHz]')
-        ax0.set_ylim(1e-2,1e2)
+        ax0.set_ylim(1e-2,2e2)
         ax0.legend(loc='upper right')
         ax0.set_xlim(1e-2,10)
         ax1.loglog(tf.abs(),'k-',label='exv/ixv')
@@ -159,6 +166,6 @@ if __name__ == "__main__":
         ax5.set_xlabel('Frequency [Hz]')
         plt.savefig(fname_coh)
         plt.close()
-        log.debug(fname_coh)
+        #log.debug(fname_coh)
         #exit()
         

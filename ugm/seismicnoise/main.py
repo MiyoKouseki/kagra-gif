@@ -30,7 +30,7 @@ def percentile(specgrams,percentile,axis,**kwargs):
     write = kwargs.pop('write',True)
     suffix = kwargs.pop('suffix','')
     if write:
-        fname = fname_hdf5_longasd(axis,percentile,suffix=suffix)
+        fname = fname_hdf5_longasd(axis,percentile,suffix=suffix,prefix='./data2')
         log.debug(fname)
         asd.write(fname,format='hdf5',overwrite=True)
     return asd
@@ -144,6 +144,7 @@ if __name__ == "__main__":
     # Main
     blrms = False
     kwargs = {'nproc':nproc}
+    #kwargs = {'nproc':nproc,'bandpass':[0.2,0.3]}
     start,end = use[0]
     x_array2ds = get_array2d(start,end,axis='X',**kwargs)
     y_array2ds = get_array2d(start,end,axis='Y',**kwargs)
@@ -177,13 +178,14 @@ if __name__ == "__main__":
         import astropy.units as u
         x_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
         x_array2ds = x_array2ds**0.5
-        x_array2ds.write('./data/LongTerm_X_BLRMS_0_100mHz.gwf')
+        suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
+        x_array2ds.write('./data2/LongTerm_X_BLRMS_100_300mHz{0}.gwf'.format(suffix))
         y_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
         y_array2ds = y_array2ds**0.5
-        y_array2ds.write('./data/LongTerm_Y_BLRMS_0_100mHz.gwf')
+        y_array2ds.write('./data2/LongTerm_Y_BLRMS_100_300mHz{0}.gwf'.format(suffix))
         z_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
         z_array2ds = z_array2ds**0.5
-        z_array2ds.write('./data/LongTerm_Z_BLRMS_0_100mHz.gwf')
+        z_array2ds.write('./data2/LongTerm_Z_BLRMS_100_300mHz{0}.gwf'.format(suffix))
         
     # Finish!
     log.debug('Finish!')
