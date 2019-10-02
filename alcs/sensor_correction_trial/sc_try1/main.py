@@ -1,3 +1,5 @@
+# /usr/bin/env python
+# 
 import matplotlib.pyplot as plt
 from gwpy.timeseries import TimeSeries,TimeSeriesDict
 import numpy as np
@@ -11,24 +13,35 @@ channels = [
     'K1:PEM-SEIS_EXV_GND_X_OUT16',
     'K1:PEM-SEIS_IXV_GND_X_OUT16',
     ]
-# SC1_0 : Seismometer SC (IPdcdamp + IPsc with seismometers)
-start = tconvert('Sep 06 2019 00:30:00 JST')
-end   = tconvert('Sep 06 2019 01:30:00 JST')
-# SC1_1 : No Control (IPdcdamp only)
-start = tconvert('Sep 06 2019 01:40:00 JST')
-end   = tconvert('Sep 06 2019 02:40:00 JST')
-# SC1_2 : Strainmeter 1st trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-start = tconvert('Sep 06 2019 02:52:00 JST') # correct sign.
-end   = tconvert('Sep 06 2019 03:02:00 JST')
-# SC1_3 : Strainmeter 2nd trial (IPdcdamp + GIFsc, mat=-1,gain=-1)
-start = tconvert('Sep 06 2019 03:10:00 JST') # wrong sign...
-end   = tconvert('Sep 06 2019 03:20:00 JST')
-# SC1_4 : Strainmeter 3rd trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-start = tconvert('Sep 06 2019 03:22:00 JST') # dame! , control signal saturated because of output limitter.
-end   = tconvert('Sep 06 2019 04:00:00 JST')
-# SC1_5 : Strainmeter 4th trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-start = tconvert('Sep 06 2019 03:42:00 JST') 
-end   = tconvert('Sep 06 2019 04:42:00 JST')
+import argparse   
+parser = argparse.ArgumentParser(description='')
+parser.add_argument('hoge', help='hoge')    
+args = parser.parse_args() 
+hoge = args.hoge
+if hoge == 'sc1_0':
+    # SC1_0 : Seismometer SC (IPdcdamp + IPsc with seismometers)
+    start = tconvert('Sep 06 2019 00:30:00 JST')
+    end   = tconvert('Sep 06 2019 01:30:00 JST')
+elif hoge == 'sc1_1':
+    # SC1_1 : No Control (IPdcdamp only)
+    start = tconvert('Sep 06 2019 01:40:00 JST')
+    end   = tconvert('Sep 06 2019 02:40:00 JST')
+elif hoge == 'sc1_2':
+    # SC1_2 : Strainmeter 1st trial (IPdcdamp + GIFsc, mat=1,gain=-1)
+    start = tconvert('Sep 06 2019 02:52:00 JST') # correct sign.
+    end   = tconvert('Sep 06 2019 03:02:00 JST')
+elif hoge == 'sc1_3':
+    # SC1_3 : Strainmeter 2nd trial (IPdcdamp + GIFsc, mat=-1,gain=-1)
+    start = tconvert('Sep 06 2019 03:10:00 JST') # wrong sign...
+    end   = tconvert('Sep 06 2019 03:20:00 JST')
+elif hoge == 'sc1_4':
+    # SC1_4 : Strainmeter 3rd trial (IPdcdamp + GIFsc, mat=1,gain=-1)
+    start = tconvert('Sep 06 2019 03:22:00 JST') # dame! , control signal saturated because of output limitter.
+    end   = tconvert('Sep 06 2019 04:00:00 JST')
+elif hoge == 'sc1_5':
+    # SC1_5 : Strainmeter 4th trial (IPdcdamp + GIFsc, mat=1,gain=-1)
+    start = tconvert('Sep 06 2019 03:42:00 JST') 
+    end   = tconvert('Sep 06 2019 04:42:00 JST')
 
 # setting
 fftlen = 2**7
@@ -123,5 +136,5 @@ ax2.set_xlabel('Frequency [Hz]',fontsize=25)
 ax2.set_ylim(0,1)
 #ax2.set_xlim(5e-3,8)
 ax2.set_xlim(1e-2,8)
-plt.savefig('result.png')
+plt.savefig('{0}.png'.format(hoge))
 plt.close()
