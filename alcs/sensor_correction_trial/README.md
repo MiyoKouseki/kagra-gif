@@ -8,10 +8,10 @@ template.py : template file to measure
 |Name| Start(JST)| End(JST) | tlen(min) | IP_DAMP | BF_DAMP | Pay_DAMP | SC| diffs |
 |---|---|---|---|---|---|---|---|---|
 |SC1_0 | Sep 06 00:30:00 | Sep 06 01:30:00 | 60 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_SEIS | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  | 
-|SC1_1 | Sep 06 01:40:00 | Sep 06 02:40:00 | 60 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_SEIS | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  | 
+|SC1_1 | Sep 06 01:40:00 | Sep 06 02:40:00 | 60 | L,T,Y | Y | P,Y(OL_TM2IM) | NO??? | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  | 
 |SC1_2 | Sep 06 02:52:00 | Sep 06 03:02:00 | 10 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_GIF | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  |
 |SC1_3 | Sep 06 03:10:00 | Sep 06 03:20:00 | 10 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_GIF(G=-1) | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  |  
-|SC1_4 | Sep 06 03:22:00 | Sep 06 04:00:00 | 38 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_GIF | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  | 
+|SC1_4 | Sep 06 03:22:00 | Sep 06 04:00:00 | 38 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_GIF (satulation) | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  | 
 |SC1_5 | Sep 06 03:42:00 | Sep 06 04:42:00 | 60 | L,T,Y | Y | P,Y(OL_TM2IM) | SC\_GIF | ETMX:(P07,08,12,14,15,TM2MN\_P,TM2IM\_P) ITMX:(P02,03,04,05,13),  |  
 |---|---|---|---|---|---|---|---|---|
 |SC2_0 | Sep 17 05:26:00 | Sep 17 05:36:00 | 10 | L(G=0.5),T,Y | Y | P,Y(OL_TM2IM) | No | ETMX:(P07,08,14,15) ITMX:(P02,03,04,05),  | 
