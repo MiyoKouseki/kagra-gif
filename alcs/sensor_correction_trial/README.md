@@ -133,7 +133,7 @@ SCのゲインが合っていないと考え、変えて測定してみた。
 
 ```bash
 cd /Users/miyo/Dropbox/Git/miyopy/script/filtstatus/results
-for j in {0..9} ; do for i in {0..9} ; do echo sc${j}_${i}; less sc${j}_${i}.txt | awk -F'[,]' '{print $1,$2,$5}'| grep -e DAMP -e SENSCORR | grep -v 0.00000e+00 | grep -v GAS |grep -v NO_| grep -v BLADE ;done >> ../../../../kagra-gif/alcs/sensor_correction_trial/filtstatus/sc${j}.txt ; done
+for j in {0..9} ; do for i in {0..9} ; do echo sc${j}_${i}; less sc${j}_${i}.txt | awk -F'[,]' '{print $1,$2,$5}'| grep -e DAMP -e SENSCORR | grep -v 0.00000e+00 | grep -v GAS |grep -v NO_| grep -v BLADE ;done > ../../../../kagra-gif/alcs/sensor_correction_trial/filtstatus/sc${j}.txt ; done
 ```
 このコマンドは、どの段の Local FeedBack と Sensor Correction が ON になっているかどうかの情報が抜き出せれる。ちなみにこのコマンドはすべての段について DAMP と SC のみを調べているだけで、TEST や BLADE は調べていない。まあTESTとBLADEはDC位置を変えるためにつかうフィルターなので、おそらくなにもない限り一緒だとおもう。
 
