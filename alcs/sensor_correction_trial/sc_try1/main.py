@@ -1,92 +1,77 @@
 import matplotlib.pyplot as plt
 from gwpy.timeseries import TimeSeries,TimeSeriesDict
 import numpy as np
-
+from Kozapy.utils import filelist
+from gwpy.time import tconvert
 channels = [
     'K1:GIF-X_STRAIN_OUT16',
     'K1:VIS-ETMX_GIF_ARM_L_OUT16',
     'K1:CAL-CS_PROC_XARM_FILT_AOM_OUT16',
     'K1:CAL-CS_PROC_XARM_FILT_TM_OUT16',
-    'K1:VIS-ETMX_IP_BLEND_ACCL_IN1_DQ',
-    'K1:VIS-ITMX_IP_BLEND_ACCL_IN1_DQ',
-    'K1:VIS-ETMX_IP_BLEND_LVDTL_IN1_DQ',
-    'K1:VIS-ITMX_IP_BLEND_LVDTL_IN1_DQ',
     'K1:PEM-SEIS_EXV_GND_X_OUT16',
     'K1:PEM-SEIS_IXV_GND_X_OUT16',
-    'K1:PEM-SEIS_EXV_GND_X_OUT_DQ',
-    'K1:PEM-SEIS_IXV_GND_X_OUT_DQ',    
     ]
 # SC1_0 : Seismometer SC (IPdcdamp + IPsc with seismometers)
-start = 'Sep 06 2019 00:30:00 JST'
-end   = 'Sep 06 2019 01:30:00 JST'
+start = tconvert('Sep 06 2019 00:30:00 JST')
+end   = tconvert('Sep 06 2019 01:30:00 JST')
 # SC1_1 : No Control (IPdcdamp only)
-start = 'Sep 06 2019 01:40:00 JST'
-end   = 'Sep 06 2019 02:40:00 JST'
+start = tconvert('Sep 06 2019 01:40:00 JST')
+end   = tconvert('Sep 06 2019 02:40:00 JST')
 # SC1_2 : Strainmeter 1st trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-start = 'Sep 06 2019 02:52:00 JST' # correct sign.
-end   = 'Sep 06 2019 03:02:00 JST'
+start = tconvert('Sep 06 2019 02:52:00 JST') # correct sign.
+end   = tconvert('Sep 06 2019 03:02:00 JST')
 # SC1_3 : Strainmeter 2nd trial (IPdcdamp + GIFsc, mat=-1,gain=-1)
-start = 'Sep 06 2019 03:10:00 JST' # wrong sign...
-end   = 'Sep 06 2019 03:20:00 JST'
+start = tconvert('Sep 06 2019 03:10:00 JST') # wrong sign...
+end   = tconvert('Sep 06 2019 03:20:00 JST')
 # SC1_4 : Strainmeter 3rd trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-start = 'Sep 06 2019 03:22:00 JST' # dame! , control signal saturated because of output limitter.
-end   = 'Sep 06 2019 04:00:00 JST'
+start = tconvert('Sep 06 2019 03:22:00 JST') # dame! , control signal saturated because of output limitter.
+end   = tconvert('Sep 06 2019 04:00:00 JST')
 # SC1_5 : Strainmeter 4th trial (IPdcdamp + GIFsc, mat=1,gain=-1)
-start = 'Sep 06 2019 03:42:00 JST' 
-end   = 'Sep 06 2019 04:42:00 JST'
+start = tconvert('Sep 06 2019 03:42:00 JST') 
+end   = tconvert('Sep 06 2019 04:42:00 JST')
 
 # setting
 fftlen = 2**7
 ovlp = fftlen/2.0
 
 def timeseries(start,end,plot=True):
-    kwargs = {'verbose':True,'host':'10.68.10.121','port':8088}
-    data = TimeSeriesDict.fetch(channels,start,end,**kwargs)
+    source = filelist(start,end,trend='full',place='kashiwa')    
+    data = TimeSeriesDict.read(source,channels,start=start,end=end,nproc=4)
     c = 299792458 # m/sec
     lam = 1064e-9 # m
     gif = data['K1:VIS-ETMX_GIF_ARM_L_OUT16']
     xarm = data['K1:CAL-CS_PROC_XARM_FILT_AOM_OUT16']*3000.0/(c/lam)*1e6 # [um]
-    #xarm = data['K1:CAL-CS_PROC_XARM_FILT_TM_OUT16']*3000.0/(c/lam)*1e6 # [um]
-    _etmx_seis = data['K1:PEM-SEIS_EXV_GND_X_OUT16']
-    _itmx_seis = data['K1:PEM-SEIS_IXV_GND_X_OUT16']
-    etmx_seis = data['K1:PEM-SEIS_EXV_GND_X_OUT_DQ']
-    itmx_seis = data['K1:PEM-SEIS_IXV_GND_X_OUT_DQ']    
-    _diff_seis = etmx_seis - itmx_seis
+    etmx_seis = data['K1:PEM-SEIS_EXV_GND_X_OUT16']
+    itmx_seis = data['K1:PEM-SEIS_IXV_GND_X_OUT16']
     diff_seis = etmx_seis - itmx_seis
-    etmx_lvdt = data['K1:VIS-ETMX_IP_BLEND_LVDTL_IN1_DQ']
-    itmx_lvdt = data['K1:VIS-ITMX_IP_BLEND_LVDTL_IN1_DQ']
-    diff_lvdt = etmx_lvdt + itmx_lvdt
     comm_seis = etmx_seis + itmx_seis
-    #comm_seis = diff_seis
     if plot:
         plt.plot(gif)
         plt.savefig('timeseries.png')
         plt.close()
-    return gif,xarm,diff_seis,comm_seis,diff_lvdt
+    return gif,xarm,diff_seis,comm_seis
 
-def coherence(gif,xarm,diff_seis,comm_seis,diff_lvdt,fftlen=2**8,ovlp=2**7):
+def coherence(gif,xarm,diff_seis,comm_seis,fftlen=2**8,ovlp=2**7):
     coh_gif2xarm = gif.coherence(xarm,fftlength=fftlen,overlap=ovlp)
     coh_gif2seis = gif.coherence(diff_seis,fftlength=fftlen,overlap=ovlp)
     coh_xarm2seiscomm = xarm.coherence(comm_seis,fftlength=fftlen,overlap=ovlp)
-    coh_xarm2lvdt = xarm.coherence(diff_lvdt,fftlength=fftlen,overlap=ovlp)
-    return coh_gif2xarm,coh_gif2seis,coh_xarm2seiscomm,coh_xarm2lvdt
+    return coh_gif2xarm,coh_gif2seis,coh_xarm2seiscomm
 
 
-def asd(gif,xarm,diff_seis,comm_seis,diff_lvdt,fftlen=2**8,ovlp=2**7):
+def asd(gif,xarm,diff_seis,comm_seis,fftlen=2**8,ovlp=2**7):
     gif = gif.asd(fftlength=fftlen,overlap=ovlp)
     xarm = xarm.asd(fftlength=fftlen,overlap=ovlp)
     diff_seis = diff_seis.asd(fftlength=fftlen,overlap=ovlp)
-    diff_lvdt = diff_lvdt.asd(fftlength=fftlen,overlap=ovlp)
     comm_seis = comm_seis.asd(fftlength=fftlen,overlap=ovlp)
     w = 2.0*np.pi*(diff_seis.frequencies.value)
     diff_seis = diff_seis/w
     comm_seis = comm_seis/w
-    return gif,xarm,diff_seis,comm_seis,diff_lvdt
+    return gif,xarm,diff_seis,comm_seis
 
 
-# start = 'Sep 06 2019 03:25:00 JST'
-# #end   = 'Sep 06 2019 03:55:00 JST'
-# end   = 'Sep 06 2019 04:25:00 JST'
+# start = tconvert('Sep 06 2019 03:25:00 JST')
+# #end   = tconvert('Sep 06 2019 03:55:00 JST')
+# end   = tconvert('Sep 06 2019 04:25:00 JST')
 # gif,xarm,diff_seis,comm_seis,diff_lvdt = timeseries(start,end)
 # fig, (ax1,ax2) = plt.subplots(2,1,figsize=(12,7))
 # plt.subplots_adjust(hspace=0.11)
@@ -107,15 +92,14 @@ def asd(gif,xarm,diff_seis,comm_seis,diff_lvdt,fftlen=2**8,ovlp=2**7):
 # exit()
 
 # Timeseries when No control
-gif,xarm,diff_seis,comm_seis,diff_lvdt = timeseries(start,end)
-coh_gif2xarm, coh_gif2seis, coh_xarm2seiscomm,coh_xarm2lvdt = coherence(gif,xarm,diff_seis,comm_seis,diff_lvdt,
-                                                                        fftlen=fftlen,ovlp=ovlp)
-gif,xarm,diff_seis,comm_seis,diff_lvdt = asd(gif,xarm,diff_seis,comm_seis,diff_lvdt,
+gif,xarm,diff_seis,comm_seis = timeseries(start,end)
+coh_gif2xarm, coh_gif2seis, coh_xarm2seiscomm = coherence(gif,xarm,diff_seis,comm_seis,fftlen=fftlen,ovlp=ovlp)
+gif,xarm,diff_seis,comm_seis = asd(gif,xarm,diff_seis,comm_seis,
                                              fftlen=fftlen,ovlp=ovlp)
 
 #xarm.rms().write('./off_xarm_rms.hdf5')
 from gwpy.frequencyseries import FrequencySeries
-xarm_rms_off = FrequencySeries.read('./off_xarm_rms.hdf5')
+#xarm_rms_off = FrequencySeries.read('./off_xarm_rms.hdf5')
 # plot ASD and coherence
 fig, (ax1,ax2) = plt.subplots(2,1,figsize=(10,10),sharex=True)
 plt.subplots_adjust(hspace=0.06)
