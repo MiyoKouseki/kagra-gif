@@ -37,12 +37,12 @@ def percentile(specgrams,percentile,axis,**kwargs):
 
 
 def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
-    '''
+    ''' Get Spectrogram    
     '''
     nproc = kwargs.pop('nproc',4)
     bandpass = kwargs.pop('bandpass',None)
 
-    # check existance of the spectrogram data
+    # Load specgram from hdf5 file
     fname_hdf5 = fname_hdf5_asd(start,end,prefix,axis)
     if os.path.exists(fname_hdf5):
         specgram = Spectrogram.read(fname_hdf5)
@@ -50,42 +50,37 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
             timeseries = specgram.crop_frequencies(bandpass[0],bandpass[1]).sum(axis=1)
             return timeseries
         return specgram
-    
-    # If spectrogram dose not exist, calculate it from timeseries data.
+
+    # If no file, make specgram from timeseries data
     try:
-        fname = fname_gwf(start,end,prefix='./data')
         chname = get_seis_chname(start,end,axis=axis)
-        # check existance of the timeseries data
-        if os.path.exists(fname):
-            data = TimeSeries.read(fname,chname,nproc=nproc)
-        else:
-            # when timeseries data dose not exist
-            fnamelist = existedfilelist(start,end)
-            chname = get_seis_chname(start,end)
-            datadict = TimeSeriesDict.read(fnamelist,chname,nproc=nproc)
-            datadict = datadict.resample(32)
-            datadict = datadict.crop(start,end)
-            chname = get_seis_chname(start,end,axis=axis)
-            datadict.write(fname,format='gwf.lalframe')
-            data = TimeSeries.read(fname,chname,nproc=nproc)
-            # If data broken, raise Error.
-            if data.value.shape[0] != 131072:
-                log.debug(data.value.shape)
-                log.debug('####### {0} {1}'.format(start,end))
-                raise ValueError('data broken')
+        fnamelist = existedfilelist(start,end)
+        data = TimeSeries.read(fnamelist,chname,nproc=nproc)
+        data = data.resample(32)
+        data = data.crop(start,end)
     except:
         log.debug(traceback.format_exc())
         raise ValueError('!!!')
 
-    # if data broken, raise Error.
-    if data.value.shape[0] != 131072: # (131072 = 2**17 = 2**12[sec] * 2**5[Hz] )
+    # if timeseries data broken, raise Error.
+    if data.value.shape[0] != 131072: 
+        # (131072 = 2**17 = 2**12[sec] * 2**5[Hz] )
         log.debug(data.value.shape)
         log.debug('!!!!!!!! {0} {1}'.format(start,end))
         raise ValueError('data broken')
-
-    # calculate from timeseries data
+    
+    # calculate specgram
     specgram = data.spectrogram2(fftlength=2**8,overlap=2**7,nproc=nproc)
-    specgram.write(fname_hdf5,format='hdf5',overwrite=True)
+    try:
+        specgram.write(fname_hdf5,format='hdf5',overwrite=True)
+    except IOError as e:
+        log.debug(traceback.format_exc())
+        raise ValueError('No File')
+    except:
+        log.debug(traceback.format_exc())
+        raise ValueError('!!!')
+
+
     return specgram
     
             
@@ -104,6 +99,8 @@ if __name__ == "__main__":
     if args.start!=1211817600 or args.end!=1245372032:
         alldata = True 
 
+    mkdir = True
+
     log.info('# ----------------------------------------')
     log.info('# Start SeismicNoise            ')
     log.info('# ----------------------------------------')
@@ -121,7 +118,7 @@ if __name__ == "__main__":
 
     bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
     if bad!=0:
-        raise ValueError('SegmentList Error: Missmatch the number of segments.')
+        raise ValueError('SegmentList Error: Missmatch the number of segments.')    
 
     # Plot segmentlist
     if False:

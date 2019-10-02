@@ -1,7 +1,7 @@
 body = '''
 Universe       = vanilla 
 GetEnv         = True
-Initialdir     = /home/kouseki.miyo/kagra-gif/underGroundMotion/seismicnoise
+Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/seismicnoise
 Notification   = Never
 +Group         = "Xc"
 request_memory = 2 GB
