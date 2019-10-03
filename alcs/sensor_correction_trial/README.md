@@ -66,21 +66,15 @@ template.py : template file to measure
 
 
 ## 制御状態の調べ方
-上の表を作るための手順。
+上の表を作るための手順をのべる。
 
 制御の状態はフィルターバンクのSWSTATの値と、信号を分配するマトリックスの値で知ることができる。制御信号はこれだけではわからないが、どういうフィルターがONになっていて、どういう信号が分岐されて制御信号として使われているか知ることができる。
 
 上の表をつくるための手順は以下のとおり。
 
  1. miyopy/script/filtstatus/main.py を使って、指定時刻でのEXとIXのフィルターの値を調べる。
- 2. 各段の制御は、Bashのコマンドをつかって情報を抜き取る。
+ 2. 各段の制御の状態は、**以下**のBashのコマンドをつかって情報を抜き取る。
 
- 
-**1: FiltStatus**
-
-詳細はmiyopy/script/filtstatusを参照
-
-**2: Bash**
 
 **フィルターバンク用**
 ```bash
@@ -104,4 +98,10 @@ for j in {0..9} ; do for i in {0..9} ; do echo sc${j}_${i}; less sc${j}_${i}_mat
 
 にある。このファイルをみて、Measurementの表を埋めた。
 
+
+MEMO
+
+K1:GRD-LSC_LOCK_STATE_N
+20 :ALS_X_LOCK
+10 : IR_ARM_LOCK
 
