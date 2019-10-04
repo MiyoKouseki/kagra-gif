@@ -1,39 +1,34 @@
 \documentclass[a4paper,12pt]{book}
+\usepackage{jtygm}
 \usepackage[dvipdfmx]{graphicx,color,hyperref}
-%\usepackage[top=30truemm,bottom=30truemm,left=30truemm,right=30truemm]{geometry}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
 \usepackage[hang,small,bf]{caption}
 \usepackage[subrefformat=parens]{subcaption}
 \captionsetup{compatibility=false}
-%
-% ハイパーリンクを付ける設定
-\usepackage{pxjahyper}
 \usepackage{here}
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
-  bookmarks=true, 
   bookmarksnumbered=true,
   pdfborder={0 0 0},
   bookmarkstype=toc
 }
-%
-% 表紙の設定
-\title{{\LARGE \sc Thesis}\\ \vspace{2zh}{\bf \LARGE Arm Length Compensation System \\for Underground Gravitational-wave Telescope }\\ \vspace{8zh}}
-\author{{\LARGE \bf Koseki Miyo} \\ \\ {\LARGE \it Department of Physics} \\ {\LARGE \it University of Tokyo}}
-\date{\vspace{1zh} \LARGE MMM 2020}
 
 %
-% 本文
+\title{{\LARGE \sc Thesis}\\ \vspace{2zh}{\bf \LARGE Arm Length Compensation System \\for Underground Gravitational-wave Telescope }\\ \vspace{8zh}}
+\author{{\LARGE \bf Koseki Miyo} \\ \\ {\LARGE  \it Department of Physics} \\ {\LARGE \it University of Tokyo}}
+\date{\vspace{1zh} \LARGE MMM 2020}
+%
+%
 \begin{document}
 \setcounter{tocdepth}{2}
 \maketitle
 \tableofcontents
-\include{chap1} % Background
+%\include{chap1} % Background
 \include{chap2} % Geophysics Interferometer (GIF)
-\include{chap3} % Underground Seismic Noise
-\include{chap4} % Global Seismic Control Using the GIF
-\include{chap5} % Conculusion and Future Directions
+%\include{chap3} % Underground Seismic Noise
+%\include{chap4} % Global Seismic Control Using the GIF
+%\include{chap5} % Conculusion and Future Directions
 \appendix
 %\bibliography{./reference}
 \end{document}
