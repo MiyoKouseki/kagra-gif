@@ -3,26 +3,79 @@
 
 
 \section{Overview} 
-Geophysic Interferometer とはなにか述べる。
 
 
-
-\section{Purpose} % GIFの目的
-この干渉計の目的を述べる。どういう地球物理の現象をターゲットにしているかとか述べる。それをもとに要求値が決まっていく。
+\section{Purpose}
 \subsection{Motivation in Geophysics}
-地物でのモチベーション。（ここは新谷さん高森さん早河さんに聞いて書く。）
 \subsection{Motivation in GW detectors}
-重力波望遠鏡でのモチベーション。Drever氏のSPIの原論文で述べられていた「Seismic Interferometer」のように基線長伸縮を低減することが、GIFをKAGRAに設置するモチベーション。
 
 
+\section{Working Principle}
+
+\subsection{Asynmetric Michelson Interferometer}
+\begin{eqnarray}
+  \phi = 2\pi\frac{2(l_x-l_y)}{\lambda}\sim4\pi\frac{l_x}{\lambda}
+\end{eqnarray}
+
+\begin{eqnarray}
+  |d\phi| = 4\pi\frac{l_x}{\lambda}\left( \left|\frac{d\lambda}{\lambda}\right| + \left|\frac{dl_x}{l_x}\right| \right)
+\end{eqnarray}
 
 
-\section{Working Principle} %動作原理 
-動作原理を書く。どうやって地面の歪みをマイケルソン干渉計で検出するのかここに書く。
 \subsection{Response to the seismic strain}
-どうやって地面の歪みが基線長伸縮として応答するか述べる。地面の歪みから基線長伸縮への伝達関数を載せる。
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=10.0cm]{./img_chap2/img210.png}
+    \caption{The displacements of the two points which are sparated L in X axis. }
+  \end{center}
+\end{figure}
+
+The response of the strainmeter to seismic waves have characteristics of the low pass filter. To calculate this response, it is assumed that the plane seismic waves which displacement $u(x,t)$ is represented as $u(x,t)=u_0e^{i(\omega{t}-kx)}$ with angular frequency of $\omega$ and wave number of $k$, propagate along with the direction of the base-line of the strainmeter. The length fluctuation between two mirrors sparated with $L$ can be expressed as 
+\begin{eqnarray}
+  \Delta{L(t)} &\equiv& u(0,t) - u(L,t) \\
+  &=& u(0,t) - u(0,t-\tau), \label{eq:chap2_10}
+\end{eqnarray}
+where $\tau=L/v$ is the time delay. 
+The transfer function from the displacement to the length fluctuation is
+\begin{eqnarray}
+  H_{\mathrm{disp}}(s) \equiv \frac{\Delta{L(s)}}{u(s)} = 1 - \mathrm{exp}(-\tau{s})
+\end{eqnarray}
+
+Because the strain amplitude $\epsilon(x,t)$ is defined as $\epsilon(x,t)\equiv\frac{du}{dx}$, the strain
+\begin{eqnarray}
+  \epsilon(x,t) \equiv \frac{du}{dx} &=& \frac{du}{dt} \frac{dt}{dx}\\
+  &=& {u(x,t)}^{\prime}\frac{1}{v}
+\end{eqnarray}
+
+
+Therefore, the response of the strainmter to the seismic strain is given
+
+\begin{eqnarray}
+  H_{\mathrm{strain}}(s) \equiv \frac{\Delta{L(s)}}{\epsilon(s)} = \frac{\Delta{L(s)}}{\frac{s}{v}u(s)} = \left(1 - \mathrm{exp}(-\tau{s})\right) \frac{v}{s}
+\end{eqnarray}
+
+
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=10.0cm]{./img_chap2/img211.png}
+    \caption{}
+  \end{center}
+\end{figure}
+
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=12.0cm]{./img_chap2/img212.png}
+    \caption{}
+  \end{center}
+\end{figure}
+
+
 \subsection{Signal Detection Scheme}
-どうやって干渉計信号から基線長伸縮を取り出すか述べる。Quadrature Phase Detection について書く。ここからサンプリング周波数への要求値が定まることを述べる。
+\subsubsection{Quadrature Phase Detection}
+
+
 \subsection{Noise}
 どういうノイズが原理的に存在するか述べる。空気ゆらぎ、周波数雑音を述べる。
 
