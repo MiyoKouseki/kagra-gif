@@ -19,6 +19,6 @@
 * **seismic_response** 
 	* 離れた2点の地面応答
 	* klog: 
-	* Issue: 
+	* Issue: [#129](https://github.com/MiyoKouseki/kagra-gif/issues/129)
 * phase_velocity
 	* なにをやっていたか忘れた。位相速度の計算が、いろんな時期で同じ値になるか確かめようとしたんだと思う。消すにはもったいないので、残しておく。でもそのうちきれいにまとめ直さないと。。
