@@ -13,3 +13,4 @@ tmp
 .DS_Store
 kagranoisebudget
 *pdf
+!main.pdf
