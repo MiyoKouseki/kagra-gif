@@ -1,124 +1,111 @@
-\chapter{Seismic Noise Under the Ground}
-\section{Introduction}
-\subsection{Surface Site}
-\subsection{Underground Site}
-\subsection{KAGRA Site}
-\section{Theory of Seismic Waves}
-\subsection{Seismic Waves}
-\subsection{Depth Dependence}
-\subsection{...}
-\section{Seismic Noise}
-\subsection{Problematic Seismic Noise}
-\subsection{Microseisms}
-\subsection{Earthquakes}
-(Write how earthquakes disturb the large scale interferometer.)
-
-\subsubsection{Mechanism}
+\chapter{Geophysics Interferometer (GIF)}
 
 
 
-遠方での大きな地震は脈動帯域以下の低周波地面振動を励起し、ロックロスの原因になる。
-\subsubsection{Early Earthquake Alert}
-Seismonをつかって到来時間を予測し、この低周波地面振動のRMSを抑えるための特別なフィルターに切り替えて、ロックロスをへらす工夫を行っている。
-しかし、このフィルターは脈動がうるさいときは再びロックロスの問題を抱えてしまう。
-\subsection{Earth Tides}
-
-\subsection{...}
+\section{Overview} 
 
 
+\section{Purpose}
+\subsection{Motivation in Geophysics}
+\subsection{Motivation in GW detectors}
 
-\section{Differential Motion Reduction}
-\subsection{Introduction}
-The motion of two mirrors in the cavity have two modes. One is differential motion, which is the length change of that. Another one is common motion, which is the motion of the center of the cavity. In terms of the length control, it is important that the RMS amplitude of differential motion is as small as possible. Actuarlly, the amplitude of these two motions are the same each other when the mirrors moves with no coherence. However, when a coherence exists, the common motion tends to be larger than the differential one. 
 
-As discussed in this section, the coherence depends on both, the arm length and the wavelength of seismic waves. For example, if the arm length is much more smaller than the wavelength, the mirrors move together. This means that the common motion is greater than the differential motion.
+\section{Working Principle}
 
-The ratio of the amplitudes of the differential motion over common motion is newly defined as Common and Differential Motion Ratio (CDMR). It is usefull to know how the ground reducts the differential motion or increase the common motion. 
+\subsection{Asynmetric Michelson Interferometer}
+\begin{eqnarray}
+  \phi = 2\pi\frac{2(l_x-l_y)}{\lambda}\sim4\pi\frac{l_x}{\lambda}
+\end{eqnarray}
 
-\subsection{Differential Motion Reduction}
-\subsubsection{Differential Motion and Common Motion}
-\begin{figure}[H]
+\begin{eqnarray}
+  |d\phi| = 4\pi\frac{l_x}{\lambda}\left( \left|\frac{d\lambda}{\lambda}\right| + \left|\frac{dl_x}{l_x}\right| \right)
+\end{eqnarray}
+
+
+\subsection{Response to the seismic strain}
+\begin{figure}[h]
   \begin{center}
-    \includegraphics[width=8.0cm]{./img_chap3/chap310.png}
+    \includegraphics[width=10.0cm]{./img_chap2/img210.png}
+    \caption{The displacements of the two points which are sparated L in X axis. }
   \end{center}
-  \caption{Displacements of the two points; $x_1$ and $x_2$. Displacements of each point are represented as $u(x_1,t),\, u(x_2,t)$, where $u(x,t)$ is the displacement of the seismic wave.} \label{img:img_chap310}
 \end{figure}
 
-Motions of the two points can be represented as the differential motion and the common motion. Displacement of both differential motion and common motion of the two points shown in Figure(\ref{img:img_chap310}) are defined as
-\begin{eqnarray}\label{eq:eq22}
-  u_{\mathrm{diff}} \equiv \frac{u_{1}-u_{2}}{\sqrt{2}}, \,
-  u_{\mathrm{comm}}  \equiv \frac{u_{1}+u_{2}}{\sqrt{2}}
-\end{eqnarray}
-where $u_{1}(x,t)$ and $u_2(x,t)$ are the displacement of each points. These two motions defined in Eq.(\ref{eq:eq22}) are normalized by $\sqrt{2}$ due to conserve the total power.
-
-
-\subsubsection{Common and Differential Motion Ratio (CDMR)}
-CDMR is defined as the powers of common motion over the differential motion as bellow,
-\begin{equation}
-  \mathrm{CDMR} \equiv \sqrt{\frac{\mathrm{Common\,Motion}}{\mathrm{Differential\,Motion}}} = \sqrt{\frac{P_{\mathrm{comm}}(\omega)}{P_{\mathrm{diff}}(\omega)}} \label{eq:eq23}
-\end{equation}
-where $P_{\mathrm{comm}},P_{\mathrm{diff}}$ are the power spectral densities (PSDs) of the differential motion and common motion, respectively. Each PSDs are converted from the autocorrelation function of these by the Wiener-Khinchin theorem.
-
-First, autocorrelation function $C_{\mathrm{diff}}$ of the differential motion is given by its definition in Eq.(\ref{eq:eq22})
+The response of the strainmeter to seismic waves have characteristics of the low pass filter. To calculate this response, it is assumed that the plane seismic waves which displacement $u(x,t)$ is represented as $u(x,t)=u_0e^{i(\omega{t}-kx)}$ with angular frequency of $\omega$ and wave number of $k$, propagate along with the direction of the base-line of the strainmeter. The length fluctuation between two mirrors sparated with $L$ can be expressed as 
 \begin{eqnarray}
-  C_{\mathrm{diff}}(\tau) &=& \frac{1}{2}
-  \biggl\langle
-  \biggl[ x_{1}(t)-x_{2}(t) \biggr] \biggl[ x_{1}(t+\tau)-x_{2}(t+\tau) \biggr]
-  \biggr\rangle \\
-  &=& \frac{1}{2}\biggl[ C_{11}(\tau) - C_{12}(\tau) - C_{21}(\tau) + C_{22}(\tau) \biggr], 
+  \Delta{L(t)} &\equiv& u(0,t) - u(L,t) \\
+  &=& u(0,t) - u(0,t-\tau), \label{eq:chap2_10}
 \end{eqnarray}
-,where $C_{ij}$ are the autocorrelation functions of each point and defined as $ C_{ij} \equiv \langle x_{i}(t)x_{j}(t+\tau)\rangle,\, (i=1,2,\,j=1,2)$. Therefore, the power spectrum density of differential motion $P_{\mathrm{diff}}(\omega)$ can be computed as
+where $\tau=L/v$ is the time delay. 
+The transfer function from the displacement to the length fluctuation is
 \begin{eqnarray}
-  P_{\mathrm{diff}}(\omega) &=& \frac{1}{2}\biggl[ P_{1}(\omega) + P_{2}(\omega) - P_{12}(\omega) - P_{12}^*(\omega) \biggr]\\
-  &=& \frac{1}{2} \biggl[ P_{1}+P_{2} - \mathrm{Re}\left[\gamma \right]\times2\sqrt{P_{1}P_{2}} \biggr] \label{eq:eq31}
+  H_{\mathrm{disp}}(s) \equiv \frac{\Delta{L(s)}}{u(s)} = 1 - \mathrm{exp}(-\tau{s})
 \end{eqnarray}
-where $P_{1}(\omega),P_{2}(\omega)$ are the power spectrum densities of each points, and $P_{12}(\omega)$ are the cross spectrum between two point. The parameter $\gamma$ is the complex coherence between them defined below,
+
+Because the strain amplitude $\epsilon(x,t)$ is defined as $\epsilon(x,t)\equiv\frac{du}{dx}$, the strain
 \begin{eqnarray}
-  \gamma \equiv \frac{P_{12}}{\sqrt{P_{1}P_{2}}}.
+  \epsilon(x,t) \equiv \frac{du}{dx} &=& \frac{du}{dt} \frac{dt}{dx}\\
+  &=& {u(x,t)}^{\prime}\frac{1}{v}
 \end{eqnarray}
 
-Here, assuming that seismic wave propagating each points does not decay, which means $P_{1}=P_{2} \equiv P$, one can compute the $P_{\mathrm{diff}}(\omega)$ as 
+
+Therefore, the response of the strainmter to the seismic strain is given
+
 \begin{eqnarray}
-  P_{\mathrm{diff}}(\omega) = P (1-\mathrm{Re}\left[\gamma\right]).
+  H_{\mathrm{strain}}(s) \equiv \frac{\Delta{L(s)}}{\epsilon(s)} = \frac{\Delta{L(s)}}{\frac{s}{v}u(s)} = \left(1 - \mathrm{exp}(-\tau{s})\right) \frac{v}{s}
 \end{eqnarray}
-Therefore, the PSDs of the common motion can be calculated as
-\begin{eqnarray}
-  P_{\mathrm{comm}}(\omega) = P (1+\mathrm{Re}\left[\gamma\right]).
-\end{eqnarray}
-Finaly, CDMR defined Eq.(\ref{eq:eq23}) in case the seismic wave does not decay is represented as
-\begin{eqnarray}
- \mathrm{CDMR} = \sqrt{\frac{1 + \mathrm{Re} \left[\gamma \right] }{1 - \mathrm{Re} \left[\gamma \right]}}\,. \label{eq:eq33}
-\end{eqnarray}
-Eq.(\ref{eq:eq33}) indicate that CDMR can be expressed by only the coherence $\gamma$ between of two points. For example, CDMR tends to be larger when $\gamma$ close to 1. This means that the differential motion is more less than the common motion because the two points move together in the same direction.
-
-\subsubsection{CDMR of the X-arm Ground}
 
 
 
-
-%% \subsubsection{Single Plane Wave Model}
-%% The CDMR when single plane wave propagates along the arm cavity is discussed. This model can be applied in the case the source of seismic motion is only one such as an earth quake. Assuming that the plane wave propagates with the azimuth angle $\theta$ along the direction of arm cavity, the wave length $\lambda$ is $\lambda/\mathrm{cos}\theta$. In this situation, the coherence from $x_1$ to $x_2$ is denoted as
-%% \begin{equation}
-%%   \gamma=e^{i\frac{L\mathrm{cos}\theta\omega}{c}}
-%% \end{equation}
-%% Therefore, one can compute the CDMR as
-%% \begin{equation}  \label{eq:eq18}
-%%   \mathrm{CDMR} = \sqrt{\frac{1+\mathrm{cos}(\frac{L\omega}{c}\mathrm{cos}\theta)}{1-\mathrm{cos}(\frac{L\omega}{c}\mathrm{cos}\theta)}}.
-%% \end{equation}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=10.0cm]{./img_chap2/img211.png}
+    \caption{}
+  \end{center}
+\end{figure}
 
 
-%% \subsubsection{Uniform Plane Wave Model}
-%% The CDMR when the plane waves are distributed uniformly around the azimuth is discussed. This model can be applied in the case microseisms excite the ground. The coherence is equal to the integral over all direction.
-%% \begin{eqnarray} \label{eq:eq19}
-%%   \gamma &=& \frac{1}{2\pi} \int_{-\pi}^{\pi} e^{i\frac{\omega}{c} L\cos \theta} d \theta
-%% \end{eqnarray}
-%% where the coherence is normized azimuth angle. Therefore, the CDMR is given as
-%% \begin{equation}  \label{eq:eq20}
-%%   \mathrm{CDMR} = \sqrt{\frac{1+J_0(\frac{L\omega}{c})}{1-J_0(\frac{L\omega}{c})}} .
-%% \end{equation}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=12.0cm]{./img_chap2/img212.png}
+    \caption{}
+  \end{center}
+\end{figure}
+
+
+\subsection{Signal Detection Scheme}
+\subsubsection{Quadrature Phase Detection}
+
+
+\subsection{Noise}
+どういうノイズが原理的に存在するか述べる。空気ゆらぎ、周波数雑音を述べる。
 
 
 
 
+\section{Optics} %光学系
+どうやって実際の干渉計を構築しているか述べる。
+\subsection{Mode Matching Optics}
+どういうモードマッチをして干渉計として光を干渉させているか述べる。
+\subsection{Frequency Stabilized Laser}
+どういう制御をして周波数安定をしているか述べる。
+\subsection{Core Optics}
+\subsubsection{Beam Splitter}
+どういうミラーを使っているか述べる。
+\subsubsection{Corner Cube}
+どういうミラーを使っているか述べる。大きさとか表面の精度とか。
 
-\section{Summary of the Chapter}
+
+
+
+\section{Data Aquisition System} %DAQ
+DAQについて述べる。冗長性を持たせるために二系統のDAQを使っていることを述べる。一方はKAGRAとは独立で、もう一方はKAGRAと同じシステムに組み込んでいることを述べる。
+\subsection{Stand Alone System}
+森井システムについてのべる。コンパクトなシステムで地下環境でも安定して動くシステムだ、と述べる。
+\subsection{Realtime System}
+KAGRAのリアルタイムシステムについて述べる。KAGRAの制御に組み込むために歪変換をリアルタイムで行っている、と述べる。
+
+
+
+
+\section{Summary of the Chapter} %章のまとめ
+本章で述べたパラメータを表にまとめる。
