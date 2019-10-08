@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{book}
 \usepackage{jtygm}
-\usepackage[dvipdfmx]{graphicx,color,hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage[dvipdfmx]{graphicx,color,hyperref,rotating}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
 \usepackage[hang,small,bf]{caption}
 \usepackage[subrefformat=parens]{subcaption}
@@ -25,12 +27,14 @@
 \maketitle
 \tableofcontents
 \include{chap1} % Background
-\include{chap2} % Geophysics Interferometer (GIF)
+\include{chap2} % KAGRA Interferometer
 \include{chap3} % Underground Seismic Noise
-\include{chap4} % KAGRA Interferometer
-\include{chap5} % Demonstration of Arm Length Compensation
-\include{chap6} % Conculusion and Future Directions
+\include{chap4} % Geophysics InterFerometer
+\include{chap5} % Arm Length Compensation for Global Seismic Control
+\include{chap6} % Demonstration of Arm Length Compensation
 \include{chap7} % Conculusion and Future Directions
 \appendix
-%\bibliography{./reference}
+\include{appendixA} % Theory
+\bibliography{reference}
+\bibliographystyle{unsrt}
 \end{document}
