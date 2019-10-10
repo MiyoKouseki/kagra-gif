@@ -72,8 +72,25 @@ Michael~Selwyn Longuet-Higgins.
 \newblock
   \href{https://royalsocietypublishing.org/doi/abs/10.1098/rsta.1950.0012}{Link}.
 
+\bibitem{carter1991high}
+Jerry~A Carter, Noel Barstow, Paul~W Pomeroy, Eric~P Chael, and Patrick~J
+  Leahy.
+\newblock High-frequency seismic noise as a function of depth.
+\newblock {\em Bulletin of the Seismological Society of America},
+  81(4):1101--1114, 1991.
+
+\bibitem{peterson1993observations}
+Jon~R Peterson.
+\newblock Observations and modeling of seismic background noise.
+\newblock Technical report, US Geological Survey, 1993.
+
 \bibitem{trillium120manual}
 Nanometrics Inc., 250 Herzberg Road Kanata, Ontario, Canada K2K 2A1.
 \newblock {\em Trillium 120Q/QA User Guide}, 04 2017.
+
+\bibitem{bork2001overview}
+Rolf Bork, R~Abbott, D~Barker, and J~Heefner.
+\newblock An overview of the ligo control and data acquisition system.
+\newblock {\em arXiv preprint physics/0111077}, 2001.
 
 \end{thebibliography}

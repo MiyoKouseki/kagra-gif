@@ -57,44 +57,77 @@ Seismonをつかって到来時間を予測し、この低周波地面振動のR
 しかし、このフィルターは脈動がうるさいときは再びロックロスの問題を抱えてしまう。
 \subsection{Earth Tides}
 
+\newpage
 \section{Long-term Study of the seismic environment at KAGRA}
 \subsection{Overview}
-\subsection{Experimental Arrangement}
-Seismic motion ware acquired using seismometer which is installed on the second floor of the X-end named EXV are. The EXV area is placed under 200 $\mathrm{m}$ from surface of the mountain, and moreover, there are no entrance connected to the outside of the mountain in contrast both the Y-end and Corner area. Therefore, It is can be said that this area relatively quiet area in KAGRA site. 
+The seismic waves are excited on the source and propagate along the surface of the Earth with amplitude decreasing with depth \cite{carter1991high}. However, especially microseims whose peak is around 0.1 $\mathrm{Hz}$ are not attenuated adequately compared with higher frequencies above 1 $\mathrm{Hz}$, because the wavelength is comparable to or longer than the depth. Amount of these atenuation factor is must be explaing by a complicated phenomenon, which depends on either the local geology or location of the exciting sources. 
 
-The seismometer is Trillium 120-QA whose three outputs are proportional to the ground velocity of two horizontal and one vertical respectively. As shown in fig. \ref{img:img316}, the seismometer is covered by the black thermal insulator to reduce the thermal fluctuation. 温度のカップリングについてマニュアルchap3.3を参考にして書く\cite{trillium120manual}.
+In this section, seasonal change of the RMS amplitude of the seismic noise is described.
+
+%\cite{naticchioni2014microseismic}。
+
+\subsection{Experimental Arrangement}
+Seismic motion is measured by a seismometer installed on the second floor of the X-end area. This area is placed 200 $\mathrm{m}$ underground from the surface of the mountain. Comparison to corner area, human activity in the end area is less because the corner area has parking lots. Comparison to the Y-end area, there is no entrance connected to other mines. Therefore, the X-end area is relatively quiet in the KAGRA mine, regarding the seismic noise induced by human activity.
+
+In this study, Trillium 120-QA which is known as three-component, very broadband, and low-noise seismometer, was used. These three outputs are proportional to the ground velocity of two horizontal and one vertical, respectively. The feature of the low-noise can resolve  Peterson's new low-noise model (NLNM) and new high-noise model (NHNM) \cite{peterson1993observations}.
 
 \begin{figure}[H]
   \begin{center}   
-    \includegraphics[width=12.0cm]{./img_chap3/img316.png}
-    \caption{Trillium 120-QA installed on the second floor at X-end area named EXV area.}\label{img:img316}
+    \includegraphics[width=9.0cm]{./img_chap3/img316.png}
+    \caption{Trillium 120-QA installed on the second floor at X-end area, which is coverd by black thermal insulation cover}\label{img:img316}
   \end{center}
 \end{figure}
 
+As shown in fig \ref{img:img316}, the seismometer is housed in the black thermal insulation cover according to the installation manual \cite{trillium120manual}. Thermal insulation protects two broad categories of thermal couplings that can cause unwanted noise \cite{trillium120manual}. First is the direct coupling to the sensitivity. This coupling typically increases the noise of the vertical channel as a periodic diurnal variation caused by the day-to-night temperature cycle, because the springs that suspended the inertial masses are temperature sensitive. The second is the coupling to tilt from the thermal fluctuation. Tilt converts the vertical acceleration of gravity into horizontal acceleration. This thermally induced tilt noise on the horizontal will be larger than the direct thermal coupling on the vertical channel. To be low sensitivity to both tilt and temperature, this model has a function to center the inertial mass after the initial installation.
 
-\subsection{Data Aquisition}
+The signals of the seismometer is recorded through the data aquisition system developed by LIGO \cite{bork2001overview}. The analog signal is converted to digital signal by the 16 bit analog-to-digital converters (ADC) with 16384 $\mathrm{Hz}$ sampling. In addition, the signal of the seismoemter is amplified with 30 db so that the ADC noise does not mask this signal.\\
+...
+
+\subsection{Data}
+定常な時系列データを1年間のデータのから選んだ。
 
 
+\ref{img:img317}.\\
+...\\
+...\\
+\begin{figure}[H]
+  \begin{center}   
+    \includegraphics[width=11.0cm]{./img_chap3/img317.png}
+    \caption{Available data from June 00 2018 to Jun 00 2019}\label{img:img317}
+  \end{center}
+\end{figure}
 
-The spectra taken in almost 1 year period using a seismometer at 2nd floor in the X-end station. 
+hoge
+...\\
+...\\
+...\\
+...\\
 
+hoge
+...\\
+...\\
+...\\
+...\\
+
+hoge
+...\\
+...\\
+...\\
+...\\
 
 \subsection{Results}
-\begin{figure}[H]
+\begin{figure}[h]
   \begin{center}   
-    \includegraphics[width=12.0cm]{./img_chap3/img313.png}
-    \caption{}
+    \includegraphics[width=16.0cm]{./img_chap3/img313.png}
+    \caption{}\label{img:img317}
   \end{center}
 \end{figure}
 
-
 huge
-\\
 ...\\
 ...\\
-
-
-\subsection{Comparison to Other Site}
+...\\
+...\\
 
 \section{Differential Motion Reduction}
 \subsection{Introduction}
