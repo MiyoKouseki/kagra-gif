@@ -1,4 +1,6 @@
 \documentclass[a4paper,12pt]{book}
+
+%
 \usepackage{jtygm}
 \usepackage{amsmath,amssymb}
 \usepackage{bm}
@@ -15,6 +17,11 @@
   pdfborder={0 0 0},
   bookmarkstype=toc
 }
+% cref
+\usepackage{cleveref}
+\crefformat{section}{\S#2#1#3} % see manual of cleveref, section 8.2.1
+\crefformat{subsection}{\S#2#1#3}
+\crefformat{subsubsection}{\S#2#1#3}
 
 %
 \title{{\LARGE \sc Thesis}\\ \vspace{2zh}{\bf \LARGE Arm Length Compensation System \\for Underground Gravitational-wave Telescope }\\ \vspace{8zh}}

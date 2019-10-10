@@ -2,14 +2,40 @@
 
 \section{Seismic Noise}
 \subsection{Overview}
-...\\
-...\\
-...\\
+These seismic noise not only limits the sensitivity of the terrestrial gravitational-wave detector but also decreases the duty cycle of the detector. As mentioned in \cref{sec:13}, because the sensitivity of the laser interferometric gravitational-wave telescope detect gravitational-waves in the differential length of the X arm and the Y arm, the fluctuations of these arm length decrease the sensitivity. Thus, we need the vibration isolation system reducing the lower seismic noise, and choose the more quiet place, in order to detect the signal in lower frequencies. On the other hands, realistically, it is difficult to reduce the seismic noise below 0.1 $\mathrm{Hz}$. This difficulty means that the motions not isolated disturb the detector which only can work within the limited range. These two problems of seismic noise are resolved by constructing the detector under the ground.
+
+It have been kwnon that places under the ground is more quiet than these on the surface of ground \cite{carter1991high}. Especially, the seismic noise of the underground above 1 $\mathrm{Hz}$ is effectivly reduced than the noise of the surface \cite{lcgt2009lcgt}. さらに、世界で初めて地下に建設した20mの重力波望遠鏡LISMはその安定性の高さを示した\cite{sato2004ultrastable}。しかし、\cref{sec:33}で後述するとおり、長期線になるほど低周波地面振動は基線長変動に現れやすくなるため、大型化をする限り、低周波地面振動の問題は残り続ける。
+
+
+Table3.1に、大型重力波望遠鏡で問題となる地面振動をリストアップした。The ground is vibrated by several sources. As shown in table \ref{tb:310}, main sources are listed with tipical frequency band and RMS amplitude of these. The lower frequency motion tends to be originated the global environment such as ocean activity, weather, and rotation and revolution of the Earth. On the other hand, the higher one is tends to be originated the local environment such as the human activity .
+
+\begin{table}[H]
+  \centering
+  \caption{Baseline changes caused by several seismic sources}
+  \begin{tabular}{llll}
+    \hline
+    Sources & Frequency Band [$\mathrm{Hz}$]  & RMS Amplitude [$\mathrm{\mu m}$] & Detail\\
+    \hline
+    Human,traffic            & $>$ 1             & $<$ 1         & \cref{sec:311}\\
+    Ocean waves (Microseisms)& $\ \ $ 0.1--0.3   & $\ \ $ 0.1-10 & \cref{sec:312}\\
+    Large earthquakes        & $>$ 0.05          & $>$ 100       & \cref{sec:313}\\    
+    Air pressure             & $<$ 0.05          & $>$ 100       & \cref{sec:314}\\
+    Moon, Sun (Earth tides)  & $<\, 1^{-5}$      & $>$ 100       & \cref{sec:315}\\
+    \hline
+  \end{tabular}\label{tb:310}
+\end{table}
+
+
+In this section, these sources are described.
+
+\subsection{Human activity} \label{sec:311}
+およそ1Hz以上のゆれは人工的な揺れである。
+\\
 ...\\
 ...\\
 ...\\
 
-\subsection{Microseisms}
+\subsection{Microseisms} \label{sec:312}
 Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}.
 
 The primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}.
@@ -22,7 +48,7 @@ The secondary ocean microseisms could be explained by the superposition of ocean
 ...\\
 ...\\
 
-The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean.
+The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{Naticchioni2014microseismic}.
 \\
 ...\\
 ...\\
@@ -44,18 +70,52 @@ The RMS amplitude spectral of both type of the microseisms are strongly depends 
 \end{figure}
 
 
-\subsection{Earthquakes}
-(Write how earthquakes disturb the large scale interferometer.)
+\subsection{Large Earthquakes} \label{sec:313}
+hoge\\
+...\\
+...\\
+...\\
 
-\subsubsection{Mechanism}
+Large amplitude earthquakes around the world would interrupt the operation of the gravitational wave detector and reduce their duty cycle. 実際、観測中に地震でロックが落ちたあと、復帰するまでに数時間かかる場合がある \cite{Coughlin2015real}。規模の大きな地震ほど、振幅がおおきいことはもちろん、長周期で減衰までにかかる時間が長い。長周期地震に対して重力波検出器が無力なのは、その防振装置が、せいぜい100 $\mathrm{mHz}$ の地面振動揺れに対して最適化しているためである\cite{}。そのためこのような制御方式を使う以上、制御ノイズが増大して感度が落ちることを犠牲にしてでも、地震が来る前に、地震でロックロスしないような制御フィルターの切り替えを必要とする。この切替のために\textit{Seismon} とよばれる早期地震アラートシステム\cite{Coughlin2017limiting}を用いた制御フィルターの切り替えが試みられている\cite{Biscans2018control}。
 
+hoge\\
+...\\
+...\\
+...\\
 
+\subsection{Air pressure} \label{sec:314}
+hoge\\
+...\\
+...\\
+...\\
 
-遠方での大きな地震は脈動帯域以下の低周波地面振動を励起し、ロックロスの原因になる。
-\subsubsection{Early Earthquake Alert}
-Seismonをつかって到来時間を予測し、この低周波地面振動のRMSを抑えるための特別なフィルターに切り替えて、ロックロスをへらす工夫を行っている。
-しかし、このフィルターは脈動がうるさいときは再びロックロスの問題を抱えてしまう。
-\subsection{Earth Tides}
+hoge\\
+...\\
+...\\
+...\\
+
+hoge\\
+...\\
+...\\
+...\\
+
+\subsection{Earth Tides} \label{sec:315}
+\cref{sec:311}
+hoge\\
+...\\
+...\\
+...\\
+
+hoge\\
+...\\
+...\\
+...\\
+
+hoge\\
+...\\
+...\\
+...\\
+
 
 \newpage
 \section{Long-term Study of the seismic environment at KAGRA}
@@ -129,7 +189,7 @@ huge
 ...\\
 ...\\
 
-\section{Differential Motion Reduction}
+\section{Differential Motion Reduction} \label{sec:33}
 \subsection{Introduction}
 The motion of two mirrors in the cavity have two modes. One is differential motion, which is the length change of that. Another one is common motion, which is the motion of the center of the cavity. In terms of the length control, it is important that the RMS amplitude of differential motion is as small as possible. Actuarlly, the amplitude of these two motions are the same each other when the mirrors moves with no coherence. However, when a coherence exists, the common motion tends to be larger than the differential one. 
 
