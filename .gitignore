@@ -1,0 +1,16 @@
+data
+data2
+tmp
+*~
+*pyc
+*aux
+*dvi
+*toc
+*log
+*gwf
+*hdf5
+*out
+.DS_Store
+kagranoisebudget
+*pdf
+!main.pdf

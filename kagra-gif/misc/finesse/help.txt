@@ -1,0 +1,117 @@
+------------------------------------------------------------------------
+  FINESSE 2.2     - Help Screen -                      01.08.2017
+
+  Features included in this binary: 
+    Cuba map integrator  - yes
+    NICSLU matrix solver - yes
+    Kat server mode      - yes
+------------------------------------------------------------------------
+** Usage (1) kat [options] infile [outfile [gnufile]] 
+   or    (2) kat [options] basename
+   in (2) e.g. basename 'test' means input filename : 'test.kat', 
+   output filename : 'test.out' and Gnuplot file name : 'test.gnu'.
+
+** Support :
+   User support forums:     http://www.gwoptics.org/finesse/forums/
+   Online syntax reference: http://www.gwoptics.org/finesse/reference/
+
+** Available options:
+ -v : prints version number and build date
+ -h : prints this help (-hh prints second help screen)
+ -c : check consistency of interferometer matrix
+ -max : prints max/min
+ -klu-full : switch to KLU solver for parallel frequencies (default)
+ -klu      : switch to KLU (Legacy solver)
+ --server : starts Finesse in server mode
+ --noheader : suppresses header information in output data files
+ --pykat : runs Finesse in Pykat interaction mode
+ --quiet : suppresses almost all screen outputs
+ --convert : convert knm files between text and binary formats
+
+** Available interferometer components:
+ l name P f [phase] node                          - laser
+ m name R T phi node1 node2                       - mirror
+ (or: m1 name T Loss phi ...          
+      m2 name R Loss phi ... )        
+ s name L [n] node1 node2                         - space
+ bs name R T phi alpha node1 node2 node3 node4    - beamsplitter
+ (or: bs1 name T Loss phi ... 
+      bs2 name R Loss phi ... )             
+ gr[n] name d node1 node2 [node3 [node4]]         - grating
+ isol name S node1 node2                          - isolator
+ dbs name node1 node2 node3 node4                 - directional BS
+ mod name f midx order am/pm [phase] node1 node2  - modulator
+ lens name f node1 node2                          - thin lens (Focal length)
+ lens* name P node1 node2                          - thin lens (Dioptres)
+ sq name f r angle node                           - squeezed input
+
+** Detectors:
+ pd[n] name [f1 [phase1 [f2... ]]] node[*]        - photodetector [mixer]
+ pdS[n] name [f1 phase1 [f2... ]] node[*]         - sensitivity
+ pdN[n] name [f1 phase1 [f2... ]] node[*]         - norm. photodetector
+ ad name [n m] f node[*]                          - amplitude detector
+ hd name phase node1 node2                        - homodyne detector
+ bp name x/y parameter node[*]                    - plots beam parameters
+ cp name cavity_name x/y parameter                - plots cavity parameters
+ gouy name x/y space-list                         - plots gouy phase
+ beam name [f] node[*]                            - plots beam shape
+ qd name f phase node[*]                          - quantum quadrature detector
+ sd name f [n m] node[*]                          - squeezing detector
+ qshot[S/N] name n f1 [phase1 [f2...]] node[*]    - quantum shotnoise detector
+ qnoised[S/N] name n f1 [phase1 [f2...]] node[*]  - quantum noise detector
+ qhd name phase node1 node2                       - quantum noise homodyne detector
+ q[n]hd name funca node1 node2 [funcb node3 node4]- mixed quantum noise homodyne detector
+ pgaind name component motion                     - open loop param. gain det.
+ xd name component motion                         - motion detector (See second help for motions)** Available commands:
+ fsig name component [type] f phase [amp]         - apply signal
+ fsig name component [type] f transfer_func       - signal wth transfer function
+ fsig name f                                      - set signal/noise frequency
+ fadd f1 f2 f3 ... fN                             - add frequencies to list
+ tem[*] input n m factor phase                    - input power in HG/LG modes
+ mask detector n m factor                         - mode mask for outputs
+ pdtype detector type-name                        - set detector type
+ attr component M value Rcx/y value x/ybeta value - attributes of m/bs
+ (alignment angles beta in [rad])
+ map component filename                           - read mirror map file
+ knm component_name filename_prefix [flag]        - save coefficients to file
+ smotion component map_file transfer_function     - set surface motion
+ maxtem order                                     - TEM order: n+m<=order
+ gauss name component node w0 z [wy0 zy]          - set q parameter
+ gauss* name component node q [qy] (q as 'z z_R') - set q parameter
+ gauss** name component node w(z) Rc [wy(z) Rcy]  - set q parameter
+ cav name component1 node component2 node         - trace beam in cavity
+ startnode node                                   - startnode of trace
+ lambda wavelength                                - overwrite wavelength
+ retrace [off|force]                              - re-trace beam on/off
+ phase 0-7  (default: 3)                          - change Gouy phases
+ (1: phi(00)=0, 2: gouy(00)=0, 4: switch ad phase)
+ conf component_name setting value                - configures component
+ vacuum components_names                          - specific quantum noise
+ tf name factor phase [{p/z f Q [p/z f2 Q2 ...]]  - f,Q transfer function
+ tf2 name factor phase [p1,p2,...] [z1,z2,...]    - complex transfer function
+
+** Plot and Output related commands :
+ xaxis[*] component param. lin/log min max steps  - parameter to tune
+ x2axis[*] component param. lin/log min max steps - second axis for 3D plot
+ noxaxis                                          - ignore xaxis commands
+ const name value                                 - constant $name
+ var name value                                   - tunabel variable $name
+ set name component parameter                     - variable $name
+ func name = function-string                      - function $name
+ lock[*] name $var gain accuracy [offset]         - lock: make $var+offset to 0
+ put[*] component parameter $var/$x1/$x2/$fs/$mfs - updates parameter
+ noplot output                                    - no plot for 'output'
+ trace verbosity                                  - verbose tracing
+ yaxis [lin/log] abs:deg/db:deg/re:im/abs/db/deg  - y-axis definition
+ scale factor [output]                            - y-axis rescaling
+ diff component parameter                         - differentiation
+ deriv_h value                                    - step size for diff
+
+** Auxiliary plot commands :
+ gnuterm terminal [filename]                      - Gnuplot terminal
+ pyterm terminal                                  - Python terminal
+ pause                                            - pauses after plotting
+ multi                                            - plots all surfaces
+                                                    save/load knm file
+ GNUPLOT \ ... \ END                              - set of extra commands
+                                                    for plotting.

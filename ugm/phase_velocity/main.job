@@ -1,0 +1,15 @@
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/underGroundMotion/phase_velocity
+Notification   = Never
++Group         = "Xc"
+request_memory = 1 GB
+
+Executable = /usr/bin/python 
+Error      = ./log/main.$(Process).err
+Log        = ./log/main.$(Process).log
+Output     = ./log/main.$(Process).out
+
+RequestCpus    = 8
+Arguments  = ./main.py --nproc 8
+Queue

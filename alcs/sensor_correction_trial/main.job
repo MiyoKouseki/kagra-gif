@@ -1,0 +1,88 @@
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/alcs/sensor_correction_trial
+Notification   = Never
++Group         = "Xc"
+request_memory = 2 GB
+
+Executable = /usr/bin/python
+Error      = ./log/main.$(Process).err
+Log        = ./log/main.$(Process).log
+Output     = ./log/main.$(Process).out
+
+# ---------------------------------------
+RequestCpus    = 4
+Arguments  = ./main.py sc1_0
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc1_1
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc1_2
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc1_3
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc1_4
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc1_5
+Queue
+# ---------------------------------------
+RequestCpus    = 4
+Arguments  = ./main.py sc2_0
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc2_1
+Queue
+# ---------------------------------------
+RequestCpus    = 4
+Arguments  = ./main.py sc3_0
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_1
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_2
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_3
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_4
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_5
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_6
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_7
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc3_8
+Queue
+# ---------------------------------------
+RequestCpus    = 4
+Arguments  = ./main.py sc4_0
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc4_1
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc4_2
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc4_3
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc4_4
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc4_5
+Queue
+RequestCpus    = 4
+Arguments  = ./main.py sc4_6
+Queue

@@ -1,0 +1,400 @@
+------------------------------------------------------------------------
+                     FINESSE 2.1
+       o_.-=.        
+      (\'".\|        Frequency domain INterferomEter Simulation SoftwarE
+      .>' (_--.
+   _=/d   ,^\        05.11.2014         http://www.gwoptics.org/finesse/
+  ~~ \)-'   '        
+     / |             INSTALL 
+    '  '             
+------------------------------------------------------------------------
+
+  1. Introduction
+
+  2. Installation	
+
+  3. Running your first simulation
+
+  4. Short syntax reference
+
+  5. Further development
+
+  6. Copyright and disclaimer
+
+________________________________________________________________________
+
+
+1. Introduction
+
+This is a short guide for installing and running FINESSE.  Please see 
+`Finesse-2.0.pdf' (or later) for the manual and `CHANGES' for the 
+latest additions (also at http://www.gwoptics.org/finesse/changes). 
+If you have any problems, suggestions or advice,  please don't hesitate 
+to post it at the Finesse forums http://www.gwoptics.org/finesse/forums.
+
+FINESSE is a interferometer simulation program written in C. It 
+calculates light amplitudes in a user specified interferometer 
+configuration. It can generate output signals for various photo 
+detector types. All calculations are done in the frequency domain 
+(i.e. a steady state is assumed). This is done (in the following 
+order) by:
+
+  - reading a text input file which describes the interferometer 
+    and the computation task
+  - generating the set of linear equations which describes the
+    coupling of the light amplitudes
+  - solving numerically the linear equation system for each data point 
+    and calculating the output signals
+  - writing the data into an output file
+  - writing a Gnuplot file and a Matlab file, which can be
+    used for plotting data. FINESSE can further automatically start 
+    Gnuplot or Python to plot the data to the specified terminal 
+    (X11, postscript, pdf, png, ...)
+
+To simulate a certain interferometer configuration, the user has
+to write an input text file which describes the interferometer 
+in form of components and connecting nodes. Furthermore, an x-axis
+has to be specified, i.e. which parameters are to be tuned. When 
+starting the program this input file is read and the specified data 
+is calculated. The program writes several text files: 
+
+- the file with extension `.out' contains the calculated data
+- a file with extension `.gnu' is a batch  file for Gnuplot, or
+  a file with '.py' for plotting with Python
+- similarly a file with extension `.m' is a Matlab script file
+- in addition all screen output is stored in a logfile 
+  (extension `.out'). 
+
+By default Gnuplot is then started to plot the data.
+FINESSE uses Gnuplot to generate plots of the calculated data. Gnuplot
+is a free program available for different operating systems. If you 
+don't have Gnuplot installed yet, you should do so. To download it 
+look at http://www.gnuplot.info. Alternatively you can use the command 
+`gnuterm no' to prevent FINESSE from starting Gnuplot and use the 
+Matlab or Python scripts to plot the data instead.
+
+________________________________________________________________________
+
+
+2. Installation
+
+There are binaries available for several operating systems. After 
+downloading the appropriate package for your operating system from  
+http://www.gwoptics.org/finesse/ you can install FINESSE simply 
+by unpacking the zip (or tar.gz) file. This will create a directory 
+`Finesse2.1'  with all the necessary files.
+
+( Alternatively you can build FINESSE directly from the source code.
+  To find more about this, please visit
+  http://kvasir.sr.bham.ac.uk/redmine/projects/finesse )
+
+In addition you can download a small collection of simple example files.
+These examples should run on any system but probably you won't get any 
+graphical output without changing some default settings (see below).
+
+You should use FINESSE from a console window. First you need to
+change into the working directory which contains all required
+files (the FINESSE binary 'kat', the init file 'kat.ini' and
+an interferometer input file).
+
+If you call the program by typing `kat' on the console without any 
+option or filename a short message on the usage will be displayed. 
+Using the option `-h' a short help screen with a short syntax 
+reference is printed (i.e. `./kat -h' or `kat.exe -h').
+
+If you want to automatically plot the results you need to have Gnuplot 
+or Python installed. Furthermore you must tell FINESSE where to find 
+the Gnuplot or Python executable. This is done by editing the file 
+`kat.ini'.
+
+Unix/OS X:
+  You can easily find the Gnuplot executable with the command 
+  `which gnuplot'. This should show the full path, e.g.
+  `/usr/bin/gnuplot'. Next open `kat.ini' with a text editor and
+  change the line beginning with `GNUCOMMAND' to:
+
+  GNUCOMMAND "/usr/local/bin/gnuplot -persist"
+
+  For any queries or problems please post us a quick message in our 
+  forums: http://www.gwoptics.org/finesse/forums
+	 
+Windows:  
+  Firstly you must move the FINESSE folder to a location on
+  your computer where you want to store it. Becareful putting it in a
+  system wide directory such as 'Program Files' as you will require 
+  adminstrator rights to write to such a location. Once move to the 
+  desired location you should double click the 
+  `install.bat` file. Running this will bring up a command window  
+  to update your PATH variables. After this has been run you must
+  NOT move this Finesse folder, as the system PATH variable has been
+  set for this directory only. If you do move the folder then please
+  re-run install.bat. 
+  
+  Running install.bat will also attempt to find a gnuplot installation
+  on your computer and set up Finesse to work with it. If it does not
+  find one you will either have to install it first, and re-run
+  install.bat, or manually setup the kat.ini file to use you Gnutplot
+  installation. Please install Gnuplot from:  
+  http://sourceforge.net/projects/gnuplot/files/latest/download
+  If you have a space in the path to gnuplot.exe you need to note use
+  of ' and " to encapsulate path and GNUCOMMAND:
+  GNUCOMMAND '"C:\Program Files\gnuplot\bin\Wgnuplot.exe" --persist $s'
+  else use:
+  GNUCOMMAND 'C:\gnuplot\bin\Wgnuplot.exe --persist $s'
+
+  From FINESSE version 2.1 and above the Windows version should show
+  gnuplot plots and allow them plots to be kept open and still use the
+  terminal. FINESSE will now internally use a combination of both
+  wgnuplot.exe and gnuplot.exe which it expects to be in the same path
+  as stated in the GNUCOMMAND, this is irrespective of which binary is
+  actually stated in the GNUCOMMAND variable.
+	
+________________________________________________________________________
+	
+
+3. Running your first simulation
+
+Now you should be able to start FINESSE with an example file, two
+dummy example files are included in the zip file: 'test.kat' and
+'test_plot.kat'. More examples can be found on the FINESSE web page:
+http://www.gwoptics.org/finesse/#download
+http://www.gwoptics.org/finesse/#simpleexamples
+
+To run the first test file, open a terminal window, change into
+the FINESSE directory and type:
+
+$ ./kat test.kat 
+
+This should produce the following text output (if this does not work, 
+you probably have not downloaded the correct version of FINESSE):
+
+------------------------------------------------------------------------
+                     FINESSE v2.0                (build v2.0-7-gf7b41e5)
+       o_.-=.        Frequency domain INterferomEter Simulation SoftwarE
+      (\'".\|        17.05.2014         http://www.gwoptics.org/finesse/
+      .>' (_--.      
+   _=/d   ,^\        Input file test.kat,
+  ~~ \)-'   '        Output file test.out,
+     / |             Gnuplot file test.gnu 
+    '  '                                        Sun May 18 11:06:48 2014
+------------------------------------------------------------------------
+ 'noxaxis' has been set, ignoring all other xaxis commands
+ --- cavity tracing
+ cavity cavity1:
+  cavity is stable! Eigenvalues:
+  q=489.898i, w0=12.880974mm z=0m g=-0.714286
+  finesse : 29.79, round-trip power loss: 0.19
+  opt. length: 2.4km, FSR: 124.91352kHz
+  FWHM: 4.1931423kHz (pole: 2.0965712kHz)
+ 
+                   
+ writing matlab/python/gnuplot batch files...
+
+The second test file test_plot.kat will attempt to create graphical output.
+This only works if you have Gnuplot installed and have set the path
+to the Gnuplot binary correctly in the kat.ini file as described above.
+
+To run the second example, type:
+
+$ ./kat test_plot.kat 
+
+This should produce the following text output. In addition a Gnuplot
+window with a simple plot of the cavity power as a function of cavity
+tuning should appear.
+
+------------------------------------------------------------------------
+                     FINESSE v2.0                (build v2.0-7-gf7b41e5)
+       o_.-=.        Frequency domain INterferomEter Simulation SoftwarE
+      (\'".\|        17.05.2014         http://www.gwoptics.org/finesse/
+      .>' (_--.      
+   _=/d   ,^\        Input file test_plot.kat,
+  ~~ \)-'   '        Output file test_plot.out,
+     / |             Gnuplot file test_plot.gnu 
+    '  '                                        Sun May 18 11:25:40 2014
+------------------------------------------------------------------------
+                     
+ writing matlab/python/gnuplot batch files...
+ calling gnuplot...
+
+
+If the graphical output fails, you can do a few tests to find out why.
+- edit the test_plot.kat file, add the word 'debug' on a new line
+  and run the file again
+- this should produce much more text output and near the end prints
+  the actual system call used to start Gnuplot, for example:
+
+  calling gnuplot...
+  (using '/usr/local/bin/gnuplot -persist test_plot.gnu')
+
+- copy the system call (text between quotes) and try to run this from the
+  command window directly. If that fails you can use the command
+  'which gnuplot' or 'which Gnuplot' in the command window to determine
+  the correct path. On Windows you can use 'where gnuplot' instead.
+- with that path you should be able to start Gnuplot manually from the
+  command line. Once that works, use the same path for your settings
+  in the kat.ini file
+- if the above does not help, contact us, or post a message at:
+  http://www.gwoptics.org/finesse/forums/
+
+________________________________________________________________________
+
+
+4. Short syntax reference for FINESSE 2.0 :
+
+------------------------------------------------------------------------
+  FINESSE v2.0     - Help Screen -                      18.05.2014
+------------------------------------------------------------------------
+** Usage (1) kat [options] infile [outfile [gnufile]] 
+   or    (2) kat [options] basename
+   in (2) e.g. basename 'test' means input filename : 'test.kat', 
+   output filename : 'test.out' and Gnuplot file name : 'test.gnu'.
+** Support :
+   User support forums:     http://www.gwoptics.org/finesse/forums/
+   Online syntax reference: http://www.gwoptics.org/finesse/reference/
+** Available options:
+ -v : prints version number and build date
+ -h : prints this help (-hh prints second help screen)
+ -c : check consistency of interferometer matrix
+ -max : prints max/min
+ -klu-full : switch to KLU solver for parallel frequencies (default)
+ -klu      : switch to KLU (Legacy solver)
+ --server : starts Finesse in server mode
+ --noheader : suppresses header information in output data files
+ --perl1 : suppresses printing of banner
+ --quiet : suppresses almost all screen outputs
+ --convert : convert knm files between text and binary formats
+** Available interferometer components:
+ l name P f [phase] node                          - laser
+ m name R T phi node1 node2                       - mirror
+ (or: m1 name T Loss phi ...          
+      m2 name R Loss phi ... )        
+ s name L [n] node1 node2                         - space
+ bs name R T phi alpha node1 node2 node3 node4    - beamsplitter
+ (or: bs1 name T Loss phi ... 
+      bs2 name R Loss phi ... )             
+ gr[n] name d node1 node2 [node3 [node4]]         - grating
+ isol name S node1 node2 [node3]                  - isolator
+ mod name f midx order am/pm [phase] node1 node2  - modulator
+ lens f node1 node2                               - thin lens
+ sq name f r angle node                           - squeezed input
+** Detectors:
+ pd[n] name [f1 [phase1 [f2... ]]] node[*]        - photodetector [mixer]
+ pdS[n] name [f1 phase1 [f2... ]] node[*]         - sensitivity
+ pdN[n] name [f1 phase1 [f2... ]] node[*]         - norm. photodetector
+ ad name [n m] f node[*]                          - amplitude detector
+ bp name x/y parameter node[*]                    - plots beam parameters
+ cp cavity_name x/y parameter                     - plots cavity parameters
+ gouy name x/y space-list                         - plots gouy phase
+ beam name [f] node[*]                            - plots beam shape
+ qd name f phase node[*]                          - quantum quadrature detector
+ sd name f [n m] node[*]                          - squeezing detector
+ shot name node[*]                                - shot noise
+ qshot[S/N] name n f1 [phase1 [f2...]] node[*]    - quantum shotnoise detector
+ qnoised[S/N] name n f1 [phase1 [f2...]] node[*]  - quantum noise detector
+ pgaind name component motion                     - open loop param. gain det.
+** Available commands:
+ fsig name component [type] f phase [amp]         - apply signal
+ fsig name component [type] f transfer_func       - signal wth transfer function
+ fsig name f                                      - set signal/noise frequency
+ fadd f1 f2 f3 ... fN                             - add frequencies to list
+ tem[*] input n m factor phase                    - input power in HG/LG modes
+ mask detector n m factor                         - mode mask for outputs
+ pdtype detector type-name                        - set detector type
+ attr component M value Rcx/y value x/ybeta value - attributes of m/bs
+ (alignment angles beta in [rad])
+ map component filename                           - read mirror map file
+ knm component_name filename_prefix [flag]        - save coefficients to file
+ smotion component map_file transfer_function     - set surface motion
+ maxtem order                                     - TEM order: n+m<=order
+ gauss name component node w0 z [wy0 zy]          - set q parameter
+ gauss* name component node q [qy] (q as 'z z_R') - set q parameter
+ gauss** name component node w(z) Rc [wy(z) Rcy]  - set q parameter
+ cav name component1 node component2 node         - trace beam in cavity
+ startnode node                                   - startnode of trace
+ lambda wavelength                                - overwrite wavelength
+ retrace [off|force]                              - re-trace beam on/off
+ phase 0-7  (default: 3)                          - change Gouy phases
+ (1: phi(00)=0, 2: gouy(00)=0, 4: switch ad phase)
+ conf component_name setting value                - configures component
+ vacuum components_names                          - specific quantum noise
+ tf name factor phase [{p/z f Q [p/z f2 Q2 ...]]  - f,Q transfer function
+ tf2 name factor phase [p1,p2,...] [z1,z2,...]    - complex transfer function
+** Plot and Output related commands :
+ xaxis[*] component param. lin/log min max steps  - parameter to tune
+ x2axis[*] component param. lin/log min max steps - second axis for 3D plot
+ noxaxis                                          - ignore xaxis commands
+ const name value                                 - constant $name
+ var name value                                   - tunabel variable $name
+ set name component parameter                     - variable $name
+ func name = function-string                      - function $name
+ lock[*] name $var gain accuracy                  - lock: make $var to 0
+ put[*] component parameter $var/$x1/$x2/$fs/$mfs - updates parameter
+ noplot output                                    - no plot for 'output'
+ trace verbosity                                  - verbose tracing
+ yaxis [lin/log] abs:deg/db:deg/re:im/abs/db/deg  - y-axis definition
+ scale factor [output]                            - y-axis rescaling
+ diff component parameter                         - differentiation
+ deriv_h value                                    - step size for diff
+** Auxiliary plot commands :
+ gnuterm terminal [filename]                      - Gnuplot terminal
+ pyterm terminal                                  - Python terminal
+ pause                                            - pauses after plotting
+ multi                                            - plots all surfaces
+                                                    save/load knm file
+ GNUPLOT \ ... \ END                              - set of extra commands
+                                                    for plotting.
+________________________________________________________________________
+
+
+5. Further development
+
+With Finesse 2.0 we have completed the implementation of radiation
+pressure effects and have further achieved a full implementation
+of quantum noise in the two-photon formalism.
+ 
+In the near future we will continue to use and test these new 
+features for the commissioning of Acvanced LIGO. At the same
+time we will continue to improve and develop the code. One
+focus of our activity will be speed improvements, another the
+development and integration of PyKat (www.gwoptics.org/pykat/).
+
+________________________________________________________________________
+
+
+6. Copyright and disclaimer
+
+FINESSE and the accompanying documentation and the example files 
+have been written by:
+
+Andreas Freise
+School of Physics and Astronomy
+University of Birmingham
+B15 2TT Birmingham
+UK 
+andreas.freise@googlemail.com
+
+FINESSE has been substantially developed further during the last 
+years with Daniel Brown providing the key contributions, such as
+the implementation of mirror maps, radiation pressure effects and
+quantum noise. Daniel's work on the code and the manual was essential 
+for the publication of FINESSE as open source. Charlotte Bond has 
+carefully tested the new code and provided tutorials, examples and 
+documentation. 
+
+Parts of the original FINESSE source and `mkat' have been written by
+Gerhard Heinzel, the document `sidebands.ps' by Keita Kawabe, the
+Octave examples and its description by Gabriele Vajente, part of the
+FINESSE source have been written by Paul Cochrane.
+
+The software and documentation is provided as is without any warranty
+of any kind. Copyright (c) by Andreas Freise 1999 - 2014.
+
+The source code for FINESSE is available as open source under the GNU
+General Public License version 3 as published by the Free Software
+Foundation.
+
+This manual and all FINESSE documentation and examples available from
+www.gwoptics. org/finesse and related pages are distributed under a
+Creative Commons Attribution-Noncommercial-Share Alike License, see
+http://creativecommons.org/licenses/by-nc-sa/2.0/uk/.
+

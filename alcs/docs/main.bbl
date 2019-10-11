@@ -1,0 +1,34 @@
+\begin{thebibliography}{1}
+
+\bibitem{hua2005low}
+Wensheng Hua.
+\newblock {\em Low frequency vibration isolation and alignment system for
+  advanced LIGO}.
+\newblock PhD thesis, stanford university, 2005.
+
+\bibitem{sekiguchiD2016}
+T~Sekiguchi.
+\newblock A study of low frequency vibration isolation system for large scale
+  gravitational wave detectors.
+\newblock {\em PhD thesis}, 2016.
+
+\bibitem{matichard2015seismic}
+F~Matichard, B~Lantz, R~Mittleman, K~Mason, J~Kissel, B~Abbott, S~Biscans,
+  J~McIver, R~Abbott, S~Abbott, et~al.
+\newblock Seismic isolation of advanced ligo: Review of strategy,
+  instrumentation and performance.
+\newblock {\em Classical and Quantum Gravity}, Vol.~32, No.~18, p. 185003,
+  2015.
+
+\bibitem{biscansD2018}
+S.~Biscans.
+\newblock Optimization of the advanced ligo gravitational-wave detectors duty
+  cycle by reduction of parametric instabilitied and environmental impacts.
+\newblock {\em PhD thesis}, 2018.
+
+\bibitem{miyo2018cdmr}
+三代浩世希.
+\newblock Xアームの基線長伸縮.
+\newblock {\em JGW-L1808556-v3}, 2018.
+
+\end{thebibliography}
