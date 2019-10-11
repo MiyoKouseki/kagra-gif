@@ -2,17 +2,23 @@
 
 \section{Seismic Noise}
 \subsection{Overview}
-Seismic noise cause two main problems to the terrestrial gravitational-wave detectors.
+Seismic noise cause two main problems to the terrestrial gravitational-wave detectors, arised from the detection principle and the working principle of the detector, which described in \cref{sec:13}.
 
-First, the noise limits the sensitivity of the detectors in lower frequency especially below 10 $\mathrm{Hz}$. As mentioned in \cref{sec:13}, the laser interferometric detector recieves the gravitational-wave signal in the DARM signal, which is the length difference of the X arm and the Y arm. The noise disturb these arm length. Therefore, in order to detect the signal in lower frequencies, we have developed the vibration isolation system reducing the seismic noise \cite{takamori2002low},\cite{sekiguchi2016astudy},\cite{Okutomi2019development}.
+First, the noise limits the sensitivity of the detectors in lower frequency especially below 10 $\mathrm{Hz}$. DARM which recieve the gravitational-wave signal is disturbed by the seismic noises whose amplitude spectrum density is empirically kwnon as 
+\begin{eqnarray}
+  \sim \frac{10^{-8}}{f^2}\ \mathrm{m}/\sqrt{\mathrm{Hz}}
+\end{eqnarray}
+, where f is a frequency of the spectrum. Therefore, in order to detect the signal in lower frequencies, vibration isolation system to reduce the seismic noise with extream high isolation factor have been developed \cite{takamori2002low},\cite{sekiguchi2016astudy},\cite{Okutomi2019development}. In other words, the seinsitivity of the detector is not limited above 10 $\mathrm{Hz}$ owing to the such vibration isolation system. 
 
-Second, the noise decrease the duty cycle of the detectors. Realistically, it is difficult to reduce the seismic noise below 0.1 $\mathrm{Hz}$. This difficulty means that the motions not adequately isolated disturb the detector which only can work within the limited range. 
+Second, the noise decrease the duty cycle of the detectors because, realistically, it is difficult to reduce the seismic noise below 0.1 $\mathrm{Hz}$. This difficulty means that the motions not adequately isolated disturb the detector which only can work within the limited range. \\
+...\\
 
-Under ground can resolve these problems. Places under the ground are more quiet than these on the surface of the ground \cite{carter1991high}. Especially, the seismic noise of the underground above 1 $\mathrm{Hz}$ is effectivly reduced than the noise of the surface \cite{lcgt2009lcgt}. 世界で初めて地下に建設した20mの重力波望遠鏡LISMはその安定性の高さを示した\cite{sato2004ultrastable}。
+Under ground can resolve these problems. Places under the ground are more quiet than these on the surface of the ground \cite{carter1991high}. Especially, the seismic noise of the underground above 1 $\mathrm{Hz}$ is effectivly reduced than the noise of the surface \cite{lcgt2009lcgt}, because the noises in this band are correlated to human activities such as industrial machinery, cars and trains, or human footsteps \cite{bonnefoy2006nature} and then are able to be eliminated in underground. Forthermore, A laser interferometer gravitational wave antenna with a baseline length of 20 $\mathrm{m}$ (LISM) constructed underground have showed the stable performance of the detector resulting the high duty cycle of 99.8 $\%$ \cite{sato2004ultrastable}.\\
+...\\
 
-しかしながら、長期線の検出器においては、後者のDuty Cycleの向上はさほど望めない。なぜならば、詳細は\cref{sec:32}で述べるが、基線長が長くなると地面振動は基線長伸縮に現れやすくなるためである。例えば、基線長が短いと地面振動は基線全体を動かす。つまり基線長伸縮に現れにくい。一方で基線長が長いと両端でコヒーレンスが小さくなり全体は一緒に動かなくなっていく。つまり基線長伸縮に現れやすくなる。このようなことから長期線のレーザー干渉型検出器は地下であっても低周波地面振動に悩まされることになる。
+However, the improvement of the duty cycle of the large scale detectors is small, because the length change of baseline is larger if the baseline is long as described in \cref{sec:33}. For example, in case short baseline such as LISM, the whole ground of the detector tend to be moved by the seismic noise, which means the reduction effect of the short baseline. On the other hands, in case long baseline such as KAGRA, this effect is not effectively in lower frequencies especially below 0.1 $\mathrm{Hz}$ in case of the km-scale detector. 
 
-Table3.1に、大型重力波望遠鏡で問題となる地面振動をリストアップした。The ground is vibrated by several sources. As shown in table \ref{tb:310}, main sources are listed with tipical frequency band and RMS amplitude of these. The lower frequency motion tends to be originated the global environment such as ocean activity, weather, and rotation and revolution of the Earth. On the other hand, the higher one is tends to be originated the local environment such as the human activity .
+The problematic seismic noises are listed in \ref{tb:310}.
 
 \begin{table}[H]
   \centering
@@ -24,8 +30,7 @@ Table3.1に、大型重力波望遠鏡で問題となる地面振動をリスト
     Human,traffic            & $>$ 1             & $<$ 1         & \cref{sec:311}\\
     Ocean waves (Microseisms)& $\ \ $ 0.1--0.3   & $\ \ $ 0.1-10 & \cref{sec:312}\\
     Large earthquakes        & $>$ 0.05          & $>$ 100       & \cref{sec:313}\\    
-    Air pressure             & $<$ 0.05          & $>$ 100       & \cref{sec:314}\\
-    Moon, Sun (Earth tides)  & $<\, 1^{-5}$      & $>$ 100       & \cref{sec:315}\\
+    Moon, Sun (Earth tides)  & $<\, 1^{-5}$      & $>$ 100       & \cref{sec:314}\\
     \hline
   \end{tabular}\label{tb:310}
 \end{table}
@@ -34,8 +39,8 @@ Table3.1に、大型重力波望遠鏡で問題となる地面振動をリスト
 本節ではそれぞれの地面振動について述べる。
 
 \subsection{Human activity} \label{sec:311}
-およそ1Hz以上のゆれは人工的な揺れである。
-\\
+...
+...\\
 ...\\
 ...\\
 ...\\
@@ -88,23 +93,8 @@ hoge\\
 ...\\
 ...\\
 
-\subsection{Air pressure} \label{sec:314}
-hoge\\
-...\\
-...\\
-...\\
 
-hoge\\
-...\\
-...\\
-...\\
-
-hoge\\
-...\\
-...\\
-...\\
-
-\subsection{Earth Tides} \label{sec:315}
+\subsection{Earth Tides} \label{sec:314}
 \cref{sec:311}
 hoge\\
 ...\\
@@ -181,6 +171,12 @@ hoge
 ...\\
 
 \subsection{Results}
+一年間の地面振動スペクトル。
+...\\
+...\\
+...\\
+...\\
+
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=16.0cm]{./img_chap3/img313.png}
@@ -188,11 +184,32 @@ hoge
   \end{center}
 \end{figure}
 
-huge
+地面振動の季節変動。
 ...\\
 ...\\
 ...\\
 ...\\
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=16.0cm]{./img_chap3/img321.png}
+    \caption{}\label{img:img321}
+  \end{center}
+\end{figure}
+
+台風の移動と脈動の変化
+...\\
+...\\
+...\\
+...\\
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=16.0cm]{./img_chap3/img322.png}
+    \caption{}\label{img:img322}
+  \end{center}
+\end{figure}
+
 
 \section{Differential Motion Reduction} \label{sec:33}
 \subsection{Introduction}
@@ -262,33 +279,34 @@ Finaly, CDMR defined Eq.(\ref{eq:eq23}) in case the seismic wave does not decay 
 Eq.(\ref{eq:eq33}) indicate that CDMR can be expressed by only the coherence $\gamma$ between of two points. For example, CDMR tends to be larger when $\gamma$ close to 1. This means that the differential motion is more less than the common motion because the two points move together in the same direction.
 
 \section{Measurement of Differential Motion Reduction}
+\subsection{Overview}
+
+\begin{figure}[H]
+  \begin{center}   
+    \includegraphics[width=10.0cm]{./img_chap3/img318.png}
+    \caption{Seismometers for measurement of the differential motion redction}\label{img:img318}
+  \end{center}
+\end{figure}
+
+
 \subsection{Reduction in X-arm Scale}
+図\ref{img:img318}に示すように、Xアームの両端においた2台の地震計の信号をつかってXアームでの逆走低減効果を評価した。
+
+\begin{figure}[H]
+  \begin{center}   
+    \includegraphics[width=10.0cm]{./img_chap3/img319.png}
+    \caption{...}\label{img:img319}
+  \end{center}
+\end{figure}
+
 \subsection{Reduction in Other Short Scale}
 
-
-
-%% \subsubsection{Single Plane Wave Model}
-%% The CDMR when single plane wave propagates along the arm cavity is discussed. This model can be applied in the case the source of seismic motion is only one such as an earth quake. Assuming that the plane wave propagates with the azimuth angle $\theta$ along the direction of arm cavity, the wave length $\lambda$ is $\lambda/\mathrm{cos}\theta$. In this situation, the coherence from $x_1$ to $x_2$ is denoted as
-%% \begin{equation}
-%%   \gamma=e^{i\frac{L\mathrm{cos}\theta\omega}{c}}
-%% \end{equation}
-%% Therefore, one can compute the CDMR as
-%% \begin{equation}  \label{eq:eq18}
-%%   \mathrm{CDMR} = \sqrt{\frac{1+\mathrm{cos}(\frac{L\omega}{c}\mathrm{cos}\theta)}{1-\mathrm{cos}(\frac{L\omega}{c}\mathrm{cos}\theta)}}.
-%% \end{equation}
-
-
-%% \subsubsection{Uniform Plane Wave Model}
-%% The CDMR when the plane waves are distributed uniformly around the azimuth is discussed. This model can be applied in the case microseisms excite the ground. The coherence is equal to the integral over all direction.
-%% \begin{eqnarray} \label{eq:eq19}
-%%   \gamma &=& \frac{1}{2\pi} \int_{-\pi}^{\pi} e^{i\frac{\omega}{c} L\cos \theta} d \theta
-%% \end{eqnarray}
-%% where the coherence is normized azimuth angle. Therefore, the CDMR is given as
-%% \begin{equation}  \label{eq:eq20}
-%%   \mathrm{CDMR} = \sqrt{\frac{1+J_0(\frac{L\omega}{c})}{1-J_0(\frac{L\omega}{c})}} .
-%% \end{equation}
-
-
+\begin{figure}[H]
+  \begin{center}   
+    \includegraphics[width=10.0cm]{./img_chap3/img320.png}
+    \caption{...}\label{img:img320}
+  \end{center}
+\end{figure}
 
 
 

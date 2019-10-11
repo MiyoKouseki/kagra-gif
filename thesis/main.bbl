@@ -1,54 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{uchiyama2014excavation}
-T~Uchiyama, K~Furuta, M~Ohashi, S~Miyoki, O~Miyakawa, and Y~Saito.
-\newblock Excavation of an underground site for a km-scale laser
-  interferometric gravitational-wave detector.
-\newblock {\em Classical and Quantum Gravity}, 31(22):224005, 2014.
-\newblock
-  \href{https://iopscience.iop.org/article/10.1088/0264-9381/31/22/224005/meta}{Link}.
-
-\bibitem{Isozaki2010new}
-Yukio Isozaki, Kazumasa Aoki, Takaaki Nakama, and Shuichi Yanai.
-\newblock New insight into a subduction-related orogen: a reappraisal of the
-  geotectonic framework and evolution of the japanese islands.
-\newblock {\em Gondwana Research}, 18(1):82--105, 2010.
-\newblock
-  \href{https://www.sciencedirect.com/science/article/pii/S1342937X10000584}{Link}.
-
-\bibitem{akutsu2017construction}
-T~Akutsu and et. al.
-\newblock Construction of kagra: an underground gravitational-wave observatory.
-\newblock {\em Progress of Theoretical and Experimental Physics}, 2018(1), 01
-  2018.
-\newblock
-  \href{http://oup.prod.sis.lan/ptep/article-pdf/2018/1/013F01/23570266/ptx180.pdf}{Link}.
-
-\bibitem{aso2013interferometer}
-Yoichi Aso, Yuta Michimura, Kentaro Somiya, Masaki Ando, Osamu Miyakawa,
-  Takanori Sekiguchi, Daisuke Tatsumi, and Hiroaki Yamamoto.
-\newblock Interferometer design of the kagra gravitational wave detector.
-\newblock {\em PHYSICAL REVIEW D Phys Rev D}, 88:043007, 2013.
-\newblock
-  \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.88.043007}{Link}.
-
-\bibitem{somiya2012detector}
-Kentaro Somiya.
-\newblock Detector configuration of kagra the japanese cryogenic
-  gravitational-wave detector.
-\newblock {\em Classical and Quantum Gravity}, 29(12):124007, jun 2012.
-\newblock
-  \href{https://iopscience.iop.org/article/10.1088/0264-9381/29/12/124007}{Link}.
-
-\bibitem{Okutomi2019development}
-Okutomi Koki.
-\newblock {\em Development of 13.5-meter-tall Vibration Isolation System for
-  the Main Mirrors in KAGRA}.
-\newblock PhD thesis, SOKENDAI, The Graduate University for Advanced Studies,
-  2019.
-\newblock
-  \href{https://gwdoc.icrr.u-tokyo.ac.jp/cgi-bin/DocDB/ShowDocument?docid=9347}{Link}.
-
 \bibitem{takamori2002low}
 Akiteru Takamori.
 \newblock {\em Low frequency seismic isolation for gravitational wave
@@ -63,6 +14,15 @@ Takanori Sekiguchi.
 \newblock PhD thesis, Department of Physics School of Science, University of
   Tokyo, 2016.
 
+\bibitem{Okutomi2019development}
+Okutomi Koki.
+\newblock {\em Development of 13.5-meter-tall Vibration Isolation System for
+  the Main Mirrors in KAGRA}.
+\newblock PhD thesis, SOKENDAI, The Graduate University for Advanced Studies,
+  2019.
+\newblock
+  \href{https://gwdoc.icrr.u-tokyo.ac.jp/cgi-bin/DocDB/ShowDocument?docid=9347}{Link}.
+
 \bibitem{carter1991high}
 Jerry~A Carter, Noel Barstow, Paul~W Pomeroy, Eric~P Chael, and Patrick~J
   Leahy.
@@ -75,6 +35,12 @@ LCGT collaboration.
 \newblock Lcgt design document version 3.0.
 \newblock Technical Report JGW-T0400030-v4, Institute for Cosmic Ray Research,
   University of Tokyo, JGW document, 11 2009.
+
+\bibitem{bonnefoy2006nature}
+Sylvette Bonnefoy-Claudet, Fabrice Cotton, and Pierre-Yves Bard.
+\newblock The nature of noise wavefield and its applications for site effects
+  studies: A literature review.
+\newblock {\em Earth-Science Reviews}, 79(3-4):205--227, 2006.
 
 \bibitem{sato2004ultrastable}
 Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
