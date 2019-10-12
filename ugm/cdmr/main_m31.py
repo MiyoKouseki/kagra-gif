@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(0,'../../miyopy')
 
+import traceback
 import numpy as np
 from scipy.special import jv
 import matplotlib
@@ -18,7 +19,7 @@ from miyopy.utils.trillium import Trillium
 fname_gwf_tr120 = lambda x: './{id}/TR120s_Xaxis.gwf'.format(id=x)
 fname_gwf_gif = lambda x: './{id}/Xaxis_strain.gwf'.format(id=x)
 
-kwargs = {'pad':np.nan,'nproc':2,'verbose':False,'format':'gwf.lalframe'}
+kwargs = {'pad':np.nan,'nproc':4,'verbose':False,'format':'gwf.lalframe'}
 c2v = (20.0/2**15)*u.V/u.ct
 tr120q = Trillium('120QA')
 tr240 = Trillium('240')
@@ -34,22 +35,17 @@ fftlen = 2**8
 overlap = fftlen/2
     
 def check_channel_name(chnames):
-    if any(map(lambda x:'TEST' in x, chnames)): # IXV_TEST
-        exv  = list(filter(lambda x:'EXV'in x,chnames))[0]
-        ixv = list(filter(lambda x:'IXV'in x and not 'TEST'in x,chnames))[0]
-        ixv2 = list(filter(lambda x:'IXV'in x and 'TEST'in x,chnames))[0]
-        eyv = None
-    else:
-        exv  = list(filter(lambda x:'EXV'in x,chnames))[0]
-        ixv = list(filter(lambda x:'IXV'in x,chnames))[0]
-        ixv2 = None
-        eyv = list(filter(lambda x:'EYV'in x,chnames))[0]       
-    return exv,ixv,ixv2,eyv
+    exv_x = list(filter(lambda x:'EXV_GND_EW'in x,chnames))[0]
+    ixv_x = list(filter(lambda x:'IXV_GND_EW'in x,chnames))[0]
+    ixv_y = list(filter(lambda x:'IXV_GND_NS'in x,chnames))[0]
+    eyv_y = list(filter(lambda x:'EYV_GND_NS'in x,chnames))[0]       
+    return exv_x,ixv_x,ixv_y,eyv_y
 
 def check_data(data,chname):
     try:
         data = data[chname]*c2v/amp
     except:
+        print(traceback.format_exc())
         data = None
     return data
 
@@ -62,6 +58,7 @@ def asd(data,integ=True):
             freq = data.frequencies.value
             data = data/(2.0*np.pi*freq)
     except:
+        print(traceback.format_exc())
         data = None
     return data
 
@@ -77,60 +74,48 @@ if __name__ == '__main__':
     # Read timeseries data of Trillium120
     from Kozapy.utils import filelist
     from lib.channel import get_seis_chname
-    m31 = True
-    if m31:
-        start = tconvert('May31 2019 00:00:00')
-        end = start + 2**13
-        fname = filelist(start,end)
-        chname = get_seis_chname(start,end,place='EXV')
-        print(chname)
-    else:
-        fname = fname_gwf_tr120(dataname)
-        chname = frtools.get_channels(fname)        
+    
+    start = tconvert('May31 2019 00:00:00')
+    end = start + 2**13
+    fname = filelist(start,end)
+    chname = get_seis_chname(start,end,place='EXV')
+    chname +=get_seis_chname(start,end,place='EYV')
+    chname += get_seis_chname(start,end,place='IXV')
+    print(chname)
     try:
         data = TimeSeriesDict.read(fname,chname,**kwargs)
     except:
         print(fname)
         raise ValueError('!')
 
-    exv,ixv,ixv2,eyv = check_channel_name(chname)
-    exv = check_data(data,exv)
-    ixv = check_data(data,ixv)
-    ixv2 = check_data(data,ixv2)
-    eyv = check_data(data,eyv)
-    if ixv2 != None:
-        d12 = ixv-ixv2
-        c12 = ixv+ixv2
-    d31 = exv-ixv
-    c31 = exv+ixv
-    t0 = exv.t0.value
-    fs = exv.sample_rate.value
-    nlen = exv.times.shape[0]
+    exv_x,ixv_x,ixv_y,eyv_y = check_channel_name(chname)
+    exv_x = check_data(data,exv_x)
+    ixv_x = check_data(data,ixv_x)
+    ixv_y = check_data(data,ixv_y)
+    eyv_y = check_data(data,eyv_y)
+    d_x = exv_x-ixv_x
+    c_x = exv_x+ixv_x
+    d_y = eyv_y-ixv_y
+    c_y = eyv_y+ixv_y
+    t0 = exv_x.t0.value
+    fs = exv_x.sample_rate.value
+    nlen = exv_x.times.shape[0]
     tlen = nlen/fs
     ave = tlen/overlap
-
-    # Read GIF
-    if use_gif:
-        fname = fname_gwf_gif(dataname)
-        chname = frtools.get_channels(fname)[0]
-        gif = TimeSeries.read(fname,chname,**kwargs)
-        gif = gif.asd(fftlength=fftlen,overlap=overlap)*3000
     
     # ASD
-    exv = asd(exv)
-    ixv = asd(ixv)
-    ixv2 = asd(ixv2)
-    eyv = asd(eyv)
-    if ixv2 != None:    
-        d12 = asd(d12)
-        c12 = asd(c12)
-        cdmr12 = c12/d12        
-    d31 = asd(d31,integ=integ)
-    c31 = asd(c31,integ=integ)
-    cdmr31 = c31/d31
-    freq = exv.frequencies.value
-    bw = exv.df.value
-
+    exv_x = asd(exv_x)
+    ixv_x = asd(ixv_x)
+    ixv_y = asd(ixv_y)
+    eyv_y = asd(eyv_y)
+    d_x = asd(d_x,integ=integ)
+    c_x = asd(c_x,integ=integ)
+    cdmr_x = c_x/d_x
+    d_y = asd(d_y,integ=integ)
+    c_y = asd(c_y,integ=integ)
+    cdmr_y = c_y/d_y
+    freq = exv_x.frequencies.value
+    bw = exv_x.df.value
     
     # Read Noise
     _adcnoise = 2e-6*u.V*np.ones(len(freq)) # [V/rtHz]
@@ -159,8 +144,8 @@ if __name__ == '__main__':
     #ax.loglog(adcnoise,'r--',label='ADC Noise',linewidth=1,alpha=0.7)
     #ax.loglog(ampnoise,'g--',label='Amp Noise',linewidth=1,alpha=0.7)
     #ax.loglog(aanoise,'b--',label='AA Noise',linewidth=1,alpha=0.7)
-    ax.loglog(exv,'k-',label='EXV')
-    ax.loglog(ixv,label='IXV1')
+    ax.loglog(exv_x,'k-',label='EXV')
+    ax.loglog(ixv_x,label='IXV1')
     ax.set_xlim(1e-2,10)
     #ax.loglog(ixv2,label='IXV2')
     #ax.loglog(d12,label='IXV1-IXV2')
@@ -168,30 +153,9 @@ if __name__ == '__main__':
     ax.legend(fontsize=8,loc='lower left')    
     ax.set_title('Seismometer, {dname}'.format(dname=dataname.replace('_','')),
                  fontsize=16)
-    plot.savefig('./{dname}/ASD_{dname}_X.png'.format(dname=dataname))
+    plot.savefig('./{dname}/ASD_{dname}.png'.format(dname=dataname))
     plot.close()
-    print('save ./{dname}/ASD_{dname}_X.png'.format(dname=dataname))
-    #
-    # Plot 
-    from gwpy.plot import Plot
-    plot = Plot()
-    ax = plot.gca(xscale='log', xlim=(1e-3, 10), xlabel='Frequency [Hz]',
-                  yscale='log', ylim=(1e-12, 1e-4),
-                  ylabel=r'Velocity [{0}/\rtHz]'.format(unit))
-    ax.loglog(selfnoise_120q,'k--',label='Self Noise 120Q',linewidth=1,alpha=0.7)
-    ax.loglog(exv,'k-',label='EXV')
-    ax.loglog(ixv,label='IXV1')
-    ax.set_xlim(1e-2,10)
-    if ixv2 != None:    
-        ax.loglog(ixv2,label='IXV2')
-        ax.loglog(d12,label='IXV1-IXV2')
-    ax.legend(fontsize=8,loc='lower left')    
-    ax.set_title('Seismometer, {dname}'.format(dname=dataname.replace('_','')),
-                 fontsize=16)
-    plot.savefig('./{dname}/ASD_DIFFNOISE_{dname}_X.png'.format(dname=dataname))
-    plot.close()
-    print('save ./{dname}/ASD_DIFFNOISE_{dname}_X.png'.format(dname=dataname))
-    #    
+    print('save ./{dname}/ASD_{dname}.png'.format(dname=dataname))
     #
     #
     #
@@ -210,16 +174,19 @@ if __name__ == '__main__':
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
     ax0.set_ylim(1e-9, 5e-6)
     #ax0.loglog(gif,'g',label='GIF')    
-    ax0.loglog(d31,'r',label='IXV1-EXV')
-    ax0.loglog(c31,'k',label='IXV1+IXV3')
+    ax0.loglog(d_x,'r',label='IXV-EXV')
+    ax0.loglog(c_x,'r--',label='IXV+EXV')
+    ax0.loglog(d_y,'b',label='IXV-EYV')
+    ax0.loglog(c_y,'b--',label='IXV+EYV')
     ax0.loglog(selfnoise_120q*np.sqrt(2.0),'k--',label='Selfnoise')
     ax0.set_yticks([1e-9,1e-8,1e-7,1e-6])
     ax0.tick_params(which='minor',color='black',axis='y')
     #ax0.set_yticklabels([1e-10,1e-9,1e-8,1e-7,1e-6],style="sci")
     ax0.legend(fontsize=10,loc='upper right')        
-    ax1.loglog(cdmr31,'k',label='Measurement',zorder=1)
-    ax1.loglog(f,cdmr_r(w,c_r),'r--',label='Uniform Rayleigh waves model (3000 m/sec)')
-    ax1.loglog(f,cdmr_p(w,c_p),'b--',label='Single Primary wave model (5500 m/sec)')
+    ax1.loglog(cdmr_x,'r',label='Measurement',zorder=1)
+    ax1.loglog(cdmr_y,'b',label='Measurement',zorder=1)
+    ax1.loglog(f,cdmr_r(w,c_r),'m--',label='Uniform Rayleigh waves model (3000 m/sec)')
+    ax1.loglog(f,cdmr_p(w,c_p),'g--',label='Single Primary wave model (5500 m/sec)')
     ax1.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
     ax1.text(11, 0.1, 'START : {0}'.format(t0), rotation=90,ha='left',va='bottom')
     ax1.text(13, 0.1, 'BW : {0:2.2e}, Window : hanning, AVE : {1}'.format(bw,ave),
@@ -231,6 +198,6 @@ if __name__ == '__main__':
     ax1.set_xlim(1e-2, 10)
     ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
                   fontsize=20)
-    plt.savefig('./{dname}/CDMR_{dname}_X.png'.format(dname=dataname))
+    plt.savefig('./{dname}/CDMR_{dname}.png'.format(dname=dataname))
     plt.close()
-    print('save ./{dname}/CDMR_{dname}_X.png'.format(dname=dataname))
+    print('save ./{dname}/CDMR_{dname}.png'.format(dname=dataname))
