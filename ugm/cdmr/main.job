@@ -107,3 +107,59 @@ Queue
 RequestCpus    = 4
 Arguments  = ./main_m31.py cd6_7
 Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_1
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_2
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_3
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_4
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_5
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_6
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd7_7
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_1
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_2
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_3
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_4
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_5
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_6
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd8_7
+Queue
