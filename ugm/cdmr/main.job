@@ -13,5 +13,25 @@ Output     = ./log/main.$(Process).out
 
 # ---------------------------------------
 RequestCpus    = 4
+Arguments  = ./main_m31.py cd3_1
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd3_2
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd3_3
+Queue
+
+RequestCpus    = 4
 Arguments  = ./main_m31.py cd4_1
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd4_2
+Queue
+
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd4_3
 Queue

@@ -35,10 +35,30 @@ fftlen = 2**8
 overlap = fftlen/2
     
 def check_channel_name(chnames):
-    exv_x = list(filter(lambda x:'EXV_GND_EW'in x,chnames))[0]
-    ixv_x = list(filter(lambda x:'IXV_GND_EW'in x,chnames))[0]
-    ixv_y = list(filter(lambda x:'IXV_GND_NS'in x,chnames))[0]
-    eyv_y = list(filter(lambda x:'EYV_GND_NS'in x,chnames))[0]       
+    if 'GND_EW' in chnames[0]:
+        # 'K1:PEM-SEIS_EXV_GND_EW_IN1_DQ'
+        exv_x = list(filter(lambda x:'EXV_GND_EW'in x,chnames))[0]
+        ixv_x = list(filter(lambda x:'IXV_GND_EW'in x,chnames))[0]
+        ixv_y = list(filter(lambda x:'IXV_GND_NS'in x,chnames))[0]
+        eyv_y = list(filter(lambda x:'EYV_GND_NS'in x,chnames))[0]       
+    elif 'GND_TR120Q_X' in chnames[0]:
+        # 'K1:PEM-EXV_GND_TR120Q_X_IN1_DQ'
+        exv_x = list(filter(lambda x:'EXV_GND_TR120Q_X'in x,chnames))[0]
+        ixv_x = list(filter(lambda x:'IXV_GND_TR120Q_X'in x,chnames))[0]
+        ixv_y = list(filter(lambda x:'IXV_GND_TR120Q_Y'in x,chnames))[0]
+        eyv_y = list(filter(lambda x:'EYV_GND_TR120Q_Y'in x,chnames))[0]       
+    elif 'EXV_SEIS_WE' in chnames[0]:
+        # 'K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ'
+        exv_x = list(filter(lambda x:'EXV_SEIS_WE'in x,chnames))[0]
+        ixv_x = list(filter(lambda x:'IXV_SEIS_WE'in x,chnames))[0]
+        ixv_y = list(filter(lambda x:'IXV_SEIS_NS'in x,chnames))[0]
+        eyv_y = list(filter(lambda x:'EYV_SEIS_NS'in x,chnames))[0]       
+    elif 'EX1_SEIS_WE' in chnames[0]:
+        # 'K1:PEM-EX1_SEIS_WE_SENSINF_IN1_DQ'
+        exv_x = list(filter(lambda x:'EX1_SEIS_WE'in x,chnames))[0]
+        ixv_x = list(filter(lambda x:'IX1_SEIS_WE'in x,chnames))[0]
+        ixv_y = list(filter(lambda x:'IX1_SEIS_NS'in x,chnames))[0]
+        eyv_y = list(filter(lambda x:'EY1_SEIS_NS'in x,chnames))[0]       
     return exv_x,ixv_x,ixv_y,eyv_y
 
 def check_data(data,chname):
@@ -74,8 +94,15 @@ if __name__ == '__main__':
     # Read timeseries data of Trillium120
     from Kozapy.utils import filelist
     from lib.channel import get_seis_chname
-    
-    start = tconvert('May31 2019 00:00:00')
+    hoge = {
+        'cd3_1':'Dec02 2018 11:00:00',
+        'cd3_2':'Jan01 2019 04:00:00',
+        'cd3_3':'Jan02 2019 00:00:00',
+        'cd4_1':'May31 2019 00:00:00',
+        'cd4_2':'Jun02 2019 04:00:00',
+        'cd4_3':'Jun03 2019 00:00:00',
+    }
+    start = tconvert(hoge[dataname])
     end = start + 2**13
     fname = filelist(start,end)
     chname = get_seis_chname(start,end,place='EXV')
