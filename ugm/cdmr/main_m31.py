@@ -133,7 +133,6 @@ if __name__ == '__main__':
     c_x = exv_x+ixv_x
     d_y = eyv_y-ixv_y
     c_y = eyv_y+ixv_y
-
     #
     t0 = from_gps(exv_x.t0.value)
     fs = exv_x.sample_rate.value
@@ -152,6 +151,7 @@ if __name__ == '__main__':
     d_y = asd(d_y,integ=integ)
     c_y = asd(c_y,integ=integ)
     cdmr_y = c_y/d_y
+    #
     freq = exv_x.frequencies.value
     bw = exv_x.df.value
     
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     ax.loglog(exv_x,'k-',label='EXV')
     ax.loglog(ixv_x,label='IXV1')
     ax.set_xlim(1e-2,10)
-    ax.set_ylim(1e-12,1e-5)
+    ax.set_ylim(1e-12,5e-5)
     #ax.loglog(ixv2,label='IXV2')
     #ax.loglog(d12,label='IXV1-IXV2')
     #ax.loglog(strain,label='StrainMeter')
@@ -211,19 +211,19 @@ if __name__ == '__main__':
     fig, (ax0,ax1) = plt.subplots(2,1,figsize=(8,6),sharex=True)
     plt.subplots_adjust(hspace=0.1)
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
-    ax0.set_ylim(1e-9,1e-5)
+    ax0.set_ylim(1e-9,5e-5)
     #ax0.loglog(gif,'g',label='GIF')    
-    ax0.loglog(d_x,'r',label='IXV-EXV')
-    ax0.loglog(c_x,'r--',label='IXV+EXV')
-    ax0.loglog(d_y,'b',label='IXV-EYV')
-    ax0.loglog(c_y,'b--',label='IXV+EYV')
+    ax0.loglog(d_x,'r',label='X arm diff.')
+    ax0.loglog(c_x,'r--',label='Xarm comm.')
+    ax0.loglog(d_y,'b',label='Y arm diff/')
+    ax0.loglog(c_y,'b--',label='Y arm comm.')
     ax0.loglog(selfnoise_120q*np.sqrt(2.0),'k--',label='Selfnoise')
-    ax0.set_yticks([1e-9,1e-8,1e-7,1e-6])
+    ax0.set_yticks([1e-9,1e-8,1e-7,1e-6,1e-5])
     ax0.tick_params(which='minor',color='black',axis='y')
     #ax0.set_yticklabels([1e-10,1e-9,1e-8,1e-7,1e-6],style="sci")
     ax0.legend(fontsize=10,loc='upper right')        
-    ax1.loglog(cdmr_x,'r',label='Measurement',zorder=1)
-    ax1.loglog(cdmr_y,'b',label='Measurement',zorder=1)
+    ax1.loglog(cdmr_x,'r',label='Xarm',zorder=1)
+    ax1.loglog(cdmr_y,'b',label='Yarm',zorder=1)
     ax1.loglog(f,cdmr_r(w,c_r),'m--',label='Uniform Rayleigh waves model (3000 m/sec)')
     ax1.loglog(f,cdmr_p(w,c_p),'g--',label='Single Primary wave model (5500 m/sec)')
     ax1.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
