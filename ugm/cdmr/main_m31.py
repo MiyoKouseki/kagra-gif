@@ -250,7 +250,9 @@ if __name__ == '__main__':
     #
     ax2.semilogx(coh_x.real,'r',label='X arm',zorder=1)
     ax2.semilogx(coh_y.real,'b',label='Y arm',zorder=1)
-    ax2.semilogx(f,spac(w,c_r),'g',label='Uniform Model',zorder=1)
+    #ax2.semilogx(f,spac(w,c_r),'g',label='Uniform Model',zorder=1)
+    ax2.fill_between(f,spac(w,c_r),spac(w,c_r-2000),facecolor='y',alpha=0.5,label='Uniform Model')
+    ax2.legend()
     ax2.set_ylabel('Real Part')
     ax2.set_ylim(-1.0,1.0)
     #
