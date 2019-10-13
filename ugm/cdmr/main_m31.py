@@ -256,7 +256,8 @@ if __name__ == '__main__':
     #
     ax3.loglog(cdmr_x,'r',zorder=1)
     ax3.loglog(cdmr_y,'b',zorder=1)
-    ax3.loglog(f,cdmr_r(w,c_r),'m--',label='Uniform Rayleigh waves model (3000 m/sec)')
+    #ax3.loglog(f,cdmr_r(w,c_p),'k',label='Uniform Rayleigh waves model (3000 m/sec)')
+    ax3.fill_between(f,cdmr_r(w,c_r),cdmr_r(w,c_r-2000),facecolor='y',alpha=0.5)
     #ax3.loglog(f,cdmr_p(w,c_p),'g--',label='Single Primary wave model (5500 m/sec)')
     ax3.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
     ax3.text(11, 0.1, 'START : {0}'.format(t0), rotation=90,ha='left',va='bottom')
