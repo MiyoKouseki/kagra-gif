@@ -12,5 +12,5 @@ Output     = ./log/main.$(Process).out
 
 # ---------------------------------------
 RequestCpus    = 4
-Arguments  = ./main_m31.py cd08_13
+Arguments  = ./main_m31.py cd08_12
 Queue
