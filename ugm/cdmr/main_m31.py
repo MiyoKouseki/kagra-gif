@@ -39,7 +39,7 @@ use_gif = False
     
 fftlen = 2**8
 overlap = fftlen/2
-tlen = 2**12
+tlen = 2**14
     
 def check_channel_name(chnames):
     if 'GND_EW' in chnames[0]:
