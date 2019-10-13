@@ -39,6 +39,7 @@ use_gif = False
     
 fftlen = 2**8
 overlap = fftlen/2
+tlen = 2**12
     
 def check_channel_name(chnames):
     if 'GND_EW' in chnames[0]:
@@ -118,7 +119,7 @@ if __name__ == '__main__':
             '{0:02d}/{1:02d} 2019 12:00:00 JST'.format(i+2,j)
     #
     start = tconvert(hoge[dataname])
-    end = start + 2**13
+    end = start + tlen
     fname = filelist(start,end)
     chname = get_seis_chname(start,end,place='EXV',axis='X')
     chname += get_seis_chname(start,end,place='IXV',axis='X')
@@ -146,8 +147,12 @@ if __name__ == '__main__':
     t0 = from_gps(exv_x.t0.value)
     fs = exv_x.sample_rate.value
     nlen = exv_x.times.shape[0]
-    tlen = nlen/fs
-    ave = tlen/overlap
+    #tlen = nlen/fs
+    ave = int(tlen/overlap)
+
+    # Coherence
+    coh_x = exv_x.coherence(ixv_x,fftlength=fftlen,overlap=overlap)
+    coh_y = eyv_y.coherence(ixv_y,fftlength=fftlen,overlap=overlap)
     
     # ASD
     exv_x = asd(exv_x)
@@ -162,8 +167,9 @@ if __name__ == '__main__':
     cdmr_y = c_y/d_y
     #
     freq = exv_x.frequencies.value
-    bw = exv_x.df.value
-    
+    bw = exv_x.df
+
+
     # Read Noise
     _adcnoise = 2e-6*u.V*np.ones(len(freq)) # [V/rtHz]
     _adcnoise2 = np.sqrt((10/2**15)**2/12/(214/2))*u.V*np.ones(len(freq)) # [V/rtHz]
@@ -215,10 +221,10 @@ if __name__ == '__main__':
     c_r = 3000.0 # m/sec
     cdmr_p = lambda w,c: np.sqrt((1.0+np.cos(L*w/c))/(1.0-np.cos(L*w/c)))
     cdmr_r = lambda w,c: np.sqrt((1.0+jv(0,2*L*w/c))/(1.0-jv(0,2*L*w/c)))
-    fig, (ax0,ax1) = plt.subplots(2,1,figsize=(8,6),sharex=True)
+    fig, (ax0,ax1,ax2) = plt.subplots(3,1,figsize=(8,10),sharex=True)
     plt.subplots_adjust(hspace=0.1)
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
-    ax0.set_ylim(1e-9,5e-5)
+    ax0.set_ylim(1e-10,5e-5)
     #ax0.loglog(gif,'g',label='GIF')    
     ax0.loglog(d_x,'r',label='X arm diff.')
     ax0.loglog(c_x,'r--',label='Xarm comm.')
@@ -229,19 +235,24 @@ if __name__ == '__main__':
     ax0.tick_params(which='minor',color='black',axis='y')
     #ax0.set_yticklabels([1e-10,1e-9,1e-8,1e-7,1e-6],style="sci")
     ax0.legend(fontsize=10,loc='upper right')        
-    ax1.loglog(cdmr_x,'r',label='Xarm',zorder=1)
-    ax1.loglog(cdmr_y,'b',label='Yarm',zorder=1)
-    ax1.loglog(f,cdmr_r(w,c_r),'m--',label='Uniform Rayleigh waves model (3000 m/sec)')
-    ax1.loglog(f,cdmr_p(w,c_p),'g--',label='Single Primary wave model (5500 m/sec)')
-    ax1.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
-    ax1.text(11, 0.1, 'START : {0}'.format(t0), rotation=90,ha='left',va='bottom')
-    ax1.text(13, 0.1, 'BW : {0:2.2e}, Window : hanning, AVE : {1}'.format(bw,ave),
+    #
+    ax1.semilogx(coh_x,'r',label='X arm',zorder=1)
+    ax1.semilogx(coh_y,'b',label='Y arm',zorder=1)
+    ax1.set_ylabel('Coherence')
+    #
+    ax2.loglog(cdmr_x,'r',zorder=1)
+    ax2.loglog(cdmr_y,'b',zorder=1)
+    ax2.loglog(f,cdmr_r(w,c_r),'m--',label='Uniform Rayleigh waves model (3000 m/sec)')
+    ax2.loglog(f,cdmr_p(w,c_p),'g--',label='Single Primary wave model (5500 m/sec)')
+    ax2.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
+    ax2.text(11, 0.1, 'START : {0}'.format(t0), rotation=90,ha='left',va='bottom')
+    ax2.text(13, 0.1, 'BW : {0:2.2e} , Window : hanning, AVE : {1}'.format(bw,ave),
              rotation=90,ha='left',va='bottom')        
-    ax1.legend(fontsize=10,loc='upper right')
-    ax1.set_ylim(1e-1, 1e2)
-    ax1.set_xlabel('Frequency [Hz]')        
-    ax1.set_ylabel(r'CDMR',fontsize=15)
-    ax1.set_xlim(1e-2, 10)
+    ax2.legend(fontsize=10,loc='upper right')
+    ax2.set_ylim(1e-1, 1e2)
+    ax2.set_xlabel('Frequency [Hz]')        
+    ax2.set_ylabel(r'CDMR',fontsize=15)
+    ax2.set_xlim(1e-2, 10)
     ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
                   fontsize=20)
     plt.savefig(fname_img_cdmr.format(dname=dataname))
