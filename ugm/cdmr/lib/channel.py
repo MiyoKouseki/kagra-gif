@@ -26,7 +26,7 @@ def get_seis_chname(start,end,place='EXV',axis='all'):
 
     if not axis == 'all':
         dic = {'X':0,'Y':1,'Z':2}        
-        return  chname[dic[axis]]
+        chname = [chname[dic[axis]]]
 
     if place=='EYV':
         try:

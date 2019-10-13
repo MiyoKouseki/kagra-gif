@@ -124,6 +124,7 @@ if __name__ == '__main__':
     chname += get_seis_chname(start,end,place='IXV',axis='X')
     chname += get_seis_chname(start,end,place='IXV',axis='Y')
     chname += get_seis_chname(start,end,place='EYV',axis='Y')
+    print(chname)
     try:
         #data = TimeSeriesDict.read(fname,chname,start=start,end=end,**kwargs)        
         data = TimeSeriesDict.read(fname,chname,**kwargs)        
