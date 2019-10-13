@@ -18,6 +18,8 @@ from miyopy.utils.trillium import Trillium
 
 fname_gwf_tr120 = lambda x: './{id}/TR120s_Xaxis.gwf'.format(id=x)
 fname_gwf_gif = lambda x: './{id}/Xaxis_strain.gwf'.format(id=x)
+fname_img_asd = './{dname}/ASD_{dname}.png'
+fname_img_cdmr = './{dname}/CDMR_{dname}.png'
 
 kwargs = {'pad':np.nan,'nproc':4,'verbose':False,'format':'gwf.lalframe'}
 c2v = (20.0/2**15)*u.V/u.ct
@@ -84,6 +86,8 @@ def asd(data,integ=True):
 
 
 if __name__ == '__main__':
+    ''' Calculate the CDMR of the X arm and the Y arm.
+    '''
     # Parse arguments
     import argparse 
     parser = argparse.ArgumentParser(description='description')
@@ -100,17 +104,20 @@ if __name__ == '__main__':
         'cd3_3':'Jan02 2019 00:00:00',
         'cd3_4':'May31 2019 00:00:00',
         'cd3_5':'Jun02 2019 04:00:00',
+        #'cd{a}_{b}':'a+2/b 2019 00:00:00'
     }
     for i in range(4,9,1):
         for j in range(1,32,1):
-            hoge['cd{0:02d}_{1:02d}'.format(i,j)] = '{0:02d}/{1:02d} 2019 00:00:00 JST'.format(i+2,j)
+            hoge['cd{0:02d}_{1:02d}'.format(i,j)] =  \
+            '{0:02d}/{1:02d} 2019 00:00:00 JST'.format(i+2,j)
+
+    #
     start = tconvert(hoge[dataname])
     end = start + 2**13
     fname = filelist(start,end)
     chname = get_seis_chname(start,end,place='EXV')
     chname +=get_seis_chname(start,end,place='EYV')
     chname += get_seis_chname(start,end,place='IXV')
-    print(chname)
     try:
         data = TimeSeriesDict.read(fname,chname,**kwargs)
     except:
@@ -126,7 +133,7 @@ if __name__ == '__main__':
     c_x = exv_x+ixv_x
     d_y = eyv_y-ixv_y
     c_y = eyv_y+ixv_y
-    t0 = exv_x.t0.value
+    t0 = from_gps(exv_x.t0.value)
     fs = exv_x.sample_rate.value
     nlen = exv_x.times.shape[0]
     tlen = nlen/fs
@@ -176,15 +183,16 @@ if __name__ == '__main__':
     ax.loglog(exv_x,'k-',label='EXV')
     ax.loglog(ixv_x,label='IXV1')
     ax.set_xlim(1e-2,10)
+    ax.set_ylim(1e-12,1e-5)
     #ax.loglog(ixv2,label='IXV2')
     #ax.loglog(d12,label='IXV1-IXV2')
     #ax.loglog(strain,label='StrainMeter')
     ax.legend(fontsize=8,loc='lower left')    
     ax.set_title('Seismometer, {dname}'.format(dname=dataname.replace('_','')),
                  fontsize=16)
-    plot.savefig('./{dname}/ASD_{dname}.png'.format(dname=dataname))
+    plot.savefig(fname_img_asd.format(dname=dataname)))
     plot.close()
-    print('save ./{dname}/ASD_{dname}.png'.format(dname=dataname))
+    print(fname_img_asd.format(dname=dataname))
     #
     #
     #
@@ -201,7 +209,7 @@ if __name__ == '__main__':
     fig, (ax0,ax1) = plt.subplots(2,1,figsize=(8,6),sharex=True)
     plt.subplots_adjust(hspace=0.1)
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
-    ax0.set_ylim(1e-9, 5e-6)
+    ax0.set_ylim(1e-9,1e-5)
     #ax0.loglog(gif,'g',label='GIF')    
     ax0.loglog(d_x,'r',label='IXV-EXV')
     ax0.loglog(c_x,'r--',label='IXV+EXV')
@@ -221,12 +229,13 @@ if __name__ == '__main__':
     ax1.text(13, 0.1, 'BW : {0:2.2e}, Window : hanning, AVE : {1}'.format(bw,ave),
              rotation=90,ha='left',va='bottom')        
     ax1.legend(fontsize=10,loc='upper right')
-    ax1.set_ylim(1e-1, 1e3)
+    ax1.set_ylim(1e-1, 1e2)
     ax1.set_xlabel('Frequency [Hz]')        
     ax1.set_ylabel(r'CDMR',fontsize=15)
     ax1.set_xlim(1e-2, 10)
     ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
                   fontsize=20)
-    plt.savefig('./{dname}/CDMR_{dname}.png'.format(dname=dataname))
+    plt.savefig(fname_img_cdmr.format(dname=dataname))
     plt.close()
-    print('save ./{dname}/CDMR_{dname}.png'.format(dname=dataname))
+    print(fname_img_cdmr.format(dname=dataname))
+    print('Done')
