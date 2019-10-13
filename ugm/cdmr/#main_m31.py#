@@ -133,7 +133,6 @@ if __name__ == '__main__':
     c_x = exv_x+ixv_x
     d_y = eyv_y-ixv_y
     c_y = eyv_y+ixv_y
-
     #
     t0 = from_gps(exv_x.t0.value)
     fs = exv_x.sample_rate.value
@@ -152,6 +151,7 @@ if __name__ == '__main__':
     d_y = asd(d_y,integ=integ)
     c_y = asd(c_y,integ=integ)
     cdmr_y = c_y/d_y
+    #
     freq = exv_x.frequencies.value
     bw = exv_x.df.value
     
