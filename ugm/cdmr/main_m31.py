@@ -223,7 +223,7 @@ if __name__ == '__main__':
     w = 2.0*np.pi*f
     L = 3000.0 # m
     c_p = 5500.0 # m/sec
-    c_r = 4000.0 # m/sec
+    c_r = 5500.0 # m/sec
     cdmr_p = lambda w,c: np.sqrt((1.0+np.cos(L*w/c))/(1.0-np.cos(L*w/c)))
     #cdmr_r = lambda w,c: np.sqrt((1.0+jv(0,2*L*w/c))/(1.0-jv(0,2*L*w/c)))
     cdmr_r = lambda w,c: np.sqrt((1.0+jv(0,L*w/c))/(1.0-jv(0,L*w/c)))
