@@ -16,6 +16,10 @@ from gwpy.frequencyseries import FrequencySeries
 from gwpy.time import tconvert,from_gps
 from miyopy.utils.trillium import Trillium
 
+from gwpy.plot import Plot
+import matplotlib.pyplot as plt
+
+
 fname_gwf_tr120 = lambda x: './{id}/TR120s_Xaxis.gwf'.format(id=x)
 fname_gwf_gif = lambda x: './{id}/Xaxis_strain.gwf'.format(id=x)
 fname_img_asd = './{dname}/ASD_{dname}.png'
@@ -110,6 +114,8 @@ if __name__ == '__main__':
         for j in range(1,32,1):
             hoge['cd{0:02d}_{1:02d}'.format(i,j)] =  \
             '{0:02d}/{1:02d} 2019 00:00:00 JST'.format(i+2,j)
+            hoge['cd{0:02d}_{1:02d}d'.format(i,j)] =  \
+            '{0:02d}/{1:02d} 2019 12:00:00 JST'.format(i+2,j)
 
     #
     start = tconvert(hoge[dataname])
@@ -119,9 +125,9 @@ if __name__ == '__main__':
     chname += get_seis_chname(start,end,place='EYV')
     chname += get_seis_chname(start,end,place='IXV')
     try:
-        data = TimeSeriesDict.read(fname,chname,**kwargs)
+        data = TimeSeriesDict.read(fname,chname,start=start,end=end,**kwargs)
     except:
-        print(fname)
+        print(traceback.format_exc())
         raise ValueError('!')
 
     exv_x,ixv_x,ixv_y,eyv_y = check_channel_name(chname)
@@ -206,8 +212,6 @@ if __name__ == '__main__':
     c_r = 3000.0 # m/sec
     cdmr_p = lambda w,c: np.sqrt((1.0+np.cos(L*w/c))/(1.0-np.cos(L*w/c)))
     cdmr_r = lambda w,c: np.sqrt((1.0+jv(0,2*L*w/c))/(1.0-jv(0,2*L*w/c)))
-    from gwpy.plot import Plot
-    import matplotlib.pyplot as plt
     fig, (ax0,ax1) = plt.subplots(2,1,figsize=(8,6),sharex=True)
     plt.subplots_adjust(hspace=0.1)
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
