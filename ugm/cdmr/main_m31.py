@@ -116,16 +116,18 @@ if __name__ == '__main__':
             '{0:02d}/{1:02d} 2019 00:00:00 JST'.format(i+2,j)
             hoge['cd{0:02d}_{1:02d}d'.format(i,j)] =  \
             '{0:02d}/{1:02d} 2019 12:00:00 JST'.format(i+2,j)
-
     #
     start = tconvert(hoge[dataname])
     end = start + 2**13
     fname = filelist(start,end)
-    chname = get_seis_chname(start,end,place='EXV')
-    chname += get_seis_chname(start,end,place='EYV')
-    chname += get_seis_chname(start,end,place='IXV')
+    chname = get_seis_chname(start,end,place='EXV',axis='X')
+    chname += get_seis_chname(start,end,place='IXV',axis='X')
+    chname += get_seis_chname(start,end,place='IXV',axis='Y')
+    chname += get_seis_chname(start,end,place='EYV',axis='Y')
     try:
-        data = TimeSeriesDict.read(fname,chname,start=start,end=end,**kwargs)
+        #data = TimeSeriesDict.read(fname,chname,start=start,end=end,**kwargs)        
+        data = TimeSeriesDict.read(fname,chname,**kwargs)        
+        data = data.crop(start,end)
     except:
         print(traceback.format_exc())
         raise ValueError('!')
