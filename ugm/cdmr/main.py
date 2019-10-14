@@ -53,7 +53,6 @@ def check_data(data,chname):
         data = None
     return data
 
-
 def asd(data,integ=True):
     try:
         data = data.asd(fftlength=fftlen,overlap=overlap)
