@@ -38,9 +38,9 @@ if unit == 'm':
     integ=True
 use_gif = False
     
-fftlen = 2**4 # 2**8
+fftlen = 2**8 # 2**8
 overlap = fftlen/2
-tlen = 2**5 #2**13
+tlen = 2**14 #2**13
     
 def check_channel_name(chnames):
     if 'GND_EW' in chnames[0]:
