@@ -22,8 +22,8 @@ import matplotlib.pyplot as plt
 
 fname_gwf_tr120 = lambda x: './{id}/TR120s_Xaxis.gwf'.format(id=x)
 fname_gwf_gif = lambda x: './{id}/Xaxis_strain.gwf'.format(id=x)
-fname_img_asd = './{dname}/ASD_{dname}.png'
-fname_img_cdmr = './{dname}/CDMR_{dname}.png'
+fname_img_asd = './results/{dname}/ASD_{dname}.png'
+fname_img_cdmr = './results/{dname}/CDMR_{dname}.png'
 
 kwargs = {'pad':np.nan,'nproc':4,'verbose':False,'format':'gwf.lalframe'}
 c2v = (20.0/2**15)*u.V/u.ct
@@ -104,11 +104,11 @@ if __name__ == '__main__':
     from Kozapy.utils import filelist
     from lib.channel import get_seis_chname
     hoge = {
-        'cd3_1':'Dec02 2018 11:00:00',
-        'cd3_2':'Jan01 2019 04:00:00',
-        'cd3_3':'Jan02 2019 00:00:00',
-        'cd3_4':'May31 2019 00:00:00',
-        'cd3_5':'Jun02 2019 04:00:00',
+        'cd03_1':'Dec02 2018 11:00:00',
+        'cd03_2':'Jan01 2019 04:00:00',
+        'cd03_3':'Jan02 2019 00:00:00',
+        'cd03_4':'May31 2019 00:00:00',
+        'cd03_5':'Jun02 2019 04:00:00',
         #'cd{a}_{b}':'a+2/b 2019 00:00:00'
     }
     for i in range(4,9,1):
