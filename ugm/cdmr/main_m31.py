@@ -233,10 +233,19 @@ if __name__ == '__main__':
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
     ax0.set_ylim(1e-10,5e-5)
     #ax0.loglog(gif,'g',label='GIF')    
-    ax0.loglog(d_x,'r',label='X arm diff.')
-    ax0.loglog(c_x,'r--',label='Xarm comm.')
-    ax0.loglog(d_y,'b',label='Y arm diff/')
-    ax0.loglog(c_y,'b--',label='Y arm comm.')
+    try:
+        ax0.loglog(d_x,'r',label='X arm diff.')
+        ax0.loglog(c_x,'r--',label='Xarm comm.')
+        ax0.loglog(d_y,'b',label='Y arm diff/')
+        ax0.loglog(c_y,'b--',label='Y arm comm.')
+    except:
+        print(traceback.format_exc())
+        print(d_x)
+        print(c_x)
+        print(d_y)
+        print(c_y)
+        print('Errors happen in those ata. I did not plot.')
+        
     ax0.loglog(selfnoise_120q*np.sqrt(2.0),'k--',label='Selfnoise')
     ax0.set_yticks([1e-9,1e-8,1e-7,1e-6,1e-5])
     ax0.tick_params(which='minor',color='black',axis='y')
