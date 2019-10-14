@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0,'../../miyopy')
+import os
 
 import traceback
 import numpy as np
@@ -37,9 +38,9 @@ if unit == 'm':
     integ=True
 use_gif = False
     
-fftlen = 2**8 # 2**8
+fftlen = 2**4 # 2**8
 overlap = fftlen/2
-tlen = 2**13 #2**13
+tlen = 2**5 #2**13
     
 def check_channel_name(chnames):
     if 'GND_EW' in chnames[0]:
@@ -132,7 +133,7 @@ if __name__ == '__main__':
         data = data.crop(start,end)
     except:
         print(traceback.format_exc())
-        raise ValueError('!')
+        raise ValueError('! something wrong')
 
     exv_x,ixv_x,ixv_y,eyv_y = check_channel_name(chname)
     exv_x = check_data(data,exv_x)
@@ -212,6 +213,9 @@ if __name__ == '__main__':
     ax.legend(fontsize=8,loc='lower left')    
     ax.set_title('Seismometer, {dname}'.format(dname=dataname.replace('_','')),
                  fontsize=16)
+
+    if not os.path.exists('./results/{dname}'.format(dname=dataname)):
+        os.mkdir('./results/{dname}'.format(dname=dataname))
     plot.savefig(fname_img_asd.format(dname=dataname))
     plot.close()
     print(fname_img_asd.format(dname=dataname))
@@ -281,6 +285,8 @@ if __name__ == '__main__':
     ax3.set_xlim(1e-2, 10)
     ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
                   fontsize=20)
+    if not os.path.exists('./results/{dname}'.format(dname=dataname)):
+        os.mkdir('./results/{dname}'.format(dname=dataname))
     plt.savefig(fname_img_cdmr.format(dname=dataname))
     plt.close()
     print(fname_img_cdmr.format(dname=dataname))
