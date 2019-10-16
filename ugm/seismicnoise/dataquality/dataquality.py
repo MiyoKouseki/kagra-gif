@@ -133,7 +133,7 @@ class DataQuality(object):
         import csv
         with open("{0}.txt".format(fname), "w") as f:            
             for row in rows:
-                print row
+                print(row)
                 f.write('{0} {1} {2}\n'.format(*row))
                 
 
@@ -186,5 +186,5 @@ if __name__ == '__main__':
         #rows = db.ask('select * from EXV_SEIS WHERE flag=4')
         #for start,end in segments:
         #    db.update_flag('EXV_SEIS',start,end,LACK_OF_DATA)
-        print db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps=1213312640')
+        print(db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps=1213312640'))
         #db.to_txt(rows)
