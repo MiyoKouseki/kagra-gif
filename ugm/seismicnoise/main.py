@@ -17,6 +17,7 @@ log = lib.logger.Logger('main')
 from lib.channel import get_seis_chname
 from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd
 
+import matplotlib.pyplot as plt
 
 ''' Seismic Noise
 '''
@@ -59,7 +60,7 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
         data = data.resample(32)
         data = data.crop(start,end)
     except:
-        log.debug(traceback.format_exc())
+        log.debug(traceback.format_exc())        
         raise ValueError('!!!')
 
     # if timeseries data broken, raise Error.
@@ -82,7 +83,70 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
 
 
     return specgram
-    
+
+
+def check(start,end,plot=False):
+    try:
+        chname = get_seis_chname(start,end,axis='X')
+        fnamelist = existedfilelist(start,end)
+        data = TimeSeries.read(fnamelist,chname,nproc=nproc)
+        data = data.resample(32)
+        data = data.crop(start,end)
+    except ValueError as e:
+        if 'Cannot append discontiguous TimeSeries' in e.args[0]:
+            return 'NoData:_LackofData'
+        elif 'Failed to read' in e.args[0]:
+            return 'NoData_FailedtoRead'
+        else:
+            log.debug(traceback.format_exc())
+            raise ValueError('!!!')
+    except IndexError as e:
+        if 'cannot read TimeSeries from empty source list' in e.args[0]:
+            return 'NoData:_Empty'
+        else:
+            log.debug(traceback.format_exc())
+            raise ValueError('!!!')
+    except RuntimeError as e:
+        if 'Failed to read' in e.args[0]:
+            return 'NoData_FailedtoRead'
+        else:
+            log.debug(traceback.format_exc())
+            raise ValueError('!!!')
+    except TypeError  as e:
+        if 'NoneType' in e.args[0]:
+            return 'NoData_NoChannel'
+        else:
+            log.debug(traceback.format_exc())
+            raise ValueError('!!!')
+    except:
+        log.debug(traceback.format_exc())
+        raise ValueError('!!!')
+
+    if data.shape[0] != 131072:
+        return 'NoData_FewData'
+    if data.std().value == 0:
+        return 'NoData_AllZero'
+    if any(data.value==0.0):
+        return 'NoData_AnyZero'
+    std = data.std().value
+    mean = data.mean().value
+    _max = data.max().value
+    if np.abs(_max-mean)/std > 10:
+        return 'Glitch_10sigma'
+    elif  np.abs(_max-mean)/std > 5:
+        return 'Glitch_5sigma'
+    if plot:
+        fig,ax=plt.subplots(1,1,figsize=(6,4),sharex=True)
+        ax.plot(data,'k')
+        ax.hlines(mean,start,end,'k')
+        ax.hlines(mean+std*5,start,end,'k')
+        ax.hlines(mean-std*5,start,end,'k')
+        ax.set_xscale('auto-gps')
+        ax.set_xlim(start,end)
+        plt.savefig('./tmp/{0}_{1}.png'.format(start,end))
+        plt.close()
+    return 'Stationaly'
+
             
 if __name__ == "__main__":
     import argparse
@@ -102,40 +166,49 @@ if __name__ == "__main__":
     mkdir = True
 
     log.info('# ----------------------------------------')
-    log.info('# Start SeismicNoise            ')
+    log.info('# Start SeismicNoise                      ')
     log.info('# ----------------------------------------')
 
     # Get segments
+    remake_db = False
     from dataquality.dataquality import DataQuality
     with DataQuality('./dataquality/dqflag.db') as db:
-        total      = db.ask('select startgps,endgps from EXV_SEIS')
-        available  = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0')
-        lackoffile = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
-        lackofdata = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
-        glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
+        total      = db.ask('select startgps,endgps from EXV_SEIS WHERE ' +
+                            'startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+        available  = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
+                            'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+        lackoffile = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=2 ' +
+                            'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+        lackofdata = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=4 ' +
+                            'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+        glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8 ' +
+                            'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+        glitch_big = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=16 ' +
+                            'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+
         use        = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
-                        'and startgps>={0} and endgps<={1}'.format(args.start,args.end))
+                            'and startgps>={0} and endgps<={1}'.format(args.start,
+                                                                       args.end))
+        bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)-len(glitch_big)
 
-    bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
     if bad!=0:
-        raise ValueError('SegmentList Error: Missmatch the number of segments.')    
+        raise ValueError('SegmentList Error: Missmatch the number of segments.')
 
-    # Plot segmentlist
-    if False:
-        from lib.plot import plot_segmentlist
-        start, end = total[0][0],total[-1][1]
-        from gwpy.segments import DataQualityAlldata
-        available = DataQualityAlldata(name='Available',active=available,
-                                    known=[(start,end)])
-        lackoffile = DataQualityAlldata(name='No Frame Files',active=lackoffile,
-                                     known=[(start,end)])
-        lackofdata = DataQualityAlldata(name='Lack of Data',active=lackofdata,
-                                     known=[(start,end)])
-        glitch = DataQualityAlldata(name='Glitche',active=glitch,known=[(start,end)])
-        total = DataQualityAlldata(name='Total',active=total,known=[(start,end)])
-        plot_segmentlist(available,lackoffile,lackofdata,glitch,total,
-                         fname='./segment.png')
-        exit()
+    if remake_db:        
+        f = open('result.txt','a')
+        for i,(start,end) in enumerate(total):
+            ans = check(start,end,plot=False)
+            txt = '{3:03d}/{4:03d} {0} {1} {2}'.format(start,end,ans,i,len(use))
+            log.debug(txt)
+            _txt = '{0} {1} {2}'.format(start,end,ans)
+            f.write(_txt+'\n')
+        f.close()
 
 
     # Main
