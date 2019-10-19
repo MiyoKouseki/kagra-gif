@@ -75,8 +75,8 @@ class DataQuality(object):
         # Insert TEST value        
         # segments = zip(range(1211817600     ,1245372032+1,4096),
         #                range(1211817600+4096,1245372032+1,4096))
-        segments = zip(range(1211817600     ,1245372032+1,256),
-                       range(1211817600+256,1245372032+1,256))
+        segments = zip(range(1211817600     ,1245372032+1,4096),
+                       range(1211817600+4096,1245372032+1,4096))
         data = [(start,end,0) for start,end in segments]
         self.cursor.executemany("insert into {0} values (?,?,?)".format(name), data)
 
