@@ -18,7 +18,7 @@ Arguments  = ./main.py --start {0} --end {1}
 Queue
 '''
 
-jobs = 512
+jobs = 256
 tlen = 2**25
 bins = tlen/jobs
 segments = zip(range(1211817600     ,1245372032+1,bins),
