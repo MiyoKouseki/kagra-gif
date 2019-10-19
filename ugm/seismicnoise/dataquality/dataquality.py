@@ -19,29 +19,29 @@ BitFlag:
     3 bit : "GLITCH", If existing, bit rise to 1. Default bit drop to 0.
 '''
 
-CHECK_BIT    = 0b1    # 1
-LACK_OF_FILE = 0b10   # 2
-LACK_OF_DATA = 0b100  # 4
-GLITCH       = 0b1000 # 8
+CHECK_BIT    = 0b1     # 1
+LACK_OF_FILE = 0b10    # 2
+LACK_OF_DATA = 0b100   # 4
+GLITCH       = 0b1000  # 8
+BIG_GLITCH   = 0b10000 # 16
 
 
 class DataQuality(object):
     def __init__(self,dbname):
         self.conn = sqlite3.connect(dbname)
         self.cursor = self.conn.cursor()
+        self.check_db()
 
     def check_db(self):
-        with DataQuality('./dataquality/dqflag.db') as db:
-            total      = db.ask('select startgps,endgps from EXV_SEIS')
-            available  = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0')
-            lackoffile = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
-            lackofdata = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
-            glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
-            use        = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
-                                'and startgps>={0} and endgps<={1}'.format(args.start,
-                                                                           args.end))
+        total      = self.ask('select startgps,endgps from EXV_SEIS')
+        available  = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=0')
+        lackoffile = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
+        lackofdata = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
+        glitch     = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
+        glitch_big = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=16')
 
-        bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
+        bad = len(total)-len(available)-len(lackoffile)\
+              -len(lackofdata)-len(glitch)-len(glitch_big)
         if bad!=0:
             raise ValueError('SegmentList Error: Missmatch the number of segments.')
         
@@ -73,8 +73,10 @@ class DataQuality(object):
         self.cursor.execute('create table {0}('.format(name)+
                             'startgps unique, endgps unique, flag bit)')        
         # Insert TEST value        
-        segments = zip(range(1211817600     ,1245372032+1,4096),
-                       range(1211817600+4096,1245372032+1,4096))
+        # segments = zip(range(1211817600     ,1245372032+1,4096),
+        #                range(1211817600+4096,1245372032+1,4096))
+        segments = zip(range(1211817600     ,1245372032+1,256),
+                       range(1211817600+256,1245372032+1,256))
         data = [(start,end,0) for start,end in segments]
         self.cursor.executemany("insert into {0} values (?,?,?)".format(name), data)
 
@@ -179,12 +181,24 @@ def danger():
 
 
 if __name__ == '__main__':
-    #segments = np.loadtxt('newfound_lackofdata.txt',dtype=np.int)
-    #print data
-    #exit()
-    with DataQuality() as db:
-        #rows = db.ask('select * from EXV_SEIS WHERE flag=4')
-        #for start,end in segments:
-        #    db.update_flag('EXV_SEIS',start,end,LACK_OF_DATA)
-        print(db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps=1213312640'))
+    segments = np.loadtxt('result.txt',dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
+    statusdict = {'Stationaly':0b0,
+                  'Glitch_10sigma':BIG_GLITCH,
+                  'Glitch_5sigma':GLITCH,
+                  'NoData_LackofData':LACK_OF_DATA,
+                  'NoData_AnyZero':LACK_OF_DATA,
+                  'NoData_AllZero':LACK_OF_DATA,
+                  'NoData_Empty':LACK_OF_DATA,
+                  'NoData_NoChannel':LACK_OF_DATA,
+                  'NoData_FewData':LACK_OF_DATA,
+                  'NoData_FailedtoRead':LACK_OF_FILE,
+    }
+    with DataQuality('./dqflag.db') as db:
+        db.bals()
+        db.add_table('EXV_SEIS')
+        exit()
+        for start,end,status in segments:
+            #print('EXV_SEIS',start,end,statusdict[status])
+            db.update_flag('EXV_SEIS',start,end,statusdict[status],override=True)
+        #print(db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps={0}'.format(1212079744)))
         #db.to_txt(rows)

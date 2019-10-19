@@ -119,7 +119,12 @@ if __name__ == '__main__':
             hoge['cd{0:02d}_{1:02d}d'.format(i,j)] =  \
             '{0:02d}/{1:02d} 2019 12:00:00 JST'.format(i+2,j)
     #
-    start = tconvert(hoge[dataname])
+    try:
+        start = tconvert(hoge[dataname])
+    except:
+        print(traceback.format_exc())
+        raise ValueError('Nodata')
+
     end = start + tlen
     fname = filelist(start,end)
     chname = get_seis_chname(start,end,place='EXV',axis='X')
@@ -133,7 +138,7 @@ if __name__ == '__main__':
         data = data.crop(start,end)
     except:
         print(traceback.format_exc())
-        raise ValueError('! something wrong')
+        raise ValueError('???')
 
     exv_x,ixv_x,ixv_y,eyv_y = check_channel_name(chname)
     exv_x = check_data(data,exv_x)
@@ -249,8 +254,11 @@ if __name__ == '__main__':
         print(d_y)
         print(c_y)
         print('Errors happen in those ata. I did not plot.')
-        
-    ax0.loglog(selfnoise_120q*np.sqrt(2.0),'k--',label='Selfnoise')
+    try:    
+        ax0.loglog(selfnoise_120q*np.sqrt(2.0),'k--',label='Selfnoise')
+    except:
+        print(traceback.format_exc())
+
     ax0.set_yticks([1e-9,1e-8,1e-7,1e-6,1e-5])
     ax0.tick_params(which='minor',color='black',axis='y')
     #ax0.set_yticklabels([1e-10,1e-9,1e-8,1e-7,1e-6],style="sci")
