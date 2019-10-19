@@ -19,6 +19,7 @@ from lib.check import check
 from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd
 
 import matplotlib.pyplot as plt
+from dataquality.dataquality import remake
 
 ''' Seismic Noise
 '''
@@ -94,8 +95,7 @@ if __name__ == "__main__":
     parser.add_argument('--end',type=int,default=1245372032)
     parser.add_argument('--nproc',type=int,default=8)
     parser.add_argument('--percentile', action='store_false') # default True
-    #parser.add_argument('--remakedb', action='store_true') # default False
-    parser.add_argument('--remakedb', action='store_false') 
+    parser.add_argument('--remakedb', action='store_true') # default False
     args = parser.parse_args()
     nproc = args.nproc
     run_percentile = args.percentile
@@ -117,16 +117,18 @@ if __name__ == "__main__":
         big_glitch = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=16 ' +
                             'and startgps>={0} and endgps<={1}'.format(args.start,
                                                                        args.end))
-        if remakedb:
-            with open('./result.txt','a') as f:
-                for i,(start,end) in enumerate(total):
-                    ans = check(start,end,plot=True,nproc=nproc)
-                    fmt = '{3:03d}/{4:03d} {0} {1} {2}'
-                    txt = fmt.format(start,end,ans,i+1,len(total))
-                    log.debug(txt)
-                    _txt = '{0} {1} {2}'.format(start,end,ans)
-                    f.write(_txt+'\n')
-            exit()
+    if remakedb:
+        with open('./result.txt','a') as f:
+            for i,(start,end) in enumerate(total):
+                ans = check(start,end,plot=True,
+                            nproc=nproc,tlen=4096,
+                            cl=0.05,sample_rate=16)
+                fmt = '{3:03d}/{4:03d} {0} {1} {2}'
+                txt = fmt.format(start,end,ans,i+1,len(total))
+                log.debug(txt)
+                _txt = '{0} {1} {2}'.format(start,end,ans)
+                f.write(_txt+'\n')
+        exit()
 
     # ------------------------------------------------------------
     # Main

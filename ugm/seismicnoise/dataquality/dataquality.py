@@ -1,7 +1,3 @@
-
-persons_data = [(1211817600,1211821696,'exv_seis',0,0,0,'NOT_CHECKED'),
-                (1211821696,1211825792,'exv_seis',0,0,0,'NOT_CHECKED')]
-
 import sqlite3
 import numpy as np
 
@@ -19,11 +15,10 @@ BitFlag:
     3 bit : "GLITCH", If existing, bit rise to 1. Default bit drop to 0.
 '''
 
-CHECK_BIT    = 0b1     # 1
-LACK_OF_FILE = 0b10    # 2
-LACK_OF_DATA = 0b100   # 4
-GLITCH       = 0b1000  # 8
-BIG_GLITCH   = 0b10000 # 16
+CHECK_BIT     = 0b1     # 1
+LACK_OF_FILE  = 0b10    # 2
+LACK_OF_DATA  = 0b100   # 4
+NORMAL_REJECT = 0b1000  # 8
 
 
 class DataQuality(object):
@@ -178,13 +173,10 @@ def danger():
 
 
 
-
-
-if __name__ == '__main__':
-    segments = np.loadtxt('result.txt',dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
-    statusdict = {'Stationaly':0b0,
-                  'Glitch_10sigma':BIG_GLITCH,
-                  'Glitch_5sigma':GLITCH,
+def remake(fname):    
+    segments = np.loadtxt(fname,dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
+    statusdict = {'Normal':0b0,
+                  'Normal_Reject':NORMAL_REJECT,
                   'NoData_LackofData':LACK_OF_DATA,
                   'NoData_AnyZero':LACK_OF_DATA,
                   'NoData_AllZero':LACK_OF_DATA,
@@ -194,11 +186,13 @@ if __name__ == '__main__':
                   'NoData_FailedtoRead':LACK_OF_FILE,
     }
     with DataQuality('./dqflag.db') as db:
+        # Initialize
         db.bals()
         db.add_table('EXV_SEIS')
-        exit()
+        # Remake
         for start,end,status in segments:
-            #print('EXV_SEIS',start,end,statusdict[status])
             db.update_flag('EXV_SEIS',start,end,statusdict[status],override=True)
-        #print(db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps={0}'.format(1212079744)))
-        #db.to_txt(rows)
+
+
+if __name__ == '__main__':
+    remake('./result.txt')
