@@ -17,6 +17,7 @@ def peterson_noise_model(unit='um/sec'):
     '''
     lt, ldb = get_nlnm()
     ht, hdb = get_nhnm()
+    print(lt)
     lfreq, lacc = 1./lt, 10**(ldb/20)*1e6
     hfreq, hacc = 1./ht, 10**(hdb/20)*1e6
         
@@ -109,17 +110,17 @@ def hoge(suffix='',plot_v=False,plot_99=True,unit='um',susresp=False,peterson=Tr
     ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_xlabel('Frequency [Hz]',fontsize=25)
-    ax.set_xlim(2e-2,8)
+    ax.set_xlim(1e-2,20)
     if unit=='um/sec':
-        ax.set_ylim(1e-5,20)
+        ax.set_ylim(1e-5,16)
         ax.set_ylabel('Velocity [um/sec/rtHz]')        
     elif unit=='um':
-        ax.set_ylim(5e-6,2e3)
+        ax.set_ylim(1e-6,1e2)
         ax.set_ylabel('Displacement [um/rtHz, or um]',fontsize=25)
     ax.legend(fontsize=18,loc='lower left')
     plt.suptitle('Seismic Noise of KAGRA',fontsize=40)
     fname = './results/seismicnoise_{0}.png'.format(suffix)
-    print fname
+    print(fname)
     plt.savefig(fname)
     plt.close()
 

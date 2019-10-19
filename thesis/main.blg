@@ -1,48 +1,55 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
+A level-1 auxiliary file: chap1.aux
+A level-1 auxiliary file: chap2.aux
 A level-1 auxiliary file: chap3.aux
+A level-1 auxiliary file: chap4.aux
+A level-1 auxiliary file: chap5.aux
+A level-1 auxiliary file: chap6.aux
+A level-1 auxiliary file: chap7.aux
+A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-You've used 17 entries,
+You've used 22 entries,
             1791 wiz_defined-function locations,
-            569 strings with 7584 characters,
-and the built_in function-call counts, 3794 in all, are:
-= -- 292
-> -- 266
+            614 strings with 9124 characters,
+and the built_in function-call counts, 5017 in all, are:
+= -- 394
+> -- 338
 < -- 1
-+ -- 97
-- -- 80
-* -- 320
-:= -- 691
-add.period$ -- 54
-call.type$ -- 17
-change.case$ -- 14
++ -- 123
+- -- 101
+* -- 424
+:= -- 903
+add.period$ -- 74
+call.type$ -- 22
+change.case$ -- 19
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 137
-empty$ -- 308
-format.name$ -- 80
-if$ -- 772
+cite$ -- 22
+duplicate$ -- 181
+empty$ -- 414
+format.name$ -- 101
+if$ -- 1029
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 11
-newline$ -- 91
-num.names$ -- 16
+int.to.str$ -- 22
+missing$ -- 16
+newline$ -- 121
+num.names$ -- 21
 pop$ -- 23
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 42
+skip$ -- 59
 stack$ -- 0
-substring$ -- 188
-swap$ -- 16
+substring$ -- 264
+swap$ -- 21
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 30
-width$ -- 19
-write$ -- 193
+while$ -- 40
+width$ -- 24
+write$ -- 258
 is.kanji.str$ -- 0

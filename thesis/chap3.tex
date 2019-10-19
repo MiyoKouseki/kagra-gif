@@ -115,11 +115,9 @@ hoge\\
 \newpage
 \section{Long-term Study of the seismic environment at KAGRA}
 \subsection{Overview}
-The seismic waves are excited on the source and propagate along the surface of the Earth with amplitude decreasing with depth \cite{carter1991high}. However, especially microseims whose peak is around 0.1 $\mathrm{Hz}$ are not attenuated adequately compared with higher frequencies above 1 $\mathrm{Hz}$, because the wavelength is comparable to or longer than the depth. Amount of these atenuation factor is must be explaing by a complicated phenomenon, which depends on either the local geology or location of the exciting sources. 
+本節では、地面振動の大きさが時間帯や季節の違いでどのように変化するか調べた。基本的に地震などの突発現象を除けば、地面振動は定常的な振る舞いを示すが、そのRMS振幅は時間依存である。例えば、人間由来の地面振動は夜間になると静かで、波浪由来の脈動は天気が悪化するとうるさくなる。また日本の場合、初秋は台風によって、冬は日本海低気圧によって脈動がうるさくなることが知られている\cite{}。とくに後者の脈動がうるさいと、干渉計の稼働が妨げられ、DutyCycleを低下してしまう。このような理由から、地面振動の時間依存性を知ることは、干渉計の稼働の安定性を議論するうえで重要である。
 
-In this section, seasonal change of the RMS amplitude of the seismic noise is described.
-
-%\cite{naticchioni2014microseismic}。
+地面振動の振幅スペクトルの分布は、およそ1年間の地震計の時系列データからもとめた。このデータには、地震計のメンテナンスによるデータの欠損や、地震などの突発的な地面振動のデータが含まれている。そのため、スペクトルを計算するためにこれらデータを取り除き、およそ1時間（4096秒）区切りのデータ・セットを用意した。これらデータ・セットごとに振幅スペクトルを計算し、分布をもとめた。
 
 \subsection{Experimental Arrangement}
 Seismic motion is measured by a seismometer installed on the second floor of the X-end area. This area is placed 200 $\mathrm{m}$ underground from the surface of the mountain. Comparison to corner area, human activity in the end area is less because the corner area has parking lots. Comparison to the Y-end area, there is no entrance connected to other mines. Therefore, the X-end area is relatively quiet in the KAGRA mine, regarding the seismic noise induced by human activity.
@@ -135,21 +133,29 @@ In this study, Trillium 120-QA which is known as three-component, very broadband
 
 As shown in fig \ref{img:img316}, the seismometer is housed in the black thermal insulation cover according to the installation manual \cite{trillium120manual}. Thermal insulation protects two broad categories of thermal couplings that can cause unwanted noise \cite{trillium120manual}. First is the direct coupling to the sensitivity. This coupling typically increases the noise of the vertical channel as a periodic diurnal variation caused by the day-to-night temperature cycle, because the springs that suspended the inertial masses are temperature sensitive. The second is the coupling to tilt from the thermal fluctuation. Tilt converts the vertical acceleration of gravity into horizontal acceleration. This thermally induced tilt noise on the horizontal will be larger than the direct thermal coupling on the vertical channel. To be low sensitivity to both tilt and temperature, this model has a function to center the inertial mass after the initial installation.
 
-The signals of the seismometer is recorded through the data aquisition system developed by LIGO \cite{bork2001overview}. The analog signal is converted to digital signal by the 16 bit analog-to-digital converters (ADC) with 16384 $\mathrm{Hz}$ sampling. In addition, the signal of the seismoemter is amplified with 30 db so that the ADC noise does not mask this signal.\\
-...
-
-\subsection{Data}
-定常な時系列データを1年間のデータのから選んだ。
+The signals of the seismometer is recorded through the data aquisition system developed by LIGO \cite{bork2001overview}. The analog signal is converted to digital signal by the 16 bit analog-to-digital converters (ADC) with 16384 $\mathrm{Hz}$ sampling. This analog signal is amplified with 30 db so that the ADC noise does not mask this signal. 
 
 
-\ref{img:img317}.\\
-...\\
-...\\
+
+\subsection{Data Selection}
+解析に使う時系列データは、およそ一年間の時系列データの中から異常値をのぞいたものを選らんだ。異常値は、主にDAQのメンテナンスなどでデータが欠損していたり、測定のミスで地震計の出力が記録されていない状態とした。
+
+このような状態は解析に使ったセグメント全体の9.8\%を占める。
+
+それぞれのデータの状態はFig\ref{img:img317}に示す。
+
 \begin{figure}[H]
-  \begin{center}   
-    \includegraphics[width=11.0cm]{./img_chap3/img317.png}
-    \caption{Available data from June 00 2018 to Jun 00 2019}\label{img:img317}
-  \end{center}
+  \begin{minipage}[b]{0.65\hsize}
+    %\centering    
+    \includegraphics[width=18.0cm]{./img_chap3/img317.png}
+    \subcaption{各状態の時間分布。}\label{img:img317_a}
+  \end{minipage}
+  \begin{minipage}[b]{0.65\hsize}
+    \centering              
+    \includegraphics[width=13.0cm]{./img_chap3/img323.png}
+    \subcaption{各状態の割合。\subref{img:img317_a}を円グラフにしたもの。}\label{img:img317_b}
+  \end{minipage}
+  \caption{Available data from June 01 2018 to 2019-06-24 09:40:14JST. Total:全体のセグメント。Lack of Data:データの欠損が合ったセグメント。Glitch:Glitchがあったセグメント。Available:欠損もGlitchもなかったセグメント}\label{img:img317}
 \end{figure}
 
 hoge
@@ -180,7 +186,7 @@ hoge
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=16.0cm]{./img_chap3/img313.png}
-    \caption{}\label{img:img317}
+    \caption{}\label{img:img313}
   \end{center}
 \end{figure}
 

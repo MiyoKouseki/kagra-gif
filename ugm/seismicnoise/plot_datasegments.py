@@ -27,13 +27,14 @@ with DataQuality('./dataquality/dqflag.db') as db:
     lackoffile = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
     lackofdata = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
     glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
+    glitch_big = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=16')
     use        = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
                         'and startgps>={0} and endgps<={1}'.format(args.start,args.end))
 
-bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
+bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)-len(glitch_big)
 
 if True:
-    data = [len(available),len(glitch),len(lackoffile)+len(lackofdata)]
+    data = [len(available),len(glitch)+len(glitch_big),len(lackoffile)+len(lackofdata)]
     label = ['Stationary Data','Glitch Data','Lack of Data']
     fig,ax=plt.subplots(1,1,figsize=(6,3),subplot_kw=dict(aspect="equal"))
     wedges, texts, autotexts = ax.pie(data,startangle=90,counterclock=False,wedgeprops={'linewidth': 1, 'edgecolor':"black"},autopct="%1.1f%%",textprops=dict(color="w"))
@@ -54,19 +55,18 @@ if True:
     fname = './segmentlist.png'
     start, end = total[0][0],total[-1][1]
     from gwpy.segments import DataQualityFlag
-    available = DataQualityFlag(name='Available',active=available,
+    available = DataQualityFlag(name='Used ({0})'.format(len(available)),active=available,
                                    known=[(start,end)])
-    lackoffile = DataQualityFlag(name='No Frame Files',active=lackoffile,
+    lack = lackofdata + lackoffile    
+    lack = DataQualityFlag(name='Lack of Data ({0})'.format(len(lack)),active=lack,
                                     known=[(start,end)])
-    lackofdata = DataQualityFlag(name='Lack of Data',active=lackofdata,
-                                    known=[(start,end)])
-    lack = lackofdata | lackoffile
-    glitch = DataQualityFlag(name='Glitch',active=glitch,known=[(start,end)])
-    total = DataQualityFlag(name='Total',active=total,known=[(start,end)])
+    glitch = glitch + glitch_big    
+    glitch = DataQualityFlag(name='Glitch ({0})'.format(len(glitch)),active=glitch,known=[(start,end)])
+    total = DataQualityFlag(name='Total ({0})'.format(len(total)),active=total,known=[(start,end)])
     args = available,glitch,lack,total
     start = args[0].known[0].start
     end = args[0].known[0].end
-    plot = args[0].plot(figsize=(8,5),epoch=start,xlim=(start,end))
+    plot = args[0].plot(figsize=(13,5),epoch=start,xlim=(start,end),fontsize=15)
     ax = plot.gca()
     for data in args[1:]:
         ax.plot(data,label=data.name)

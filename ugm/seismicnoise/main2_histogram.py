@@ -65,16 +65,21 @@ def plot_band_histgram(blrms,scale=0.9,loc=0,suffix=''):
     blrms = blrms/amp*c2v/1000*1e6
     #
     #hist,bins   = np.histogram(blrms ,density=False,bins=3000,range=(1e-2,10))
-    hist,bins   = np.histogram(blrms ,density=True,bins=3000,range=(1e-2,10))
+    #hist,bins   = np.histogram(blrms ,density=True,bins=3000,range=(1e-2,10))
+    hist,bins   = np.histogram(blrms ,density=True,bins=30000,range=(1e-3,1))
     #
     fig, ax = plt.subplots(1,1,figsize=(7,7))
     plt.title('BLRMS Histgram')
-    ax.step(bins[:-1],hist,where='post',color='k',label='100-300mHz')
-    #ax.set_ylim(0,2500)
-    ax.set_ylim(0,10)
+    from scipy.stats import rayleigh
+    x = np.logspace(-3,1,1000)
+    model = rayleigh.pdf(x,loc=2e-3,scale=7.5e-3)
+    ax.step(bins[:-1],hist,where='post',color='k',label='100mHz')
+    ax.plot(x,model,'r-')
+    #ax.set_ylim(0,100)
+    #ax.set_ylim(0,10)
     ax.set_xlabel('Horizontal motion [um/sec]')
-    ax.set_xscale('log')
-    ax.set_xlim(1e-2,10)
+    #ax.set_xscale('log')
+    ax.set_xlim(1e-3,1e-1)
     #ax.set_ylabel('Normarized Counts')
     ax.set_ylabel('Counts')
     ax.legend()
@@ -89,7 +94,7 @@ def plot_band_histgram(blrms,scale=0.9,loc=0,suffix=''):
     ax2.axhline(y=0.90, color='k', linestyle=':',zorder=0)
     ax2.axhline(y=0.99, color='k', linestyle=':',zorder=0)
     fname = './results/histgram_{0}.png'.format(suffix)
-    print fname
+    print(fname)
     plt.savefig(fname)
     plt.close()
     
@@ -97,10 +102,11 @@ def plot_band_histgram(blrms,scale=0.9,loc=0,suffix=''):
 if __name__ == '__main__':
     import os
     files = os.listdir('./data2')
-    files = filter(lambda x:'X_BLRMS_100_300mHz_' in x, files)
+    #files = filter(lambda x:'X_BLRMS_100_300mHz_' in x, files)
+    files = filter(lambda x:'X_BLRMS_100mHz_' in x, files)
     for fname in files:
-        print fname        
-        suffix = fname.split('300mHz_')[1][:-4]
+        print(fname)
+        suffix = fname.split('BLRMS_')[1][:-4]
         try:
             chname = 'K1:PEM-EX1_SEIS_WE_SENSINF_IN1_DQ'
             x_blrms = TimeSeries.read('./data2/'+fname,chname)
