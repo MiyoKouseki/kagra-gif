@@ -130,13 +130,19 @@ if __name__ == "__main__":
                 '(startgps>={0} and endgps<={1})'
     fmt_gauss = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
                 '(startgps>={0} and endgps<={1})'
-    fmt_avail = 'select startgps,endgps from {2} WHERE (flag=0 or flag=8) and ' +\
-                '(startgps>={0} and endgps<={1})'
+    fmt_gauss_day   = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
+                      '(startgps>={0} and endgps<={1}) and ' +\
+                      '(((startgps-18)%86400)>=0) and (((startgps-18)%86400)<43200)'
+    fmt_gauss_night = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
+                      '(startgps>={0} and endgps<={1}) and ' +\
+                      '(((startgps-18)%86400)>=43200) and (((startgps-18)%86400)<86400)'
     with DataQuality('./dataquality/dqflag.db') as db:
         total = db.ask(fmt_total.format(args.start,args.end,'EXV_SEIS'))
         gauss = db.ask(fmt_gauss.format(args.start,args.end,'EXV_SEIS'))
-        avail = db.ask(fmt_avail.format(args.start,args.end,'EXV_SEIS'))
-    if remakedb:
+        gauss_day   = db.ask(fmt_gauss_day.format(args.start,args.end,'EXV_SEIS'))
+        gauss_night = db.ask(fmt_gauss_night.format(args.start,args.end,'EXV_SEIS'))    
+    if True:
+        log.debug('Check Database')
         with open('./result.txt','a') as f:
             for i,(start,end) in enumerate(total):
                 ans = check(start,end,plot=True,
@@ -148,21 +154,21 @@ if __name__ == "__main__":
                 _txt = '{0} {1} {2}'.format(start,end,ans)
                 f.write(_txt+'\n')
         exit()
+
     # ------------------------------------------------------------
     # Main
     # ------------------------------------------------------------
-    use = gauss
-    blrms = True
+    use = gauss_night
+    blrms = False
     fftlen = 2**8
     sample_rate = 16
     if not blrms:
         kwargs = {'nproc':nproc}
     else:
         bandpass = 0.2 # 1/3 oct bandpass
-        low = bandpass/(2**(1./6)) # 1/6 oct 
+        low  = bandpass/(2**(1./6)) # 1/6 oct 
         high = bandpass*(2**(1./6)) # 1/6 oct
         kwargs = {'nproc':nproc,'bandpass':[low,high]}
-
     # 
     x_array2ds,y_array2ds,z_array2ds = get_arrays(use,blrms=blrms)
     #exit()
