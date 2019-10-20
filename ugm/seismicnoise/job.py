@@ -4,7 +4,7 @@ GetEnv         = True
 Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/seismicnoise
 Notification   = Never
 +Group         = "Xc"
-request_memory = 2 GB
+request_memory = 1 GB
 
 Executable = /usr/bin/python 
 Error      = ./log/main.$(Process).err
@@ -13,12 +13,12 @@ Output     = ./log/main.$(Process).out
 '''
 
 queue = '''
-RequestCpus    = 2
+RequestCpus    = 3
 Arguments  = ./main.py --start {0} --end {1}
 Queue
 '''
 
-jobs = 256
+jobs = 128
 tlen = 2**25
 bins = tlen/jobs
 segments = zip(range(1211817600     ,1245372032+1,bins),

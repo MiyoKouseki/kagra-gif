@@ -16,7 +16,7 @@ import lib.logger
 log = lib.logger.Logger('main')
 from lib.channel import get_seis_chname
 from lib.check import check
-from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd
+from lib.iofunc import fname_hdf5_percentile,fname_gwf,fname_hdf5_asd
 
 import matplotlib.pyplot as plt
 from dataquality.dataquality import remake
@@ -24,15 +24,44 @@ from dataquality.dataquality import remake
 ''' Seismic Noise
 '''
 
-def percentile(specgrams,percentile,axis,**kwargs):
+#------------------------------------------------------------
+def save_percentile(specgrams,percentile=50,axis='X',**kwargs):
+    ''' Calculate and save a percentile with spectrogram.
+
+    This function calculates a amplitude spectrum density of 
+    percentile and saves in local working space.
+    
+    Parameters
+    ----------
+    specgrams : `gwpy.spectrogram`
+        spectrogram.
+    percentile : `int`
+        percentile. default is 50.
+
+    Returns
+    -------
+    asd : `gwpy.frequencyseries.FrequencySeries`
+        amplitude spectrum density.
+
+    '''
+    asd = specgrams.save_percentile(percentile)
+    write = kwargs.pop('write',True)
+    suffix = kwargs.pop('suffix','')
+    fname = fname_hdf5_percentile(axis,percentile,suffix=suffix,prefix='')
+    log.debug(fname)
+    asd.write(fname,format='hdf5',overwrite=True)
+    return asd
+
+
+def mean(specgrams,axis,**kwargs):
     ''' Calculate a percentile with given spectrogram of seismometer
         in specified axis.    
     '''
-    asd = specgrams.percentile(percentile)
+    asd = specgrams.mean(axis=0)
     write = kwargs.pop('write',True)
     suffix = kwargs.pop('suffix','')
     if write:
-        fname = fname_hdf5_longasd(axis,percentile,suffix=suffix,prefix='./data2')
+        fname = fname_hdf5_percentile(axis,'mean',suffix=suffix,prefix='')
         log.debug(fname)
         asd.write(fname,format='hdf5',overwrite=True)
     return asd
@@ -51,7 +80,7 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
 
 
     '''
-    nproc = kwargs.pop('nproc',4)
+    nproc = kwargs.pop('nproc',3)
     bandpass = kwargs.pop('bandpass',None)
     fftlen = kwargs.pop('fftlen',2**8)
 
@@ -136,18 +165,39 @@ if __name__ == "__main__":
     fmt_gauss_night = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
                       '(startgps>={0} and endgps<={1}) and ' +\
                       '(((startgps-18)%86400)>=43200) and (((startgps-18)%86400)<86400)'
+    fmt_gauss_summer = 'select startgps,endgps from {2} ' +\
+                       'WHERE flag=0 ' +\
+                       'and ((startgps>=1211814018 and endgps<=1219676418) ' +\
+                       'or (startgps>=1243350018 and endgps<=1251212418)) '   #2019
+    fmt_gauss_autumn = 'select startgps,endgps from {2} ' +\
+                       'WHERE flag=0 ' +\
+                       'and ((startgps>=1219762818 and endgps<=1227538818) ' +\
+                       'or (startgps>=1251298818 and endgps<=1259074818)) '   #2019
+    fmt_gauss_winter = 'select startgps,endgps from {2} ' +\
+                       'WHERE flag=0' +\
+                       ' and ((startgps>=1227625218 and endgps<=1235314818)' +\
+                       ' or (startgps>=1259161218 and endgps<=1266850818))'   #2019
+    fmt_gauss_spring = 'select startgps,endgps from {2} ' +\
+                       'WHERE flag=0 ' +\
+                       ' and ((startgps>=1203865218 and endgps<=1211727618)' +\
+                       ' or (startgps>=1235401218 and endgps<=1243263618))'   #2019
+
     with DataQuality('./dataquality/dqflag.db') as db:
         total = db.ask(fmt_total.format(args.start,args.end,'EXV_SEIS'))
         gauss = db.ask(fmt_gauss.format(args.start,args.end,'EXV_SEIS'))
         gauss_day   = db.ask(fmt_gauss_day.format(args.start,args.end,'EXV_SEIS'))
         gauss_night = db.ask(fmt_gauss_night.format(args.start,args.end,'EXV_SEIS'))    
+        gauss_winter = db.ask(fmt_gauss_winter.format(args.start,args.end,'EXV_SEIS'))
+        gauss_spring = db.ask(fmt_gauss_spring.format(args.start,args.end,'EXV_SEIS'))
+        gauss_autumn = db.ask(fmt_gauss_autumn.format(args.start,args.end,'EXV_SEIS'))
+        gauss_summer = db.ask(fmt_gauss_summer.format(args.start,args.end,'EXV_SEIS'))
+
+    #if remakedb:
     if True:
-        log.debug('Check Database')
         with open('./result.txt','a') as f:
             for i,(start,end) in enumerate(total):
-                ans = check(start,end,plot=True,
-                            nproc=nproc,tlen=4096,
-                            cl=0.05,sample_rate=16)
+                ans = check(start,end,plot=False,place='IXV',axis='X',
+                            nproc=nproc,tlen=4096,cl=0.05,sample_rate=16)
                 fmt = '{3:03d}/{4:03d} {0} {1} {2}'
                 txt = fmt.format(start,end,ans,i+1,len(total))
                 log.debug(txt)
@@ -158,7 +208,7 @@ if __name__ == "__main__":
     # ------------------------------------------------------------
     # Main
     # ------------------------------------------------------------
-    use = gauss_night
+    use = gauss
     blrms = False
     fftlen = 2**8
     sample_rate = 16
@@ -177,9 +227,13 @@ if __name__ == "__main__":
     if run_percentile and not blrms:
         suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
         for pctl in [1,5,10,50,90,95,99]:
-            percentile(x_array2ds,pctl,'X',suffix=suffix)
-            percentile(y_array2ds,pctl,'Y',suffix=suffix)
-            percentile(z_array2ds,pctl,'Z',suffix=suffix)
+            save_percentile(x_array2ds,pctl,'X',suffix=suffix)
+            save_percentile(y_array2ds,pctl,'Y',suffix=suffix)
+            save_percentile(z_array2ds,pctl,'Z',suffix=suffix)
+        mean(x_array2ds,'X',suffix=suffix)
+        mean(y_array2ds,'Y',suffix=suffix)
+        mean(z_array2ds,'Z',suffix=suffix)
+
 
     # Main : BLRMS
     if blrms:

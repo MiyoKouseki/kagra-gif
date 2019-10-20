@@ -183,15 +183,14 @@ def remake(fname):
                   'NoData_Empty':LACK_OF_DATA,
                   'NoData_NoChannel':LACK_OF_DATA,
                   'NoData_FewData':LACK_OF_DATA,
+                  'Nodata_AnyNan':LACK_OF_DATA,
                   'NoData_FailedtoRead':LACK_OF_FILE,
     }
     with DataQuality('./dqflag.db') as db:
-        # Initialize
-        db.bals()
-        db.add_table('EXV_SEIS')
         # Remake
+        #db.add_table('IXV_SEIS')
         for start,end,status in segments:
-            db.update_flag('EXV_SEIS',start,end,statusdict[status],override=True)
+            db.update_flag('IXV_SEIS',start,end,statusdict[status],override=True)
 
 
 if __name__ == '__main__':
