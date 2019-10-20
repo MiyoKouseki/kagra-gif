@@ -88,67 +88,7 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
     return specgram
 
 
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--start',type=int,default=1211817600)
-    parser.add_argument('--end',type=int,default=1245372032)
-    parser.add_argument('--nproc',type=int,default=8)
-    parser.add_argument('--percentile', action='store_false') # default True
-    parser.add_argument('--remakedb', action='store_true') # default False
-    args = parser.parse_args()
-    nproc = args.nproc
-    run_percentile = args.percentile
-    remakedb = args.remakedb
-    # ------------------------------------------------------------
-    # Get segments
-    # ------------------------------------------------------------
-    from dataquality.dataquality import DataQuality
-    with DataQuality('./dataquality/dqflag.db') as db:
-        total      = db.ask('select startgps,endgps from EXV_SEIS WHERE ' +
-                            'startgps>={0} and endgps<={1}'.format(args.start,
-                                                                       args.end))
-        available  = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
-                            'and startgps>={0} and endgps<={1}'.format(args.start,
-                                                                       args.end))
-        glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8 ' +
-                            'and startgps>={0} and endgps<={1}'.format(args.start,
-                                                                       args.end))
-        big_glitch = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=16 ' +
-                            'and startgps>={0} and endgps<={1}'.format(args.start,
-                                                                       args.end))
-    if remakedb:
-        with open('./result.txt','a') as f:
-            for i,(start,end) in enumerate(total):
-                ans = check(start,end,plot=True,
-                            nproc=nproc,tlen=4096,
-                            cl=0.05,sample_rate=16)
-                fmt = '{3:03d}/{4:03d} {0} {1} {2}'
-                txt = fmt.format(start,end,ans,i+1,len(total))
-                log.debug(txt)
-                _txt = '{0} {1} {2}'.format(start,end,ans)
-                f.write(_txt+'\n')
-        exit()
-
-    # ------------------------------------------------------------
-    # Main
-    # ------------------------------------------------------------
-    use = available+glitch+big_glitch
-    use = np.array(use)
-    use = np.sort(use,axis=0)
-    multmode = True
-    if multmode:
-        fname_mult = ''
-        exit()
-    blrms = True
-    fftlen = 2**8
-    if not blrms:
-        kwargs = {'nproc':nproc}
-    else:
-        bandpass = 1.0 # 1/3 oct bandpass
-        low = bandpass/(2**(1./6)) # 1/6 oct 
-        high = bandpass*(2**(1./6)) # 1/6 oct
-        kwargs = {'nproc':nproc,'bandpass':[low,high]}
+def get_arrays(use,blrms=False):
     start,end = use[0]
     x_array2ds = get_array2d(start,end,axis='X',**kwargs)
     y_array2ds = get_array2d(start,end,axis='Y',**kwargs)
@@ -167,16 +107,72 @@ if __name__ == "__main__":
             x_array2ds.append(array2d_x,gap='pad',pad=0.0)
             y_array2ds.append(array2d_y,gap='pad',pad=0.0)
             z_array2ds.append(array2d_z,gap='pad',pad=0.0)
+    return x_array2ds,y_array2ds,z_array2ds
 
-    try:
-        specgram.write(fname_hdf5,format='hdf5',overwrite=True)
-        log.debug('Make {0}'.format(fname_hdf5))
-    except:
-        log.debug(traceback.format_exc())
-        raise ValueError('!!!')
 
-    
-    
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('--start',type=int,default=1211817600)
+    parser.add_argument('--end',type=int,default=1245372032)
+    parser.add_argument('--nproc',type=int,default=8)
+    parser.add_argument('--percentile', action='store_false') # default True
+    parser.add_argument('--remakedb', action='store_true') # default False
+    args = parser.parse_args()
+    nproc = args.nproc
+    run_percentile = args.percentile
+    remakedb = args.remakedb
+    # ------------------------------------------------------------
+    # Get segments
+    # ------------------------------------------------------------
+    from dataquality.dataquality import DataQuality
+    fmt_total = 'select startgps,endgps from {2} WHERE ' +\
+                '(startgps>={0} and endgps<={1})'
+    fmt_gauss = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
+                '(startgps>={0} and endgps<={1})'
+    fmt_gauss_day   = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
+                      '(startgps>={0} and endgps<={1}) and ' +\
+                      '(((startgps-18)%86400)>=0) and (((startgps-18)%86400)<43200)'
+    fmt_gauss_night = 'select startgps,endgps from {2} WHERE flag=0 and ' +\
+                      '(startgps>={0} and endgps<={1}) and ' +\
+                      '(((startgps-18)%86400)>=43200) and (((startgps-18)%86400)<86400)'
+    with DataQuality('./dataquality/dqflag.db') as db:
+        total = db.ask(fmt_total.format(args.start,args.end,'EXV_SEIS'))
+        gauss = db.ask(fmt_gauss.format(args.start,args.end,'EXV_SEIS'))
+        gauss_day   = db.ask(fmt_gauss_day.format(args.start,args.end,'EXV_SEIS'))
+        gauss_night = db.ask(fmt_gauss_night.format(args.start,args.end,'EXV_SEIS'))    
+    if True:
+        log.debug('Check Database')
+        with open('./result.txt','a') as f:
+            for i,(start,end) in enumerate(total):
+                ans = check(start,end,plot=True,
+                            nproc=nproc,tlen=4096,
+                            cl=0.05,sample_rate=16)
+                fmt = '{3:03d}/{4:03d} {0} {1} {2}'
+                txt = fmt.format(start,end,ans,i+1,len(total))
+                log.debug(txt)
+                _txt = '{0} {1} {2}'.format(start,end,ans)
+                f.write(_txt+'\n')
+        exit()
+
+    # ------------------------------------------------------------
+    # Main
+    # ------------------------------------------------------------
+    use = gauss_night
+    blrms = False
+    fftlen = 2**8
+    sample_rate = 16
+    if not blrms:
+        kwargs = {'nproc':nproc}
+    else:
+        bandpass = 0.2 # 1/3 oct bandpass
+        low  = bandpass/(2**(1./6)) # 1/6 oct 
+        high = bandpass*(2**(1./6)) # 1/6 oct
+        kwargs = {'nproc':nproc,'bandpass':[low,high]}
+    # 
+    x_array2ds,y_array2ds,z_array2ds = get_arrays(use,blrms=blrms)
+    #exit()
+
     # Main : Percentile
     if run_percentile and not blrms:
         suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
