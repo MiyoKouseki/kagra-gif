@@ -14,7 +14,6 @@ from matplotlib import gridspec
 import lib.logger
 log = lib.logger.Logger(__name__)
 from lib.channel import get_seis_chname
-from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd
 
 import matplotlib.pyplot as plt
 
@@ -103,6 +102,7 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,place='E
         return 'WrongData_AnyConstant'
 
     # Check Gaussianity
+    w,p_value = stats.shapiro(data.resample(1).value)
     if plot:
         std = data.std().value
         mean = data.mean().value
@@ -131,7 +131,6 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,place='E
         ax1.set_xlim(0,0.07)
         ax1.set_xticklabels(np.arange(0.0,0.15,0.02), rotation=-90)
         ax1.set_xlabel('Probability Density')
-        w,p_value = stats.shapiro(data.resample(1).value)
         if p_value<cl:
             ax1.patch.set_facecolor('red')
             ax1.patch.set_alpha(0.3) 

@@ -16,7 +16,7 @@ import lib.logger
 log = lib.logger.Logger('main')
 from lib.channel import get_seis_chname
 from lib.check import check
-from lib.iofunc import fname_hdf5_longasd,fname_gwf,fname_hdf5_asd
+from lib.iofunc import fname_hdf5_percentile,fname_gwf,fname_hdf5_asd
 
 import matplotlib.pyplot as plt
 from dataquality.dataquality import remake
@@ -25,20 +25,33 @@ from dataquality.dataquality import remake
 '''
 
 #------------------------------------------------------------
-def percentile(specgrams,percentile,axis,**kwargs):
-    ''' Calculate a percentile with given spectrogram of 
-    seismometerin specified axis.    
+def save_percentile(specgrams,percentile=50,axis='X',**kwargs):
+    ''' Calculate and save a percentile with spectrogram.
 
+    This function calculates a amplitude spectrum density of 
+    percentile and saves in local working space.
+    
+    Parameters
+    ----------
+    specgrams : `gwpy.spectrogram`
+        spectrogram.
+    percentile : `int`
+        percentile. default is 50.
+
+    Returns
+    -------
+    asd : `gwpy.frequencyseries.FrequencySeries`
+        amplitude spectrum density.
 
     '''
-    asd = specgrams.percentile(percentile)
+    asd = specgrams.save_percentile(percentile)
     write = kwargs.pop('write',True)
     suffix = kwargs.pop('suffix','')
-    if write:
-        fname = fname_hdf5_longasd(axis,percentile,suffix=suffix,prefix='./data2')
-        log.debug(fname)
-        asd.write(fname,format='hdf5',overwrite=True)
+    fname = fname_hdf5_percentile(axis,percentile,suffix=suffix,prefix='')
+    log.debug(fname)
+    asd.write(fname,format='hdf5',overwrite=True)
     return asd
+
 
 def mean(specgrams,axis,**kwargs):
     ''' Calculate a percentile with given spectrogram of seismometer
@@ -48,7 +61,7 @@ def mean(specgrams,axis,**kwargs):
     write = kwargs.pop('write',True)
     suffix = kwargs.pop('suffix','')
     if write:
-        fname = fname_hdf5_longasd(axis,'mean',suffix=suffix,prefix='./data2')
+        fname = fname_hdf5_percentile(axis,'mean',suffix=suffix,prefix='')
         log.debug(fname)
         asd.write(fname,format='hdf5',overwrite=True)
     return asd
@@ -183,7 +196,7 @@ if __name__ == "__main__":
     if True:
         with open('./result.txt','a') as f:
             for i,(start,end) in enumerate(total):
-                ans = check(start,end,plot=False,place='IXV_TEST',axis='X',
+                ans = check(start,end,plot=False,place='IXV',axis='X',
                             nproc=nproc,tlen=4096,cl=0.05,sample_rate=16)
                 fmt = '{3:03d}/{4:03d} {0} {1} {2}'
                 txt = fmt.format(start,end,ans,i+1,len(total))
@@ -214,9 +227,9 @@ if __name__ == "__main__":
     if run_percentile and not blrms:
         suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
         for pctl in [1,5,10,50,90,95,99]:
-            percentile(x_array2ds,pctl,'X',suffix=suffix)
-            percentile(y_array2ds,pctl,'Y',suffix=suffix)
-            percentile(z_array2ds,pctl,'Z',suffix=suffix)
+            save_percentile(x_array2ds,pctl,'X',suffix=suffix)
+            save_percentile(y_array2ds,pctl,'Y',suffix=suffix)
+            save_percentile(z_array2ds,pctl,'Z',suffix=suffix)
         mean(x_array2ds,'X',suffix=suffix)
         mean(y_array2ds,'Y',suffix=suffix)
         mean(z_array2ds,'Z',suffix=suffix)
