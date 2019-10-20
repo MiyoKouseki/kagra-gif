@@ -66,20 +66,20 @@ def plot_band_histgram(blrms,scale=0.9,loc=0,suffix=''):
     #
     #hist,bins   = np.histogram(blrms ,density=False,bins=3000,range=(1e-2,10))
     #hist,bins   = np.histogram(blrms ,density=True,bins=3000,range=(1e-2,10))
-    hist,bins   = np.histogram(blrms ,density=True,bins=30000,range=(1e-3,1))
+    hist,bins   = np.histogram(blrms ,density=True,bins=3000,range=(1e-2,10))
     #
     fig, ax = plt.subplots(1,1,figsize=(7,7))
     plt.title('BLRMS Histgram')
     from scipy.stats import rayleigh
     x = np.logspace(-3,1,1000)
-    model = rayleigh.pdf(x,loc=2e-3,scale=7.5e-3)
-    ax.step(bins[:-1],hist,where='post',color='k',label='100mHz')
-    ax.plot(x,model,'r-')
+    model = rayleigh.pdf(x,loc=2e-2,scale=0.1)
+    ax.step(bins[:-1],hist,where='post',color='k',label='200mHz')
+    #ax.plot(x,model,'r-')
     #ax.set_ylim(0,100)
-    #ax.set_ylim(0,10)
+    ax.set_ylim(0,10)
     ax.set_xlabel('Horizontal motion [um/sec]')
-    #ax.set_xscale('log')
-    ax.set_xlim(1e-3,1e-1)
+    ax.set_xscale('log')
+    ax.set_xlim(1e-2,1e1)
     #ax.set_ylabel('Normarized Counts')
     ax.set_ylabel('Counts')
     ax.legend()
@@ -101,31 +101,26 @@ def plot_band_histgram(blrms,scale=0.9,loc=0,suffix=''):
 
 if __name__ == '__main__':
     import os
-    files = os.listdir('./data2')
+    files = os.listdir('./data2/LongTerm_gauss')
     #files = filter(lambda x:'X_BLRMS_100_300mHz_' in x, files)
-    files = filter(lambda x:'X_BLRMS_100mHz_' in x, files)
+    files = filter(lambda x:'X_BLRMS_200mHz_' in x, files)
     for fname in files:
         print(fname)
         suffix = fname.split('BLRMS_')[1][:-4]
         try:
             chname = 'K1:PEM-EX1_SEIS_WE_SENSINF_IN1_DQ'
-            x_blrms = TimeSeries.read('./data2/'+fname,chname)
+            x_blrms = TimeSeries.read('./data2/LongTerm_gauss/'+fname,chname)
         except:
             try:
                 chname = 'K1:PEM-EXV_SEIS_WE_SENSINF_IN1_DQ'            
-                x_blrms = TimeSeries.read('./data2/'+fname,chname)
+                x_blrms = TimeSeries.read('./data2/LongTerm_gauss/'+fname,chname)
             except:
                 try:
                     chname = 'K1:PEM-EXV_GND_TR120Q_X_IN1_DQ'
-                    x_blrms = TimeSeries.read('./data2/'+fname,chname)
+                    x_blrms = TimeSeries.read('./data2/LongTerm_gauss/'+fname,chname)
                 except:
                     chname = 'K1:PEM-SEIS_EXV_GND_EW_IN1_DQ'
-                    x_blrms = TimeSeries.read('./data2/'+fname,chname)                
+                    x_blrms = TimeSeries.read('./data2/LongTerm_gauss/'+fname,chname)                
                     
                 
         plot_band_histgram(x_blrms,suffix=suffix)
-    # x_blrms = TimeSeries.read('./data2/blrms/Z_100_300mHz_1211817600_1245372032.gwf',chname)
-    # x_blrms2 = TimeSeries.read('./data2/blrms/Z_100_200mHz_1211817600_1245372032.gwf',chname)
-    # x_blrms3 = TimeSeries.read('./data2/blrms/Z_200_300mHz_1211817600_1245372032.gwf',chname)    
-    # __plot_band_histgram(x_blrms,x_blrms2,x_blrms3)
-    
