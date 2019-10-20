@@ -188,10 +188,9 @@ def remake(fname):
     }
     with DataQuality('./dqflag.db') as db:
         # Remake
-        #db.add_table('IXV_SEIS')
+        #db.add_table('EYV_SEIS')
         for start,end,status in segments:
-            db.update_flag('IXV_SEIS',start,end,statusdict[status],override=True)
-
+            db.update_flag('EYV_SEIS',start,end,statusdict[status],override=True)
 
 if __name__ == '__main__':
     remake('./result.txt')
