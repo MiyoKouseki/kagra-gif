@@ -33,12 +33,12 @@ class DataQuality(object):
         lackoffile = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
         lackofdata = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
         glitch     = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
-        glitch_big = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=16')
 
-        bad = len(total)-len(available)-len(lackoffile)\
-              -len(lackofdata)-len(glitch)-len(glitch_big)
+        bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
         if bad!=0:
             raise ValueError('SegmentList Error: Missmatch the number of segments.')
+        else:
+            print('DB OK')
         
     def __enter__(self):
         print("Hello!")

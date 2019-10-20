@@ -34,7 +34,7 @@ def peterson_noise_model(unit='um/sec'):
 
     
 def _percentile(axis,pctl=50,unit='um/sec',suffix='',**kwargs):
-    _asd = FrequencySeries.read('./data2/LongTerm_{0}_{1}_{2}.hdf5'.format(axis,pctl,suffix))**0.5
+    _asd = FrequencySeries.read('./data2/LongTerm_gauss/LongTerm_{0}_{1}_{2}.hdf5'.format(axis,pctl,suffix))**0.5
     amp = 10**(30.0/20.0)
     c2v = 20.0/2**15    
     _asd = v2vel(_asd)*c2v/amp*1e6
@@ -60,7 +60,7 @@ def percentile(axis,**kwargs):
         raise ValueError('!!!')
 
 
-def hoge(suffix='',plot_v=False,plot_99=True,unit='um',susresp=False,peterson=True,plot_selfnoise=True):
+def hoge(suffix='',plot_v=False,plot_99=True,unit='um',susresp=False,peterson=True,plot_selfnoise=True,plot_rms=False):
     #
     #suffix = '1211817600_1245372032' # 1 year
     #suffix = '1228594816_1232789120' # 12/11-
@@ -83,24 +83,24 @@ def hoge(suffix='',plot_v=False,plot_99=True,unit='um',susresp=False,peterson=Tr
     h90_rms = h90.rms()    
     z50 = percentile('Z',pctl=50,unit=unit,suffix=suffix)
     z01 = percentile('Z',pctl=1,unit=unit,suffix=suffix)
+    z10 = percentile('Z',pctl=10,unit=unit,suffix=suffix)
     z99 = percentile('Z',pctl=99,unit=unit,suffix=suffix)
+    z90 = percentile('Z',pctl=90,unit=unit,suffix=suffix)
     nlnm,nhnm = peterson_noise_model(unit=unit)
     selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6
     #
-    fig, ax = plt.subplots(1,1,figsize=(7.5,10))
+    fig, ax = plt.subplots(1,1,figsize=(10,8))
     ax.plot_mmm(h50,h10,h90,label='Horizontal (10,50,90 percentile)',color='b')
     if plot_99:
         ax.plot_mmm(h50,h01,h99,label='Horizontal (1,50,99 percentile)',color='r',
                     zorder=0)
-    ax.plot(h50_rms,'k--',zorder=3) 
-    #ax.plot(h90_rms,'b--',zorder=3)   
-    ax.plot(h99_rms,'r--',zorder=3)
-    #ax.hlines(1e3,1e-2,3e-2,'k',linewidth=3)    
-    #ax.hlines(3.9e0,1e-2,3e-2,'k',linewidth=3)
-    #ax.hlines(1.7e-1,1e-2,3e-2,'k',linewidth=3)
-    #ax.hlines(1.8e-2,1e-2,3e-2,'k',linewidth=3)
-    if plot_v:        
-        ax.plot_mmm(z50,z01,z99,label='Vertical (1,50,99 percentile)',color='b')
+    if plot_rms:
+        ax.plot(h50_rms,'k--',zorder=3) 
+        ax.plot(h99_rms,'r--',zorder=3)
+    if plot_v:
+        ax.plot_mmm(z50,z10,z90,label='Vertical (10,50,90 percentile)',color='r')
+        if plot_99:                
+            ax.plot_mmm(z50,z01,z99,label='Vertical (1,50,99 percentile)',color='r')
     if plot_selfnoise:
         ax.loglog(selfnoise,'g--',label='Selfnoise of Seismometer',alpha=1.0)
     if peterson:
@@ -110,14 +110,17 @@ def hoge(suffix='',plot_v=False,plot_99=True,unit='um',susresp=False,peterson=Tr
     ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_xlabel('Frequency [Hz]',fontsize=25)
-    ax.set_xlim(1e-2,20)
+    ax.set_xlim(1e-2,10)
     if unit=='um/sec':
-        ax.set_ylim(1e-5,16)
+        ax.set_ylim(1e-5,10)
         ax.set_ylabel('Velocity [um/sec/rtHz]')        
     elif unit=='um':
         ax.set_ylim(1e-6,1e2)
+        ax.set_yticks(np.logspace(-6,2,9))
         ax.set_ylabel('Displacement [um/rtHz, or um]',fontsize=25)
     ax.legend(fontsize=18,loc='lower left')
+    ax.grid(b=True,which='major', axis='both',linestyle='-')
+    ax.grid(b=True,which='minor', axis='both',linestyle='--')    
     plt.suptitle('Seismic Noise of KAGRA',fontsize=40)
     fname = './results/seismicnoise_{0}.png'.format(suffix)
     print(fname)
@@ -126,19 +129,10 @@ def hoge(suffix='',plot_v=False,plot_99=True,unit='um',susresp=False,peterson=Tr
 
 if __name__ == '__main__':    
     import os
-    files = os.listdir('./data2')
+    files = os.listdir('./data2/LongTerm_gauss')
     files = filter(lambda x:'X_99_' in x, files)
     suffix_list = map(lambda x: x.split('_99_')[1][:-5], files)
     suffix_list = filter(lambda x: '1211817600_1245372032' in x,suffix_list) # 1year
     for suffix in suffix_list:
-        # for axis in ['X','Y','Z']:
-        #     #for axis in ['X']:            
-        #     for pctl in [1,10,50,90,99]:
-        #         data = percentile(axis,pctl=pctl,unit='um/sec',suffix=suffix)
-        #         fname = './LongTerm_{Axis}_{Percentile}_VELO.txt'.format( \
-        #             Axis=axis,Percentile=pctl)
-        #         data.write(fname)
-        #         plt.loglog(data)
-        # plt.savefig('hoge.png')
-        # plt.close()
-        hoge(suffix=suffix,plot_v=False,plot_99=True,unit='um')
+        #hoge(suffix=suffix,plot_v=False,plot_99=True,unit='um')
+        hoge(suffix=suffix,plot_v=True,plot_99=False,unit='um',plot_rms=False)
