@@ -5,9 +5,10 @@ fmt_gwf     = '{prefix}/{gps5}/{start}_{end}.gwf'
 fmt_png_asd = '{prefix}/{gps5}/{start}_{end}_ASD.png'
 fmt_png_ts  = '{prefix}/{gps5}/{start}_{end}_TS.png'
 fmt_hdf5_sg = '{prefix}/{gps5}/{start}_{end}_{axis}.hdf5'
-fmt_hdf5_percentile = './data2/{prefix}{axis}_{percentile}{suffix}.hdf5'
+fmt_hdf5_percentile = './data2/{prefix}/{axis}_{percentile}{suffix}.hdf5'
 fmt_hdf5_asd = '{prefix}/{gps5}/{start}_{end}_{axis}.hdf5'
 fmt_hdf5_diffasd = '{prefix}/{gps5}/DIFF_{start}_{end}_{axis}.hdf5'
+fmt_specgram = './data/{prefix}/{gps5}/{start}_{end}_{axis}.hdf5'
 
 def fname_gwf(start,end,prefix):
     gps5 = str(start)[:5]
@@ -32,6 +33,11 @@ def fname_hdf5_percentile(axis,percentile,prefix='./data',suffix=''):
 def fname_hdf5_asd(start,end,prefix,axis):
     gps5 = str(start)[:5]
     return fmt_hdf5_asd.format(prefix=prefix,gps5=gps5,start=start,end=end,axis=axis)
+
+def fname_specgram(start,end,prefix,axis):
+    gps5 = str(start)[:5]
+    return fmt_specgram.format(prefix=prefix,gps5=gps5,start=start,end=end,axis=axis)
+
 
 def fname_hdf5_diffasd(start,end,prefix,axis):
     gps5 = str(start)[:5]
