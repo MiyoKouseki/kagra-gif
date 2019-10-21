@@ -25,7 +25,7 @@ def _get_seis_chname(start,end,place='EXV',axis='X'):
     chname_fmt_test = 'K1:PEM-{prefix}TEST_{axis}_{suffix}'
     axis_num = {'X':0,'Y':1,'Z':2}        
 
-    if not place in ['EXV','IXV','IXV_TEST','EYV']:
+    if not place in ['EXV','IXV','IXVTEST','EYV']:
         raise ValueError('known place name {0}'.format(place))
     else:
         if 'TEST' in place:

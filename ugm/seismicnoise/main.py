@@ -16,7 +16,7 @@ import lib.logger
 log = lib.logger.Logger('main')
 from lib.channel import get_seis_chname
 from lib.check import check
-from lib.iofunc import fname_hdf5_percentile,fname_gwf,fname_hdf5_asd
+from lib.iofunc import fname_hdf5_percentile,fname_gwf,fname_hdf5_asd,fname_hdf5_diffasd
 
 import matplotlib.pyplot as plt
 from dataquality.dataquality import remake
@@ -44,10 +44,10 @@ def save_percentile(specgrams,percentile=50,axis='X',**kwargs):
         amplitude spectrum density.
 
     '''
-    asd = specgrams.save_percentile(percentile)
-    write = kwargs.pop('write',True)
+    asd = specgrams.percentile(percentile)
     suffix = kwargs.pop('suffix','')
-    fname = fname_hdf5_percentile(axis,percentile,suffix=suffix,prefix='')
+    prefix = kwargs.pop('prefix','')
+    fname = fname_hdf5_percentile(axis,percentile,suffix=suffix,prefix=prefix)
     log.debug(fname)
     asd.write(fname,format='hdf5',overwrite=True)
     return asd
@@ -60,14 +60,15 @@ def mean(specgrams,axis,**kwargs):
     asd = specgrams.mean(axis=0)
     write = kwargs.pop('write',True)
     suffix = kwargs.pop('suffix','')
+    prefix = kwargs.pop('prefix','')
     if write:
-        fname = fname_hdf5_percentile(axis,'mean',suffix=suffix,prefix='')
+        fname = fname_hdf5_percentile(axis,'mean',suffix=suffix,prefix=prefix)
         log.debug(fname)
         asd.write(fname,format='hdf5',overwrite=True)
     return asd
 
 
-def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
+def get_array2d(start,end,axis='X',place='EXV',**kwargs):
     ''' Get Spectrogram    
 
     Parameters
@@ -84,23 +85,36 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
     bandpass = kwargs.pop('bandpass',None)
     fftlen = kwargs.pop('fftlen',2**8)
 
+    if isinstance(place,str):
+        fname_hdf5 = fname_hdf5_asd(start,end,prefix='./data/'+place,axis=axis)
+        diffasd = False
+    elif isinstance(place,list):
+        fname_hdf5 = fname_hdf5_diffasd(start,end,prefix='./data/'+'_'.join(place),axis=axis)
+        place,place2 = place
+        diffasd = True
+
     # Load specgram from hdf5 file
-    fname_hdf5 = fname_hdf5_asd(start,end,prefix,axis)
     if os.path.exists(fname_hdf5):
         specgram = Spectrogram.read(fname_hdf5,format='hdf5')
         if bandpass:
             timeseries = specgram.crop_frequencies(bandpass[0],bandpass[1]).sum(axis=1)
             return timeseries
-        else:            
+        else:
             return specgram
 
     # If no file, make specgram from timeseries data
-    try:
-        chname = get_seis_chname(start,end,axis=axis)
+    try:        
+        chname = get_seis_chname(start,end,axis=axis,place=place)[0]
         fnamelist = existedfilelist(start,end)
         data = TimeSeries.read(fnamelist,chname,nproc=nproc)
         data = data.resample(32)
         data = data.crop(start,end)
+        if diffasd:
+            chname2 = get_seis_chname(start,end,axis=axis,place=place2)[0]
+            data2 = TimeSeries.read(fnamelist,chname2,nproc=nproc)
+            data2 = data2.resample(32)
+            data2 = data2.crop(start,end)
+            data = data - data2
     except:
         log.debug(traceback.format_exc())        
         raise ValueError('!!! {0} {1}'.format(start,end))
@@ -117,7 +131,7 @@ def get_array2d(start,end,axis='X',prefix='./data',**kwargs):
     return specgram
 
 
-def get_arrays(use,blrms=False):
+def get_arrays(use,blrms=False,**kwargs):
     start,end = use[0]
     x_array2ds = get_array2d(start,end,axis='X',**kwargs)
     y_array2ds = get_array2d(start,end,axis='Y',**kwargs)
@@ -137,6 +151,8 @@ def get_arrays(use,blrms=False):
             y_array2ds.append(array2d_y,gap='pad',pad=0.0)
             z_array2ds.append(array2d_z,gap='pad',pad=0.0)
     return x_array2ds,y_array2ds,z_array2ds
+
+
 
 
 if __name__ == "__main__":
@@ -181,6 +197,10 @@ if __name__ == "__main__":
                        'WHERE flag=0 ' +\
                        ' and ((startgps>=1203865218 and endgps<=1211727618)' +\
                        ' or (startgps>=1235401218 and endgps<=1243263618))'   #2019
+    fmt_gauss_mult = 'select {2}.startgps,{2}.endgps from {2} '+\
+                     'INNER JOIN {3} ON ({2}.startgps ={3}.startgps) '+\
+                     'WHERE ({2}.flag=0 and {3}.flag=0 ) and '+\
+                     '({2}.startgps>={0} and {2}.endgps<={1})'
 
     with DataQuality('./dataquality/dqflag.db') as db:
         total = db.ask(fmt_total.format(args.start,args.end,'EXV_SEIS'))
@@ -191,12 +211,14 @@ if __name__ == "__main__":
         gauss_spring = db.ask(fmt_gauss_spring.format(args.start,args.end,'EXV_SEIS'))
         gauss_autumn = db.ask(fmt_gauss_autumn.format(args.start,args.end,'EXV_SEIS'))
         gauss_summer = db.ask(fmt_gauss_summer.format(args.start,args.end,'EXV_SEIS'))
-
-    #if remakedb:
-    if True:
+        gauss = db.ask(fmt_gauss.format(args.start,args.end,'IXVTEST_SEIS'))
+        gauss = db.ask(fmt_gauss.format(args.start,args.end,'IXV_SEIS'))
+        gauss = db.ask(fmt_gauss_mult.format(args.start,args.end,'IXV_SEIS','IXVTEST_SEIS'))
+    if remakedb:
+        #if True:
         with open('./result.txt','a') as f:
             for i,(start,end) in enumerate(total):
-                ans = check(start,end,plot=False,place='IXV',axis='X',
+                ans = check(start,end,plot=False,place='EYV',axis='X',
                             nproc=nproc,tlen=4096,cl=0.05,sample_rate=16)
                 fmt = '{3:03d}/{4:03d} {0} {1} {2}'
                 txt = fmt.format(start,end,ans,i+1,len(total))
@@ -220,20 +242,26 @@ if __name__ == "__main__":
         high = bandpass*(2**(1./6)) # 1/6 oct
         kwargs = {'nproc':nproc,'bandpass':[low,high]}
     # 
-    x_array2ds,y_array2ds,z_array2ds = get_arrays(use,blrms=blrms)
+    place = 'EXV'
+    place = 'IXV'
+    place = 'IXVTEST'
+    place = ['IXV','IXVTEST']
+    place = ['EXV','IXV']
+    x_array2ds,y_array2ds,z_array2ds = get_arrays(use,blrms=blrms,place=place)
     #exit()
 
     # Main : Percentile
+    if isinstance(place,list):
+        place = place[0]+'DIFF'
     if run_percentile and not blrms:
         suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
         for pctl in [1,5,10,50,90,95,99]:
-            save_percentile(x_array2ds,pctl,'X',suffix=suffix)
-            save_percentile(y_array2ds,pctl,'Y',suffix=suffix)
-            save_percentile(z_array2ds,pctl,'Z',suffix=suffix)
-        mean(x_array2ds,'X',suffix=suffix)
-        mean(y_array2ds,'Y',suffix=suffix)
-        mean(z_array2ds,'Z',suffix=suffix)
-
+            save_percentile(x_array2ds,pctl,'X',suffix=suffix,prefix='{0}/'.format(place))
+            save_percentile(y_array2ds,pctl,'Y',suffix=suffix,prefix='{0}/'.format(place))
+            save_percentile(z_array2ds,pctl,'Z',suffix=suffix,prefix='{0}/'.format(place))
+        mean(x_array2ds,'X',suffix=suffix,prefix='{0}/'.format(place))
+        mean(y_array2ds,'Y',suffix=suffix,prefix='{0}/'.format(place))
+        mean(z_array2ds,'Z',suffix=suffix,prefix='{0}/'.format(place))
 
     # Main : BLRMS
     if blrms:
@@ -241,23 +269,18 @@ if __name__ == "__main__":
         x_array2ds *= 1./(fftlen)*u.Hz*1.5 # enbw with hanning
         x_array2ds = x_array2ds**0.5
         suffix = '_{start}_{end}'.format(start=args.start,end=args.end)
-        #_fmt = './data2/LongTerm_{0}_BLRMS_{1}_{2}mHz{3}.gwf'
         fmt = './data2/LongTerm_{0}_BLRMS_{1}mHz{2}.gwf'
         low,high = kwargs['bandpass']
-        #_fname = _fmt.format('X',str(int(low*1000)),str(int(high*1000)),suffix)
         fname = fmt.format('X',int(bandpass*1000),suffix)
         x_array2ds.write(fname)
         log.debug(fname)
         y_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
         y_array2ds = y_array2ds**0.5
-        #_fname = _fmt.format('Y',str(int(low*1000)),str(int(high*1000)),suffix)
-        #fname = fmt.format('Y',bandpass,suffix)
         fname = fmt.format('Y',int(bandpass*1000),suffix)
         y_array2ds.write(fname)
         log.debug(fname)
         z_array2ds *= 1./256*u.Hz*1.5 # enbw with hanning
         z_array2ds = z_array2ds**0.5
-        #_fname = _fmt.format('Z',str(int(low*1000)),str(int(high*1000)),suffix)
         fname = fmt.format('Z',int(bandpass*1000),suffix)
         z_array2ds.write(fname)
         log.debug(fname)        
