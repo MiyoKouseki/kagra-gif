@@ -9,7 +9,7 @@ tr120 = Trillium('120QA')
 v2vel = tr120.v2vel    
 
 #------------------------------------------------------------
-def peterson_noise_model(unit='um'):
+def peterson_noise_model(unit='um/sec'):
     ''' Return spectral density of the new seismic model of 
     Peterson using Obspy package.
 
@@ -47,8 +47,10 @@ def peterson_noise_model(unit='um'):
         raise ValueError(unit)
 
     
-def _percentile(axis,pctl=50,unit='um',suffix='',_dir='LongTerm_gauss',**kwargs):
-    _asd = FrequencySeries.read('./data2/{3}/LongTerm_{0}_{1}_{2}.hdf5'.format(axis,pctl,suffix,_dir))**0.5
+def _percentile(axis,pctl=50,unit='um/sec',suffix='',_dir='',**kwargs):
+    suffix = '1211817600_1245372032'
+    fname = './data2/{3}/{0}_{1}_{2}.hdf5'.format(axis,pctl,suffix,_dir)
+    _asd = FrequencySeries.read(fname)**0.5
     amp = 10**(30.0/20.0)
     c2v = 20.0/2**15    
     _asd = v2vel(_asd)*c2v/amp*1e6
@@ -69,6 +71,8 @@ def percentile(axis,**kwargs):
         return  (x**2 + y**2)**0.5        
     elif axis in ['X','Y','Z']:
         return _percentile(axis,**kwargs)
+    elif axis == 'V':
+        return _percentile('Z',**kwargs)
     else:
         raise ValueError('!!!')
 
@@ -92,84 +96,34 @@ def huge(axis,**kwargs):
     h   = percentile(axis,pctl='mean',**kwargs)
     return h01,h10,h50,h90,h99,h
     
-def hoge(plot_v=False,plot_99=False,unit='um',peterson=True,plot_selfnoise=True,plot_rms=False,plot_h=False,fname_suffix='',day=False,night=False,season=False,**kwargs):
+def hoge(fname=None,unit='um/sec',**kwargs):
     #
-    kwargs['unit'] = unit
-    kwargs['suffix'] = '1211817600_1245372032'
-    h01,h10,h50,h90,h99,h             = huge('H',_dir='LongTerm_gauss',**kwargs)
-    z01,z10,z50,z90,z99,z             = huge('Z',_dir='LongTerm_gauss',**kwargs)
-    h01_n,h10_n,h50_n,h90_n,h99_n,h_n = huge('H',_dir='LongTerm_gauss_night',**kwargs)
-    z01_n,z10_n,z50_n,z90_n,z99_n,z_n = huge('Z',_dir='LongTerm_gauss_night',**kwargs)
-    h01_d,h10_d,h50_d,h90_d,h99_d,h_d = huge('H',_dir='LongTerm_gauss_day',**kwargs)
-    z01_d,z10_d,z50_d,z90_d,z99_d,z_d = huge('Z',_dir='LongTerm_gauss_day',**kwargs)
-    h01_1,h10_1,h50_1,h90_1,h99_1,h_1 = huge('H',_dir='LongTerm_gauss_spring',**kwargs)
-    z01_1,z10_1,z50_1,z90_1,z99_1,z_1 = huge('Z',_dir='LongTerm_gauss_spring',**kwargs)
-    h01_2,h10_2,h50_2,h90_2,h99_2,h_2 = huge('H',_dir='LongTerm_gauss_summer',**kwargs)
-    z01_2,z10_2,z50_2,z90_2,z99_2,z_2 = huge('Z',_dir='LongTerm_gauss_summer',**kwargs)
-    h01_3,h10_3,h50_3,h90_3,h99_3,h_3 = huge('H',_dir='LongTerm_gauss_autumn',**kwargs)
-    z01_3,z10_3,z50_3,z90_3,z99_3,z_3 = huge('Z',_dir='LongTerm_gauss_autumn',**kwargs)
-    h01_4,h10_4,h50_4,h90_4,h99_4,h_4 = huge('H',_dir='LongTerm_gauss_winter',**kwargs)
-    z01_4,z10_4,z50_4,z90_4,z99_4,z_4 = huge('Z',_dir='LongTerm_gauss_winter',**kwargs)
-    #
+    plot_selfnoise = kwargs.pop('plot_selfnoise',True)
+    peterson = kwargs.pop('peterson',True)
+    prefix,suffix = fname.split('_compare_')
+    path = prefix.split('_')
+    dof,suffix = suffix[:-4].split('_with_')        
+    dof = dof.split('_vs_')
+    option = suffix.split('_')
+    dof = list(set(dof))
+    if not len(set(dof)&set(['X','Y','Z','H','V'])):
+        path = [path[0]+'_'+_dof for _dof in dof]
+        dof = list(filter(lambda x:x in ['X','Y','Z','H','V'], option))
+        option  = list(set(option)^set(dof))
+
+    data =  [huge(_dof,_dir=_path,**kwargs) for _dof in dof for _path in path]
+    label =  ['{0} {1}'.format(_path,_dof) for _dof in dof for _path in path]
     nlnm,nhnm = peterson_noise_model(unit=unit)
     selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6
     #
     fig, ax = plt.subplots(1,1,figsize=(10,8))
-
-    if plot_h:
-        if plot_v:
-            color = 'b'
-        else:
-            plt.suptitle('Horizontal Seismic Noise',fontsize=40)                      
-            color = 'b'
-        if (not night ) and (not day) and (not season):
-            ax.plot_mmm(h50,h10,h90,label='Horizontal (10,50,90 percentile)',
-                        color=color,alpha=0.3)
-            if plot_99:
-                ax.plot_mmm(h50,h01,h99,label='Horizontal (1,50,99 percentile)',
-                            color=color,zorder=0,alpha=0.1)
-        if season:
-            ax.plot_mmm(h50_1,h10_1,h90_1,zorder=0,alpha=0.2,label='Spring',color='b')
-            #ax.plot_mmm(h50_2,h10_2,h90_2,zorder=0,alpha=0.2,label='Summer')
-            #ax.plot_mmm(h50_3,h10_3,h90_3,zorder=0,alpha=0.2,label='Autumn')
-            ax.plot_mmm(h50_4,h10_4,h90_4,zorder=0,alpha=0.2,label='Winter',color='r') 
-            plt.suptitle('Spring vs. Winter (Horizontal)',fontsize=40)      
-        if night:
-            ax.plot_mmm(h50_n,h10_n,h90_n,label='Night (10,50,90 percentile)',
-                        color='b',alpha=0.3)
-        if day:
-            plt.suptitle('Night vs. Day (Horizontal)',fontsize=40)                
-            ax.plot_mmm(h50_d,h10_d,h90_d,label='Day (10,50,90 percentile)',
-                        color='r',alpha=0.3)            
-        if plot_rms:
-            ax.plot(h50_rms,'k--',zorder=3) 
-            ax.plot(h99_rms,'r--',zorder=3)        
-    if plot_v:
-        if plot_h:
-            color = 'r'
-            plt.suptitle('Horizontal vs. Vertical',fontsize=40)            
-        else:
-            plt.suptitle('Vertical Seismic Noise',fontsize=40)            
-            color = 'r'
-        if (not night) and (not day) and (not season):
-            ax.plot_mmm(z50,z10,z90,label='Vertical (10,50,90 percentile)',
-                        color=color,alpha=0.3)
-            if plot_99:                
-                ax.plot_mmm(z50,z01,z99,label='Vertical (1,50,99 percentile)',
-                            color=color,alpha=0.1)
-        if season:
-            ax.plot_mmm(z50_1,z10_1,z90_1,zorder=0,alpha=0.2,label='Spring',color='b')
-            #ax.plot_mmm(z50_2,z10_2,z90_2,zorder=0,alpha=0.2,label='Summer')
-            #ax.plot_mmm(z50_3,z10_3,z90_3,zorder=0,alpha=0.2,label='Autumn')
-            ax.plot_mmm(z50_4,z10_4,z90_4,zorder=0,alpha=0.2,label='Winter',color='r') 
-            plt.suptitle('Spring vs. Winter (Vertical)',fontsize=40)            
-        if night:
-            ax.plot_mmm(z50_n,z10_n,z90_n,label='Night (10,50,90 percentile)',
-                        color='b',alpha=0.3)
-        if day:
-            plt.suptitle('Night vs. Day (Vertical)',fontsize=40)                        
-            ax.plot_mmm(z50_d,z10_d,z90_d,label='Day (10,50,90 percentile)',
-                        color='r',alpha=0.3)            
+    colors = ['b','r']
+    for _data,_color,_label in zip(data,colors,label):
+        asd01,asd10,asd50,asd90,asd99,asdmean = _data
+        if '90' in option:
+            ax.plot_mmm(asd50,asd10,asd90,color=_color,alpha=0.3,label=_label)
+        if '99' in option:
+            ax.plot_mmm(asd50,asd01,asd99,color=_color,zorder=0,alpha=0.1)
             
     if plot_selfnoise:
         ax.loglog(selfnoise,'g--',label='Selfnoise of Seismometer',alpha=1.0)
@@ -179,34 +133,141 @@ def hoge(plot_v=False,plot_99=False,unit='um',peterson=True,plot_selfnoise=True,
                 color='gray')
     ax.set_xscale('log')
     ax.set_yscale('log')
-    ax.set_xlabel('Frequency [Hz]',fontsize=25)
+    ax.set_xlabel('Frequency [Hz]',fontsize=20)
     ax.set_xlim(1e-2,10)
     if unit=='um/sec':
         ax.set_ylim(1e-5,10)
-        ax.set_ylabel('Velocity [um/sec/rtHz]')        
+        ax.set_ylabel('Velocity [um/sec/rtHz]',fontsize=20)
     elif unit=='um':
         ax.set_ylim(1e-6,1e2)
         ax.set_yticks(np.logspace(-6,2,9))
-        ax.set_ylabel('Displacement [um/rtHz, or um]',fontsize=25)
+        ax.set_ylabel('Displacement [um/rtHz, or um]',fontsize=20)
     ax.legend(fontsize=18,loc='lower left')
     ax.grid(b=True,which='major', axis='both',linestyle='-')
-    ax.grid(b=True,which='minor', axis='both',linestyle='--')    
-    fname = './results/seismicnoise_{0}.png'.format(fname_suffix)
-    print(fname)
-    plt.savefig(fname)
+    ax.grid(b=True,which='minor', axis='both',linestyle='--')
+    plt.suptitle(fname[:-4],fontsize=40)
+    print('./results/'+fname)
+    plt.savefig('./results/'+fname)
     plt.close()
+    
+    # exit()
+    # # --------------------------------------
+    # kwargs['unit'] = unit
+    # kwargs['suffix'] = '1211817600_1245372032'
+    # h01,h10,h50,h90,h99,h             = huge('H',_dir='IXVDIFF_gauss',**kwargs)
+    # z01,z10,z50,z90,z99,z             = huge('Z',_dir='IXVDIFF_gauss',**kwargs)
+    # h01,h10,h50,h90,h99,h             = huge('H',_dir='LongTerm_gauss',**kwargs)
+    # z01,z10,z50,z90,z99,z             = huge('Z',_dir='LongTerm_gauss',**kwargs)    
+    # h01_n,h10_n,h50_n,h90_n,h99_n,h_n = huge('H',_dir='LongTerm_gauss_night',**kwargs)
+    # z01_n,z10_n,z50_n,z90_n,z99_n,z_n = huge('Z',_dir='LongTerm_gauss_night',**kwargs)
+    # h01_d,h10_d,h50_d,h90_d,h99_d,h_d = huge('H',_dir='LongTerm_gauss_day',**kwargs)
+    # z01_d,z10_d,z50_d,z90_d,z99_d,z_d = huge('Z',_dir='LongTerm_gauss_day',**kwargs)
+    # h01_1,h10_1,h50_1,h90_1,h99_1,h_1 = huge('H',_dir='LongTerm_gauss_spring',**kwargs)
+    # z01_1,z10_1,z50_1,z90_1,z99_1,z_1 = huge('Z',_dir='LongTerm_gauss_spring',**kwargs)
+    # h01_2,h10_2,h50_2,h90_2,h99_2,h_2 = huge('H',_dir='LongTerm_gauss_summer',**kwargs)
+    # z01_2,z10_2,z50_2,z90_2,z99_2,z_2 = huge('Z',_dir='LongTerm_gauss_summer',**kwargs)
+    # h01_3,h10_3,h50_3,h90_3,h99_3,h_3 = huge('H',_dir='LongTerm_gauss_autumn',**kwargs)
+    # z01_3,z10_3,z50_3,z90_3,z99_3,z_3 = huge('Z',_dir='LongTerm_gauss_autumn',**kwargs)
+    # h01_4,h10_4,h50_4,h90_4,h99_4,h_4 = huge('H',_dir='LongTerm_gauss_winter',**kwargs)
+    # z01_4,z10_4,z50_4,z90_4,z99_4,z_4 = huge('Z',_dir='LongTerm_gauss_winter',**kwargs)
+    # #
+    # nlnm,nhnm = peterson_noise_model(unit=unit)
+    # selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6
+    # #
+    # fig, ax = plt.subplots(1,1,figsize=(10,8))    
 
-if __name__ == '__main__':    
-    import os
-    files = os.listdir('./data2/LongTerm_gauss')
-    files = filter(lambda x:'X_99_' in x, files)
-    suffix_list = map(lambda x: x.split('_99_')[1][:-5], files)
-    suffix_list = filter(lambda x: '1211817600_1245372032' in x,suffix_list) # 1year
-    for suffix in suffix_list:
-        hoge(plot_v=True, plot_h=True, plot_99=False,fname_suffix='all_compare_v_vs_h')
-        hoge(plot_v=True, plot_h=False,plot_99=True, fname_suffix='all_v_99')
-        hoge(plot_v=False,plot_h=True, plot_99=True, fname_suffix='all_h_99')
-        hoge(plot_h=True, day=True,night=True,fname_suffix='h_compare_day_vs_night')
-        hoge(plot_v=True, day=True,night=True,fname_suffix='v_compare_day_vs_night')
-        hoge(plot_h=True, season=True,fname_suffix='h_compare_season')
-        hoge(plot_v=True, season=True,fname_suffix='v_compare_season')
+    # if plot_h:
+    #     if plot_v:
+    #         color = 'b'
+    #     else:
+    #         plt.suptitle('Horizontal Seismic Noise',fontsize=40)                      
+    #         color = 'b'
+    #     if (not night ) and (not day) and (not season):
+    #         ax.plot_mmm(h50,h10,h90,label='Horizontal (10,50,90 percentile)',
+    #                     color=color,alpha=0.3)
+    #         if plot_99:
+    #             ax.plot_mmm(h50,h01,h99,label='Horizontal (1,50,99 percentile)',
+    #                         color=color,zorder=0,alpha=0.1)
+    #     if season:
+    #         ax.plot_mmm(h50_1,h10_1,h90_1,zorder=0,alpha=0.2,label='Spring',color='b')
+    #         #ax.plot_mmm(h50_2,h10_2,h90_2,zorder=0,alpha=0.2,label='Summer')
+    #         #ax.plot_mmm(h50_3,h10_3,h90_3,zorder=0,alpha=0.2,label='Autumn')
+    #         ax.plot_mmm(h50_4,h10_4,h90_4,zorder=0,alpha=0.2,label='Winter',color='r') 
+    #         plt.suptitle('Spring vs. Winter (Horizontal)',fontsize=40)      
+    #     if night:
+    #         ax.plot_mmm(h50_n,h10_n,h90_n,label='Night (10,50,90 percentile)',
+    #                     color='b',alpha=0.3)
+    #     if day:
+    #         plt.suptitle('Night vs. Day (Horizontal)',fontsize=40)                
+    #         ax.plot_mmm(h50_d,h10_d,h90_d,label='Day (10,50,90 percentile)',
+    #                     color='r',alpha=0.3)            
+    #     if plot_rms:
+    #         ax.plot(h50_rms,'k--',zorder=3) 
+    #         ax.plot(h99_rms,'r--',zorder=3)        
+    # if plot_v:
+    #     if plot_h:
+    #         color = 'r'
+    #         plt.suptitle('Horizontal vs. Vertical',fontsize=40)            
+    #     else:
+    #         plt.suptitle('Vertical Seismic Noise',fontsize=40)            
+    #         color = 'r'
+    #     if (not night) and (not day) and (not season):
+    #         ax.plot_mmm(z50,z10,z90,label='Vertical (10,50,90 percentile)',
+    #                     color=color,alpha=0.3)
+    #         if plot_99:                
+    #             ax.plot_mmm(z50,z01,z99,label='Vertical (1,50,99 percentile)',
+    #                         color=color,alpha=0.1)
+    #     if season:
+    #         ax.plot_mmm(z50_1,z10_1,z90_1,zorder=0,alpha=0.2,label='Spring',color='b')
+    #         #ax.plot_mmm(z50_2,z10_2,z90_2,zorder=0,alpha=0.2,label='Summer')
+    #         #ax.plot_mmm(z50_3,z10_3,z90_3,zorder=0,alpha=0.2,label='Autumn')
+    #         ax.plot_mmm(z50_4,z10_4,z90_4,zorder=0,alpha=0.2,label='Winter',color='r') 
+    #         plt.suptitle('Spring vs. Winter (Vertical)',fontsize=40)            
+    #     if night:
+    #         ax.plot_mmm(z50_n,z10_n,z90_n,label='Night (10,50,90 percentile)',
+    #                     color='b',alpha=0.3)
+    #     if day:
+    #         plt.suptitle('Night vs. Day (Vertical)',fontsize=40)                        
+    #         ax.plot_mmm(z50_d,z10_d,z90_d,label='Day (10,50,90 percentile)',
+    #                     color='r',alpha=0.3)            
+            
+    # if plot_selfnoise:
+    #     ax.loglog(selfnoise,'g--',label='Selfnoise of Seismometer',alpha=1.0)
+    # if peterson:
+    #     ax.loglog(nlnm[0],nlnm[1],'--',color='gray')
+    #     ax.loglog(nhnm[0],nhnm[1],'--',label='Peterson Low and High Noise Models',
+    #             color='gray')
+    # ax.set_xscale('log')
+    # ax.set_yscale('log')
+    # ax.set_xlabel('Frequency [Hz]',fontsize=25)
+    # ax.set_xlim(1e-2,10)
+    # if unit=='um/sec':
+    #     ax.set_ylim(1e-5,10)
+    #     ax.set_ylabel('Velocity [um/sec/rtHz]')        
+    # elif unit=='um':
+    #     ax.set_ylim(1e-6,1e2)
+    #     ax.set_yticks(np.logspace(-6,2,9))
+    #     ax.set_ylabel('Displacement [um/rtHz, or um]',fontsize=25)
+    # ax.legend(fontsize=18,loc='lower left')
+    # ax.grid(b=True,which='major', axis='both',linestyle='-')
+    # ax.grid(b=True,which='minor', axis='both',linestyle='--')    
+    # fname = './results/seismicnoise_{0}.png'.format(fname_suffix)
+    # print(fname)
+    # plt.savefig(fname)
+    # plt.close()
+
+if __name__ == '__main__':        
+    hoge(fname='IXVDIFF_compare_V_vs_H_with_90.png')
+    hoge(fname='IXVDIFF_IXV_compare_H_vs_H_with_90.png')
+    hoge(fname='IXVDIFF_IXV_compare_H_vs_H_with_90.png')
+    hoge(fname='EXV_compare_V_vs_H_with_90.png')
+    hoge(fname='EXV_compare_V_with_90_99.png')
+    hoge(fname='EXV_compare_H_with_90_99.png')
+    hoge(fname='EXV_compare_day_vs_night_with_H_90.png')
+    hoge(fname='EXV_compare_day_vs_night_with_V_90.png')
+    hoge(fname='EXV_compare_spring_vs_winter_with_H_90.png')
+    hoge(fname='EXV_compare_spring_vs_winter_with_V_90.png')    
+    hoge(fname='EXV_compare_spring_vs_summer_with_H_90.png')
+    hoge(fname='EXV_compare_spring_vs_summer_with_V_90.png')    
+    hoge(fname='EXV_compare_spring_vs_autumn_with_H_90.png')
+    hoge(fname='EXV_compare_spring_vs_autumn_with_V_90.png')    
