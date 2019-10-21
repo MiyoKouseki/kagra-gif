@@ -10,7 +10,7 @@ from gwpy.types.array2d import Array2D
 tr120 = Trillium('120QA')
 v2vel = tr120.v2vel    
 
-#------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def peterson_noise_model(unit='um/sec'):
     ''' Return spectral density of the new seismic model of 
     Peterson using Obspy package.
@@ -50,8 +50,7 @@ def peterson_noise_model(unit='um/sec'):
 
     
 def _percentile(axis,pctl=50,unit='um/sec',suffix='',_dir='',**kwargs):
-    suffix = '1211817600_1245372032'
-    fname = './data2/{3}/{0}_{1}_{2}.hdf5'.format(axis,pctl,suffix,_dir)
+    fname = './data2/{3}/{0}_{1}.hdf5'.format(axis,pctl,suffix,_dir)
     _asd = FrequencySeries.read(fname)**0.5
     amp = 10**(30.0/20.0)
     c2v = 20.0/2**15    
@@ -109,19 +108,22 @@ def hoge(fname=None,unit='um/sec',**kwargs):
     dof,suffix = suffix[:-4].split('_with_')        
     dof = dof.split('_vs_')
     option = suffix.split('_')
-    dof = list(set(dof))    
+    dof = list(set(dof))
+    
     if not len(set(dof)&set(['X','Y','Z','H','V'])):
         path = [path[0]+'_'+_dof for _dof in dof]
         dof = list(filter(lambda x:x in ['X','Y','Z','H','V'], option))
         option  = list(set(option)^set(dof))
 
     data =  [huge(_dof,_dir=_path,**kwargs) for _dof in dof for _path in path]
-    label =  ['{0} {1}'.format(_path,_dof) for _dof in dof for _path in path]
-    nlnm,nhnm = peterson_noise_model(unit=unit)
-    selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6
-    #
+    
+    # Plot
     fig, ax = plt.subplots(1,1,figsize=(10,8))
-    colors = ['b','r']
+    colors = ['blue','red','green','magenta']
+    label =  ['{0}_{1}'.format(_path,_dof) for _dof in dof for _path in path]
+    if len(data)!=len(label):
+        raise ValueError('plot error.')
+        
     for _data,_color,_label in zip(data,colors,label):
         asd01,asd10,asd50,asd90,asd99,asdmean = _data
         if '90' in option:
@@ -130,8 +132,10 @@ def hoge(fname=None,unit='um/sec',**kwargs):
             ax.plot_mmm(asd50,asd01,asd99,color=_color,zorder=0,alpha=0.1)
             
     if plot_selfnoise:
+        selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6        
         ax.loglog(selfnoise,'g--',label='Selfnoise of Seismometer',alpha=1.0)
     if peterson:
+        nlnm,nhnm = peterson_noise_model(unit=unit)        
         ax.loglog(nlnm[0],nlnm[1],'--',color='gray')
         ax.loglog(nhnm[0],nhnm[1],'--',label='Peterson Low and High Noise Models',
                 color='gray')
@@ -149,23 +153,25 @@ def hoge(fname=None,unit='um/sec',**kwargs):
     ax.legend(fontsize=18,loc='lower left')
     ax.grid(b=True,which='major', axis='both',linestyle='-')
     ax.grid(b=True,which='minor', axis='both',linestyle='--')
-    plt.suptitle(fname[:-4],fontsize=40)
+    plt.suptitle(fname[:-4],fontsize=20)
     print('./results/'+fname)
     plt.savefig('./results/'+fname)
     plt.close()
 
 if __name__ == '__main__':
-    hoge(fname='IXVDIFF_EXVDIFF_compare_X_vs_X_with_90.png')
-    hoge(fname='IXVDIFF_IXV_IXVTEST_compare_X_vs_X_with_90.png')
-    hoge(fname='IXVDIFF_IXV_IXVTEST_compare_V_vs_V_with_90.png')
-    hoge(fname='EXV_compare_V_vs_H_with_90.png')
-    hoge(fname='EXV_compare_V_with_90_99.png')
-    hoge(fname='EXV_compare_H_with_90_99.png')
-    hoge(fname='EXV_compare_day_vs_night_with_H_90.png')
-    hoge(fname='EXV_compare_day_vs_night_with_V_90.png')
-    hoge(fname='EXV_compare_spring_vs_winter_with_H_90.png')
-    hoge(fname='EXV_compare_spring_vs_winter_with_V_90.png')    
-    hoge(fname='EXV_compare_spring_vs_summer_with_H_90.png')
-    hoge(fname='EXV_compare_spring_vs_summer_with_V_90.png')    
-    hoge(fname='EXV_compare_spring_vs_autumn_with_H_90.png')
-    hoge(fname='EXV_compare_spring_vs_autumn_with_V_90.png')    
+    fnames = ['EXV_compare_V_vs_H_with_90.png',
+              'EXV_compare_V_vs_V_with_90_99.png',
+              'EXV_compare_H_vs_H_with_90_99.png',
+              'IXV-IXVTEST_EXV-IXV_compare_X_vs_X_with_90.png',
+              'IXV-IXVTEST_IXV_IXVTEST_compare_X_vs_X_with_90.png',
+              'IXV-IXVTEST_IXV_IXVTEST_compare_Y_vs_Y_with_90.png',
+              'IXV-IXVTEST_IXV_IXVTEST_compare_H_vs_H_with_90.png',              
+              'IXV-IXVTEST_IXV_IXVTEST_compare_V_vs_V_with_90.png',
+              'EXVday_EXVnight_compare_H_vs_H_with_90.png',
+              'EXVday_EXVnight_compare_V_vs_V_with_90.png',
+              'EXVspring_EXVwinter_compare_H_vs_H_with_90.png',
+              'EXVspring_EXVwinter_compare_V_vs_V_with_90.png',
+              ]
+
+    for fname in fnames:
+        hoge(fname)
