@@ -165,12 +165,16 @@ if __name__ == '__main__':
               'IXV-IXVTEST_EXV-IXV_compare_X_vs_X_with_90.png',
               'IXV-IXVTEST_IXV_IXVTEST_compare_X_vs_X_with_90.png',
               'IXV-IXVTEST_IXV_IXVTEST_compare_Y_vs_Y_with_90.png',
-              'IXV-IXVTEST_IXV_IXVTEST_compare_H_vs_H_with_90.png',              
+              'IXV-IXVTEST_IXV_IXVTEST_compare_H_vs_H_with_90.png', 
               'IXV-IXVTEST_IXV_IXVTEST_compare_V_vs_V_with_90.png',
               'EXVday_EXVnight_compare_H_vs_H_with_90.png',
-              'EXVday_EXVnight_compare_V_vs_V_with_90.png',
+              'EXVday_EXVnight_compare_V_vs_V_with_90.png',              
               'EXVspring_EXVwinter_compare_H_vs_H_with_90.png',
               'EXVspring_EXVwinter_compare_V_vs_V_with_90.png',
+              'EXVspring_EXVautumn_compare_H_vs_H_with_90.png',
+              'EXVspring_EXVautumn_compare_V_vs_V_with_90.png',              
+              'EXVspring_EXVsummer_compare_H_vs_H_with_90.png',
+              'EXVspring_EXVsummer_compare_V_vs_V_with_90.png',
               ]
 
     for fname in fnames:
