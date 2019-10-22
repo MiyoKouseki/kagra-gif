@@ -7,8 +7,6 @@ from gwpy.spectrogram import Spectrogram
 from miyopy.utils.trillium import Trillium
 from gwpy.types.array2d import Array2D
 
-tr120 = Trillium('120QA')
-v2vel = tr120.v2vel    
 
 #-------------------------------------------------------------------------------
 def peterson_noise_model(unit='um/sec'):
@@ -51,13 +49,19 @@ def peterson_noise_model(unit='um/sec'):
     
 def _percentile(axis,pctl=50,unit='um/sec',suffix='',_dir='',**kwargs):
     fname = './data2/{3}/{0}_{1}.hdf5'.format(axis,pctl,suffix,_dir)
-    _asd = FrequencySeries.read(fname)**0.5
-    amp = 10**(30.0/20.0)
+    model = kwargs.pop('model',None)
+    _asd = FrequencySeries.read(fname)**0.5    
+    if model=='120QA':
+        amp = 10**(30.0/20.0)
+    elif model=='compact':
+        amp = 10**(45.0/20.0)
+    seis = Trillium(model)
+    v2vel = seis.v2vel
     c2v = 20.0/2**15    
     _asd = v2vel(_asd)*c2v/amp*1e6
     if unit=='um':
         asd = _asd/(2.0*np.pi*_asd.frequencies.value)
-        #asd.write('./LongTerm_{0}_{1}_DISP.txt'.format(axis,pctl),format='txt')        
+        #asd.write('./LongTerm_{0}_{1}_DISP.txt'.format(axis,pctl),format='txt')
     elif unit=='um/sec':
         asd = _asd
         #asd.write('./LongTerm_{0}_{1}_VELO.txt'.format(axis,pctl),format='txt')
@@ -109,13 +113,20 @@ def hoge(fname=None,unit='um/sec',**kwargs):
     dof = dof.split('_vs_')
     option = suffix.split('_')
     dof = list(set(dof))
-    
+    print(path)
     if not len(set(dof)&set(['X','Y','Z','H','V'])):
         path = [path[0]+'_'+_dof for _dof in dof]
         dof = list(filter(lambda x:x in ['X','Y','Z','H','V'], option))
         option  = list(set(option)^set(dof))
-
-    data =  [huge(_dof,_dir=_path,**kwargs) for _dof in dof for _path in path]
+        
+    data = []
+    for _path in path:
+        for _dof in dof:
+            if 'V' in _path:
+                model = '120QA'
+            else:
+                model = 'compact'
+            data += [huge(_dof,_dir=_path,model=model,**kwargs)]
     
     # Plot
     fig, ax = plt.subplots(1,1,figsize=(10,8))
@@ -132,7 +143,13 @@ def hoge(fname=None,unit='um/sec',**kwargs):
             ax.plot_mmm(asd50,asd01,asd99,color=_color,zorder=0,alpha=0.1)
             
     if plot_selfnoise:
-        selfnoise = tr120.selfnoise(unit=unit.replace('um','m'))*1e6        
+        if 'V' in path[0]:
+            model = '120QA'
+        else:
+            model = 'compact'
+        print(model)
+        seis = Trillium(model)            
+        selfnoise = seis.selfnoise(unit=unit.replace('um','m'))*1e6
         ax.loglog(selfnoise,'g--',label='Selfnoise of Seismometer',alpha=1.0)
     if peterson:
         nlnm,nhnm = peterson_noise_model(unit=unit)        
@@ -175,6 +192,9 @@ if __name__ == '__main__':
               'EXVspring_EXVautumn_compare_V_vs_V_with_90.png',              
               'EXVspring_EXVsummer_compare_H_vs_H_with_90.png',
               'EXVspring_EXVsummer_compare_V_vs_V_with_90.png',
+              'MCE_compare_V_vs_H_with_90.png',
+              'MCE_MCF_compare_H_vs_H_with_90.png',              
+              'MCE_IXV_compare_X_vs_X_with_90.png',              
               ]
 
     for fname in fnames:

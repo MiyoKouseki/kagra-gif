@@ -39,17 +39,13 @@ class DataQuality(object):
             if total!=0:                
                 raise ValueError('SegmentList Error: Missmatch the number '+\
                                  'of segments.')
-        else:
-            print('DB OK')
         
     def __enter__(self):
-        print("Hello!")
         return self
     
     def __exit__(self, ex_type, ex_value, trace):
         self.conn.commit()
         self.conn.close()
-        print('Close. Bye!')
         
     def bals(self):
         '''Initialize only TEST table

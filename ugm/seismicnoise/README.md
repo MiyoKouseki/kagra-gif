@@ -68,3 +68,9 @@ If there are no bad signal mentioned above in a segment, this segment is defined
 
 ## Calculation Codes
 ## Results
+
+
+## Memo 
+
+> rsync --include='*/' --include='*png' --exclude='*' --delete -av -e ssh m31-01:~/kagra-gif/ugm/seismicnoise/data/ ~/Git/k
+agra-gif/ugm/seismicnoise/data 
