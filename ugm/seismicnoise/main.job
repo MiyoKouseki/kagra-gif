@@ -1,3 +1,4 @@
+
 Universe       = vanilla 
 GetEnv         = True
 Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/seismicnoise
@@ -11,5 +12,5 @@ Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
 
 RequestCpus    = 4
-Arguments  = ./main.py 
+Arguments  = ./main.py --start 1211817600 --end 1245372032 --nproc 4 --percentile --seis MCF --term all
 Queue

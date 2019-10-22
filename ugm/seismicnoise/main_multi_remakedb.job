@@ -1,0 +1,524 @@
+
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/seismicnoise
+Notification   = Never
++Group         = "Xc"
+request_memory = 1 GB
+
+Executable = /usr/bin/python 
+Error      = ./log/main.$(Process).err
+Log        = ./log/main.$(Process).log
+Output     = ./log/main.$(Process).out
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1211817600 --end 1212079744 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1212079744 --end 1212341888 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1212341888 --end 1212604032 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1212604032 --end 1212866176 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1212866176 --end 1213128320 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1213128320 --end 1213390464 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1213390464 --end 1213652608 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1213652608 --end 1213914752 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1213914752 --end 1214176896 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1214176896 --end 1214439040 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1214439040 --end 1214701184 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1214701184 --end 1214963328 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1214963328 --end 1215225472 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1215225472 --end 1215487616 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1215487616 --end 1215749760 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1215749760 --end 1216011904 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1216011904 --end 1216274048 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1216274048 --end 1216536192 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1216536192 --end 1216798336 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1216798336 --end 1217060480 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1217060480 --end 1217322624 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1217322624 --end 1217584768 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1217584768 --end 1217846912 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1217846912 --end 1218109056 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1218109056 --end 1218371200 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1218371200 --end 1218633344 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1218633344 --end 1218895488 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1218895488 --end 1219157632 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1219157632 --end 1219419776 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1219419776 --end 1219681920 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1219681920 --end 1219944064 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1219944064 --end 1220206208 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1220206208 --end 1220468352 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1220468352 --end 1220730496 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1220730496 --end 1220992640 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1220992640 --end 1221254784 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1221254784 --end 1221516928 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1221516928 --end 1221779072 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1221779072 --end 1222041216 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1222041216 --end 1222303360 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1222303360 --end 1222565504 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1222565504 --end 1222827648 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1222827648 --end 1223089792 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1223089792 --end 1223351936 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1223351936 --end 1223614080 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1223614080 --end 1223876224 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1223876224 --end 1224138368 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1224138368 --end 1224400512 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1224400512 --end 1224662656 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1224662656 --end 1224924800 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1224924800 --end 1225186944 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1225186944 --end 1225449088 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1225449088 --end 1225711232 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1225711232 --end 1225973376 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1225973376 --end 1226235520 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1226235520 --end 1226497664 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1226497664 --end 1226759808 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1226759808 --end 1227021952 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1227021952 --end 1227284096 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1227284096 --end 1227546240 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1227546240 --end 1227808384 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1227808384 --end 1228070528 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1228070528 --end 1228332672 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1228332672 --end 1228594816 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1228594816 --end 1228856960 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1228856960 --end 1229119104 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1229119104 --end 1229381248 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1229381248 --end 1229643392 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1229643392 --end 1229905536 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1229905536 --end 1230167680 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1230167680 --end 1230429824 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1230429824 --end 1230691968 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1230691968 --end 1230954112 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1230954112 --end 1231216256 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1231216256 --end 1231478400 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1231478400 --end 1231740544 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1231740544 --end 1232002688 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1232002688 --end 1232264832 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1232264832 --end 1232526976 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1232526976 --end 1232789120 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1232789120 --end 1233051264 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1233051264 --end 1233313408 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1233313408 --end 1233575552 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1233575552 --end 1233837696 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1233837696 --end 1234099840 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1234099840 --end 1234361984 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1234361984 --end 1234624128 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1234624128 --end 1234886272 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1234886272 --end 1235148416 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1235148416 --end 1235410560 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1235410560 --end 1235672704 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1235672704 --end 1235934848 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1235934848 --end 1236196992 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1236196992 --end 1236459136 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1236459136 --end 1236721280 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1236721280 --end 1236983424 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1236983424 --end 1237245568 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1237245568 --end 1237507712 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1237507712 --end 1237769856 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1237769856 --end 1238032000 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1238032000 --end 1238294144 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1238294144 --end 1238556288 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1238556288 --end 1238818432 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1238818432 --end 1239080576 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1239080576 --end 1239342720 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1239342720 --end 1239604864 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1239604864 --end 1239867008 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1239867008 --end 1240129152 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1240129152 --end 1240391296 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1240391296 --end 1240653440 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1240653440 --end 1240915584 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1240915584 --end 1241177728 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1241177728 --end 1241439872 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1241439872 --end 1241702016 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1241702016 --end 1241964160 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1241964160 --end 1242226304 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1242226304 --end 1242488448 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1242488448 --end 1242750592 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1242750592 --end 1243012736 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1243012736 --end 1243274880 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1243274880 --end 1243537024 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1243537024 --end 1243799168 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1243799168 --end 1244061312 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1244061312 --end 1244323456 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1244323456 --end 1244585600 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1244585600 --end 1244847744 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1244847744 --end 1245109888 --nproc 2 --seis MCF --term all --remakedb
+Queue
+
+RequestCpus = 2
+Arguments  = ./main.py --start 1245109888 --end 1245372032 --nproc 2 --seis MCF --term all --remakedb
+Queue

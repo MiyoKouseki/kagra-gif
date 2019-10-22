@@ -28,15 +28,17 @@ class DataQuality(object):
         self.check_db()
 
     def check_db(self):
-        total      = self.ask('select startgps,endgps from EXV_SEIS')
-        available  = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=0')
-        lackoffile = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
-        lackofdata = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
-        glitch     = self.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
-
-        bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
-        if bad!=0:
-            raise ValueError('SegmentList Error: Missmatch the number of segments.')
+        fmt_total = 'select startgps,endgps from {seis}'
+        fmt = 'select startgps,endgps from {seis} WHERE flag={flag}'
+        seislist = ['EXV_SEIS','IXV_SEIS','IXVTEST_SEIS','EYV_SEIS',
+                    'MCE_SEIS','MCF_SEIS','BS_SEIS']
+        for seis in seislist:                                
+            total = len(self.ask(fmt_total.format(seis=seis)))
+            for i,flag in enumerate([0,2,4,8]):
+                total -= len(self.ask(fmt.format(seis=seis,flag=flag)))
+            if total!=0:                
+                raise ValueError('SegmentList Error: Missmatch the number '+\
+                                 'of segments.')
         else:
             print('DB OK')
         
@@ -173,7 +175,7 @@ def danger():
 
 
 
-def remake(fname):    
+def remake(fname,seis):
     segments = np.loadtxt(fname,dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
     statusdict = {'Normal':0b0,
                   'Normal_Reject':NORMAL_REJECT,
@@ -188,9 +190,11 @@ def remake(fname):
     }
     with DataQuality('./dqflag.db') as db:
         # Remake
-        #db.add_table('EYV_SEIS')
+        #db.add_table(seis)
         for start,end,status in segments:
-            db.update_flag('EYV_SEIS',start,end,statusdict[status],override=True)
+            db.update_flag(seis,start,end,statusdict[status],override=True)
 
 if __name__ == '__main__':
-    remake('./result.txt')
+    remake('../data/MCE/result.txt','MCE_SEIS')
+    remake('../data/MCF/result.txt','MCF_SEIS')
+    remake('../data/BS/result.txt' ,'BS_SEIS')

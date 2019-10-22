@@ -99,7 +99,7 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
     nproc = kwargs.pop('nproc',3)
     bandpass = kwargs.pop('bandpass',None)
     fftlen = kwargs.pop('fftlen',2**8)
-
+    diff = kwargs.pop('diff',False)
     fname_hdf5 = fname_specgram(start,end,prefix=seis,axis=axis)
 
     # Load specgram from hdf5 file
@@ -108,13 +108,16 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
         return specgram
 
     # If no file, make specgram from timeseries data
+    if '-' in seis:    
+        seis,seis2 = seis.split('-')
+        diff = True
     try:        
         chname = get_seis_chname(start,end,axis=axis,seis=seis)[0]
         fnamelist = existedfilelist(start,end)
         data = TimeSeries.read(fnamelist,chname,nproc=nproc)
         data = data.resample(32)
         data = data.crop(start,end)
-        if diffasd:
+        if diff:
             chname2 = get_seis_chname(start,end,axis=axis,seis=seis2)[0]
             data2 = TimeSeries.read(fnamelist,chname2,nproc=nproc)
             data2 = data2.resample(32)
@@ -127,6 +130,9 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
     # calculate specgram
     specgram = data.spectrogram2(fftlength=fftlen,overlap=fftlen/2,nproc=nproc)
     try:
+        fname_dir = '/'.join(fname_hdf5.split('/')[:4])
+        if not os.path.exists(fname_dir):
+            os.makedirs(fname_dir)
         specgram.write(fname_hdf5,format='hdf5',overwrite=True)
         log.debug('Make {0}'.format(fname_hdf5))
     except:
@@ -171,13 +177,21 @@ if __name__ == "__main__":
     parser.add_argument('--start',type=int,default=1211817600)
     parser.add_argument('--end',type=int,default=1245372032)
     parser.add_argument('--nproc',type=int,default=8)
-    parser.add_argument('--percentile', action='store_false') # default True
+    parser.add_argument('--seis',type=str,default='EXV')
+    parser.add_argument('--term',type=str,default='')
+    parser.add_argument('--percentile', action='store_true') # default False
     parser.add_argument('--remakedb', action='store_true') # default False
+    parser.add_argument('--savespecgram', action='store_true') # default False
     args = parser.parse_args()
     start,end = args.start,args.end
     nproc = args.nproc
     run_percentile = args.percentile
     remakedb = args.remakedb
+    savespecgram = args.savespecgram
+    seis = args.seis
+    term = args.term
+
+
     # ------------------------------------------------------------
     #  Choose Segment  
     # ------------------------------------------------------------
@@ -234,41 +248,63 @@ if __name__ == "__main__":
         spring = db.ask(fmt_gauss_spring.format(start,end,'EXV_SEIS'))
         autumn = db.ask(fmt_gauss_autumn.format(start,end,'EXV_SEIS'))
         summer = db.ask(fmt_gauss_summer.format(start,end,'EXV_SEIS'))
-        allday = db.ask(fmt_gauss.format(start,end,'EXV_SEIS'))
-        #allday = db.ask(fmt_gauss.format(start,end,'IXVTEST_SEIS'))
-        #allday = db.ask(fmt_gauss.format(start,end,'IXV_SEIS'))
-        #allday = db.ask(fmt_gauss_2seis.format(start,end,
-        #                                       'IXV_SEIS','IXVTEST_SEIS'))
-    if remakedb:
-        #if True:
-        with open('./result.txt','a') as f:
-            for i,(start,end) in enumerate(total):
-                ans = check(start,end,plot=False,nproc=nproc,
-                            seis='EYV',axis='X',
-                            tlen=4096,sample_rate=16,cl=0.05)
-                log.debug('{0:03d}/{1:03d} '.format(i+1,len(total))+_txt)
-                f.write('{0} {1} {2}\n'.format(start,end,ans))
-        exit()
-    #
-    segment = allday
+        allday_exv = db.ask(fmt_gauss.format(start,end,'EXV_SEIS'))
+        allday_ixvtest = db.ask(fmt_gauss.format(start,end,'IXVTEST_SEIS'))
+        allday_ixv = db.ask(fmt_gauss.format(start,end,'IXV_SEIS'))
+        allday_mce = db.ask(fmt_gauss.format(start,end,'MCE_SEIS'))
+        allday_mcf = db.ask(fmt_gauss.format(start,end,'MCF_SEIS'))
+        allday_bs = db.ask(fmt_gauss.format(start,end,'BS_SEIS'))
+        allday_ixv_ixvtest = db.ask(fmt_gauss_2seis.format(start,end,
+                                    'IXV_SEIS','IXVTEST_SEIS'))
+        allday_mce_mcf = db.ask(fmt_gauss_2seis.format(start,end,
+                                'MCE_SEIS','MCF_SEIS'))
+        allday_exv_ixv = db.ask(fmt_gauss_2seis.format(start,end,
+                                'EXV_SEIS','IXV_SEIS'))
 
+
+    if remakedb:
+        fname = './data/{0}/result.txt'.format(seis)
+        if not os.path.exists(fname.split("result")[0]):
+            os.mkdir(fname.split("result")[0])
+        with open(fname,'a') as f:
+            for i,(start,end) in enumerate(total):
+                ans = check(start,end,plot=True,nproc=nproc,
+                            seis=seis,axis='X',
+                            tlen=4096,sample_rate=16,cl=0.05)
+                log.debug('{0:03d}/{1:03d} : {2} {3} {4}'.format(
+                    i+1,len(total),start,end,ans))
+                f.write('{0} {1} {2}\n'.format(start,end,ans))
+    #
+    if seis=='EXV':
+        segment = allday_exv
+    elif seis=='IXV':
+        segment = allday_ixv
+    elif seis=='IXVTEST':
+        segment = allday_ixvtest
+    elif seis=='MCE':
+        segment = allday_mce
+    elif seis=='MCF':
+        segment = allday_mcf
+    elif seis=='BS':
+        segment = allday_bs
+    elif seis=='MCE-MCF':
+        segment = allday_mce_mcf
+    elif seis=='EXV-IXV':
+        segment = allday_exv_ixv
+    else:
+        raise ValueError('Invalid seis name.')
 
     # ------------------------------------------------------------
     # Percentile
     # ------------------------------------------------------------
-    if True:
-        ''' Save ASD data under ./data2/{prefix}
-
-        prefix is 
-
-        '''
-        #seis = 'IXVTEST'
-        #seis = 'EXV-IXV'
-        seis = 'EXV'
-        #term = 'spring'
-        term = ''
+    if run_percentile:
         x,y,z = append_data(segment,blrms=False,seis=seis,nproc=nproc)
-        prefix = '{0}{1}'.format(seis,term)        
+        if savespecgram:
+            exit()
+        if term=='all':
+            prefix = '{0}'.format(seis)        
+        else:
+            prefix = '{0}{1}'.format(seis,term)
         for pctl in [1,5,10,50,90,95,99]:
             save_percentile(x,pctl,'X',prefix=prefix)
             save_percentile(y,pctl,'Y',prefix=prefix)
@@ -282,7 +318,6 @@ if __name__ == "__main__":
     # Band Limited RMS
     # ------------------------------------------------------------
     if False:
-        seis = 'IXVTEST'
         bandpass = 0.2 # 1/3 oct bandpass
         low  = bandpass/(2**(1./6)) # 1/6 oct 
         high = bandpass*(2**(1./6)) # 1/6 oct

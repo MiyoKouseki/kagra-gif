@@ -18,7 +18,7 @@ from lib.channel import get_seis_chname
 import matplotlib.pyplot as plt
 
 
-def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,place='EXV',axis='X'):
+def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EXV',axis='X'):
     ''' Return the data status of a seismometer at specified time.
 
     Check the data status with three steps; 
@@ -29,8 +29,8 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,place='E
         start GPS time.
     end : `int`
         end GPS time.
-    place : `str`, optional
-        place of the seismometer. default is 'EXV'
+    seis : `str`, optional
+        seis of the seismometer. default is 'EXV'
     axis : `str`
         axis of the seismometer. default is 'X'
     nproc : `int`
@@ -51,7 +51,7 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,place='E
     '''
     # Check DAQ trouble    
     try:
-        chname = get_seis_chname(start,end,place=place,axis=axis)[0]
+        chname = get_seis_chname(start,end,seis=seis,axis=axis)[0]
         fnamelist = existedfilelist(start,end)
         data = TimeSeries.read(fnamelist,chname,nproc=nproc)
         data = data.resample(sample_rate)
@@ -144,7 +144,10 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,place='E
                  bbox=dict(facecolor='black', alpha=0.1))
         stats.probplot(data.value,dist='norm',plot=ax2)
         ax2.set_ylim(ymin,ymax)
-        plt.savefig('./data/img/{0}_{1}.png'.format(start,end))
+        if not os.path.exists('./data/{0}/img'.format(seis)):
+            os.mkdir('./data/{0}/img'.format(seis))
+        plt.savefig('./data/{2}/img/{0}_{1}.png'.format(
+            start,end,seis))
         plt.close()
 
     if p_value < cl:
