@@ -2,7 +2,10 @@
 #!
 # Start : 2018-06-01 00:59:42 (JST)
 # End   : 2019-06-24 09:40:14 (JST)
-seis = 'MCF'
+#seis = 'MCF'
+seis = ['BS','EXV','EXV-IXV','IXV','IXV-IXVTEST',
+        'IXVTEST','MCE','MCE-MCF','MCF']
+seis = seis[8]
 #--------------------------------------------------------------------------------
 
 # main.job

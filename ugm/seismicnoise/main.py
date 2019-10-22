@@ -263,7 +263,7 @@ if __name__ == "__main__":
 
 
     if remakedb:
-        fname = './data/{0}/result.txt'.format(seis)
+        fname = './dataquality/result_{0}.txt'.format(seis)
         if not os.path.exists(fname.split("result")[0]):
             os.mkdir(fname.split("result")[0])
         with open(fname,'a') as f:
