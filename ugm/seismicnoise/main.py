@@ -26,7 +26,7 @@ from dataquality.dataquality import remake
 ''' Seismic Noise
 '''
 
-#------------------------------------------------------------
+#--------------------------------------------------------------------------------
 def save_percentile(specgrams,percentile=50,axis='X',**kwargs):
     ''' Calculate and save a percentile with spectrogram.
 
@@ -141,7 +141,7 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
     return specgram
 
 
-def append_data(segment,blrms=False,**kwargs):
+def append_data(segment,blrms=False,ave=False,**kwargs):
     '''
     '''
     n = len(segment)
@@ -150,16 +150,34 @@ def append_data(segment,blrms=False,**kwargs):
     x = get_spectrogram(start,end,axis='X',**kwargs)
     y = get_spectrogram(start,end,axis='Y',**kwargs)
     z = get_spectrogram(start,end,axis='Z',**kwargs)
+    if ave :
+        x = [x.mean(axis=0)]
+        y = [y.mean(axis=0)]
+        z = [z.mean(axis=0)]
+        # x = x.mean(axis=0)
+        # y = y.mean(axis=0)
+        # z = z.mean(axis=0)
     # i > 1
     for i,(start,end) in enumerate(segment[1:]):
         _x = get_spectrogram(start,end,axis='X',**kwargs)
         _y = get_spectrogram(start,end,axis='Y',**kwargs)
         _z = get_spectrogram(start,end,axis='Z',**kwargs)
-        log.debug('{0:04d}/{1:04d} : Append {2} '.format(i+2,n,start))
-        if not blrms: # get Long Spectrogram
-            x.append(_x,gap='ignore')
-            y.append(_y,gap='ignore')
-            z.append(_z,gap='ignore')
+        log.debug('{0:04d}/{1:04d} : Append {2} '.format(i+2,n,start))    
+        if (not blrms): # get Long Spectrogram
+            if ave :
+                _x = _x.mean(axis=0)
+                _y = _y.mean(axis=0)
+                _z = _z.mean(axis=0)
+                x += [_x] 
+                y += [_y] 
+                z += [_z] 
+                # x.append(_x,gap='ignore')
+                # y.append(_y,gap='ignore')
+                # z.append(_z,gap='ignore')            
+            else:
+                x.append(_x,gap='ignore')
+                y.append(_y,gap='ignore')
+                z.append(_z,gap='ignore')            
         elif blrms: # get Long BLRMS TimeSeries        
             low,high = kwargs.pop('bandpass',None)
             _x = _x.crop_frequencies(low,high).sum(axis=1)
@@ -168,6 +186,10 @@ def append_data(segment,blrms=False,**kwargs):
             x.append(_x,gap='pad',pad=0.0)
             y.append(_y,gap='pad',pad=0.0)
             z.append(_z,gap='pad',pad=0.0)
+    if ave:
+        x = Spectrogram.from_spectra(*x)
+        y = Spectrogram.from_spectra(*y)
+        z = Spectrogram.from_spectra(*z)
     return x,y,z
 
 
@@ -191,7 +213,6 @@ if __name__ == "__main__":
     seis = args.seis
     term = args.term
 
-
     # ------------------------------------------------------------
     #  Choose Segment  
     # ------------------------------------------------------------
@@ -199,7 +220,7 @@ if __name__ == "__main__":
     fmt_total = 'select startgps,endgps from {2} '+\
                 'WHERE (startgps>={0} and endgps<={1})'
     fmt_gauss = 'select startgps,endgps from {2} '+\
-                'WHERE flag=0'+\
+                'WHERE (flag=0)'+\
                 ' and (startgps>={0} and endgps<={1})'
     fmt_gauss_night = 'select startgps,endgps from {2} '+\
                       'WHERE flag=0' +\
@@ -261,19 +282,21 @@ if __name__ == "__main__":
         allday_exv_ixv = db.ask(fmt_gauss_2seis.format(start,end,
                                 'EXV_SEIS','IXV_SEIS'))
 
-
     if remakedb:
+        import random
         fname = './dataquality/result_{0}.txt'.format(seis)
         if not os.path.exists(fname.split("result")[0]):
             os.mkdir(fname.split("result")[0])
         with open(fname,'a') as f:
             for i,(start,end) in enumerate(total):
+            #for i,(start,end) in enumerate(random.sample(total,1)):
                 ans = check(start,end,plot=True,nproc=nproc,
                             seis=seis,axis='X',
                             tlen=4096,sample_rate=16,cl=0.05)
                 log.debug('{0:03d}/{1:03d} : {2} {3} {4}'.format(
                     i+1,len(total),start,end,ans))
                 f.write('{0} {1} {2}\n'.format(start,end,ans))
+        exit()
     #
     if seis=='EXV':
         segment = allday_exv
@@ -298,7 +321,7 @@ if __name__ == "__main__":
     # Percentile
     # ------------------------------------------------------------
     if run_percentile:
-        x,y,z = append_data(segment,blrms=False,seis=seis,nproc=nproc)
+        x,y,z = append_data(segment,blrms=False,seis=seis,nproc=nproc,ave=True)
         if savespecgram:
             exit()
         if term=='all':

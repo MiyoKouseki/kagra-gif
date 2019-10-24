@@ -28,7 +28,7 @@ Queue
 
 # --- Main Job ---
 headder = tmp_headder.format(memory=4)
-que = tmp.format(start=1211817600,end=1245372032,
+que = tmp_que.format(start=1211817600,end=1245372032,
                  nproc=4,seis=seis,term='all',
                  option='--percentile')
 cmd = headder + que
