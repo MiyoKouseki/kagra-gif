@@ -183,6 +183,7 @@ def remake(fname,seis):
                   'NoData_FewData':LACK_OF_DATA,
                   'Nodata_AnyNan':LACK_OF_DATA,
                   'NoData_FailedtoRead':LACK_OF_FILE,
+                  'Nodata_FailedtoRead':LACK_OF_FILE,
     }
     with DataQuality('./dqflag.db') as db:
         # Remake
@@ -191,6 +192,9 @@ def remake(fname,seis):
             db.update_flag(seis,start,end,statusdict[status],override=True)
 
 if __name__ == '__main__':
-    remake('../data/MCE/result.txt','MCE_SEIS')
-    remake('../data/MCF/result.txt','MCF_SEIS')
-    remake('../data/BS/result.txt' ,'BS_SEIS')
+    remake('./result_MCE.txt','MCE_SEIS')
+    remake('./result_MCF.txt','MCF_SEIS')
+    remake('./result_BS.txt' ,'BS_SEIS')
+    remake('./result_EXV.txt' ,'EXV_SEIS')
+    remake('./result_IXV.txt' ,'IXV_SEIS')
+    remake('./result_IXVTEST.txt' ,'IXVTEST_SEIS')
