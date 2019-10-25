@@ -11,45 +11,45 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-You've used 22 entries,
+You've used 20 entries,
             1791 wiz_defined-function locations,
-            614 strings with 9124 characters,
-and the built_in function-call counts, 5017 in all, are:
-= -- 394
-> -- 338
+            605 strings with 8826 characters,
+and the built_in function-call counts, 4773 in all, are:
+= -- 370
+> -- 330
 < -- 1
-+ -- 123
-- -- 101
-* -- 424
-:= -- 903
-add.period$ -- 74
-call.type$ -- 22
++ -- 119
+- -- 99
+* -- 416
+:= -- 853
+add.period$ -- 68
+call.type$ -- 20
 change.case$ -- 19
 chr.to.int$ -- 0
-cite$ -- 22
-duplicate$ -- 181
-empty$ -- 414
-format.name$ -- 101
-if$ -- 1029
+cite$ -- 20
+duplicate$ -- 167
+empty$ -- 392
+format.name$ -- 99
+if$ -- 979
 int.to.chr$ -- 0
-int.to.str$ -- 22
+int.to.str$ -- 20
 missing$ -- 16
-newline$ -- 121
-num.names$ -- 21
-pop$ -- 23
+newline$ -- 111
+num.names$ -- 19
+pop$ -- 19
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 59
+skip$ -- 55
 stack$ -- 0
 substring$ -- 264
-swap$ -- 21
+swap$ -- 19
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 40
-width$ -- 24
-write$ -- 258
+while$ -- 38
+width$ -- 22
+write$ -- 236
 is.kanji.str$ -- 0
