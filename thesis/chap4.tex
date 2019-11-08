@@ -77,26 +77,36 @@ Therefore, the response of the strainmter to the seismic strain is given
 どういうノイズが原理的に存在するか述べる。空気ゆらぎ、周波数雑音を述べる。
 
 
+\section{Optics Design} %光学系
+...\\
+\subsection{Overview}
+Optical layout is shown in Fig. \ref{img:img}. Optics of GIF is categorized by three category; mode-matching optics, core optics and frequency stabilized laser.
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=9.0cm]{./img.png}
+    \caption{}\label{img:img}
+  \end{center}
+\end{figure}
 
 
-\section{Optics} %光学系
-どうやって実際の干渉計を構築しているか述べる。
-\subsection{Mode Matching Optics}
-どういうモードマッチをして干渉計として光を干渉させているか述べる。
-\subsection{Frequency Stabilized Laser}
-どういう制御をして周波数安定をしているか述べる。
+\subsection{Design Concept}
+設計で考慮しなければならない点は
+＊干渉位置で2つのモードが合っていること
+＊できるだけ光学系は小さくすること
+である。
+
+腕の長さから生じるモードのズレを小さくするために、エンドリフレクタでビームウエストを持つようにする。
+
+\subsection{Input Output Optics}
+
 \subsection{Core Optics}
-\subsubsection{Beam Splitter}
-どういうミラーを使っているか述べる。
-\subsubsection{Corner Cube}
-どういうミラーを使っているか述べる。大きさとか表面の精度とか。
 
-
-
+\subsection{Frequency Stabilized Laser}
 
 \section{Data Aquisition System}
+\subsection{Realtime Processing}
 \subsection{...}
-
 
 
 
