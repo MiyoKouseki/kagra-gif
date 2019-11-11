@@ -1,180 +1,64 @@
-\chapter{Underground Seismic Noise}
+\chapter{Seismic Noise}
 
 \section{Introduction}
-Seismic noise cause two main problems to the terrestrial gravitational-wave detectors.
+地面振動は
 
-First one is the limitation of the sensitivity. DARM which recieve the gravitational-wave signal is disturbed by the seismic noises in these frequencies. Amplitude spectrum density of this, is empirically kwnon as 
-\begin{eqnarray}
-  \sim \frac{10^{-8}}{f^2}\ \mathrm{m}/\sqrt{\mathrm{Hz}},
+
+\subsection{Seismic waves}
+\subsection{Body Waves}
+等方弾性体中では変位$\bm{u}$は以下の波動方程式に従う。
+\begin{eqnarray}\label{eq:eq_1}
+  \rho{\bm{\ddot{u}}} = (\lambda+2\mu)\nabla(\nabla\cdot\bm{u}) - \mu\nabla\times(\nabla\times\bm{u})
 \end{eqnarray}
-where $f$ is a frequency of the spectrum. The noise limits the sensitivity of the detectors in lower frequency tipicaly below 10 $\mathrm{Hz}$ even after the attenuation by the vibration isolation systems. Therefore, low-level seismic noise is an important in this frequency region.
+ここで$\rho$は媒質の密度、$\lambda,\,\mu$はラメ定数である。
 
-Second one is the decrease of the duty cycle. 1Hz以下の地面振動、とくに200mHz付近にピークをもつ脈動は、レーザー干渉計の安定的な稼働に大きな影響を与える。この帯域では地面振動のRMSの値はおよそ数uｍである一方で、腕共振器が共振して重力波に対する感度を保つためには、鏡のRMS振幅を数nm以下に抑えなければならない。しかしながら、現実的に動作可能な防振装置の固有周波数は数100Hz程度であり、200Hz付近にピークをもつ脈動は十分に防振することができない。このような防振できない地面振動は、腕共振器のロックを不安定にし、検出器の duty cycle を下げてしまう。
-
-Underground can resolve these problems. Underground is more quiet than the surface of the ground \cite{carter1991high}. Especially, the underground seismic noise above 1 $\mathrm{Hz}$ is effectivly reduced than the noise on surface of the ground \cite{lcgt2009lcgt}, because the noises in this band are correlated to human activities such as industrial machinery, cars and trains, or human footsteps \cite{bonnefoy2006nature} and then are able to be eliminated in underground. Moreover, a laser interferometer gravitational wave antenna with a baseline length of 20 $\mathrm{m}$ (LISM) constructed underground have demonstrated the stable performance of the detector by resulting the high duty cycle of 99.8 $\%$ \cite{sato2004ultrastable}. 
-
-しかし、KAGRAのような3kmの長期線のレーザー干渉計では、LISMのように安定して可動させることは難しいとされている。なぜならば、地面振動による基線長変動は、基線長が長いほどその影響は大きいためである。後述する\cref{sec:33}によれば、0.2Hzの脈動による基線長変動への影響は、KAGRAはLISMの150倍ある一方で、表\ref{tb:301}に示すように、線幅はおよそ17倍しかない。つまりKAGRAはLISMと比べて、線幅に対して地面振動による基線長伸縮はおよそ1桁大きいことを意味する。このような長期線化による問題は、KAGRAなどの第二世代の検出器だけの問題ではなく、ETなどの数10kmの基線長を計画する第3世代の検出器にとって同様の問題となる。
-
-\begin{table}[H]
-  \centering
-  \caption{Comparison of the line width of the arm cavity}
-  \begin{tabular}{lccc}
-    \hline
-     & Finess   & Laser Wavelength [$\mu\mathrm{m}$] & Line width [$\mu\mathrm{m}$] \\
-    \hline
-    LISM            & 25000  & 1064  & 0.021\\
-    KAGRA           & 1500   & 1064  & 0.35\\
-    \hline
-  \end{tabular}\label{tb:301}
-\end{table}
-
-本章では、重力波検出器にとって問題となる地面振動の主な励起源とその時間依存性や、それらが基線長変動に与える影響を述べる。まず\cref{sec:31}で主な励起源を述べる。これら励起源は周波数帯域で大きく分類することができ、\ref{tb:310}にまとめた。次に\cref{sec:32}では、その時間依存性をのべる。とくに脈動について、1年間の地震計データをもとに、その時間依存性を調べた。そして最後に\cref{sec:33}と\cref{sec:34}では、地面振動が基線長伸縮に与える影響をのべ、実際に2台の地震計をつかった測定と比較した。
-
-\begin{table}[H]
-  \centering
-  \caption{Baseline changes caused by several seismic sources}
-  \begin{tabular}{llll}
-    \hline
-    Sources & Frequency Band [$\mathrm{Hz}$]  & RMS Amplitude [$\mathrm{\mu m}$] & Detail\\
-    \hline
-    Human,traffic            & $>$ 1             & $<$ 1         & \cref{sec:311}\\
-    Ocean waves (Microseisms)& $\ \ $ 0.1--0.3   & $\ \ $ 0.1-10 & \cref{sec:312}\\
-    Large earthquakes        & $>$ 0.05          & $>$ 100       & \cref{sec:313}\\    
-    Moon, Sun (Earth tides)  & $<\, 1^{-5}$      & $>$ 100       & \cref{sec:314}\\
-    \hline
-  \end{tabular}\label{tb:310}
-\end{table}
-
-
-\section{Seismic Noise}\label{sec:31}
-\subsection{Human activity} \label{sec:311}
-(あとで書く)
-Virgoの地面振動の昼と夜の比較についてのべる。\cite{acernese2004properties}
-...\\
-...\\
-...\\
-
-
-\subsection{Microseisms} \label{sec:312}
-Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}.
-
-The primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}.
-
-The secondary ocean microseisms could be explained by the superposition of ocean waves of equal period traveling in opposite directions. Therefore, generating standing gravity waves of half the period \cite{longuet1950theory}. 
-
-The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{naticchioni2014microseismic}.
-
-
-\subsection{Large Earthquakes} \label{sec:313}
-
-Large amplitude earthquakes around the world would interrupt the operation of the gravitational wave detector and reduce their duty cycle. 実際、観測中に地震でロックが落ちたあと、復帰するまでに数時間かかる場合がある \cite{Coughlin2015real}。規模の大きな地震ほど、振幅がおおきいことはもちろん、長周期で減衰までにかかる時間が長い。長周期地震に対して重力波検出器が無力なのは、その防振装置が、せいぜい100 $\mathrm{mHz}$ の地面振動揺れに対して最適化しているためである\cite{}。そのためこのような制御方式を使う以上、制御ノイズが増大して感度が落ちることを犠牲にしてでも、地震が来る前に、地震でロックロスしないような制御フィルターの切り替えを必要とする。この切替のために\textit{Seismon} とよばれる早期地震アラートシステム\cite{Coughlin2017limiting}を用いた制御フィルターの切り替えが試みられている\cite{Biscans2018control}。
-
-\subsection{Earth Tides} \label{sec:314}
-(あとで書く)
-(書くかどうか迷っている。)
-...\\
-...\\
-...\\
-
-\begin{figure}[H]
-  \begin{center}
-    \begin{minipage}[b]{0.65\hsize}
-      \centering
-      \includegraphics[width=9.0cm]{./img_chap3/img311.png}
-      \subcaption{Generating mechanism of the primary microseisms.引用先の図をコピペしているので、自分で描いたのに差し替える。}\label{img:img311}
-    \end{minipage}
-    \begin{minipage}[b]{0.65\hsize}
-      \centering      
-      \includegraphics[width=9.0cm]{./img_chap3/img312.png}
-      \subcaption{Generating mechanism of the secondary microseisms.引用先の図をコピペしているので、自分で描いたのに差し替える}\label{img:img312}
-    \end{minipage}
-  \end{center}
-  \caption{ Generating mechanism of the microsisms. \subref{img:img311} describes the mechanism of the primary microseisms. \subref{img:img312} describes the mechanism of the secondary microseisms.}
-\end{figure}
-
-\newpage
-\section{Long-term Study of the seismic environment at KAGRA}
-\subsection{Overview}
-本節では、地面振動の大きさが時間帯や季節の違いでどのように変化するか調べた。基本的に地震などの突発現象を除けば、地面振動は定常的な振る舞いを示すが、そのRMS振幅は時間依存である。例えば、人間由来の地面振動は夜間になると静かで、波浪由来の脈動は天気が悪化するとうるさくなる。また日本の場合、初秋は台風によって、冬は日本海低気圧によって脈動がうるさくなることが知られている\cite{}。とくに後者の脈動がうるさいと、干渉計の稼働が妨げられ、DutyCycleを低下してしまう。このような理由から、地面振動の時間依存性を知ることは、干渉計の稼働の安定性を議論するうえで重要である。
-
-地面振動の振幅スペクトルの分布は、およそ1年間の地震計の時系列データからもとめた。このデータには、地震計のメンテナンスによるデータの欠損や、地震などの突発的な地面振動のデータが含まれている。そのため、スペクトルを計算するためにこれらデータを取り除き、およそ1時間（4096秒）区切りのデータ・セットを用意した。これらデータ・セットごとに振幅スペクトルを計算し、分布をもとめた。
-
-\subsection{Experimental Arrangement}
-Seismic motion is measured by a seismometer installed on the second floor of the X-end area. This area is placed 200 $\mathrm{m}$ underground from the surface of the mountain. Comparison to corner area, human activity in the end area is less because the corner area has parking lots. Comparison to the Y-end area, there is no entrance connected to other mines. Therefore, the X-end area is relatively quiet in the KAGRA mine, regarding the seismic noise induced by human activity.
-
-In this study, Trillium 120-QA which is known as three-component, very broadband, and low-noise seismometer, was used. These three outputs are proportional to the ground velocity of two horizontal and one vertical, respectively. The feature of the low-noise can resolve  Peterson's new low-noise model (NLNM) and new high-noise model (NHNM) \cite{peterson1993observations}.
-
-\begin{figure}[h]
-  \begin{center}   
-    \includegraphics[width=9.0cm]{./img_chap3/img316.png}
-    \caption{Trillium 120-QA installed on the second floor at X-end area, which is coverd by black thermal insulation cover}\label{img:img316}
-  \end{center}
-\end{figure}
-
-As shown in fig \ref{img:img316}, the seismometer is housed in the black thermal insulation cover according to the installation manual \cite{trillium120manual}. Thermal insulation protects two broad categories of thermal couplings that can cause unwanted noise \cite{trillium120manual}. First is the direct coupling to the sensitivity. This coupling typically increases the noise of the vertical channel as a periodic diurnal variation caused by the day-to-night temperature cycle, because the springs that suspended the inertial masses are temperature sensitive. The second is the coupling to tilt from the thermal fluctuation. Tilt converts the vertical acceleration of gravity into horizontal acceleration. This thermally induced tilt noise on the horizontal will be larger than the direct thermal coupling on the vertical channel. To be low sensitivity to both tilt and temperature, this model has a function to center the inertial mass after the initial installation.
-
-The signals of the seismometer is recorded through the data aquisition system developed by LIGO \cite{bork2001overview}. The analog signal is converted to digital signal by the 16 bit analog-to-digital converters (ADC) with 16384 $\mathrm{Hz}$ sampling. This analog signal is amplified with 30 db so that the ADC noise does not mask this signal. 
-
-
-
-\subsection{Data Selection}
-およそ1年分の地震計のデータをつかった。スペクトルの計算のために、一年分のデータを4096秒のセグメントに分割し、その中からデータの欠損などの異常値を取り除いた。解析に使ったセグメントをFig\ref{img:img317}に示す。14-15週と33-34週に生じた大きなデータの欠損期間を除いて、一年を通してデータが取得できている。セグメントはXX個あり、全体のXX\%を占める。
-
-\begin{figure}[H]
-  \begin{minipage}[b]{0.65\hsize}
-    %\centering    
-    \includegraphics[width=18.0cm]{./img_chap3/img317.png}
-    \subcaption{各状態の時間分布。}\label{img:img317_a}
-  \end{minipage}
-  \begin{minipage}[b]{0.65\hsize}
-    \centering              
-    \includegraphics[width=13.0cm]{./img_chap3/img323.png}
-    \subcaption{各状態の割合。\subref{img:img317_a}を円グラフにしたもの。}\label{img:img317_b}
-  \end{minipage}
-  \caption{Available data from June 01 2018 to 2019-06-24 09:40:14JST. Total:全体のセグメント。Lack of Data:データの欠損が合ったセグメント。Glitch:Glitchがあったセグメント。Available:欠損もGlitchもなかったセグメント}\label{img:img317}
-\end{figure}
-
-\subsection{Data Processing}
-振幅スペクトルの推定は50\%オーバーラップした32個のセグメントの平均で得た。それぞれのセグメントのFFTの計算は、まず dtrend をして線形成分を取り除き、Hanning窓にかけてから行った。32回の平均をおこなったスペクトルは自由度32のカイ二乗分布に従う。自由度$\nu$のときの$100(1-\alpha)$\%の信頼区間は、周波数$\mathrm{f}$でのスペクトルの推定量を$\hat{G}(f)$とすると、
+この波動方程式は縦波であるP波と横波であるS波について解くことができる。そのためにまず Helmholtz decomposition をつかって変位$\bm{u}$を発散成分$\bm{u}_{\mathrm{div}}$と回転成分$\bm{u}_{\mathrm{rot}}$で表す。つまり、
 \begin{eqnarray}
-  \frac{\nu{\hat{G}(f)}}{\chi^2(\nu,1-\frac{\alpha}{2})} \leq G(f) \leq \frac{\nu{\hat{G}(f)}}{\chi^2(\nu,\frac{\alpha}{2})}
+  \bm{u}_{\mathrm{div}}&=&\nabla\phi \label{eq:eq_2}\\
+  \bm{u}_{\mathrm{rot}}&=&\nabla\times\psi \label{eq:eq_3}
 \end{eqnarray}
-で与えられる。したがって、95\%の信頼区間は
+となるスカラーポテンシャル$\phi$とベクトルポテンシャル$\bm{\psi}$が存在し、変位$\bm{u}$は
+\begin{eqnarray} 
+  \bm{u} &=& \nabla\phi + \nabla\times\psi \label{eq:eq_4}
+\end{eqnarray}
+と表すことができる。式(\ref{eq:eq_1})に式(\ref{eq:eq_4})を代入し、かつベクトル解析の公式、$\nabla\times(\nabla\times\bm{A})=\nabla(\nabla\cdot\bm{A})-\nabla^2{\bm{A}}$を使うと、
 \begin{eqnarray}
-  %20\mathrm{log}\left[ \nu/\chi^2(\nu,1-\frac{\alpha}{2}) \right] \leq \mathrm{log}\left[G(f)/\hat{G}(f)\right] \leq 20\mathrm{log}\left[ \nu/\chi^2(\nu,\frac{\alpha}{2}) \right]
-  \nu/\chi^2(\nu,1-\frac{\alpha}{2}) \leq G(f)/\hat{G}(f) \leq \nu/\chi^2(\nu,\frac{\alpha}{2})
+  \ddot{\phi} &=& v_{L}^2\nabla^2\phi \label{eq:eq_5}\\
+  \ddot{\psi} &=& v_{T}^2\nabla^2\psi \label{eq:eq_6}
+\end{eqnarray} 
+のように2つの波動方程式を得る。ここで$v_{L},\,v_{T}$は、
+\begin{eqnarray}
+  v_{L} = \sqrt{\frac{\lambda+2\mu}{\rho}},\,v_{T} = \sqrt{\frac{\mu}{\rho}} \label{eq:eq_7}
+\end{eqnarray} 
+である。
+
+$v_{L},v_{T}$らはそれぞれ縦波と横波の位相速度を表しているが、これを示す。まずスカラーポテンシャルとベクトルポテンシャルは式(\ref{eq:eq_5})、式(\ref{eq:eq_6})の波動方程式に従うので、これらの一般解は
+\begin{eqnarray}
+  \phi &=& \phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_8}\\
+  \bm{\psi} &=& \bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_9}
 \end{eqnarray}
-となり、自由度32の場合、推定量の0.65 から1.75 の範囲になる。
+で表すことができる。ここで$\omega,\,\bm{k}$は各周波数と波数ベクトルである。発散成分である$\bm{u}_{\mathrm{div}}$は式(\ref{eq:eq_2})に式(\ref{eq:eq_8})を代入して、
+\begin{eqnarray}
+  \bm{u}_{\mathrm{div}} = \nabla{\phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}{\phi}
+\end{eqnarray}
+となるので、変位の向きは波数ベクトルと平行である。つまり縦波でありP波に相当する。一方で回転成分である$\bm{u}_{\mathrm{rot}}$は式(\ref{eq:eq_3})に式(\ref{eq:eq_9})を代入して、
+\begin{eqnarray}
+  \bm{u}_{\mathrm{rot}} = \nabla\times{\bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}\times{\bm{\psi}}
+\end{eqnarray}
+となるので、変位の向きは波数ベクトルと直行している。つまり横波でありS波に相当する。したがって$v_{L},v_{T}$はそれぞれ縦波と横波の位相速度を示していることがわかった。また$\lambda$と$\mu$は正の定数なので、
+\begin{eqnarray}
+  v_{L} > v_{T}
+\end{eqnarray}
+となって、縦波のほうが横波よりも速いことがわかる。
 
-\subsection{Results}
-すべてのセグメントから求めた振幅スペクトル密度をを振幅に換算したものをFig. \ref{img:313}に示す。赤の実線は垂直成分の50パーセンタイルで、下と上に10と90パーセンタイルを示す。青の実線はX軸とY軸の二乗和から求めた並進成分であり、同様に10,50,90パーセンタイルを示す。緑点線はTrillium120 のデータシートから引用したSelfnoiseである。黒の点線はPetersonのNLNMとNHNMである。このPetersonのスペクトルは、世界の75箇所の基地にある地震計の数年分のデータから得たものである。これらデータは地表と地下両方のデータを含み、並進成分と垂直成分を含む。NHNMは、内陸の沖積層で地面が揺れやすい場所や、沿岸地域で脈動や人間の活動の影響を受けやすい場所の地面振動を反映している。一方でNHNMは、とくに0.1Hz以下では、広範囲の複数の地震計の垂直成分で得られた地面振動のノイズフロアである。
+\subsection{Surface waves}
+あとで書く
 
-測定で得られた地面振動は、40mHz以上では並進成分も垂直成分も同じ振幅スペクトル密度をもつ。40mHz以下で並進成分が垂直成分よりも大きいが、これは付録で後述しているとおり、無相関なノイズである。おそらく温度ゆらぎから生じる傾斜カップリングだと考えられる。
-
-Petersonのスペクトルと測定で得た10パーセンタイルを比較すると、0.1から2Hzをのぞいて、NLNMと同じである。0.1Hz以下では垂直成分は地面振動のノイズレベルと同等であり。2Hz以上は、並進も垂直成分も、地下環境のおかげで静かである。
-
-対照的に0.1から2Hzの帯域では、並進成分も垂直成分もNLNMより数倍大きい。これはKAGRAが富山湾から40kmの距離にあり、比較的脈動の影響を受けやすいためと考えられる。
-
-\begin{figure}[h]
-  \begin{center}   
-    \includegraphics[width=16.0cm]{./img_chap3/img313.png}
-    \caption{}\label{img:img313}
-  \end{center}
-\end{figure}
-
-
-\newpage
-\section{Differential Motion Reduction} \label{sec:33}
-\subsection{Introduction}
-The motion of two mirrors in the cavity have two modes. One is differential motion, which is the length change of that. Another one is common motion, which is the motion of the center of the cavity. In terms of the length control, it is important that the RMS amplitude of differential motion is as small as possible. Actuarlly, the amplitude of these two motions are the same each other when the mirrors moves with no coherence. However, when a coherence exists, the common motion tends to be larger than the differential one. 
-
-As discussed in this section, the coherence depends on both, the arm length and the wavelength of seismic waves. For example, if the arm length is much more smaller than the wavelength, the mirrors move together. This means that the common motion is greater than the differential motion.
-
-The ratio of the amplitudes of the differential motion over common motion is newly defined as Common and Differential Motion Ratio (CDMR). It is usefull to know how the ground reducts the differential motion or increase the common motion. 
+\subsection{Depth Dependent Reduction}
+あとで書く
 
 \subsection{Differential Motion Reduction}
 \subsubsection{Differential Motion and Common Motion}
-
 
 \begin{figure}[h]
   \begin{center}
@@ -231,7 +115,134 @@ Finaly, CDMR defined Eq.(\ref{eq:eq23}) in case the seismic wave does not decay 
 \end{eqnarray}
 Eq.(\ref{eq:eq33}) indicate that CDMR can be expressed by only the coherence $\gamma$ between of two points. For example, CDMR tends to be larger when $\gamma$ close to 1. This means that the differential motion is more less than the common motion because the two points move together in the same direction.
 
-\section{Measurement of Differential Motion Reduction}
+\newpage
+\section{Seismic Noise}\label{sec:31}
+Characteristics of seismic noise are related with its origin spatially and temporally. For example, the noises above 1Hz are cleary correlated with culutural activities, and the noises below this band are excited by the natural phenomena \cite{bonnefoy2006nature}. 
+\subsection{Cultural Noises} \label{sec:311}
+The cultural seismic noise contaminates the sensitivity of gravitational-wave detectors in the frequency range of interest for gravitational-waves sources, above $1\,\mathrm{Hz}$. In this frequency band, the cultural noise is dominated by winds or human activity; vibrations of building excited by winds\cite{schofield2000source} or traffic near the detectors \cite{acernese2004properties}. 
+
+\subsection{Natural Noises} \label{sec:312}
+The natural seismic noise affects the stability of the GW detectors below $1\,\mathrm{Hz}$ because it deforms largely the bedrock on which mounted the detectors. これらnatural seismic noise は低周波になればなるほどグローバルな励起源によるノイズを反映しており、パワースペクトル密度は大きくなる。
+
+\subsubsection{Microseisms}
+Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}. First, the primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}. Second, the secondary ocean microseisms could be explained by the superposition of ocean waves of equal period traveling in opposite directions. Therefore, generating standing gravity waves of half the period \cite{longuet1950theory}. The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{naticchioni2014microseismic}. 
+\begin{figure}[H]
+  \begin{center}
+    \begin{minipage}[b]{0.65\hsize}
+      \centering
+      \includegraphics[width=9.0cm]{./img_chap3/img311.png}
+      \subcaption{Generating mechanism of the primary microseisms.引用先の図をコピペしているので、自分で描いたのに差し替える。}\label{img:img311}
+    \end{minipage}
+    \begin{minipage}[b]{0.65\hsize}
+      \centering      
+      \includegraphics[width=9.0cm]{./img_chap3/img312.png}
+      \subcaption{Generating mechanism of the secondary microseisms.引用先の図をコピペしているので、自分で描いたのに差し替える}\label{img:img312}
+    \end{minipage}
+  \end{center}
+  \caption{ Generating mechanism of the microsisms. \subref{img:img311} describes the mechanism of the primary microseisms. \subref{img:img312} describes the mechanism of the secondary microseisms.}
+\end{figure}
+
+\subsubsection{Deformation of the bedrock}
+In few mHz, ground defromed by the air pressure changes. 
+...\\
+...\\
+
+Below more lower frequency, the earth deformed by tidal forces due to the attraction of the Sun and the Moon. 
+
+\subsection{Spatial Seismic Noise Changes}
+地面振動は場所や時間により異なる。Petersonらは、世界の75箇所の基地にある地震計の数年分のデータから地面振動のノイズスペクトルを得た。これらデータは地表と地下両方のデータを含み、並進成分と垂直成分を含む。NHNMは、内陸の沖積層で地面が揺れやすい場所や、沿岸地域で脈動や人間の活動の影響を受けやすい場所の地面振動を反映している。一方でNHNMは、とくに0.1Hz以下では、広範囲の複数の地震計の垂直成分で得られた地面振動のノイズフロアである。
+
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=12.5cm]{./img_chap3/img324.png}
+    \caption{PSD of the seismic noise obtained by Peterson in several place in the world\cite{peterson1993observations} (この図は自分で書き直す必要あり。)}\label{img:img324}
+  \end{center}
+\end{figure}
+
+
+\newpage
+\section{Study of Temporal Seismic Noise at KAGRA}
+\subsection{Overview}
+本節では、KAGRAでの地面振動の大きさが時間帯や季節の違いでどのように変化するか調べた。基本的に地震などの突発現象を除けば、地面振動は定常的な振る舞いを示すが、そのRMS振幅は時間依存である。例えば、人間由来の地面振動は夜間になると静かで、波浪由来の脈動は天気が悪化するとうるさくなる。また日本の場合、初秋は台風によって、冬は日本海低気圧によって脈動がうるさくなることが知られている\cite{}。とくに後者の脈動がうるさいと、干渉計の稼働が妨げられ、DutyCycleを低下してしまう。このような理由から、地面振動の時間依存性を知ることは、干渉計の稼働の安定性を議論するうえで重要である。
+
+
+地面振動の振幅スペクトルの分布は、およそ1年間の地震計の時系列データからもとめた。このデータには、地震計のメンテナンスによるデータの欠損や、地震などの突発的な地面振動のデータが含まれている。そのため、スペクトルを計算するためにこれらデータを取り除き、およそ1時間（4096秒）区切りのデータ・セットを用意した。これらデータ・セットごとに振幅スペクトルを計算し、分布をもとめた。
+
+\subsection{Experimental Arrangement}
+Seismic motion is measured by a seismometer installed on the second floor of the X-end area. This area is placed 200 $\mathrm{m}$ underground from the surface of the mountain. Comparison to corner area, human activity in the end area is less because the corner area has parking lots. Comparison to the Y-end area, there is no entrance connected to other mines. Therefore, the X-end area is relatively quiet in the KAGRA mine, regarding the seismic noise induced by human activity.
+
+In this study, Trillium 120-QA which is known as three-component, very broadband, and low-noise seismometer, was used. These three outputs are proportional to the ground velocity of two horizontal and one vertical, respectively. The feature of the low-noise can resolve  Peterson's new low-noise model (NLNM) and new high-noise model (NHNM) \cite{peterson1993observations}.
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=9.0cm]{./img_chap3/img316.png}
+    \caption{Trillium 120-QA installed on the second floor at X-end area, which is coverd by black thermal insulation cover}\label{img:img316}
+  \end{center}
+\end{figure}
+
+As shown in fig \ref{img:img316}, the seismometer is housed in the black thermal insulation cover according to the installation manual \cite{trillium120manual}. Thermal insulation protects two broad categories of thermal couplings that can cause unwanted noise \cite{trillium120manual}. First is the direct coupling to the sensitivity. This coupling typically increases the noise of the vertical channel as a periodic diurnal variation caused by the day-to-night temperature cycle, because the springs that suspended the inertial masses are temperature sensitive. The second is the coupling to tilt from the thermal fluctuation. Tilt converts the vertical acceleration of gravity into horizontal acceleration. This thermally induced tilt noise on the horizontal will be larger than the direct thermal coupling on the vertical channel. To be low sensitivity to both tilt and temperature, this model has a function to center the inertial mass after the initial installation.
+
+The signals of the seismometer is recorded through the data aquisition system developed by LIGO \cite{bork2001overview}. The analog signal is converted to digital signal by the 16 bit analog-to-digital converters (ADC) with 16384 $\mathrm{Hz}$ sampling. This analog signal is amplified with 30 db so that the ADC noise does not mask this signal. 
+
+
+
+\subsection{Data Selection}
+およそ1年分の地震計のデータをつかった。スペクトルの計算のために、一年分のデータを4096秒のセグメントに分割し、その中からデータの欠損などの異常値を取り除いた。解析に使ったセグメントをFig\ref{img:img317}に示す。14-15週と33-34週に生じた大きなデータの欠損期間を除いて、一年を通してデータが取得できている。セグメントはXX個あり、全体のXX\%を占める。
+
+\begin{figure}[H]
+  \begin{minipage}[b]{0.65\hsize}
+    %\centering    
+    \includegraphics[width=18.0cm]{./img_chap3/img317.png}
+    \subcaption{各状態の時間分布。}\label{img:img317_a}
+  \end{minipage}
+  \begin{minipage}[b]{0.65\hsize}
+    \centering              
+    \includegraphics[width=13.0cm]{./img_chap3/img323.png}
+    \subcaption{各状態の割合。\subref{img:img317_a}を円グラフにしたもの。}\label{img:img317_b}
+  \end{minipage}
+  \caption{Available data from June 01 2018 to 2019-06-24 09:40:14JST. Total:全体のセグメント。Lack of Data:データの欠損が合ったセグメント。Glitch:Glitchがあったセグメント。Available:欠損もGlitchもなかったセグメント}\label{img:img317}
+\end{figure}
+
+\subsection{Data Processing}
+振幅スペクトルの推定は50\%オーバーラップした32個のセグメントの平均で得た。それぞれのセグメントのFFTの計算は、まず dtrend をして線形成分を取り除き、Hanning窓にかけてから行った。32回の平均をおこなったスペクトルは自由度32のカイ二乗分布に従う。自由度$\nu$のときの$100(1-\alpha)$\%の信頼区間は、周波数$\mathrm{f}$でのスペクトルの推定量を$\hat{G}(f)$とすると、
+\begin{eqnarray}
+  \frac{\nu{\hat{G}(f)}}{\chi^2(\nu,1-\frac{\alpha}{2})} \leq G(f) \leq \frac{\nu{\hat{G}(f)}}{\chi^2(\nu,\frac{\alpha}{2})}
+\end{eqnarray}
+で与えられる。したがって、95\%の信頼区間は
+\begin{eqnarray}
+  %20\mathrm{log}\left[ \nu/\chi^2(\nu,1-\frac{\alpha}{2}) \right] \leq \mathrm{log}\left[G(f)/\hat{G}(f)\right] \leq 20\mathrm{log}\left[ \nu/\chi^2(\nu,\frac{\alpha}{2}) \right]
+  \nu/\chi^2(\nu,1-\frac{\alpha}{2}) \leq G(f)/\hat{G}(f) \leq \nu/\chi^2(\nu,\frac{\alpha}{2})
+\end{eqnarray}
+となり、自由度32の場合、推定量の0.65 から1.75 の範囲になる。
+
+\subsection{Results}
+すべてのセグメントから求めた振幅スペクトル密度をを振幅に換算したものをFig. \ref{img:313}に示す。赤の実線は垂直成分の50パーセンタイルで、下と上に10と90パーセンタイルを示す。青の実線はX軸とY軸の二乗和から求めた並進成分であり、同様に10,50,90パーセンタイルを示す。緑点線はTrillium120 のデータシートから引用したSelfnoiseである。黒の点線はPetersonのNLNMとNHNMである。
+
+
+測定で得られた地面振動は、40mHz以上では並進成分も垂直成分も同じ振幅スペクトル密度をもつ。40mHz以下で並進成分が垂直成分よりも大きいが、これは付録で後述しているとおり、無相関なノイズである。おそらく温度ゆらぎから生じる傾斜カップリングだと考えられる。
+
+Petersonのスペクトルと測定で得た10パーセンタイルを比較すると、0.1から2Hzをのぞいて、NLNMと同じである。0.1Hz以下では垂直成分は地面振動のノイズレベルと同等であり。2Hz以上は、並進も垂直成分も、地下環境のおかげで静かである。
+
+対照的に0.1から2Hzの帯域では、並進成分も垂直成分もNLNMより数倍大きい。これはKAGRAが富山湾から40kmの距離にあり、比較的脈動の影響を受けやすいためと考えられる。
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=16.0cm]{./img_chap3/img313.png}
+    \caption{}\label{img:img313}
+  \end{center}
+\end{figure}
+
+
+\newpage
+\section{Study of Differential Motion Reduction}
+\subsection{Introduction}
+The motion of two mirrors in the cavity have two modes. One is differential motion, which is the length change of that. Another one is common motion, which is the motion of the center of the cavity. In terms of the length control, it is important that the RMS amplitude of differential motion is as small as possible. Actuarlly, the amplitude of these two motions are the same each other when the mirrors moves with no coherence. However, when a coherence exists, the common motion tends to be larger than the differential one. 
+
+As discussed in this section, the coherence depends on both, the arm length and the wavelength of seismic waves. For example, if the arm length is much more smaller than the wavelength, the mirrors move together. This means that the common motion is greater than the differential motion.
+
+The ratio of the amplitudes of the differential motion over common motion is newly defined as Common and Differential Motion Ratio (CDMR). It is usefull to know how the ground reducts the differential motion or increase the common motion. 
+
 \subsection{Overview}
 Fig.\ref{img:img318}に示すように
 

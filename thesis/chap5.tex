@@ -1,4 +1,29 @@
 \chapter{Arm Length Compensation System for Global Seismic Control}
+\section{Introduction}
+Seismic noise cause two main problems to the terrestrial gravitational-wave detectors. First one is the limitation of the sensitivity. Amplitude spectrum density of the seismic noise, is empirically kwnon as
+\begin{eqnarray}
+  \sim \frac{10^{-7}}{f^2}\ \mathrm{m}/\sqrt{\mathrm{Hz}},
+\end{eqnarray}
+where $f$ is a frequency of the spectrum. This noise limits the sensitivity of the detectors in lower frequency tipicaly below 10 $\mathrm{Hz}$ even after the attenuation by the vibration isolation systems. On the other hands, second problem is the decrease of the duty cycle of the GW detectors. Laser interferometric detector has an Fabry-Perot optical resonant cavities to enhance the sensitivity of GWs. This optical cavity only resonant within the narrow linewidth of few $\mathrm{nm}$, whereas the seismic noise is larger than this width by two orders of magnitudes. 
+
+Underground can resolve these problems. Underground is more quiet than the surface of the ground \cite{carter1991high}. Especially, the underground seismic noise above 1 $\mathrm{Hz}$ is effectivly reduced than the noise on surface of the ground \cite{lcgt2009lcgt}. For example, a laser interferometer gravitational wave antenna with a baseline length of 20 $\mathrm{m}$ (LISM) constructed underground have demonstrated the stable performance of the detector by resulting the high duty cycle of 99.8 $\%$ \cite{sato2004ultrastable}. 
+
+しかし、KAGRAのような3kmの長期線のレーザー干渉計では、LISMのように安定して可動させることは難しいとされている。なぜならば、地面振動による基線長変動は、基線長が長いほどその影響は大きいためである。後述する\cref{sec:33}によれば、0.2Hzの脈動による基線長変動への影響は、KAGRAはLISMの150倍ある一方で、表\ref{tb:301}に示すように、線幅はおよそ17倍しかない。つまりKAGRAはLISMと比べて、線幅に対して地面振動による基線長伸縮はおよそ1桁大きいことを意味する。このような長期線化による問題は、KAGRAなどの第二世代の検出器だけの問題ではなく、ETなどの数10kmの基線長を計画する第3世代の検出器にとって同様の問題となる。
+
+\begin{table}[H]
+  \centering
+  \caption{Comparison of the line width of the arm cavity}
+  \begin{tabular}{lllll}
+    \hline
+    & Finess   & Line width [$\mu\mathrm{m}$] & Baseline length [m]\\
+    \hline
+    LISM        & 25000  & 0.021 & 20\\
+    KAGRA       & 1500   & 0.35  & 3000\\
+    \hline
+  \end{tabular}\label{tb:301}
+\end{table}
+
+
 \section{Basics in Vibration Isolation and Control Technique}
 \subsection{Passive Vibration Isolation}
 \subsubsection{Single Pendulum}

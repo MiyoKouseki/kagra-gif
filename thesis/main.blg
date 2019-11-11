@@ -11,45 +11,56 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-You've used 21 entries,
+Repeated entry---line 142 of file reference.bib
+ : @article{carter1991high
+ :                        ,
+I'm skipping whatever remains of this entry
+You're missing a field name---line 176 of file reference.bib
+ : 
+ : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty booktitle in schofield2000source
+You've used 19 entries,
             1791 wiz_defined-function locations,
-            610 strings with 9063 characters,
-and the built_in function-call counts, 5089 in all, are:
-= -- 387
-> -- 365
+            595 strings with 8302 characters,
+and the built_in function-call counts, 4205 in all, are:
+= -- 339
+> -- 261
 < -- 1
-+ -- 131
-- -- 110
-* -- 449
-:= -- 913
-add.period$ -- 71
-call.type$ -- 21
-change.case$ -- 20
++ -- 96
+- -- 77
+* -- 338
+:= -- 748
+add.period$ -- 65
+call.type$ -- 19
+change.case$ -- 18
 chr.to.int$ -- 0
-cite$ -- 21
-duplicate$ -- 176
-empty$ -- 413
-format.name$ -- 110
-if$ -- 1041
+cite$ -- 20
+duplicate$ -- 160
+empty$ -- 364
+format.name$ -- 77
+if$ -- 875
 int.to.chr$ -- 0
-int.to.str$ -- 21
-missing$ -- 17
-newline$ -- 116
-num.names$ -- 20
-pop$ -- 20
+int.to.str$ -- 19
+missing$ -- 15
+newline$ -- 106
+num.names$ -- 18
+pop$ -- 23
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 58
+skip$ -- 51
 stack$ -- 0
-substring$ -- 276
-swap$ -- 20
+substring$ -- 215
+swap$ -- 17
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 40
-width$ -- 23
-write$ -- 247
+warning$ -- 1
+while$ -- 34
+width$ -- 21
+write$ -- 225
 is.kanji.str$ -- 0
+(There were 2 error messages)

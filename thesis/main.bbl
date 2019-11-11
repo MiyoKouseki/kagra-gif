@@ -49,32 +49,17 @@ Okutomi Koki.
 \newblock
   \href{https://gwdoc.icrr.u-tokyo.ac.jp/cgi-bin/DocDB/ShowDocument?docid=9347}{Link}.
 
-\bibitem{carter1991high}
-Jerry~A Carter, Noel Barstow, Paul~W Pomeroy, Eric~P Chael, and Patrick~J
-  Leahy.
-\newblock High-frequency seismic noise as a function of depth.
-\newblock {\em Bulletin of the Seismological Society of America},
-  81(4):1101--1114, 1991.
-
-\bibitem{lcgt2009lcgt}
-LCGT collaboration.
-\newblock Lcgt design document version 3.0.
-\newblock Technical Report JGW-T0400030-v4, Institute for Cosmic Ray Research,
-  University of Tokyo, JGW document, 11 2009.
-
 \bibitem{bonnefoy2006nature}
 Sylvette Bonnefoy-Claudet, Fabrice Cotton, and Pierre-Yves Bard.
 \newblock The nature of noise wavefield and its applications for site effects
   studies: A literature review.
 \newblock {\em Earth-Science Reviews}, 79(3-4):205--227, 2006.
 
-\bibitem{sato2004ultrastable}
-Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
-  Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
-  Collaboration, et~al.
-\newblock Ultrastable performance of an underground-based laser interferometer
-  observatory for gravitational waves.
-\newblock {\em Physical Review D}, 69(10):102005, 2004.
+\bibitem{schofield2000source}
+R.~Schofield et~al.
+\newblock Source and propagation of the predominant 1-50 hz seismic signal from
+  off-site at ligo-hanford.
+\newblock In LIGO Scientific Collaboration Meeting, Hanford, August 2000.
 
 \bibitem{acernese2004properties}
 F~Acernese, P~Amico, N~Arnaud, D~Babusci, R~Barill{\'e}, F~Barone, L~Barsotti,
@@ -112,28 +97,6 @@ L~Naticchioni, M~Perciballi, F~Ricci, E~Coccia, V~Malvezzi, F~Acernese,
   gravitational wave detector.
 \newblock {\em Classical and Quantum Gravity}, 31(10):105016, may 2014.
 
-\bibitem{Coughlin2015real}
-Michael Coughlin, Christopher Stubbs, Sergio Barrientos, Chuck Claver, Jan
-  Harms, R.~Chris~Smith, and Michael Warner.
-\newblock Real-time earthquake warning for astronomical observatories.
-\newblock {\em Experimental Astronomy}, 39(2):387--404, Jun 2015.
-
-\bibitem{Coughlin2017limiting}
-Michael Coughlin, Paul Earle, Jan Harms, Sebastien Biscans, Christopher
-  Buchanan, Eric Coughlin, Fred Donovan, Jeremy Fee, Hunter Gabbard, Michelle
-  Guy, Nikhil Mukund, and Matthew Perry.
-\newblock Limiting the effects of earthquakes on gravitational-wave
-  interferometers.
-\newblock {\em Classical and Quantum Gravity}, 34(4):044004, feb 2017.
-
-\bibitem{Biscans2018control}
-S~Biscans, J~Warner, R~Mittleman, C~Buchanan, M~Coughlin, M~Evans, H~Gabbard,
-  J~Harms, B~Lantz, N~Mukund, A~Pele, C~Pezerat, P~Picart, H~Radkins, and
-  T~Shaffer.
-\newblock Control strategy to limit duty cycle impact of earthquakes on the
-  {LIGO} gravitational-wave detectors.
-\newblock {\em Classical and Quantum Gravity}, 35(5):055004, jan 2018.
-
 \bibitem{peterson1993observations}
 Jon~R Peterson.
 \newblock Observations and modeling of seismic background noise.
@@ -147,5 +110,26 @@ Nanometrics Inc., 250 Herzberg Road Kanata, Ontario, Canada K2K 2A1.
 Rolf Bork, R~Abbott, D~Barker, and J~Heefner.
 \newblock An overview of the ligo control and data acquisition system.
 \newblock {\em arXiv preprint physics/0111077}, 2001.
+
+\bibitem{carter1991high}
+Jerry~A Carter, Noel Barstow, Paul~W Pomeroy, Eric~P Chael, and Patrick~J
+  Leahy.
+\newblock High-frequency seismic noise as a function of depth.
+\newblock {\em Bulletin of the Seismological Society of America},
+  81(4):1101--1114, 1991.
+
+\bibitem{lcgt2009lcgt}
+LCGT collaboration.
+\newblock Lcgt design document version 3.0.
+\newblock Technical Report JGW-T0400030-v4, Institute for Cosmic Ray Research,
+  University of Tokyo, JGW document, 11 2009.
+
+\bibitem{sato2004ultrastable}
+Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
+  Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
+  Collaboration, et~al.
+\newblock Ultrastable performance of an underground-based laser interferometer
+  observatory for gravitational waves.
+\newblock {\em Physical Review D}, 69(10):102005, 2004.
 
 \end{thebibliography}
