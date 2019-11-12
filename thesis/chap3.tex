@@ -1,72 +1,87 @@
 \chapter{Seismic Noise}
+地面振動はレーザー干渉計型の重力波望遠鏡にとって2つの問題を引き起こす。一つは低周波感度を制限することである。地面振動の振幅スペクトル密度は経験的に、
+\begin{eqnarray}\label{eq:eq_0}
+  \sim 10^{-7}\times\left(\frac{1\,\mathrm{Hz}}{f}\right) [\mathrm{m}/\sqrt{\mathrm{Hz}}]
+\end{eqnarray}
 
-\section{Introduction}
-地面振動は
+
+一方で、低周波地面振動は
 
 
-\subsection{Seismic waves}
-\subsection{Body Waves}
-等方弾性体中では変位$\bm{u}$は以下の波動方程式に従う。
+\section{Theory of seismic waves}
+ここでは後の議論に必要な基本的な事柄をのべる。
+
+\subsection{Seismic Waves in Isotropic and Homogeneous Medium}
+The elastrodynamic wave equation is given by 
 \begin{eqnarray}\label{eq:eq_1}
-  \rho{\bm{\ddot{u}}} = (\lambda+2\mu)\nabla(\nabla\cdot\bm{u}) - \mu\nabla\times(\nabla\times\bm{u})
+  \rho{\bm{\ddot{u}}} = (\lambda+2\mu)\nabla(\nabla\cdot\bm{u}) - \mu\nabla\times(\nabla\times\bm{u}),
 \end{eqnarray}
-ここで$\rho$は媒質の密度、$\lambda,\,\mu$はラメ定数である。
+where $\bm{u}$ is the displacement field vetor of the medium, $\rho$ denotes density of the medium, and $\lambda,\,\mu$ are Lame's first and second constant.
 
-この波動方程式は縦波であるP波と横波であるS波について解くことができる。そのためにまず Helmholtz decomposition をつかって変位$\bm{u}$を発散成分$\bm{u}_{\mathrm{div}}$と回転成分$\bm{u}_{\mathrm{rot}}$で表す。つまり、
-\begin{eqnarray}
-  \bm{u}_{\mathrm{div}}&=&\nabla\phi \label{eq:eq_2}\\
-  \bm{u}_{\mathrm{rot}}&=&\nabla\times\psi \label{eq:eq_3}
-\end{eqnarray}
-となるスカラーポテンシャル$\phi$とベクトルポテンシャル$\bm{\psi}$が存在し、変位$\bm{u}$は
+\subsubsection{Body Waves}
+From \ref{eq:eq_1}, we can obtain two characteristic waves; primary wave (P-wave) which is a longitudinal wave and secondary wave (S-wave) which is a transverse wave. Using Helmholtz's decomposition, we represent the displacement field vector $\bm{u}$ as
 \begin{eqnarray} 
-  \bm{u} &=& \nabla\phi + \nabla\times\psi \label{eq:eq_4}
+  \bm{u} &=& \nabla\phi + \nabla\times\bm{\psi}, \label{eq:eq_4}
 \end{eqnarray}
-と表すことができる。式(\ref{eq:eq_1})に式(\ref{eq:eq_4})を代入し、かつベクトル解析の公式、$\nabla\times(\nabla\times\bm{A})=\nabla(\nabla\cdot\bm{A})-\nabla^2{\bm{A}}$を使うと、
+where $\phi$ the scalar potential and $\bm{\psi}$ are the vector potential. Each term of \ref{eq:eq_4} show the divergent and the rotation component of $\bm{u}$ respectively. Substitute Eq. \ref{eq:eq_4} into Eq. \ref{eq:eq_1} and after some vector algebra, one can obtain two wave equations;
 \begin{eqnarray}
-  \ddot{\phi} &=& v_{L}^2\nabla^2\phi \label{eq:eq_5}\\
-  \ddot{\psi} &=& v_{T}^2\nabla^2\psi \label{eq:eq_6}
-\end{eqnarray} 
-のように2つの波動方程式を得る。ここで$v_{L},\,v_{T}$は、
+  \ddot{\phi} &=& v_{L}^2\nabla^2\phi \label{eq:eq_5},\\
+  \ddot{\psi} &=& v_{T}^2\nabla^2\psi \label{eq:eq_6}, 
+\end{eqnarray}
+where $v_{L},\,v_{T}$ are defined as 
 \begin{eqnarray}
-  v_{L} = \sqrt{\frac{\lambda+2\mu}{\rho}},\,v_{T} = \sqrt{\frac{\mu}{\rho}} \label{eq:eq_7}
+  v_{L} = \sqrt{\frac{\lambda+2\mu}{\rho}},\
+  v_{T} = \sqrt{\frac{\mu}{\rho}}. \label{eq:eq_7}
 \end{eqnarray} 
-である。
-
-$v_{L},v_{T}$らはそれぞれ縦波と横波の位相速度を表しているが、これを示す。まずスカラーポテンシャルとベクトルポテンシャルは式(\ref{eq:eq_5})、式(\ref{eq:eq_6})の波動方程式に従うので、これらの一般解は
+These phase velocities; $v_{L},v_{T}$ represent that of the P-wave and the S-wave. Show this relationships. Because the scalar potential and the vector potential are obey the wave equation Eq.\ref{eq:eq_5} and Eq.\ref{eq:eq_6} respectivly, the general solutions of these potentials are given as
 \begin{eqnarray}
   \phi &=& \phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_8}\\
-  \bm{\psi} &=& \bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_9}
+  \bm{\psi} &=& \bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}}) \label{eq:eq_9},
 \end{eqnarray}
-で表すことができる。ここで$\omega,\,\bm{k}$は各周波数と波数ベクトルである。発散成分である$\bm{u}_{\mathrm{div}}$は式(\ref{eq:eq_2})に式(\ref{eq:eq_8})を代入して、
+where $\omega,\,\bm{k}$ are the angler frequency and the wave vector. One can obtain the divergent component of displacement filed vector $\bm{u}$ as
 \begin{eqnarray}
-  \bm{u}_{\mathrm{div}} = \nabla{\phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}{\phi}
+  \bm{u}_{\mathrm{div}} = \nabla{\phi_{0}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}{\phi}.
 \end{eqnarray}
-となるので、変位の向きは波数ベクトルと平行である。つまり縦波でありP波に相当する。一方で回転成分である$\bm{u}_{\mathrm{rot}}$は式(\ref{eq:eq_3})に式(\ref{eq:eq_9})を代入して、
+The displacement of this wave $\bm{u}_{\mathrm{div}}$ whose phase velocity is $v_{L}$ propagates along with direction of the wave vector. Therefore $v_{L}$ is the phase velocity of a longitudinal wave called P-wave. On the other hands, one can obtain the rotation component of $\bm{u}$ as
 \begin{eqnarray}
-  \bm{u}_{\mathrm{rot}} = \nabla\times{\bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}\times{\bm{\psi}}
+  \bm{u}_{\mathrm{rot}} = \nabla\times{\bm{\psi_{0}}(\omega{t}-\bm{k}\cdot{\bm{x}})} =-\bm{k}\times{\bm{\psi}}.
 \end{eqnarray}
-となるので、変位の向きは波数ベクトルと直行している。つまり横波でありS波に相当する。したがって$v_{L},v_{T}$はそれぞれ縦波と横波の位相速度を示していることがわかった。また$\lambda$と$\mu$は正の定数なので、
+This displacement vector $\bm{u}_{\mathrm{rot}}$ whose phase velocity is $v_{T}$ is perpendicular to the wave vector. Therefore, $v_{T}$ is the phase velocity of a transverse wave called S-wave. Furthermore, because  $\lambda$ and $\mu$ are positive numbers, 
 \begin{eqnarray}
-  v_{L} > v_{T}
+  v_{L} > v_{T}.\label{eq:eq_10}
 \end{eqnarray}
-となって、縦波のほうが横波よりも速いことがわかる。
+Therefore, the longituginal wave is faster than the transverse wave.
 
-\subsection{Surface waves}
-あとで書く
+\subsubsection{Rayleigh waves}
+Rayleigh wave はP波とS波の干渉によって生じる\cite{}。ここではZ軸を鉛直方向とした直交直線座標系のx-z面内で振動する弾性波を考える。z=0を自由表面とし、x軸に沿ってP波とS波が同じ速度$v_{R}=\omega/k$ ($\omega$ is anglar frequency and $k$ is the wave vector) で伝搬する場合を考えると、ポテンシャル$\phi$と$\bm{\psi}$は、それぞれ以下のように表すことができる。
+\begin{eqnarray}
+  \phi &=& F(z)\exp[i(kx-\omega{t})],\label{eq:eq_12}\\
+  \psi &=& G(z)\exp[i(kx-\omega{t})]\label{eq:eq_13}
+\end{eqnarray}
+Eq.\ref{eq:eq_12}とEq.\ref{eq:eq_12}を波動方程式Eq.\ref{eq:eq_5},Eq.\ref{eq:eq_6}に代入すれば、
+
+レイリー波の特性方程式が導かれる;
+\begin{eqnarray}\label{eq:eq_11}
+\left(\frac{c_{R}^{2}}{c_{S}^{2}}\right)^{3}-8\left(\frac{c_{R}^{2}}{c_{S}^{2}}\right)^{2}+8\left(3-\frac{2}{\gamma^2}\right)\left(\frac{c_{R}^{2}}{c_{S}^{2}}\right)-16\left(1-\frac{1}{\gamma^2}\right)=0
+\end{eqnarray}
+where $\gamma\equiv v_{L}/v_{T}$. In case that $0 < (\frac{c_{R}^2}{c_{S}^2}) <1$, the velocity has physically meaningful value. According to Eq.\ref{eq:eq_11}, the ratio $\frac{c_R}{c_S}$ is a function of the ratio of $\gamma$. たとえば、KAGRAと同じ山の下に建設された100mの重力波望遠鏡CLIOでのP波とS波の位相速度はそれぞれAA、BBである\cite{takemoto2003}ので、$\gamma = 1.82 $である。したがってこのときのレイリー波の位相速度はCCである。
+
 
 \subsection{Depth Dependent Reduction}
-あとで書く
+レイリー波の振幅は深さに依存しており、深いほど小さくなる。
+
+
 
 \subsection{Differential Motion Reduction}
-\subsubsection{Differential Motion and Common Motion}
+For interferometric gravitational-wave detectors which need a precise length control of the optical resonate cavity, it is appropriate to consider about the relative displacement between two points rather than the displacement of single point. In this subsection, the reduction effect of relative displacement if the seismic noise at each point have a correlation is discribed.
 
+\subsubsection{Differential Motion and Common Motion}
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=10.0cm]{./img_chap3/img315.png}
     \caption{The displacements of the two points which are sparated L in X axis. }
   \end{center}
 \end{figure}
-
 
 Motions of the two points can be represented as the differential motion and the common motion. Displacement of both differential motion and common motion of the two points shown in Figure(\ref{img:img_chap310}) are defined as
 \begin{eqnarray}\label{eq:eq22}
@@ -115,7 +130,6 @@ Finaly, CDMR defined Eq.(\ref{eq:eq23}) in case the seismic wave does not decay 
 \end{eqnarray}
 Eq.(\ref{eq:eq33}) indicate that CDMR can be expressed by only the coherence $\gamma$ between of two points. For example, CDMR tends to be larger when $\gamma$ close to 1. This means that the differential motion is more less than the common motion because the two points move together in the same direction.
 
-\newpage
 \section{Seismic Noise}\label{sec:31}
 Characteristics of seismic noise are related with its origin spatially and temporally. For example, the noises above 1Hz are cleary correlated with culutural activities, and the noises below this band are excited by the natural phenomena \cite{bonnefoy2006nature}. 
 \subsection{Cultural Noises} \label{sec:311}
@@ -125,15 +139,16 @@ The cultural seismic noise contaminates the sensitivity of gravitational-wave de
 The natural seismic noise affects the stability of the GW detectors below $1\,\mathrm{Hz}$ because it deforms largely the bedrock on which mounted the detectors. これらnatural seismic noise は低周波になればなるほどグローバルな励起源によるノイズを反映しており、パワースペクトル密度は大きくなる。
 
 \subsubsection{Microseisms}
-Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}. First, the primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}. Second, the secondary ocean microseisms could be explained by the superposition of ocean waves of equal period traveling in opposite directions. Therefore, generating standing gravity waves of half the period \cite{longuet1950theory}. The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{naticchioni2014microseismic}. 
+Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}. First, the primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}. Second, the secondary ocean microseisms could be explained by the superposition of ocean waves of equal period traveling in opposite directions. Therefore, generating standing gravity waves of half the period \cite{longuet1950theory}. The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{naticchioni2014microseismic}.
+
 \begin{figure}[H]
   \begin{center}
-    \begin{minipage}[b]{0.65\hsize}
+    \begin{minipage}{0.65\hsize}
       \centering
       \includegraphics[width=9.0cm]{./img_chap3/img311.png}
       \subcaption{Generating mechanism of the primary microseisms.引用先の図をコピペしているので、自分で描いたのに差し替える。}\label{img:img311}
     \end{minipage}
-    \begin{minipage}[b]{0.65\hsize}
+    \begin{minipage}{0.65\hsize}
       \centering      
       \includegraphics[width=9.0cm]{./img_chap3/img312.png}
       \subcaption{Generating mechanism of the secondary microseisms.引用先の図をコピペしているので、自分で描いたのに差し替える}\label{img:img312}
