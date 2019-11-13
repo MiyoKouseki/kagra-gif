@@ -15,53 +15,57 @@ Repeated entry---line 148 of file reference.bib
  : @article{carter1991high
  :                        ,
 I'm skipping whatever remains of this entry
-You're missing a field name---line 182 of file reference.bib
+You're missing a field name---line 195 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--empty journal in takemoto2003
+Warning--empty author in Daw_2004
+Warning--empty title in Daw_2004
+Warning--empty journal in Daw_2004
+Warning--empty year in Daw_2004
 Warning--empty booktitle in schofield2000source
-You've used 20 entries,
+You've used 22 entries,
             1791 wiz_defined-function locations,
-            600 strings with 8519 characters,
-and the built_in function-call counts, 4467 in all, are:
-= -- 350
-> -- 296
+            609 strings with 8738 characters,
+and the built_in function-call counts, 4808 in all, are:
+= -- 372
+> -- 311
 < -- 1
-+ -- 108
-- -- 88
-* -- 361
-:= -- 801
-add.period$ -- 68
-call.type$ -- 20
-change.case$ -- 19
++ -- 114
+- -- 92
+* -- 394
+:= -- 849
+add.period$ -- 72
+call.type$ -- 22
+change.case$ -- 20
 chr.to.int$ -- 0
-cite$ -- 22
-duplicate$ -- 168
-empty$ -- 378
-format.name$ -- 88
-if$ -- 924
+cite$ -- 28
+duplicate$ -- 185
+empty$ -- 414
+format.name$ -- 92
+if$ -- 994
 int.to.chr$ -- 0
-int.to.str$ -- 20
-missing$ -- 16
-newline$ -- 111
-num.names$ -- 19
-pop$ -- 28
+int.to.str$ -- 22
+missing$ -- 18
+newline$ -- 119
+num.names$ -- 20
+pop$ -- 37
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 54
+skip$ -- 63
 stack$ -- 0
-substring$ -- 215
-swap$ -- 17
+substring$ -- 233
+swap$ -- 18
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 2
-while$ -- 35
-width$ -- 22
-write$ -- 234
+warning$ -- 6
+while$ -- 37
+width$ -- 24
+write$ -- 249
 is.kanji.str$ -- 0
 (There were 2 error messages)

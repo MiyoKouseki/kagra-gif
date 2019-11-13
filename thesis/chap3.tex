@@ -1,15 +1,15 @@
 \chapter{Seismic Noise}
-地面振動はレーザー干渉計型の重力波望遠鏡にとって2つの問題を引き起こす。一つは低周波感度を制限することである。地面振動の振幅スペクトル密度は経験的に、
-\begin{eqnarray}\label{eq:eq_0}
-  \sim 10^{-7}\times\left(\frac{1\,\mathrm{Hz}}{f}\right) [\mathrm{m}/\sqrt{\mathrm{Hz}}]
-\end{eqnarray}
+Seismic noise limits the low-frequency sensitivity of gravitational-wave detectors and degrades the duty cycle of that. In this chapter,以下の事柄を述べる;
+\begin{itemize}
+\item 地面振動の数学的な理解とその性質(\cref{sec:31})
+\item 一般的な地面振動のノイズ源(\cref{sec:32})
+\item KAGRAの地面振動の時間的な特徴(\cref{sec:33})
+\item KAGRAの地面振動の空間的な特徴(\cref{sec:34})
+\end{itemize}
 
 
-一方で、低周波地面振動は
-
-
-\section{Theory of seismic waves}
-ここでは後の議論に必要な基本的な事柄をのべる。
+\section{Theory of seismic waves} \label{sec:31}
+Here we introduce characteristics of the seismic wave that will be usefull in our later understanding and modeling of seismic effects.
 
 \subsection{Seismic Waves in Isotropic and Homogeneous Medium}
 The elastrodynamic wave equation is given by 
@@ -58,21 +58,19 @@ Rayleigh wave はP波とS波の干渉によって生じる\cite{}。ここでは
   \phi &=& F(z)\exp[i(kx-\omega{t})],\label{eq:eq_12}\\
   \psi &=& G(z)\exp[i(kx-\omega{t})]\label{eq:eq_13}
 \end{eqnarray}
-Eq.\ref{eq:eq_12}とEq.\ref{eq:eq_12}を波動方程式Eq.\ref{eq:eq_5},Eq.\ref{eq:eq_6}に代入すれば、
-
-レイリー波の特性方程式が導かれる;
+Eq.\ref{eq:eq_12}とEq.\ref{eq:eq_12}を波動方程式Eq.\ref{eq:eq_5},Eq.\ref{eq:eq_6}に代入すれば、レイリー波の特性方程式が導かれる;
 \begin{eqnarray}\label{eq:eq_11}
 \left(\frac{c_{R}^{2}}{c_{S}^{2}}\right)^{3}-8\left(\frac{c_{R}^{2}}{c_{S}^{2}}\right)^{2}+8\left(3-\frac{2}{\gamma^2}\right)\left(\frac{c_{R}^{2}}{c_{S}^{2}}\right)-16\left(1-\frac{1}{\gamma^2}\right)=0
 \end{eqnarray}
 where $\gamma\equiv v_{L}/v_{T}$. In case that $0 < (\frac{c_{R}^2}{c_{S}^2}) <1$, the velocity has physically meaningful value. According to Eq.\ref{eq:eq_11}, the ratio $\frac{c_R}{c_S}$ is a function of the ratio of $\gamma$. たとえば、KAGRAと同じ山の下に建設された100mの重力波望遠鏡CLIOでのP波とS波の位相速度はそれぞれAA、BBである\cite{takemoto2003}ので、$\gamma = 1.82 $である。したがってこのときのレイリー波の位相速度はCCである。
 
 
-\subsection{Depth Dependent Reduction}
+\subsection{Reduction Effect in the Deep Sites}
 レイリー波の振幅は深さに依存しており、深いほど小さくなる。
 
 
 
-\subsection{Differential Motion Reduction}
+\subsection{Reduction Effect of the Short Baseline}
 For interferometric gravitational-wave detectors which need a precise length control of the optical resonate cavity, it is appropriate to consider about the relative displacement between two points rather than the displacement of single point. In this subsection, the reduction effect of relative displacement if the seismic noise at each point have a correlation is discribed.
 
 \subsubsection{Differential Motion and Common Motion}
@@ -130,18 +128,36 @@ Finaly, CDMR defined Eq.(\ref{eq:eq23}) in case the seismic wave does not decay 
 \end{eqnarray}
 Eq.(\ref{eq:eq33}) indicate that CDMR can be expressed by only the coherence $\gamma$ between of two points. For example, CDMR tends to be larger when $\gamma$ close to 1. This means that the differential motion is more less than the common motion because the two points move together in the same direction.
 
-\section{Seismic Noise}\label{sec:31}
-Characteristics of seismic noise are related with its origin spatially and temporally. For example, the noises above 1Hz are cleary correlated with culutural activities, and the noises below this band are excited by the natural phenomena \cite{bonnefoy2006nature}. 
-\subsection{Cultural Noises} \label{sec:311}
-The cultural seismic noise contaminates the sensitivity of gravitational-wave detectors in the frequency range of interest for gravitational-waves sources, above $1\,\mathrm{Hz}$. In this frequency band, the cultural noise is dominated by winds or human activity; vibrations of building excited by winds\cite{schofield2000source} or traffic near the detectors \cite{acernese2004properties}. 
 
-\subsection{Natural Noises} \label{sec:312}
+\section{Seismic Noise}\label{sec:32}
+Characteristics of seismic noise are related with its origin spatially and temporally. The noise sources are spreaded anywhere; foot steps, traffics and ocean waves, and these amplitude depends on day-night or weather condition.
+
+As summarized in Table \ref{tb:31}, the seismic noises above $1\,\mathrm{Hz}$ are cleary correlated with cultural activities, and that below this frequency are excited by the natural phenomena \cite{bonnefoy2006nature}. This boundary frequency between cultural or natural, $1\,\mathrm{Hz}$, is depends on the soil structure. At the sediment site such as the LIGO\cite{Daw_2004} and Virgo site\cite{Beker_2012}, the former noise can be shifted to a lower frequency and appear below $1\,\mathrm{Hz}$. On the other hands, at the hard rock site such as KAGRA site, the cultural noise can be distinguished from the natural noise for its diurnal variability and apparent only above $1\,\mathrm{Hz}$.
+
+\begin{table}[h] 
+  \begin{center}
+    \caption{Two types of seismic noise}\label{tb:31}
+    \begin{tabular}{lll} 
+      \hline      
+      Type of noise & Frequency Band & Sources \\ \hline \hline
+      Cultural Noise & $> 1\,\mathrm{Hz}$ & wind, traffic, machinaries, foot steps\\
+      Natural Noise  & $< 1\,\mathrm{Hz}$ & ocean, air pressure, earth tides\\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Cultural Noises} \label{sec:321}
+The cultural seismic noise contaminates the sensitivity of gravitational-wave detectors in the frequency range of interest for gravitational-waves sources, above $1\,\mathrm{Hz}$. In this frequency band, the cultural noise is dominated by winds or human activities. For example, seismic noise from traffic near the detectors is reported at LIGO site \cite{schofield2000source}, and noise from the vibrations of building excited by winds is reported at Virgo site \cite{acernese2004properties}. 
+
+\subsection{Natural Noises} \label{sec:322}
 The natural seismic noise affects the stability of the GW detectors below $1\,\mathrm{Hz}$ because it deforms largely the bedrock on which mounted the detectors. これらnatural seismic noise は低周波になればなるほどグローバルな励起源によるノイズを反映しており、パワースペクトル密度は大きくなる。
 
 \subsubsection{Microseisms}
-Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}. First, the primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}. Second, the secondary ocean microseisms could be explained by the superposition of ocean waves of equal period traveling in opposite directions. Therefore, generating standing gravity waves of half the period \cite{longuet1950theory}. The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{naticchioni2014microseismic}.
+Microseisms which power spectrum has peaks in $50$--$200\,\mathrm{mHz}$ are excitated by oceanic waves. These seismic waves can be categolized by the generating mechanism of these \cite{Bormann2012new}. First, the primary ocean microseisms are generated only in shallow waters in coastal regions. In this regions, the water wave enery can be converted directly into seismic energy either through vertical water pressure variations, or by the impacts of surf on the shores. There are correlation between this microseismic peak and the swell at the beaches was known starting from the data sets studied by \cite{haubrich1963comparative}. Second, the secondary ocean microseisms could be explained by the superposition of ocean waves of equal period traveling in opposite directions. Therefore, generating standing gravity waves of half the period \cite{longuet1950theory}.
 
-\begin{figure}[H]
+The RMS amplitude spectral of both type of the microseisms are strongly depends on the low pressure on the ocean \cite{naticchioni2014microseismic}.
+
+\begin{figure}[p]
   \begin{center}
     \begin{minipage}{0.65\hsize}
       \centering
@@ -176,8 +192,8 @@ Below more lower frequency, the earth deformed by tidal forces due to the attrac
 \end{figure}
 
 
-\newpage
-\section{Study of Temporal Seismic Noise at KAGRA}
+%\newpage
+\section{Study of Temporal Seismic Noise at KAGRA} \label{sec:33}
 \subsection{Overview}
 本節では、KAGRAでの地面振動の大きさが時間帯や季節の違いでどのように変化するか調べた。基本的に地震などの突発現象を除けば、地面振動は定常的な振る舞いを示すが、そのRMS振幅は時間依存である。例えば、人間由来の地面振動は夜間になると静かで、波浪由来の脈動は天気が悪化するとうるさくなる。また日本の場合、初秋は台風によって、冬は日本海低気圧によって脈動がうるさくなることが知られている\cite{}。とくに後者の脈動がうるさいと、干渉計の稼働が妨げられ、DutyCycleを低下してしまう。このような理由から、地面振動の時間依存性を知ることは、干渉計の稼働の安定性を議論するうえで重要である。
 
@@ -205,19 +221,19 @@ The signals of the seismometer is recorded through the data aquisition system de
 \subsection{Data Selection}
 およそ1年分の地震計のデータをつかった。スペクトルの計算のために、一年分のデータを4096秒のセグメントに分割し、その中からデータの欠損などの異常値を取り除いた。解析に使ったセグメントをFig\ref{img:img317}に示す。14-15週と33-34週に生じた大きなデータの欠損期間を除いて、一年を通してデータが取得できている。セグメントはXX個あり、全体のXX\%を占める。
 
-\begin{figure}[H]
-  \begin{minipage}[b]{0.65\hsize}
-    %\centering    
-    \includegraphics[width=18.0cm]{./img_chap3/img317.png}
-    \subcaption{各状態の時間分布。}\label{img:img317_a}
-  \end{minipage}
-  \begin{minipage}[b]{0.65\hsize}
-    \centering              
-    \includegraphics[width=13.0cm]{./img_chap3/img323.png}
-    \subcaption{各状態の割合。\subref{img:img317_a}を円グラフにしたもの。}\label{img:img317_b}
-  \end{minipage}
-  \caption{Available data from June 01 2018 to 2019-06-24 09:40:14JST. Total:全体のセグメント。Lack of Data:データの欠損が合ったセグメント。Glitch:Glitchがあったセグメント。Available:欠損もGlitchもなかったセグメント}\label{img:img317}
-\end{figure}
+%% \begin{figure}[H]
+%%   \begin{minipage}[b]{0.65\hsize}
+%%     %\centering    
+%%     \includegraphics[width=18.0cm]{./img_chap3/img317.png}
+%%     \subcaption{各状態の時間分布。}\label{img:img317_a}
+%%   \end{minipage}
+%%   \begin{minipage}[b]{0.65\hsize}
+%%     \centering              
+%%     \includegraphics[width=13.0cm]{./img_chap3/img323.png}
+%%     \subcaption{各状態の割合。\subref{img:img317_a}を円グラフにしたもの。}\label{img:img317_b}
+%%   \end{minipage}
+%%   \caption{Available data from June 01 2018 to 2019-06-24 09:40:14JST. Total:全体のセグメント。Lack of Data:データの欠損が合ったセグメント。Glitch:Glitchがあったセグメント。Available:欠損もGlitchもなかったセグメント}\label{img:img317}
+%% \end{figure}
 
 \subsection{Data Processing}
 振幅スペクトルの推定は50\%オーバーラップした32個のセグメントの平均で得た。それぞれのセグメントのFFTの計算は、まず dtrend をして線形成分を取り除き、Hanning窓にかけてから行った。32回の平均をおこなったスペクトルは自由度32のカイ二乗分布に従う。自由度$\nu$のときの$100(1-\alpha)$\%の信頼区間は、周波数$\mathrm{f}$でのスペクトルの推定量を$\hat{G}(f)$とすると、
@@ -241,16 +257,16 @@ Petersonのスペクトルと測定で得た10パーセンタイルを比較す�
 
 対照的に0.1から2Hzの帯域では、並進成分も垂直成分もNLNMより数倍大きい。これはKAGRAが富山湾から40kmの距離にあり、比較的脈動の影響を受けやすいためと考えられる。
 
-\begin{figure}[h]
+\begin{figure}[p]
   \begin{center}   
-    \includegraphics[width=16.0cm]{./img_chap3/img313.png}
+    \includegraphics[width=13.0cm]{./img_chap3/img313.png}
     \caption{}\label{img:img313}
   \end{center}
 \end{figure}
 
 
-\newpage
-\section{Study of Differential Motion Reduction}
+%\newpage
+\section{Study of Differential Motion Reduction}\label{sec:34}
 \subsection{Introduction}
 The motion of two mirrors in the cavity have two modes. One is differential motion, which is the length change of that. Another one is common motion, which is the motion of the center of the cavity. In terms of the length control, it is important that the RMS amplitude of differential motion is as small as possible. Actuarlly, the amplitude of these two motions are the same each other when the mirrors moves with no coherence. However, when a coherence exists, the common motion tends to be larger than the differential one. 
 
@@ -272,20 +288,22 @@ Fig.\ref{img:img318}に示すように
 \subsection{Reduction in X-arm Scale}
 
 
-\begin{figure}[H]
-  \begin{center}   
-    \includegraphics[width=10.0cm]{./img_chap3/img319.png}
-    \caption{...}\label{img:img319}
-  \end{center}
-\end{figure}
 
 \subsection{Reduction in Other Short Scale}
 
-\begin{figure}[H]
-  \begin{center}   
-    \includegraphics[width=10.0cm]{./img_chap3/img320.png}
-    \caption{...}\label{img:img320}
-  \end{center}
+\begin{figure}[p]
+  \begin{minipage}{0.65\hsize}  
+    \begin{center}   
+      \includegraphics[width=10.0cm]{./img_chap3/img319.png}
+      \caption{...}\label{img:img319}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.65\hsize}  
+    \begin{center}   
+      \includegraphics[width=10.0cm]{./img_chap3/img320.png}
+      \caption{...}\label{img:img320}
+    \end{center}
+  \end{minipage}    
 \end{figure}
 
 
