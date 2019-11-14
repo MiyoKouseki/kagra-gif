@@ -173,8 +173,8 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
         
     if p_value < cl:
         #return 'Normal_Reject_{0:3.2e'.format(p_value)
-        return 'Normal_Reject'
+        return 'Normal_Reject {0:3.2f}'.format(std)
     else :
         #return 'Normal_{0:3.2e}'.format(p_value)
-        return 'Normal'
+        return 'Normal {0:3.2f}'.format(std)
     return None

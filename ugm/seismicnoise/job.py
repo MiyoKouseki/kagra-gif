@@ -4,7 +4,7 @@
 # End   : 2019-06-24 09:40:14 (JST)
 #seis = 'MCF'
 seis = ['EYV','BS','EXV','IXV','IXVTEST','MCE','MCF']
-seis = seis[6]
+seis = seis[2]
 #--------------------------------------------------------------------------------
 tmp_headder = '''
 Universe       = vanilla 

@@ -220,7 +220,7 @@ if __name__ == "__main__":
     fmt_total = 'select startgps,endgps from {2} '+\
                 'WHERE (startgps>={0} and endgps<={1})'
     fmt_gauss = 'select startgps,endgps from {2} '+\
-                'WHERE (flag=0)'+\
+                'WHERE (flag=0 or flag=8)'+\
                 ' and (startgps>={0} and endgps<={1})'
     fmt_gauss_night = 'select startgps,endgps from {2} '+\
                       'WHERE flag=0' +\
