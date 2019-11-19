@@ -5,48 +5,71 @@ A level-1 auxiliary file: chap1.aux
 A level-1 auxiliary file: chap2.aux
 A level-1 auxiliary file: chap3.aux
 A level-1 auxiliary file: chap4.aux
-I found no \bibdata command---while reading file main.aux
-I found no \bibstyle command---while reading file main.aux
-You've used 26 entries,
-            0 wiz_defined-function locations,
-            119 strings with 1067 characters,
-and the built_in function-call counts, 0 in all, are:
-= -- 0
-> -- 0
+A level-1 auxiliary file: chap5.aux
+A level-1 auxiliary file: chap6.aux
+A level-1 auxiliary file: chap7.aux
+A level-1 auxiliary file: appendixA.aux
+The style file: unsrt.bst
+Database file #1: reference.bib
+Repeated entry---line 78 of file reference.bib
+ : @article{nishida2002origin
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 202 of file reference.bib
+ : @article{naticchioni2014microseismic
+ :                                     ,
+I'm skipping whatever remains of this entry
+You're missing a field name---line 322 of file reference.bib
+ : 
+ : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty journal in takemoto2003
+Warning--empty author in Daw_2004
+Warning--empty title in Daw_2004
+Warning--empty journal in Daw_2004
+Warning--empty year in Daw_2004
+Warning--empty booktitle in schofield2000source
+You've used 30 entries,
+            1791 wiz_defined-function locations,
+            660 strings with 10452 characters,
+and the built_in function-call counts, 6847 in all, are:
+= -- 532
+> -- 448
 < -- 0
-+ -- 0
-- -- 0
-* -- 0
-:= -- 0
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
++ -- 163
+- -- 133
+* -- 572
+:= -- 1202
+add.period$ -- 96
+call.type$ -- 30
+change.case$ -- 27
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 0
-format.name$ -- 0
-if$ -- 0
+cite$ -- 36
+duplicate$ -- 257
+empty$ -- 590
+format.name$ -- 133
+if$ -- 1417
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 0
-num.names$ -- 0
-pop$ -- 0
-preamble$ -- 0
+int.to.str$ -- 30
+missing$ -- 26
+newline$ -- 159
+num.names$ -- 28
+pop$ -- 45
+preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 0
+skip$ -- 89
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
+substring$ -- 375
+swap$ -- 26
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 0
+warning$ -- 6
+while$ -- 57
+width$ -- 32
+write$ -- 337
 is.kanji.str$ -- 0
-(There were 2 error messages)
+(There were 3 error messages)
