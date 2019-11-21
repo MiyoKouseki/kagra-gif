@@ -1,54 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{uchiyama2014excavation}
-T~Uchiyama, K~Furuta, M~Ohashi, S~Miyoki, O~Miyakawa, and Y~Saito.
-\newblock Excavation of an underground site for a km-scale laser
-  interferometric gravitational-wave detector.
-\newblock {\em Classical and Quantum Gravity}, 31(22):224005, 2014.
-\newblock
-  \href{https://iopscience.iop.org/article/10.1088/0264-9381/31/22/224005/meta}{Link}.
-
-\bibitem{Isozaki2010new}
-Yukio Isozaki, Kazumasa Aoki, Takaaki Nakama, and Shuichi Yanai.
-\newblock New insight into a subduction-related orogen: a reappraisal of the
-  geotectonic framework and evolution of the japanese islands.
-\newblock {\em Gondwana Research}, 18(1):82--105, 2010.
-\newblock
-  \href{https://www.sciencedirect.com/science/article/pii/S1342937X10000584}{Link}.
-
-\bibitem{akutsu2017construction}
-T~Akutsu and et. al.
-\newblock Construction of kagra: an underground gravitational-wave observatory.
-\newblock {\em Progress of Theoretical and Experimental Physics}, 2018(1), 01
-  2018.
-\newblock
-  \href{http://oup.prod.sis.lan/ptep/article-pdf/2018/1/013F01/23570266/ptx180.pdf}{Link}.
-
-\bibitem{aso2013interferometer}
-Yoichi Aso, Yuta Michimura, Kentaro Somiya, Masaki Ando, Osamu Miyakawa,
-  Takanori Sekiguchi, Daisuke Tatsumi, and Hiroaki Yamamoto.
-\newblock Interferometer design of the kagra gravitational wave detector.
-\newblock {\em PHYSICAL REVIEW D Phys Rev D}, 88:043007, 2013.
-\newblock
-  \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.88.043007}{Link}.
-
-\bibitem{somiya2012detector}
-Kentaro Somiya.
-\newblock Detector configuration of kagra the japanese cryogenic
-  gravitational-wave detector.
-\newblock {\em Classical and Quantum Gravity}, 29(12):124007, jun 2012.
-\newblock
-  \href{https://iopscience.iop.org/article/10.1088/0264-9381/29/12/124007}{Link}.
-
-\bibitem{Okutomi2019development}
-Okutomi Koki.
-\newblock {\em Development of 13.5-meter-tall Vibration Isolation System for
-  the Main Mirrors in KAGRA}.
-\newblock PhD thesis, SOKENDAI, The Graduate University for Advanced Studies,
-  2019.
-\newblock
-  \href{https://gwdoc.icrr.u-tokyo.ac.jp/cgi-bin/DocDB/ShowDocument?docid=9347}{Link}.
-
 \bibitem{sato2004ultrastable}
 Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
   Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
@@ -56,6 +7,27 @@ Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
 \newblock Ultrastable performance of an underground-based laser interferometer
   observatory for gravitational waves.
 \newblock {\em Physical Review D}, 69(10):102005, 2004.
+
+\bibitem{agatsuma2010thermal}
+Kazuhiro Agatsuma, Koji Arai, Masa-Katsu Fujimoto, Seiji Kawamura, Kazuaki
+  Kuroda, Osamu Miyakawa, Shinji Miyoki, Masatake Ohashi, Toshikazu Suzuki,
+  Ryutaro Takahashi, et~al.
+\newblock Thermal-noise-limited underground interferometer clio.
+\newblock {\em Classical and quantum gravity}, 27(8):084022, 2010.
+
+\bibitem{ohashi2003design}
+M~Ohashi, K~Kuroda, S~Miyoki, T~Uchiyama, K~Yamamoto, K~Kasahara, T~Shintomi,
+  A~Yamamoto, T~Haruyama, Y~Saito, et~al.
+\newblock Design and construction status of clio.
+\newblock {\em Classical and Quantum Gravity}, 20(17):S599, 2003.
+
+\bibitem{ando2001stable}
+Masaki Ando, Koji Arai, Ryutaro Takahashi, Gerhard Heinzel, Seiji Kawamura,
+  Daisuke Tatsumi, Nobuyuki Kanda, Hideyuki Tagoshi, Akito Araya, Hideki Asada,
+  et~al.
+\newblock Stable operation of a 300-m laser interferometer with sufficient
+  sensitivity to detect gravitational-wave events within our galaxy.
+\newblock {\em Physical Review Letters}, 86(18):3950, 2001.
 
 \bibitem{punturo2010einstein}
 M~Punturo, M~Abernathy, F~Acernese, B~Allen, Nils Andersson, K~Arun, F~Barone,
@@ -228,5 +200,22 @@ Y~Aso, M~Ando, K~Kawabe, S~Otsuka, and K~Tsubono.
 \newblock Stabilization of a fabry--perot interferometer using a
   suspension-point interferometer.
 \newblock {\em Physics Letters A}, 327(1):1--8, 2004.
+
+\bibitem{manson1972frequency}
+G~Manson and G~Hoffmann de~Visme.
+\newblock The frequency spectrum of barkhausen noise.
+\newblock {\em Journal of Physics D: Applied Physics}, 5(8):1389, 1972.
+
+\bibitem{aasi2015characterization}
+J~Aasi, J~Abadie, BP~Abbott, Robert Abbott, T~Abbott, MR~Abernathy, T~Accadia,
+  F~Acernese, C~Adams, T~Adams, et~al.
+\newblock Characterization of the ligo detectors during their sixth science
+  run.
+\newblock {\em Classical and Quantum Gravity}, 32(11):115012, 2015.
+
+\bibitem{cote1991self}
+PJ~Cote and LV~Meisel.
+\newblock Self-organized criticality and the barkhausen effect.
+\newblock {\em Physical review letters}, 67(10):1334, 1991.
 
 \end{thebibliography}
