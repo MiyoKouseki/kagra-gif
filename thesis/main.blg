@@ -11,65 +11,75 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-Repeated entry---line 78 of file reference.bib
+I was expecting a `,' or a `}'---line 13 of file reference.bib
+ : 
+ : author={R. W. P . Drever,},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Repeated entry---line 116 of file reference.bib
  : @article{nishida2002origin
  :                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 202 of file reference.bib
+Repeated entry---line 240 of file reference.bib
  : @article{naticchioni2014microseismic
  :                                     ,
 I'm skipping whatever remains of this entry
-You're missing a field name---line 322 of file reference.bib
+You're missing a field name---line 361 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
+Warning--entry type for "biscans2018optimization" isn't style-file defined
+--line 460 of file reference.bib
 Warning--empty journal in takemoto2003
 Warning--empty author in Daw_2004
 Warning--empty title in Daw_2004
 Warning--empty journal in Daw_2004
 Warning--empty year in Daw_2004
 Warning--empty booktitle in schofield2000source
-You've used 30 entries,
+Warning--empty author in drever1987outline
+Warning--empty institution in drever1987outline
+Warning--empty year in drever1987outline
+You've used 36 entries,
             1791 wiz_defined-function locations,
-            660 strings with 10452 characters,
-and the built_in function-call counts, 6847 in all, are:
-= -- 532
-> -- 448
+            688 strings with 11555 characters,
+and the built_in function-call counts, 7952 in all, are:
+= -- 622
+> -- 505
 < -- 0
-+ -- 163
-- -- 133
-* -- 572
-:= -- 1202
-add.period$ -- 96
-call.type$ -- 30
-change.case$ -- 27
++ -- 185
+- -- 149
+* -- 654
+:= -- 1385
+add.period$ -- 112
+call.type$ -- 36
+change.case$ -- 33
 chr.to.int$ -- 0
-cite$ -- 36
-duplicate$ -- 257
-empty$ -- 590
-format.name$ -- 133
-if$ -- 1417
+cite$ -- 45
+duplicate$ -- 302
+empty$ -- 698
+format.name$ -- 149
+if$ -- 1650
 int.to.chr$ -- 0
-int.to.str$ -- 30
-missing$ -- 26
-newline$ -- 159
-num.names$ -- 28
-pop$ -- 45
+int.to.str$ -- 36
+missing$ -- 29
+newline$ -- 187
+num.names$ -- 33
+pop$ -- 60
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 89
+skip$ -- 110
 stack$ -- 0
-substring$ -- 375
-swap$ -- 26
+substring$ -- 431
+swap$ -- 31
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 6
-while$ -- 57
-width$ -- 32
-write$ -- 337
+warning$ -- 9
+while$ -- 67
+width$ -- 38
+write$ -- 395
 is.kanji.str$ -- 0
-(There were 3 error messages)
+(There were 4 error messages)

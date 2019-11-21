@@ -194,4 +194,39 @@ F~Matichard, B~Lantz, R~Mittleman, K~Mason, J~Kissel, B~Abbott, S~Biscans,
   instrumentation and performance.
 \newblock {\em Classical and Quantum Gravity}, 32(18):185003, 2015.
 
+\bibitem{hua2005low}
+Wensheng Hua.
+\newblock {\em LOW FREQUENCY VIBRATION ISOLATION AND ALIGNMENT SYSTEM FOR
+  ADVANCED LIGO}.
+\newblock PhD thesis, stanford university, 2005.
+
+\bibitem{collette2012inertial}
+Christophe Collette, Stefan Janssens, Pablo Fernandez-Carmona, Kurt Artoos,
+  Michael Guinchard, Claude Hauviller, and Andr{\'e} Preumont.
+\newblock Inertial sensors for low-frequency seismic vibration measurement.
+\newblock {\em Bulletin of the seismological society of America},
+  102(4):1289--1300, 2012.
+
+\bibitem{biscans2018optimization}
+Sebastein Biscans.
+\newblock Optimization of the advanced ligo gravitational-wave detectors duty
+  cycle by reduction of parametric instabilities and environmental impacts.
+
+\bibitem{drever1987outline}
+Outline of a proposed design for a first receiver for installation in the
+  long-baseline facilities, of fabry-perot type.
+\newblock Technical report.
+
+\bibitem{drever2002extension}
+Ronald~WP Drever and Steven~J Augst.
+\newblock Extension of gravity-wave interferometer operation to low
+  frequencies.
+\newblock {\em Classical and Quantum Gravity}, 19(7):2005, 2002.
+
+\bibitem{aso2004stabilization}
+Y~Aso, M~Ando, K~Kawabe, S~Otsuka, and K~Tsubono.
+\newblock Stabilization of a fabry--perot interferometer using a
+  suspension-point interferometer.
+\newblock {\em Physics Letters A}, 327(1):1--8, 2004.
+
 \end{thebibliography}

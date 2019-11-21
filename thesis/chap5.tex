@@ -1,16 +1,12 @@
-\chapter{Arm Length Compensation System}
+\chapter{Baseline Compensation System}
 
 
 
+\section{Basics in Seismic Isolation}\label{sec:51}
+重力波望遠鏡における地面振動防振の基本は振り子である。より防振比を高めるために、低共振周波数かつ多段振り子をもちいている。
 
 
-\section{Basics in Vibration Isolation System}
-Basics of the vibration isolation system for GW detectors is the multiple-stage pendulum with low resonance frequency, which is the passive vibration isolation. Actually, in order to improve the bandwidth of the viblation isolation, we use some additional sensor to decopule the suspension from the seismic noise, which is the active vibration isolation.
-
-\subsection{Passive Vibration Isolation}
-A pendulum works as a mechanical filter attenuating the seismic noise, and it realizes the passive vibration isolation system.
-
-\subsubsection{Single Pendulum}
+\subsection{Single Pendulum}
 For simple example, as shown in left figure in Fig.(\ref{img:img501}), consider a one-dimentional harmonic oscillator consisting of a spring with a spring constant $k$ and mass $M$. The displacement of the suspension point and the mass are $x_0$ and $x$, respectively. Because the equation of the motion is written as
 \begin{eqnarray} \label{eq:eq501}
   M\ddot{x} = -k(x-x_0),
@@ -30,7 +26,7 @@ According to Eq.(\ref{eq:eq502}), the amplitude of $H(f)$ is unity below the res
   \end{center}
 \end{figure}
 
-\subsubsection{Multi-stage Pendulum}
+\subsection{Multi-stage Pendulum}
 In order to increase the order of the seismic isolation, multi-stage pendulum is effective. In case of an N-stage pendulum, the transfer function from the ground to the suspended mass is propotional to $f^{-2N}$ above the resonance frequrncy of the pendulum as shown in Fig. \ref{img:img502}. 
 \begin{figure}[h]
   \begin{center}   
@@ -39,22 +35,29 @@ In order to increase the order of the seismic isolation, multi-stage pendulum is
   \end{center}
 \end{figure}
 
-\subsection{Active Vibration Isolation}
+
+\section{Active Inertial Seismic Isolation}\label{sec:512}
 \begin{figure}[h]
-  \begin{center}   
+  \begin{center}
     \includegraphics[width=13.5cm]{./img_chap5/img503.png}
-    \caption{{\bf(a)} Schematic drawing of an active vibration isolation system for platform. {\bf(b)} Block diagram of the active control scheme.} \label{img:img503}
+    \caption{{\bf(a)} Schematic drawing of an active seismic isolation system for platform. {\bf(b)} Block diagram of the active control scheme.} \label{img:img503}
   \end{center}
 \end{figure}
+振り子をもちいた受動防振ではその共振周波数以下の地面振動は防振できない。さらに低周波で防振するために、広帯域地震計をもちいた能動防振が開発されてきた\cite{matichard2015seismic}。
 
-Actual seismic isolation systems use the passive-active concept \cite{matichard2015seismic}. While the passive isolation can attenuate the seismic noise above the resonance frequency, the low-frequency seismic noise below that cannot. In order to compensate for this limitation in low frequency, the active seismic isolation platform is used.
-
-The active isolation system is shown in Fig. \ref{img:img503}(a). A platform is suspended from the ground with transmisivity $H_{\mathrm{s}}$. This platfrom is fed back both signal of a inertial sensor with calibration factor $S_{\mathrm{H}}$ and signal of a relative position sensor with calibration factor $S_{\mathrm{L}}$, to the platform using actuator with actuator efficiency $P_{\mathrm{a}}$. This feedback control actively decouple the platform from the seismic disturbance from $0.1\,\mathrm{Hz}$ to a few Hz. Moreover, the platform is controled with feedforward using a seismometer with calibration factor $S_{\mathrm{ff}}$ installed on the local ground. 
+The active isolation system is shown in Fig. \ref{img:img503}(a). A platform is suspended from the ground with transmisivity $H_{\mathrm{s}}$. This platfrom is fed back both signal of a inertial sensor with calibration factor $S_{\mathrm{H}}$ and signal of a relative position sensor with calibration factor $S_{\mathrm{L}}$, to the platform using actuator with actuator efficiency $P_{\mathrm{a}}$. This feedback control actively decouple the platform from the seismic disturbance from $0.1\,\mathrm{Hz}$ to a few Hz. Moreover, the platform is controled with feedforward using a seismometer with calibration factor $S_{\mathrm{wit}}$ installed on the local ground. 
 
 能動防振の制御方法はFig.\ref{img:img503}(b)に示しているとおり、フィードバック制御、センサーコレクション制御、フィードフォワード制御、が組み合わされている。順番にそれらを説明する。
 
-\subsubsection{feedback control}
-制御信号には慣性センサーと相対位置センサーをブレンドして使う。慣性センサーは低周波で感度が悪くなるので慣性センサーにはハイパスフィルター$B_{\mathrm{H}}$をかけ、これに対して相対位置センサーには、
+\subsection{Sensor Blending Technique}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=10cm]{./img_chap5/img507.png}
+    \caption{Sensor Blending.} \label{img:img507}
+  \end{center}
+\end{figure}
+
+Fig.\ref{img:img507}に示すように、制御信号には慣性センサーと相対位置センサーをブレンドした信号を使う。慣性センサーは低周波で感度が悪くなるので慣性センサーにはハイパスフィルター$B_{\mathrm{H}}$をかけ、これに対して相対位置センサーには、
 \begin{eqnarray}
   B_{\mathrm{H}}S_{\mathrm{H}} + B_{\mathrm{L}}S_{\mathrm{L}} = 1   \label{eq:eq506}
 \end{eqnarray}
@@ -62,8 +65,7 @@ The active isolation system is shown in Fig. \ref{img:img503}(a). A platform is 
 
 このようにブレンドされた制御信号をつかってフィードバック制御した場合での、プラットフォームのステージの変位を考える。まず、platform のステージの変位 $X_{\mathrm{STG}}$は地面振動$X_{\mathrm{GND}}$、慣性センサーノイズ$N_{\mathrm{H}}$、相対位置センサーのノイズ$N_{\mathrm{H}}$で表すと
 \begin{eqnarray}
-  \label{eq:eq510}
-  X_{\mathrm{STG}} = \frac{G}{1+G}LX_{\mathrm{GND}} + \frac{1}{1+G}H_{\mathrm{s}}X_{\mathrm{GND}} + \frac{G}{1+G}\left(HN_{H}+LN_{L}\right)
+  X_{\mathrm{STG}} = \frac{G}{1+G}LX_{\mathrm{GND}} + \frac{1}{1+G}H_{\mathrm{s}}X_{\mathrm{GND}} + \frac{G}{1+G}\left(HN_{H}+LN_{L}\right)   \label{eq:eq510}
 \end{eqnarray}
 のようになる。ここで、ループゲインを$G=C_{\mathrm{fb}}P_{\mathrm{a}}$、相補フィルターとそれぞれのセンサー効率の積を$L=B_{\mathrm{H}}S_{\mathrm{H}}$、$H=B_{\mathrm{L}}S_{\mathrm{L}}$として、さらに計算の途中でEq.(\ref{eq:eq506})をつかった。すなわち、フィードバック制御が十分に働いている場合、つまりループゲインの値が十分に大きいときのステージの変位は
 \begin{eqnarray}
@@ -75,42 +77,127 @@ Eq.(\ref{eq:eq510_a})によれば、ステージの変位を慣性系に対し�
 
 
 
-\subsubsection{Sensor Correction Technique}
-センサーコレクション制御は、地面においた感度の良い別の慣性センサーで、フィードバック用の慣性センサーの感度不足を補う制御である。Eq.(\ref{eq:eq506})の関係をもつ相補フィルターでブレンドされた制御信号をつかうと、慣性センサーの感度が足りない低周波帯域では、相対位置センサーの信号をつかってフィードバック制御をしなければならない。この相対位置センサーは地面からのステージの変位を測るので、低周波帯域では、ステージは地面に対して同じに動くことを意味する。センサーコレクション制御は、もう一つの地震計で測定した地面振動をつかって、この制御信号から地面振動を取り除くことで、制御信号を慣性系からみたステージの変位信号に補正する。
+\subsection{Sensor Correction Technique}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=10cm]{./img_chap5/img505.png}
+    \caption{Sensor correction scheme.} \label{img:img505}
+  \end{center}
+\end{figure}
+センサーコレクション制御は相対位置センサーを慣性センサーに修正するための方法である。\cite{hua2005low}。上述したとおり、Eq.(\ref{eq:eq506})の関係をもつ相補フィルターでブレンドされた制御信号をつかうと、慣性センサーの感度が足りない低周波帯域では、相対位置センサーの信号をつかってフィードバック制御をしなければならない。この相対位置センサーは地面からのステージの変位を測るので、低周波帯域では、ステージは地面に対して同じに動くことを意味する。そこでFig.\ref{img:img505}に示すように、もう一つ別の地面においた感度の良い地震計で測定した地面振動をつかって、変位センサーの信号から地面振動成分を取り除く。この修正された相対位置センサーの信号を制御信号につかえば、ステージに置いた慣性センサーの感度不足を補うことができる。
 
-
-
+センサーコレクションをつかった場合のステージの変位を考える。Fig.\ref{img:img503}に示すように、センサーコレクションの信号は制御フィルター$C_{\mathrm{sc}}$を経てセットポイントで制御信号から地面振動成分を取り除く。この修正によって、ステージの変位は
 \begin{eqnarray}\nonumber
-  X_{\mathrm{STG}} &=&\frac{G}{1+G}L\left(1-C_{\mathrm{sc}}\frac{S_{\mathrm{ff}}}{L}\right) X_{\mathrm{GND}} + \frac{1}{1+G}H_{\mathrm{s}}X_{\mathrm{GND}}\\ 
-  &+& \frac{G}{1+G}\left(HN_{H}+LN_{L}\right) + \frac{G}{1+G}C_{\mathrm{sc}}S_{\mathrm{ff}}N_{\mathrm{ff}}
-\end{eqnarray}\label{eq:eq511}
+  X_{\mathrm{STG}} &=&\frac{G}{1+G}L\left(1-C_{\mathrm{sc}}\frac{S_{\mathrm{wit}}}{L}\right) X_{\mathrm{GND}} + \frac{1}{1+G}H_{\mathrm{s}}X_{\mathrm{GND}}\\ 
+  &+& \frac{G}{1+G}\left(HN_{H}+LN_{L}\right) + \frac{G}{1+G}C_{\mathrm{sc}}S_{\mathrm{wit}}N_{\mathrm{ff}} \label{eq:eq511}
+\end{eqnarray}
+のように与えられる。フィードバックが働くようにループゲインを十分大きくすると、
+\begin{eqnarray}
+  \lim_{G\to\infty} X_{\mathrm{STG}} = L\Delta_{\mathrm{sc}} X_{\mathrm{GND}} + \left(HN_{H}+LN_{L}\right) + {L}N_{\mathrm{ff}} \label{eq:eq513}
+\end{eqnarray}
+になる。ここでゲインマッチ誤差を
+\begin{eqnarray}
+  \Delta_{\mathrm{sc}} \equiv \left(1-C_{\mathrm{sc}}\frac{S_{\mathrm{wit}}}{L}\right) \label{eq:eq512}
+\end{eqnarray}
+とした。したがってEq.(\ref{eq:eq513})はEq.(\ref{eq:eq510_a}) と比較すると、ステージの変位はゲインマッチ$\Delta_{\mathrm{sc}}$によって地面振動の寄与を低減できることがわかる。
 
-\subsubsection{Feedforward Technique}
+このゲインマッチは、Eq.(\ref{eq:eq512})によれば$C_{\mathrm{sc}}=B_{\mathrm{L}}(S_{\mathrm{wit}}/S_{\mathrm{L}})$のときゼロになるが、実際はWitnessセンサーとステージに置いた慣性センサーのキャリブレーションエラーで制限される。現実的にはキャリブレーションエラーはすくなくとも5\%程度になるので、センサーコレクションのみで防振比を20以上にするのは難しい\cite{hua2005low}。
+
+
+\subsection{Feedforward Technique}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=10cm]{./img_chap5/img506.png}
+    \caption{Sensor correction scheme.} \label{img:img506}
+  \end{center}
+\end{figure}
+センサーコレクションに似た方法としてfeedforward制御がある。これはステージの地面振動揺れを直接取り除く方法である。Fig.\ref{img:img506}に示すように、地面からのステージへの伝達関数$H_{\mathrm{s}}$で伝わるステージの揺れを、地面においたWitnessセンサーで測った地面振動の信号をつかってステージを$P_{\mathrm{s}}$で動かす。このフィードフォワード制御はフィードバック制御に依らない。つまり、フィードフォワード制御はフィードバックループが小さい帯域で働き、一方でセンサーコレクション制御はフィードバックループが大きい帯域ではたらく。このような2つの制御をフィードバック制御に組み合わせることで、地面振動ノイズを低減する。
+
+フィードフォワード制御、センサーコレクション制御、フィードフォワード制御で制御されている状態での、ステージの変位を考える。
+Fig.\ref{img:img503}にしめすとおり、エラーポイントにフィードフォワード信号を、セットポイントにセンサーコレクション信号を入れる。このときのステージの変位は、
 \begin{eqnarray}\nonumber
-  X_{\mathrm{STG}} &=&\frac{G}{1+G}L\left(1-C_{\mathrm{sc}}\frac{S_{\mathrm{ff}}}{L}\right) X_{\mathrm{GND}} + \frac{1}{1+G}\left(H_{\mathrm{s}}-P_{\mathrm{a}} C_{\mathrm{ff}} S_{\mathrm{ff}}\right) X_{\mathrm{GND}}\\ \nonumber
-  &+& \frac{G}{1+G}\left(HN_{H}+LN_{L}\right) + \frac{G}{1+G}C_{\mathrm{sc}}S_{\mathrm{ff}}N_{\mathrm{ff}} \\ 
-  &+& \frac{1}{1+G}P_{\mathrm{a}} C_{\mathrm{ff}}S_{\mathrm{ff}}N_{\mathrm{ff}}
-\end{eqnarray}\label{eq:eq512}
+  X_{\mathrm{STG}} &=&\frac{G}{1+G}L\Delta_{\mathrm{sc}} X_{\mathrm{GND}} + \frac{1}{1+G} \Delta_{\mathrm{ff}} X_{\mathrm{GND}}\\ \nonumber
+  &+& \frac{G}{1+G}\left(HN_{H}+LN_{L}\right) + \frac{G}{1+G}C_{\mathrm{sc}}S_{\mathrm{wit}}N_{\mathrm{ff}} \\ 
+  &+& \frac{1}{1+G}P_{\mathrm{a}} C_{\mathrm{ff}}S_{\mathrm{wit}}N_{\mathrm{ff}} \label{eq:eq514}
+\end{eqnarray}
+となる。ここで新たにフィードフォワード制御でのゲインマッチ誤差
+\begin{eqnarray}
+  \Delta_{\mathrm{ff}} \equiv \left(H_{\mathrm{s}}-P_{\mathrm{a}}C_{\mathrm{ff}}S_{\mathrm{wit}}\right) \label{eq:eq515}
+\end{eqnarray}
+を導入した。Eq.(\ref{eq:eq514})において、地面振動からの寄与を表す第一項と第二項はそれぞれ、ループゲイン$G$とは独立して、$\Delta_{\mathrm{sc}}$と$\Delta_{\mathrm{ff}}$をつかって低減できることがわかる。
 
 
-\subsection{Toward the Global Seismic Control}
-\subsubsection{Overview}
-\subsubsection{Suspension Point Interferometer}
+
+\subsection{Problem in Tilt-Horizontal Coupling}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=8cm]{./img_chap5/img509.png}
+    \caption{Tilted inertial sensor. Cited from Fig.12 in \cite{collette2012inertial}} \label{img:img509}
+  \end{center}
+\end{figure}
+
+慣性センサーは慣性系からみた見かけの力を測るので、地面の加速度運動と傾斜による重力加速度の変化を区別することはできない。これはTilt-Horizontalカップリングとして知られ、次式のように、センサー信号は地面振動と傾斜の両方に応答してしまう\cite{collette2012inertial}。
+\begin{eqnarray}
+  Y(s)=\frac{-m s^{2}}{m s^{2}+c s+k} \left[ W(s) + \frac{g \sin \left(\theta_{0}\right)}{s^2} \Theta(s) \right] \label{eq:eq515}
+\end{eqnarray}
+ここで、$W(s),\,Y(s),\,\Theta(s)$はそれぞれラプラス空間での、振動子の変位、センサーが測る筐体と振動子との相対変位、筐体の傾斜角である。また$m,\,c,\,k,\,g,\,\theta_0$はそれぞれ、振動子の質量、粘性減衰係数、ばね定数、重力加速度、つりあいの状態での角度である。Eq.(\ref{eq:eq515})によれば、
+\begin{eqnarray}
+  f < \sqrt{\frac{g\sin(\theta_0)}{(2\pi)^2}}\ [\mathrm{Hz}]
+  \label{eq:eq515}
+\end{eqnarray}
+のとき傾斜成分が卓越してくる。たとえば最も傾斜からのカップリングが大きい$\theta_0=\pi/2$のとき、つまり地面振動の並進成分は$f<0.5\ [\mathrm{Hz}]$のとき傾斜成分に埋もれてしまう。
+
+このように低周波では傾斜計として振る舞う慣性センサーを能動防振につかうことはできない。したがって傾斜成分を別の慣性センサーで測定して、制御信号から傾斜成分を取り除くことが必要となり制御が複雑になってしまう\cite{biscans2018optimization}。
+
+
+\section{Suspension Point Interferometer (SPI)}
+\subsection{Basic Idea}
+基線長の能動防振のアイデアはDreverによって30年前に考案された。このアイデアは、腕共振器の懸架点間の長さを Suspension point interferometer (SPI) と呼ばれる補助光学系をつかって測り、その信号で懸架点間の距離を一定に保つように制御するというものであった\cite{drever1987outline}。慣性センサーをもちいた能動防振とは異なり、低周波で感度が良いので、SPIをもちいた能動防振はDCまで防振することができる。これは最大の利点である。
+
+\subsubsection{Fabry-Perot Type SPI}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=8cm]{./img_chap5/img508.png}
+    \caption{Schematic arrangement for one arm of SPI.} \label{img:img508}
+  \end{center}
+\end{figure}
+当時のアイデアではSPIにコーナーキューブをエンド鏡に利用した非対称マイケル干渉計をもちいていたが、よりテストマスに近い位置で高精度に基線長を制御するために、Fig.\ref{img:img508}に示すように、主干渉計と同じくFabry-Perot光共振器をつかいフィードバック制御するプロトタイプが提案され\cite{drever2002extension}、2mのSPIでは主干渉計のノイズを$1\,\mathrm{Hz}$以下で$40\,\mathrm{dB}$低減することが実証された\cite{aso2004stabilization}。
+
+\subsection{RMS Reduction}
+SPIをつかえば腕共振器長のRMSを低減することができる。
+
+腕共振器のRMSが小さくなれば後述するとおり、重力波望遠鏡にとってさまざまな利点を与える。
+
+\subsection{Noise Improvement}
+\subsubsection{Actuator Noise}
+腕共振器のRMSが小さくなることで、テストマスのアクチュエータ効率を小さくでき、アクチュエータ雑音を小さくすることができる。
+
+\subsubsection{Barkhausen Noise}
+腕共振器のRMSが小さくなることで、アクチュエータにかかる電圧値を小さくでき、バルクハウゼンノイズを低減することが期待できる。
+
+\cite{manson1972frequency}
+\cite{aasi2015characterization}
+\cite{cote1991self}
+
+\subsection{Facilitation of Lock Acquision}
+腕共振器のRMSが小さくなることで、ロックアクイジションが容易になる。
+
+\subsection{Some Difficulties}
+\subsubsection{Difficulty due to Asymmetry of the Suspensions}
+SPIをつかった能動防振は共振器長さを一定にたもつように制御するので、腕共振の同相の動きは防振できない。このとき、サスペンションの非対称性から同相雑音除去比が悪いと、この同相成分が腕共振器長にカップルしてしまう。
+
+\subsubsection{Difficulty in Large Scale GW detectors}
+SPIの欠点は、建設のコストとアラインメントの難しさにある。
 
 %
-\section{Difficulties in the Global Seismic Control}
-\subsection{Overview}
-\subsection{Actuator Range Limit}
-\subsection{...}
-\subsection{...}
-
-
-%
-\section{Arm Length Compensation Using Geophysics Interferometer}
+\section{Baseline Compensation System}\label{sec:52}
 \subsection{Concept}
-\subsection{Geophysics Interferometer for Sensing the Arm Length}
-\subsection{Arm Length Compensation}
-\subsection{Requirements}
+SPIをつかった能動防振の防振性能はCMRRで決まるため、CMRRが悪くなる共振周波数以上の帯域では能動防振をしない。
+
+
+\subsection{Advanatge of GIF}
+\subsection{GIF as SPI}
+\subsection{Control Scheme}
 
 
 \section{Summary of the Chapter}
