@@ -126,7 +126,6 @@ Fig.\ref{img:img503}にしめすとおり、エラーポイントにフィード
 を導入した。Eq.(\ref{eq:eq514})において、地面振動からの寄与を表す第一項と第二項はそれぞれ、ループゲイン$G$とは独立して、$\Delta_{\mathrm{sc}}$と$\Delta_{\mathrm{ff}}$をつかって低減できることがわかる。
 
 
-
 \subsection{Problem in Tilt-Horizontal Coupling}
 \begin{figure}[h]
   \begin{center}   
@@ -149,20 +148,46 @@ Fig.\ref{img:img503}にしめすとおり、エラーポイントにフィード
 このように低周波では傾斜計として振る舞う慣性センサーを能動防振につかうことはできない。したがって傾斜成分を別の慣性センサーで測定して、制御信号から傾斜成分を取り除くことが必要となり制御が複雑になってしまう\cite{biscans2018optimization}。
 
 
-\section{Active Baseline Seismic Isolation}
-\subsection{Suspension Point Interferometer (SPI)}
-基線長の能動防振のアイデアはDreverによって30年前に考案された。このアイデアは、腕共振器の懸架点間の長さを Suspension point interferometer (SPI) と呼ばれる補助光学系をつかって測り、その信号で懸架点間の距離を一定に保つように制御するというものであった\cite{drever1987outline}。慣性センサーをもちいた能動防振とは異なり、低周波で感度が良いので、SPIをもちいた能動防振はDCまで防振することができる。これは最大の利点である。
 
-\subsubsection{Fabry-Perot Type SPI}
-\begin{figure}[h]
+
+
+\section{Active Baseline Seismic Isolation}
+レーザー干渉計型重力波望遠鏡にとって防振すべきは基線長であり、必ずしも個々のステージを慣性系に防振する必要はない。このことに着目して、Suspension Point Interferometer (SPI) と呼ばれる干渉計をつかう基線長能動防振が開発されてきた。
+
+\begin{figure}[H]
   \begin{center}   
-    \includegraphics[width=8cm]{./img_chap5/img508.png}
+    \includegraphics[width=13cm]{./img_chap5/img508.png}
     \caption{Schematic arrangement for one arm of SPI.} \label{img:img508}
   \end{center}
 \end{figure}
-当時のアイデアではSPIにコーナーキューブをエンド鏡に利用した非対称マイケル干渉計をもちいていたが、よりテストマスに近い位置で高精度に基線長を制御するために、Fig.\ref{img:img508}に示すように、主干渉計と同じくFabry-Perot光共振器をつかいフィードバック制御するプロトタイプが提案され\cite{drever2002extension}、2mのSPIでは主干渉計のノイズを$1\,\mathrm{Hz}$以下で$40\,\mathrm{dB}$低減することが実証された\cite{aso2004stabilization}。
+\subsection{Suspension Point Interferometer (SPI)}
+基線長能動防振のアイデアはDreverによっておよそ30年前に考案された。このアイデアは、腕共振器の懸架点間の長さを Suspension point interferometer (SPI) と呼ばれる補助光学系をつかって測り、その信号で懸架点間の距離を一定に保つように制御するというものであった\cite{drever1987outline}。慣性センサーをもちいた能動防振とは異なり、低周波で感度が良いので、SPIをもちいた能動防振はDCまで防振することができ、最大の利点である。そしてこれまでに次に述べるようなさまざまなSPIが開発されてきた。
 
-\subsection{Limitation due to CMRR}
+\subsubsection{Fabry-Perot Optical Cavity Type }
+まずはじめに考案されたのが、Fig.\ref{img:img508}(a) のように主干渉計の腕共振器のすぐ上の段をつかってFabry-Perot共振器をつくるアイデアである\cite{drever2002extension}。このアイデアの優れた点は、テストマスのすぐ近くで腕共振器長を測りフィードバック制御できるので、ゲインを十分に大きくすれば Fig.\ref{img:img508}(b) のように剛体棒として上段は振る舞う。これはつまり、一切基線長変動しない地面振動から単振り子で腕共振器が懸架されていることを意味し、究極的な防振である。そして程なくして、2mの大きさのプロトタイプが開発され、主干渉計の腕共振器長変動を$1\,\mathrm{Hz}$以下で$40\,\mathrm{dB}$低減することが実証された\cite{aso2004stabilization}。
+
+しかしながら、section \cref{sec532} で後述する通り、SPIは共振器長変動のみをモニターしてフィードバック制御するので、腕共振器全体が動くような地面振動の同相成分を低減することができない。言い換えると、SPI以下の振り子の対称性が悪くCMRRが悪いと地面振動の同相成分は共振器長変動にカップリングしてしまう。このことから振り子の共振周波数以上ではCMRRによって能動防振の性能は制限される。
+
+さらにFabry-Perot光共振器型のSPIだと線形レンジが小さいため、SPI自身が共振するためにRMSをおさえるための防振が必要であり、SPI自身の動作が不安定である。2mのプロトタイプでは基線長が短いため、section \cref{sec:sec313} で述べたように、地面振動の逆相成分は十分小さく低減されているが、kmスケールのFabbry-Perot光共振器型のSPIを安定して動作させるには、1000倍条件が厳しくなる。また長期線になれば角度制御に対する要求値も厳しくなるため、Fabry-Perot光共振器型のSPIは問題をかかえてしまう。
+
+\subsubsection{Homodyne Michelson Interferometer Type}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=9cm]{./img_chap5/img508a.png}
+    \caption{Active baseline seismic isolation system using Michelson Type SPI \cite{Numata2008interferometric}. 2つのSPIで基線方向とYaw方向の制御をしている。それぞれのSPIはエンド鏡にコーナーキューブを使用している非対称マイケルソン干渉計であり、干渉信号はホモダイン検波で取得している\cite{araya2002iodine}。コーナーキューブは干渉させるためのアラインメント調整を必要としないが、その反面、角度変化と基線変化を区別できないので、SPIが2台必要になる。} \label{img:img508a}
+  \end{center}
+\end{figure}
+測定のレンジが非常に狭いFabry-Perot光共振器の問題を解決するために、Michelson干渉計をSPIに使った能動防振が開発された\cite{Numata2008interferometric}。このMichelson干渉計はGIFと同じ構成となっており、1m離れたステージ間の距離を一定にたもつようフィードバック制御した。その結果、数時間以上にわたって数nmスケールで基線長を防振することを実証した。
+
+しかしながら、エンドミラーにコーナーキューブを使用しており、角度変化と基線長変化を区別できないため、それらを分離するためにさらに余分にSPIを必要とする。この研究では、YAW方向のみ制御するために合計で2台のSPIをつかっていたが、PIT成分も分離するためには合計で3台のSPIが必要である。実際、彼らの能動防振ではPITの角度揺れからのカップリングが低周波の防振を制限していたため、3台目のSPIが必要である。
+
+\subsubsection{Heterodyne Mach-Zehnder Interferometer Type}
+SPIで角度制御するために
+
+
+\cite{dahl2012suspension,sina2018towards}
+
+\subsection{Limitation due to CMRR}\label{sec532}
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=10cm]{./img_chap5/img510.png}
@@ -178,7 +203,7 @@ Section \cref{sec:512} で述べた能動防振は同相成分と逆相成分の
 である。ここでこれら伝達関数と地面振動について差動成分と同相成分を
 \begin{eqnarray}
   x_{\mathrm{d}} = {x_1-x_2},\ x_{\mathrm{c}} = {x_1+x_2}  \\
-  H_{\mathrm{d}} = \frac{H_1-H_2}{2},\ H_{\mathrm{c}} = \frac{H_1+H_2}{2}
+  H_{\mathrm{d}} = \frac{H_1-H_2}{2},\ H_{\mathrm{c}} = \frac{H_1+H_2}{2} \label{eq:eq517_a}
 \end{eqnarray}
 のように定義し、Eq.(\ref{eq:eq517})を新しく書き下せば、
 \begin{eqnarray}
@@ -202,18 +227,15 @@ Section \cref{sec:512} で述べた能動防振は同相成分と逆相成分の
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=10cm]{./img_chap5/img511.png}
-    \caption{...} \label{img:img511}
+    \caption{SPIをつかったステージの相対変位の能動防振。$X_{\mathrm{d}},\,X_{\mathrm{c}}\,[\mathrm{m}]$はそれぞれ地面振動の差動成分と同相成分である。$H_{\mathrm{d}},\,H_{\mathrm{c}}\,[\mathrm{m/m}]$はEq.(\ref{eq:eq517_a})で定義される伝達関数である。$S_{\mathrm{SPI}}\,[\mathrm{V/m}],\,C_{\mathrm{f}}\,[\mathrm{V/V}],\,P\,[\mathrm{m/V}]\,\,N_{\mathrm{SPI}}\,[\mathrm{m}]$はそれぞれ、SPIのセンサー効率、フィードバックフィルター、アクチュエータからステージの差動揺れへの伝達関数、SPIのセンサーノイズである。} \label{img:img511}
   \end{center}
 \end{figure}
-Fig.\ref{img:img511}に示すようなブロック図でSPIをつかってステージの差動成分$Y_{\mathrm{d}}$を防振する。$X_{\mathrm{d}},\,X_{\mathrm{c}}$はそれぞれ地面振動の作動成分と同相成分である。これらはそれぞれEq.(\ref{eq:eq516})のように個々のステージの地面振動からステージへの伝達関数の
-
-SPIはステージの差動成分である$Y_{\mathrm{d}}$をDCまで測定してフィードバック制御をすることができるが、
-
-
-
+Fig.\ref{img:img511}に示すような制御でSPIをつかってステージの差動成分$Y_{\mathrm{d}}$を防振する。このときの差動成分は、
 \begin{eqnarray}
   Y_{\mathrm{d}}=\frac{1}{1+G} \left( H_{\mathrm{c}} X_{\mathrm{d}} + H_{\mathrm{d}}X_{\mathrm{c}} \right) + \frac{G}{1+G} N_{SPI}
 \end{eqnarray}
+となる。ここでループゲインを$G=S_{\mathrm{SPI}}C_{\mathrm{fb}}P$とした。
+
 \subsection{RMS Reduction}
 SPIをつかえば腕共振器長のRMSを低減することができる。
 

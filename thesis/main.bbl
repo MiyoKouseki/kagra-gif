@@ -297,6 +297,28 @@ Y~Aso, M~Ando, K~Kawabe, S~Otsuka, and K~Tsubono.
   suspension-point interferometer.
 \newblock {\em Physics Letters A}, 327(1):1--8, 2004.
 
+\bibitem{Numata2008interferometric}
+Kenji Numata and Jordan Camp.
+\newblock Interferometric testbed for nanometer level stabilization of
+  environmental motion over long time scales.
+\newblock {\em Appl. Opt.}, 47(36):6832--6841, Dec 2008.
+
+\bibitem{araya2002iodine}
+Akito Araya, Takashi Kunugi, Yoshio Fukao, Isao Yamada, Naoki Suda, Sumitaka
+  Maruyama, Norikatsu Mio, and Shigenori Moriwaki.
+\newblock Iodine-stabilized nd: Yag laser applied to a long-baseline
+  interferometer for wideband earth strain observations.
+\newblock {\em Review of scientific instruments}, 73(6):2434--2439, 2002.
+
+\bibitem{dahl2012suspension}
+K~Dahl, G~Heinzel, B~Willke, K~A Strain, S~Go{￥ss}ler, and K~Danzmann.
+\newblock Suspension platform interferometer for the {AEI} 10 m prototype:
+  concept, design and optical layout.
+\newblock {\em Classical and Quantum Gravity}, 29(9):095024, apr 2012.
+
+\bibitem{sina2018towards}
+PhD thesis.
+
 \bibitem{manson1972frequency}
 G~Manson and G~Hoffmann de~Visme.
 \newblock The frequency spectrum of barkhausen noise.
