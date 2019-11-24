@@ -10,75 +10,89 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 73 of file reference.bib
+I was expecting a `,' or a `}'---line 27 of file reference.bib
+ : 
+ : journal={Nature Astronomy},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 184 of file reference.bib
  : 
  : author={R. W. P . Drever,},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Repeated entry---line 176 of file reference.bib
+Repeated entry---line 287 of file reference.bib
  : @article{nishida2002origin
  :                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 300 of file reference.bib
+Repeated entry---line 411 of file reference.bib
  : @article{naticchioni2014microseismic
  :                                     ,
 I'm skipping whatever remains of this entry
-You're missing a field name---line 421 of file reference.bib
+You're missing a field name---line 532 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--entry type for "biscans2018optimization" isn't style-file defined
---line 520 of file reference.bib
+--line 700 of file reference.bib
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Warning--empty journal in akutsu2018kagra
+Warning--empty year in akutsu2018kagra
 Warning--empty journal in takemoto2003
 Warning--empty author in Daw_2004
 Warning--empty title in Daw_2004
 Warning--empty journal in Daw_2004
 Warning--empty year in Daw_2004
 Warning--empty booktitle in schofield2000source
+Warning--empty publisher in aki2002quantitative
 Warning--empty author in drever1987outline
 Warning--empty institution in drever1987outline
 Warning--empty year in drever1987outline
-You've used 36 entries,
+You've used 52 entries,
             1791 wiz_defined-function locations,
-            682 strings with 11238 characters,
-and the built_in function-call counts, 8298 in all, are:
-= -- 612
-> -- 585
+            768 strings with 14221 characters,
+and the built_in function-call counts, 12161 in all, are:
+= -- 894
+> -- 860
 < -- 0
-+ -- 211
-- -- 175
-* -- 712
-:= -- 1456
-add.period$ -- 106
-call.type$ -- 36
-change.case$ -- 34
++ -- 310
+- -- 258
+* -- 1051
+:= -- 2137
+add.period$ -- 153
+call.type$ -- 52
+change.case$ -- 47
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 305
-empty$ -- 711
-format.name$ -- 175
-if$ -- 1710
+cite$ -- 64
+duplicate$ -- 445
+empty$ -- 1039
+format.name$ -- 258
+if$ -- 2506
 int.to.chr$ -- 0
-int.to.str$ -- 36
-missing$ -- 30
-newline$ -- 181
-num.names$ -- 33
-pop$ -- 65
+int.to.str$ -- 52
+missing$ -- 45
+newline$ -- 260
+num.names$ -- 49
+pop$ -- 97
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 111
+skip$ -- 154
 stack$ -- 0
-substring$ -- 439
-swap$ -- 31
+substring$ -- 664
+swap$ -- 46
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 9
-while$ -- 68
-width$ -- 38
-write$ -- 383
+warning$ -- 12
+while$ -- 99
+width$ -- 54
+write$ -- 554
 is.kanji.str$ -- 0
-(There were 4 error messages)
+(There were 8 error messages)

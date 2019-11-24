@@ -1,25 +1,35 @@
 \begin{thebibliography}{10}
 
-\bibitem{sato2004ultrastable}
-Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
-  Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
-  Collaboration, et~al.
-\newblock Ultrastable performance of an underground-based laser interferometer
-  observatory for gravitational waves.
-\newblock {\em Physical Review D}, 69(10):102005, 2004.
+\bibitem{dan2016study}
+Dan Chen.
+\newblock {\em Study of a cryogenic suspension system for the gravitational
+  wave telescope KAGRA}.
+\newblock PhD thesis, University of Tokyo, 2016.
 
-\bibitem{agatsuma2010thermal}
-Kazuhiro Agatsuma, Koji Arai, Masa-Katsu Fujimoto, Seiji Kawamura, Kazuaki
-  Kuroda, Osamu Miyakawa, Shinji Miyoki, Masatake Ohashi, Toshikazu Suzuki,
-  Ryutaro Takahashi, et~al.
-\newblock Thermal-noise-limited underground interferometer clio.
-\newblock {\em Classical and quantum gravity}, 27(8):084022, 2010.
+\bibitem{levin1998internal}
+Yu. Levin.
+\newblock Internal thermal noise in the ligo test masses: A direct approach.
+\newblock {\em Phys. Rev. D}, 57:659--663, Jan 1998.
 
-\bibitem{ohashi2003design}
-M~Ohashi, K~Kuroda, S~Miyoki, T~Uchiyama, K~Yamamoto, K~Kasahara, T~Shintomi,
-  A~Yamamoto, T~Haruyama, Y~Saito, et~al.
-\newblock Design and construction status of clio.
-\newblock {\em Classical and Quantum Gravity}, 20(17):S599, 2003.
+\bibitem{numata2003wide}
+Kenji Numata, Masaki Ando, Kazuhiro Yamamoto, Shigemi Otsuka, and Kimio
+  Tsubono.
+\newblock Wide-band direct measurement of thermal fluctuations in an
+  interferometer.
+\newblock {\em Phys. Rev. Lett.}, 91:260602, Dec 2003.
+
+\bibitem{harry2002thermal}
+Gregory~M Harry, Andri~M Gretarsson, Peter~R Saulson, Scott~E Kittelberger,
+  Steven~D Penn, William~J Startin, Sheila Rowan, Martin~M Fejer, DRM Crooks,
+  Gianpietro Cagnoli, et~al.
+\newblock Thermal noise in interferometric gravitational wave detectors due to
+  dielectric optical coatings.
+\newblock {\em Classical and Quantum Gravity}, 19(5):897, 2002.
+
+\bibitem{chen2017brief}
+Chiang-Mei Chen, James~M Nester, and Wei-Tou Ni.
+\newblock A brief history of gravitational wave research.
+\newblock {\em Chinese Journal of Physics}, 55(1):142--169, 2017.
 
 \bibitem{ando2001stable}
 Masaki Ando, Koji Arai, Ryutaro Takahashi, Gerhard Heinzel, Seiji Kawamura,
@@ -28,6 +38,75 @@ Masaki Ando, Koji Arai, Ryutaro Takahashi, Gerhard Heinzel, Seiji Kawamura,
 \newblock Stable operation of a 300-m laser interferometer with sufficient
   sensitivity to detect gravitational-wave events within our galaxy.
 \newblock {\em Physical Review Letters}, 86(18):3950, 2001.
+
+\bibitem{grote2010geo}
+Hartmut Grote, LIGO~Scientific Collaboration, et~al.
+\newblock The geo 600 status.
+\newblock {\em Classical and Quantum Gravity}, 27(8):084003, 2010.
+
+\bibitem{abbott2009ligo}
+BP~Abbott, R~Abbott, R~Adhikari, P~Ajith, Bruce Allen, G~Allen, RS~Amin,
+  SB~Anderson, WG~Anderson, MA~Arain, et~al.
+\newblock Ligo: the laser interferometer gravitational-wave observatory.
+\newblock {\em Reports on Progress in Physics}, 72(7):076901, 2009.
+
+\bibitem{accadia2012virgo}
+Thimoth{\'e}e Accadia, F~Acernese, M~Alshourbagy, P~Amico, F~Antonucci,
+  S~Aoudia, N~Arnaud, C~Arnault, KG~Arun, P~Astone, et~al.
+\newblock Virgo: a laser interferometer to detect gravitational waves.
+\newblock {\em Journal of Instrumentation}, 7(03):P03012, 2012.
+
+\bibitem{akutsu2018kagra}
+Ando M. Arai K. et~al. Akutsu, T.
+\newblock Kagra: 2.5 generation interferometric gravitational wave detector.
+
+\bibitem{acernese2014advanced}
+F~Acernese, M~Agathos, K~Agatsuma, D~Aisa, N~Allemandou, A~Allocca, J~Amarni,
+  P~Astone, G~Balestri, G~Ballardin, et~al.
+\newblock Advanced virgo: a second-generation interferometric gravitational
+  wave detector.
+\newblock {\em Classical and Quantum Gravity}, 32(2):024001, 2014.
+
+\bibitem{aasi2015advanced}
+Junaid Aasi, BP~Abbott, Richard Abbott, Thomas Abbott, MR~Abernathy, Kendall
+  Ackley, Carl Adams, Thomas Adams, Paolo Addesso, RX~Adhikari, et~al.
+\newblock Advanced ligo.
+\newblock {\em Classical and quantum gravity}, 32(7):074001, 2015.
+
+\bibitem{beker2013low}
+Mark~G. Beker.
+\newblock {\em {Low-frequency sensitivity of next generation gravitational wave
+  detectors}}.
+\newblock PhD thesis, Vrije U., Amsterdam, 2013.
+
+\bibitem{sato2004ultrastable}
+Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
+  Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
+  Collaboration, et~al.
+\newblock Ultrastable performance of an underground-based laser interferometer
+  observatory for gravitational waves.
+\newblock {\em Physical Review D}, 69(10):102005, 2004.
+
+\bibitem{ohashi2003design}
+M~Ohashi, K~Kuroda, S~Miyoki, T~Uchiyama, K~Yamamoto, K~Kasahara, T~Shintomi,
+  A~Yamamoto, T~Haruyama, Y~Saito, et~al.
+\newblock Design and construction status of clio.
+\newblock {\em Classical and Quantum Gravity}, 20(17):S599, 2003.
+
+\bibitem{tomaru2004development}
+Takayuki Tomaru, Toshikazu Suzuki, Tomiyoshi Haruyama, Takakazu Shintomi,
+  Nobuaki Sato, Akira Yamamoto, Yuki Ikushima, Tomohiro Koyama, and Rui Li.
+\newblock Development of a cryocooler vibration-reduction system for a
+  cryogenic interferometric gravitational wave detector.
+\newblock {\em Classical and Quantum Gravity}, 21(5):S1005, 2004.
+
+\bibitem{uchiyama2012reduction}
+Takashi Uchiyama, Shinji Miyoki, Souichi Telada, Kazuhiro Yamamoto, Masatake
+  Ohashi, Kazuhiro Agatsuma, Koji Arai, Masa-Katsu Fujimoto, Tomiyoshi
+  Haruyama, Seiji Kawamura, et~al.
+\newblock Reduction of thermal fluctuations in a cryogenic laser
+  interferometric gravitational wave detector.
+\newblock {\em Physical review letters}, 108(14):141101, 2012.
 
 \bibitem{punturo2010einstein}
 M~Punturo, M~Abernathy, F~Acernese, B~Allen, Nils Andersson, K~Arun, F~Barone,
@@ -133,6 +212,22 @@ A~ARAYA.
   resolution long-term strain observation based on quantum standard.
 \newblock {\em J. Geod. Soc. Japan}, 53:81--97, 2007.
 
+\bibitem{aki2002quantitative}
+Keiiti Aki and Paul~G Richards.
+\newblock {\em Quantitative seismology}.
+\newblock 2002.
+
+\bibitem{aki1967scaling}
+Keiiti Aki.
+\newblock Scaling law of seismic spectrum.
+\newblock {\em Journal of geophysical research}, 72(4):1217--1231, 1967.
+
+\bibitem{gutenberg1945study}
+B.~Gutenberg.
+\newblock {Amplitudes of surface waves and magnitudes of shallow earthquakes*}.
+\newblock {\em Bulletin of the Seismological Society of America}, 35(1):3--12,
+  01 1945.
+
 \bibitem{trillium120manual}
 Nanometrics Inc., 250 Herzberg Road Kanata, Ontario, Canada K2K 2A1.
 \newblock {\em Trillium 120Q/QA User Guide}, 04 2017.
@@ -182,7 +277,8 @@ Christophe Collette, Stefan Janssens, Pablo Fernandez-Carmona, Kurt Artoos,
 \bibitem{biscans2018optimization}
 Sebastein Biscans.
 \newblock Optimization of the advanced ligo gravitational-wave detectors duty
-  cycle by reduction of parametric instabilities and environmental impacts.
+  cycle by reduction of parametric instabilities and environmental impacts,
+  2018.
 
 \bibitem{drever1987outline}
 Outline of a proposed design for a first receiver for installation in the

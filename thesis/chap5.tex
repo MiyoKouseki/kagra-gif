@@ -1,7 +1,6 @@
 \chapter{Baseline Compensation System}
 
 
-
 \section{Basics in Seismic Isolation}\label{sec:51}
 重力波望遠鏡における地面振動防振の基本は振り子である。より防振比を高めるために、低共振周波数かつ多段振り子をもちいている。
 
@@ -30,7 +29,7 @@ According to Eq.(\ref{eq:eq502}), the amplitude of $H(f)$ is unity below the res
 In order to increase the order of the seismic isolation, multi-stage pendulum is effective. In case of an N-stage pendulum, the transfer function from the ground to the suspended mass is propotional to $f^{-2N}$ above the resonance frequrncy of the pendulum as shown in Fig. \ref{img:img502}. 
 \begin{figure}[h]
   \begin{center}   
-    \includegraphics[width=11cm]{./img_chap5/img502.png}
+    \includegraphics[width=10cm,height=7cm]{./img_chap5/img502.png}
     \caption{The amplitude of the transfer function of the N-stage pendulum. This figure is cited from Fig. 2.4 in \cite{sekiguchi2016astudy}.} \label{img:img502}
   \end{center}
 \end{figure}
@@ -150,8 +149,8 @@ Fig.\ref{img:img503}にしめすとおり、エラーポイントにフィード
 このように低周波では傾斜計として振る舞う慣性センサーを能動防振につかうことはできない。したがって傾斜成分を別の慣性センサーで測定して、制御信号から傾斜成分を取り除くことが必要となり制御が複雑になってしまう\cite{biscans2018optimization}。
 
 
-\section{Suspension Point Interferometer (SPI)}
-\subsection{Basic Idea}
+\section{Active Baseline Seismic Isolation}
+\subsection{Suspension Point Interferometer (SPI)}
 基線長の能動防振のアイデアはDreverによって30年前に考案された。このアイデアは、腕共振器の懸架点間の長さを Suspension point interferometer (SPI) と呼ばれる補助光学系をつかって測り、その信号で懸架点間の距離を一定に保つように制御するというものであった\cite{drever1987outline}。慣性センサーをもちいた能動防振とは異なり、低周波で感度が良いので、SPIをもちいた能動防振はDCまで防振することができる。これは最大の利点である。
 
 \subsubsection{Fabry-Perot Type SPI}
@@ -163,23 +162,74 @@ Fig.\ref{img:img503}にしめすとおり、エラーポイントにフィード
 \end{figure}
 当時のアイデアではSPIにコーナーキューブをエンド鏡に利用した非対称マイケル干渉計をもちいていたが、よりテストマスに近い位置で高精度に基線長を制御するために、Fig.\ref{img:img508}に示すように、主干渉計と同じくFabry-Perot光共振器をつかいフィードバック制御するプロトタイプが提案され\cite{drever2002extension}、2mのSPIでは主干渉計のノイズを$1\,\mathrm{Hz}$以下で$40\,\mathrm{dB}$低減することが実証された\cite{aso2004stabilization}。
 
+\subsection{Limitation due to CMRR}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=10cm]{./img_chap5/img510.png}
+    \caption{...} \label{img:img510}
+  \end{center}
+\end{figure}
+Section \cref{sec:512} で述べた能動防振は同相成分と逆相成分の両方を防振していたのに対して、SPIを使う能動防振では同相成分は防振しない。つまり同相雑音除去比が悪いと同相成分の地面振動がステージ間の相対変位にカップルしてしまう。
+
+同相成分から差動成分への寄与を考える。Fig.\ref{img:img510}(a)のように、2つの場所での地面振動$x_1,\,x_2$がそれぞれの防振ステージの伝達関数$H_1,\,H_2$を経て、ステージの相対変位$y_d$として出力される、2入力1出力のシステムを考える。それぞれのステージと地面振動の変位を$X_{i},\,x_{i}$とし、地面からステージへの伝達関数を$H_{i}$とする。ここで添字は$i=1,2$であり、それぞれITMXとETMXを表す。つまりステージの相対変位$X_{\mathrm{d}}$は
+\begin{eqnarray}
+  y_{\mathrm{d}} = H_1x_1-H_2x_2 \label{eq:eq517}
+\end{eqnarray}
+である。ここでこれら伝達関数と地面振動について差動成分と同相成分を
+\begin{eqnarray}
+  x_{\mathrm{d}} = {x_1-x_2},\ x_{\mathrm{c}} = {x_1+x_2}  \\
+  H_{\mathrm{d}} = \frac{H_1-H_2}{2},\ H_{\mathrm{c}} = \frac{H_1+H_2}{2}
+\end{eqnarray}
+のように定義し、Eq.(\ref{eq:eq517})を新しく書き下せば、
+\begin{eqnarray}
+  y_{\mathrm{d}} &=& H_1x_1-H_2x_2 \\
+  &=& H_{\mathrm{c}}x_{\mathrm{d}} + H_{\mathrm{d}}x_{\mathrm{c}}\label{eq:eq516}
+\end{eqnarray}
+のようにステージの差動信号は地面振動の差動信号と同相信号で表すことができるが、ここでこの差動システムのCMRRを
+\begin{eqnarray}
+  H_{\mathrm{CMRR}} \equiv \frac{H_1+H_2}{H_1-H_2}=\frac{H_{\mathrm{c}}}{H_{\mathrm{d}}} \label{eq:eq519}
+\end{eqnarray}
+と定義すれば、差動システムは
+\begin{eqnarray}
+  y_{\mathrm{d}} = H_{\mathrm{c}}\left( x_{\mathrm{d}} + \frac{1}{H_{\mathrm{CMRR}}}x_{\mathrm{c}}\right) \label{eq:eq518}
+\end{eqnarray}
+となる。つまりEq.(\ref{eq:eq518})は、CMRRを十分おおきくすれば地面振動の同相成分からの寄与を小さくできることを意味している。言い換えるとCMRRの逆比は地面の同相成分から差動成分へのカップリングをあらわしている。
+
+このCMRRは2つの防振装置の差に敏感であるため、共振周波数がわずかにずれると共振周波数以上ではCMRRは悪化する。たとえばEq.(\ref{eq:eq502})のように単振り子だとした場合、高周波では$H\sim{({f_0}/{f})^2}$の伝達関数をもつ。このとき共振周波数が$\Delta{f_0}$ずれると、高周波では$2f_0\Delta{f_0}$ほどゲインに違いが生じる。これはそのままCMRRを悪化させ、高周波での防振比を制限する。
+
+
+\subsection{差動能動防振システム}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=10cm]{./img_chap5/img511.png}
+    \caption{...} \label{img:img511}
+  \end{center}
+\end{figure}
+Fig.\ref{img:img511}に示すようなブロック図でSPIをつかってステージの差動成分$Y_{\mathrm{d}}$を防振する。$X_{\mathrm{d}},\,X_{\mathrm{c}}$はそれぞれ地面振動の作動成分と同相成分である。これらはそれぞれEq.(\ref{eq:eq516})のように個々のステージの地面振動からステージへの伝達関数の
+
+SPIはステージの差動成分である$Y_{\mathrm{d}}$をDCまで測定してフィードバック制御をすることができるが、
+
+
+
+\begin{eqnarray}
+  Y_{\mathrm{d}}=\frac{1}{1+G} \left( H_{\mathrm{c}} X_{\mathrm{d}} + H_{\mathrm{d}}X_{\mathrm{c}} \right) + \frac{G}{1+G} N_{SPI}
+\end{eqnarray}
 \subsection{RMS Reduction}
 SPIをつかえば腕共振器長のRMSを低減することができる。
 
 腕共振器のRMSが小さくなれば後述するとおり、重力波望遠鏡にとってさまざまな利点を与える。
 
-\subsection{Noise Improvement}
-\subsubsection{Actuator Noise}
+\subsubsection{Improvement of Actuator Noise}
 腕共振器のRMSが小さくなることで、テストマスのアクチュエータ効率を小さくでき、アクチュエータ雑音を小さくすることができる。
 
-\subsubsection{Barkhausen Noise}
+\subsubsection{Improvement of Glitch Noise}
 腕共振器のRMSが小さくなることで、アクチュエータにかかる電圧値を小さくでき、バルクハウゼンノイズを低減することが期待できる。
 
 \cite{manson1972frequency}
 \cite{aasi2015characterization}
 \cite{cote1991self}
 
-\subsection{Facilitation of Lock Acquision}
+\subsubsection{Facilitation of Lock Acquision}
 腕共振器のRMSが小さくなることで、ロックアクイジションが容易になる。
 
 \subsection{Some Difficulties}
@@ -188,6 +238,10 @@ SPIをつかった能動防振は共振器長さを一定にたもつように�
 
 \subsubsection{Difficulty in Large Scale GW detectors}
 SPIの欠点は、建設のコストとアラインメントの難しさにある。
+
+
+
+
 
 %
 \section{Baseline Compensation System}\label{sec:52}
@@ -198,6 +252,7 @@ SPIをつかった能動防振の防振性能はCMRRで決まるため、CMRRが
 \subsection{Advanatge of GIF}
 \subsection{GIF as SPI}
 \subsection{Control Scheme}
+
 
 
 \section{Summary of the Chapter}

@@ -110,7 +110,7 @@ These two motions defined in Eq.(\ref{eq:eq22}) and Eq.(\ref{eq:eq100}) are norm
 
 
 
-\subsubsection{Common and Differential Motion Ratio (CDMR)}
+\subsubsection{Common and Differential Motion Ratio (CDMR)}\label{sec:sec313}
 We define the power ratio of the common motion over the differential motion as common and differential motion ratio (CDMR). This ratio is usefull to describe how the differential motion is reduced in the baseline compared to the common motion. CDMR is defined as
 \begin{equation}
   \mathrm{CDMR} \equiv \sqrt{\frac{\mathrm{Common\,Motion}}{\mathrm{Differential\,Motion}}} = \sqrt{\frac{P_{\mathrm{comm}}(\omega)}{P_{\mathrm{diff}}(\omega)}} \label{eq:eq23}
@@ -233,6 +233,14 @@ Below more lower frequency, the earth deformed by tidal forces due to the attrac
 
 (なにかもう少し書く)
 
+\subsubsection{Large Earthquake in the world}
+大規模な地震ほど低周波の地面振動成分が卓越することが知られている\cite{aki2002quantitative,aki1967scaling}。地震によるサイトの地面振動は断層のズレ方と伝搬経路に依存するが、ここでは、同じ場所で同じ震源同じ断層のズレ方を前提とする。このとき以下のようなモデルが観測値をよく説明する。
+\begin{eqnarray}
+  s(\omega) = \displaystyle\frac{S_0}{1+({\omega}/{\omega_0})^2} 
+\end{eqnarray}
+ここで$M_{\mathrm{s}}$は表面波マグニチュードである\cite{gutenberg1945study}。そして$S_0$は$M_{\mathrm{s}}$に比例した定数で、$\omega_0$は$M_{\mathrm{s}}^{1/3}$に比例したコーナー周波数である。この変位スペクトルをさまざまな表面波マグニチュードでプロットしたものをFig(\ref{img:img328})に示す。
+
+このように大規模地震は低周波の地面振動を励起しやすく、特に
 
 \section{Study of Seismic Noise of KAGRA Mine} \label{sec:33}
 \subsection{Overview}
