@@ -1,0 +1,16 @@
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/cdmr 
+Notification   = Never
++Group         = "Xc"
+request_memory = 2 GB
+
+Executable = /usr/bin/python
+Error      = ./log/main.$(Process).err
+Log        = ./log/main.$(Process).log
+Output     = ./log/main.$(Process).out
+
+# ---------------------------------------
+RequestCpus    = 4
+Arguments  = ./main_m31.py cd08_12
+Queue

@@ -1,7 +1,3 @@
-
-persons_data = [(1211817600,1211821696,'exv_seis',0,0,0,'NOT_CHECKED'),
-                (1211821696,1211825792,'exv_seis',0,0,0,'NOT_CHECKED')]
-
 import sqlite3
 import numpy as np
 
@@ -19,40 +15,37 @@ BitFlag:
     3 bit : "GLITCH", If existing, bit rise to 1. Default bit drop to 0.
 '''
 
-CHECK_BIT    = 0b1    # 1
-LACK_OF_FILE = 0b10   # 2
-LACK_OF_DATA = 0b100  # 4
-GLITCH       = 0b1000 # 8
+CHECK_BIT     = 0b1     # 1
+LACK_OF_FILE  = 0b10    # 2
+LACK_OF_DATA  = 0b100   # 4
+NORMAL_REJECT = 0b1000  # 8
 
 
 class DataQuality(object):
     def __init__(self,dbname):
         self.conn = sqlite3.connect(dbname)
         self.cursor = self.conn.cursor()
+        self.check_db()
 
     def check_db(self):
-        with DataQuality('./dataquality/dqflag.db') as db:
-            total      = db.ask('select startgps,endgps from EXV_SEIS')
-            available  = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0')
-            lackoffile = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=2')
-            lackofdata = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=4')
-            glitch     = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=8')
-            use        = db.ask('select startgps,endgps from EXV_SEIS WHERE flag=0 ' +
-                                'and startgps>={0} and endgps<={1}'.format(args.start,
-                                                                           args.end))
-
-        bad = len(total)-len(available)-len(lackoffile)-len(lackofdata)-len(glitch)
-        if bad!=0:
-            raise ValueError('SegmentList Error: Missmatch the number of segments.')
+        fmt_total = 'select startgps,endgps from {seis}'
+        fmt = 'select startgps,endgps from {seis} WHERE flag={flag}'
+        seislist = ['EXV_SEIS','IXV_SEIS','IXVTEST_SEIS','EYV_SEIS',
+                    'MCE_SEIS','MCF_SEIS','BS_SEIS']
+        for seis in seislist:                                
+            total = len(self.ask(fmt_total.format(seis=seis)))
+            for i,flag in enumerate([0,2,4,8]):
+                total -= len(self.ask(fmt.format(seis=seis,flag=flag)))
+            if total!=0:                
+                raise ValueError('SegmentList Error: Missmatch the number '+\
+                                 'of segments.')
         
     def __enter__(self):
-        print("Hello!")
         return self
     
     def __exit__(self, ex_type, ex_value, trace):
         self.conn.commit()
         self.conn.close()
-        print('Close. Bye!')
         
     def bals(self):
         '''Initialize only TEST table
@@ -73,6 +66,8 @@ class DataQuality(object):
         self.cursor.execute('create table {0}('.format(name)+
                             'startgps unique, endgps unique, flag bit)')        
         # Insert TEST value        
+        # segments = zip(range(1211817600     ,1245372032+1,4096),
+        #                range(1211817600+4096,1245372032+1,4096))
         segments = zip(range(1211817600     ,1245372032+1,4096),
                        range(1211817600+4096,1245372032+1,4096))
         data = [(start,end,0) for start,end in segments]
@@ -133,7 +128,7 @@ class DataQuality(object):
         import csv
         with open("{0}.txt".format(fname), "w") as f:            
             for row in rows:
-                print row
+                print(row)
                 f.write('{0} {1} {2}\n'.format(*row))
                 
 
@@ -176,15 +171,30 @@ def danger():
 
 
 
-
+def remake(fname,seis):
+    segments = np.loadtxt(fname,dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
+    statusdict = {'Normal':0b0,
+                  'Normal_Reject':NORMAL_REJECT,
+                  'NoData_LackofData':LACK_OF_DATA,
+                  'NoData_AnyZero':LACK_OF_DATA,
+                  'NoData_AllZero':LACK_OF_DATA,
+                  'NoData_Empty':LACK_OF_DATA,
+                  'NoData_NoChannel':LACK_OF_DATA,
+                  'NoData_FewData':LACK_OF_DATA,
+                  'Nodata_AnyNan':LACK_OF_DATA,
+                  'NoData_FailedtoRead':LACK_OF_FILE,
+                  'Nodata_FailedtoRead':LACK_OF_FILE,
+    }
+    with DataQuality('./dqflag.db') as db:
+        # Remake
+        #db.add_table(seis)
+        for start,end,status in segments:
+            db.update_flag(seis,start,end,statusdict[status],override=True)
 
 if __name__ == '__main__':
-    #segments = np.loadtxt('newfound_lackofdata.txt',dtype=np.int)
-    #print data
-    #exit()
-    with DataQuality() as db:
-        #rows = db.ask('select * from EXV_SEIS WHERE flag=4')
-        #for start,end in segments:
-        #    db.update_flag('EXV_SEIS',start,end,LACK_OF_DATA)
-        print db.ask('select startgps,endgps,flag from EXV_SEIS WHERE startgps=1213312640')
-        #db.to_txt(rows)
+    remake('./result_MCE.txt','MCE_SEIS')
+    remake('./result_MCF.txt','MCF_SEIS')
+    remake('./result_BS.txt' ,'BS_SEIS')
+    remake('./result_EXV.txt' ,'EXV_SEIS')
+    remake('./result_IXV.txt' ,'IXV_SEIS')
+    remake('./result_IXVTEST.txt' ,'IXVTEST_SEIS')
