@@ -18,7 +18,7 @@ from miyopy.utils.trillium import Trillium
 fname_gwf_tr120 = lambda x: './{id}/TR120s_Xaxis.gwf'.format(id=x)
 fname_gwf_gif = lambda x: './{id}/Xaxis_strain.gwf'.format(id=x)
 
-kwargs = {'pad':np.nan,'nproc':2,'verbose':False,'format':'gwf.lalframe'}
+kwargs = {'pad':np.nan,'nproc':4,'verbose':False,'format':'gwf.lalframe'}
 c2v = (20.0/2**15)*u.V/u.ct
 tr120q = Trillium('120QA')
 tr240 = Trillium('240')

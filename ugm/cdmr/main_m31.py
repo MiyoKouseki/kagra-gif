@@ -237,10 +237,12 @@ if __name__ == '__main__':
     #cdmr_r = lambda w,c: np.sqrt((1.0+jv(0,2*L*w/c))/(1.0-jv(0,2*L*w/c)))
     cdmr_r = lambda w,c: np.sqrt((1.0+jv(0,L*w/c))/(1.0-jv(0,L*w/c)))
     spac = lambda w,c: jv(0,L*w/c)
-    fig, (ax0,ax1,ax2,ax3) = plt.subplots(4,1,figsize=(8,14),sharex=True)
+    #fig, (ax0,ax1,ax2,ax3) = plt.subplots(4,1,figsize=(8,14),sharex=True)
+    #fig, (ax0,ax1,ax3) = plt.subplots(3,1,figsize=(8,8),sharex=True)
+    fig, (ax0,ax3) = plt.subplots(2,1,figsize=(8,8),sharex=True)
     plt.subplots_adjust(hspace=0.1)
     ax0.set_ylabel(r'Velocity [m/sec/\rtHz]',fontsize=15)
-    ax0.set_ylim(1e-10,5e-5)
+    ax0.set_ylim(1e-12,5e-5)
     #ax0.loglog(gif,'g',label='GIF')    
     try:
         ax0.loglog(d_x,'r',label='X arm diff.')
@@ -259,40 +261,47 @@ if __name__ == '__main__':
     except:
         print(traceback.format_exc())
 
-    ax0.set_yticks([1e-9,1e-8,1e-7,1e-6,1e-5])
+    ax0.set_yticks([1e-12,1e-11,1e-10,1e-9,1e-8,1e-7,1e-6,1e-5])
     ax0.tick_params(which='minor',color='black',axis='y')
     #ax0.set_yticklabels([1e-10,1e-9,1e-8,1e-7,1e-6],style="sci")
-    ax0.legend(fontsize=10,loc='upper right')        
+    ax0.legend(fontsize=15,loc='upper right')        
     #
-    ax1.semilogx(np.abs(coh_x)**2,'r',label='X arm',zorder=1)
-    ax1.semilogx(np.abs(coh_y)**2,'b',label='Y arm',zorder=1)
-    ax1.set_ylabel('Squared Coherence')
-    ax1.set_ylim(0.0,1.0)
+    if False:
+        ax1.semilogx(np.abs(coh_x)**2,'r',label='X arm',zorder=1)
+        ax1.semilogx(np.abs(coh_y)**2,'b',label='Y arm',zorder=1)
+        ax1.set_ylabel('Squared Coherence')
+        ax1.set_ylim(0.0,1.0)
+    if False:
+        ax2.semilogx(coh_x.real,'r',label='X arm',zorder=1)
+        ax2.semilogx(coh_y.real,'b',label='Y arm',zorder=1)
+        #ax2.semilogx(f,spac(w,c_r),'g',label='Uniform Model',zorder=1)
+        ax2.fill_between(f,spac(w,c_r),spac(w,c_r-2000),facecolor='y',
+                         alpha=0.5,label='Uniform Model')
+        ax2.legend()
+        ax2.set_ylabel('Real Part')
+        ax2.set_ylim(-1.0,1.0)
     #
-    ax2.semilogx(coh_x.real,'r',label='X arm',zorder=1)
-    ax2.semilogx(coh_y.real,'b',label='Y arm',zorder=1)
-    #ax2.semilogx(f,spac(w,c_r),'g',label='Uniform Model',zorder=1)
-    ax2.fill_between(f,spac(w,c_r),spac(w,c_r-2000),facecolor='y',alpha=0.5,label='Uniform Model')
-    ax2.legend()
-    ax2.set_ylabel('Real Part')
-    ax2.set_ylim(-1.0,1.0)
-    #
+    ax3.fill_between(f,cdmr_r(w,c_r),cdmr_r(w,c_r-2000),facecolor='gray',
+                     alpha=0.5,label='Uniform plane waves model')
+    if False:
+        ax3.fill_between(f,cdmr_p(w,c_p),cdmr_p(w,c_p-2000),facecolor='yellow',
+                         alpha=0.5,label='Single plane wave model')
+    a = ax3.loglog(1,1,color='gray',label='Uniform plane waves model')
+    b = ax3.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
+    if False:
+        ax3.text(11, 0.1, 'START : {0}'.format(t0), rotation=90,ha='left',va='bottom')
+        ax3.text(13, 0.1, 'BW : {0:2.2e} , Window : hanning, AVE : {1}'.format(bw,ave),
+                 rotation=90,ha='left',va='bottom')        
     ax3.loglog(cdmr_x,'r',zorder=1)
     ax3.loglog(cdmr_y,'b',zorder=1)
-    #ax3.loglog(f,cdmr_r(w,c_p),'k',label='Uniform Rayleigh waves model (3000 m/sec)')
-    ax3.fill_between(f,cdmr_r(w,c_r),cdmr_r(w,c_r-2000),facecolor='y',alpha=0.5)
-    #ax3.loglog(f,cdmr_p(w,c_p),'g--',label='Single Primary wave model (5500 m/sec)')
-    ax3.loglog(f,np.ones(10000),'g--',label='No correlation model',zorder=2)
-    ax3.text(11, 0.1, 'START : {0}'.format(t0), rotation=90,ha='left',va='bottom')
-    ax3.text(13, 0.1, 'BW : {0:2.2e} , Window : hanning, AVE : {1}'.format(bw,ave),
-             rotation=90,ha='left',va='bottom')        
     ax3.legend(fontsize=10,loc='upper right')
+    #ax3.legend(['Uniform waves model','No correlation model'])
     ax3.set_ylim(1e-1, 1e2)
     ax3.set_xlabel('Frequency [Hz]')        
     ax3.set_ylabel(r'CDMR',fontsize=15)
     ax3.set_xlim(1e-2, 10)
-    ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
-                  fontsize=20)
+    # ax0.set_title('Seismometers, {dname}'.format(dname=dataname.replace('_','')),
+    #               fontsize=20)
     if not os.path.exists('./results/{dname}'.format(dname=dataname)):
         os.mkdir('./results/{dname}'.format(dname=dataname))
     plt.savefig(fname_img_cdmr.format(dname=dataname))

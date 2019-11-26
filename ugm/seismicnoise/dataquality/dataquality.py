@@ -192,9 +192,9 @@ def remake(fname,seis):
             db.update_flag(seis,start,end,statusdict[status],override=True)
 
 if __name__ == '__main__':
-    remake('./result_MCE.txt','MCE_SEIS')
-    remake('./result_MCF.txt','MCF_SEIS')
-    remake('./result_BS.txt' ,'BS_SEIS')
+    #remake('./result_MCE.txt','MCE_SEIS')
+    #remake('./result_MCF.txt','MCF_SEIS')
+    #remake('./result_BS.txt' ,'BS_SEIS')
     remake('./result_EXV.txt' ,'EXV_SEIS')
-    remake('./result_IXV.txt' ,'IXV_SEIS')
-    remake('./result_IXVTEST.txt' ,'IXVTEST_SEIS')
+    #remake('./result_IXV.txt' ,'IXV_SEIS')
+    #remake('./result_IXVTEST.txt' ,'IXVTEST_SEIS')

@@ -220,7 +220,7 @@ if __name__ == "__main__":
     fmt_total = 'select startgps,endgps from {2} '+\
                 'WHERE (startgps>={0} and endgps<={1})'
     fmt_gauss = 'select startgps,endgps from {2} '+\
-                'WHERE (flag=0 or flag=8)'+\
+                'WHERE (flag=0)'+\
                 ' and (startgps>={0} and endgps<={1})'
     fmt_gauss_night = 'select startgps,endgps from {2} '+\
                       'WHERE flag=0' +\
@@ -290,7 +290,7 @@ if __name__ == "__main__":
         with open(fname,'a') as f:
             for i,(start,end) in enumerate(total):
             #for i,(start,end) in enumerate(random.sample(total,1)):
-                ans = check(start,end,plot=True,nproc=nproc,
+                ans = check(start,end,plot=False,nproc=nproc,
                             seis=seis,axis='X',
                             tlen=4096,sample_rate=16,cl=0.05)
                 log.debug('{0:03d}/{1:03d} : {2} {3} {4}'.format(
