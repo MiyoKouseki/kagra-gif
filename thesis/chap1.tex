@@ -1,14 +1,76 @@
 \chapter{Background}
+本章では、重力波とその検出器について述べる。
+
+
 \section{Gravitational-wave}
-\subsection{...}
-\section{Sources of Gravitational-wave}
-\subsection{...}
-\section{Interferometric Gravitational-wave detection} \label{sec:13}
+重力波は光速で伝わる時空の歪みである。この歪みは一般相対性理論の結果として導き出されることがアインシュタインによって1919年に示された。しかしながらその歪は非常に小さく、およそ100年後のLIGOによる初検出まで直接検出はされなかった。
 
-\subsection{Detection Principle}
-地上の大型重力波検出器の基本要素はMichelson型レーザー干渉計である。プラスモードの重力波がFig.\ref{img:img}に示すようなMichelson型レーザー干渉計を垂直に通過する場合を考える。
+\subsection{Properties of GWs}
+\subsubsection{Two polized transverse wave}
+The interval between two events in space-time is
+described with the metric tensor $g_{\mu\nu}$ as, 
+\begin{eqnarray}
+  d s^{2}=g_{\mu \nu} d x^{\mu} d x^{\nu} (\mu,\nu = 0,1,2,3),
+\end{eqnarray}
+where $dx^{\mu}$ represents the coordinate distance of the events, and $x^{\mu}$ has 4 components; $(ct,x,y,z)$.
 
-\subsection{Michelson Interferometer}
+In the general relativity theory\cite{einstein1916vd}, the metric tensor $g_{\mu\nu}$ is described by the Einstein's equation;
+\begin{eqnarray}
+  R_{\mu \nu}\left(g_{\mu \nu}\right)-\frac{1}{2} g_{\mu \nu} R\left(g_{\mu \nu}\right)=\frac{8 \pi G}{c^{4}} T_{\mu \nu},
+\end{eqnarray}
+where $R_{\mu\nu}$ is the Ricci tensor, $R=g^{\mu \nu} R_{\mu \nu}$ is the Ricci scalar curvature, $T_{\mu\nu}$ is the energy-momentum tensor, $G$ is the Newton's gravitational constan, and $c$ is the speed of light.
+
+GW is derived from this Einstein's equation when the metric can be described as the perturbation $h_{\mu\nu}$ to the Minkowsky space-time $\eta_{\mu\nu}$, thus
+\begin{eqnarray}
+  g_{\mu \nu}=\eta_{\mu \nu}+h_{\mu \nu}.
+\end{eqnarray}
+In this weak-field regime, the Einsteins's equation is reduced to a linearized wave-equation whose solution is represented as
+\begin{eqnarray}
+  h_{\mu \nu}(z, t)=\left(\begin{array}{cccc}{0} & {0} & {0} & {0} \\ {0} & {-h_{+}} & {h_{\times}} & {0} \\ {0} & {h_{\times}} & {h_{+}} & {0} \\ {0} & {0} & {0} & {0}\end{array}\right) \cos \left[\omega\left(\mathrm{t}-\frac{\mathrm{Z}}{\mathrm{c}}\right)\right],
+\end{eqnarray}
+where $\omega$ is the angluar frequency of GW, $z$ is the propagation direction of the wave, $h_{+} \text {and } h_{\times}$ are the independent polization of that. Therefore, GW is the transverse wave propagating with speed of light.
+
+The two polization of GW are known as plus and cross polization, and these polization change the distance between two points as shown in Fig.\ref{img:img131}. 
+
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=11.0cm]{./img_chap1/img131.png}
+    \caption[Polization of the GW]{Polization of the GW propagating in the direction of the paper. These polization change the distance as the tidal motion.
+}\label{img:img131}
+  \end{center}
+\end{figure}
+
+\subsubsection{Radiation}
+The wave amplitude $h_{\mu\nu}$ is proportional to the second time derivative of the quadrupole moment of the source \cite{einstein1918gravitationswellen};
+\begin{eqnarray}
+  h_{i j}=\frac{2}{r} \frac{G}{c^{4}} \ddot{Q}_{i j}^{T T}\left(t-\frac{r}{c}\right),
+\end{eqnarray}
+where 
+\begin{eqnarray}
+  Q_{i j}^{T T}(x)=\int \rho\left(x^{i} x^{j}-\frac{1}{3} \delta^{i j} r^{2}\right) d^{3} x
+\end{eqnarray}
+is the quadrupole.
+
+\textcolor{red}{もうすこし具体的なQuadrupoleをしめして、現実的に検出できそうな重力波の大きさを述べる。}
+
+\subsection{Sources of Gravitational-wave}
+\subsubsection{Compact Binary Coalescence}
+Compact binary coalescence, such as black holes and neutron stars, emit a characteristic GW signal. \textcolor{red}{もう少し書く}
+
+\subsubsection{Continuous GWs}
+Without rotating two objects, asymmetric spinning stars, such as neutron stars and pulsars, could produce detectable GWs. \textcolor{red}{もう少し書く}
+\subsubsection{Burst GWs}
+\textcolor{red}{書く}
+
+\subsubsection{Stochastic GWs}
+\textcolor{red}{書く}
+\cite{starobinskii1979spectrum,damour2005gravitational,Christensen_2018}
+
+\section{Interferometric Gravitational-wave detection} \label{sec:12}
+
+\subsection{Michelson Interferometer} \label{sec:121}
+地上の大型重力波検出器の基本要素はMichelson型レーザー干渉計である\cite{weiss1972electronically}。プラスモードの重力波がFig.\ref{img:img132}に示すようなMichelson型レーザー干渉計を垂直に通過する場合を考える。
+
 \begin{figure}[H]
   \begin{center}   
     \includegraphics[width=8.0cm]{./img_chap1/img132.png}
@@ -39,35 +101,47 @@ Similarly, power of the output light as REFL port is written as,
 \end{eqnarray}
 Therefore, we can measure the optical phase difference as the amplitude changes using a Photo Detector (PD) and detect GWs.
 
-\subsection{Sensing Noise}
-テストマスが自由質点として外乱を受けていない理想的な場合には、Michelson干渉計のレーザー光の強度ゆらぎと周波数ゆらぎ、検出器でのショットノイズが感度を制限する。
-
-\subsubsection{Noise Contribution}
+\subsubsection{Static Response} 
+Michelson型干渉計によるひずみ計測の誤差を考える。ひずみ量$h$は、両腕の差動変化$L_{-}$とレーザーの波長$\lambda$をつかって$\phi_{-}=\frac{4\pi{L_{-}}}{\lambda}$の関係にあるので、ひずみ量$h$は
+\begin{eqnarray}
+  h = \frac{\Delta{L_{-}}}{L} = \frac{\lambda}{4\pi{L}}\Delta{\phi_{-}} + \frac{L_{-}}{L}\left(\frac{\Delta{f}}{f}\right) \label{eq:eq133_a}
+\end{eqnarray}
+と表すことができる。さらにEq.(\ref{eq:eq133})より、微小な位相変化$\Delta{\phi_{-}}$は入射レーザーの光量変化$\Delta{P_0}$とASポートでの光量変化$\Delta{P_{\mathrm{AS}}}$をつかって
 \begin{eqnarray}
   \Delta{\phi_{-}} = \frac{\tan{(\phi_{-})}}{2} \left[\left(\frac{\Delta P_{\mathrm{AS}}}{P_{\mathrm{AS}}}\right) + \left(\frac{\Delta{P_0}}{P_0}\right) \right] 
 \end{eqnarray}
-
-$\phi_{-}=\frac{4\pi{L_{-}}}{\lambda}$なので
-\begin{eqnarray}
-  h = \frac{\Delta{L_{-}}}{L} = \frac{\lambda}{4\pi{L}}\Delta{\phi_{-}} + \frac{L_{-}}{L}\left(\frac{\Delta{f}}{f}\right)
-\end{eqnarray}
-
+のように表すことができるので、これをEq.(\ref{eq:eq133_a})に代入すれば、
 \begin{eqnarray}
   h = \frac{\lambda}{8\pi{L}}\tan{(\phi_{-})} \left[\left(\frac{\Delta P_{\mathrm{AS}}}{P_{\mathrm{AS}}}\right) + \left(\frac{\Delta{P_0}}{P_0}\right) \right] + \frac{L_{-}}{L}\left(\frac{\Delta{f}}{f}\right) \label{eq:eq137}
 \end{eqnarray} 
-となる。Eq.(\ref{eq:eq137})は、検出可能なひずみの大きさを小さくするには、以下のことが必要である。
+を得る。したがってEq.(\ref{eq:eq137})によれば、ひずみ計測の感度を上げるには以下の事柄が言える。
 \begin{itemize}
   \setlength{\itemsep}{1pt}      %2. ブロック間の余白
   \setlength{\parskip}{-1pt}     %4. 段落間余白．
   \setlength{\itemindent}{0pt}   %5. 最初のインデント
-  \setlength{\labelsep}{5pt}     %6. item と文字の間  
-\item 光検出の誤差$(\Delta P_{\mathrm{AS}}/P_{\mathrm{AS}})$とレーザーの光量ゆらぎ$\Delta{P_0}/P_0$からの寄与を小さくするには、$\phi_{-}\to0$にすべきである。これはASポートをダークにすることを意味する。
-\item 周波数ゆらぎ$\Delta{f}/f$からの寄与を小さくするには、腕の非対称さ$L_{0}\to0$にすべきである。
+  \setlength{\labelsep}{5pt}     %6. item と文字の間
+\item 基線長$L$を長くする。
+\item 光検出の誤差$(\Delta P_{\mathrm{AS}}/P_{\mathrm{AS}})$とレーザーの光量ゆらぎ$\Delta{P_0}/P_0$の寄与を小さくするために、$\phi_{-}\to0$にする。これはASポートでの干渉光を dark frigne にすることを意味する。
+\item 周波数ゆらぎ$\Delta{f}/f$からの寄与を小さくするには、腕の非対称さ$L_{0}\to0$となるように両腕を対称にする。
 \end{itemize}
 
-\subsubsection{Detection Noise}
-Eq.(\ref{eq:eq137})によれば、検出誤差の寄与を小さくするには$\tan{(\phi_{-})}\to0$になるようにASポートでの干渉縞を暗縞にすればよく、
+\subsection{Enhancing the sensitivity}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=12cm,height=7cm]{./img.png}
+    \caption{}{} \label{img:img133}
+  \end{center}
+\end{figure}
 
+\subsubsection{Fabry-Perot optical cavity}
+基線長を100Hz付近で感度を最大にするには基線長を1500kmにしなければならないが、これは現実的ではないので、腕にFabry-Perot腕共振器をおいて光を多重反射させて、実質的な光路長を伸ばす。
+
+\subsubsection{Recycling Cavity}
+基線長を伸ばすほかに、感度の向上と観測帯域をチューニングするためにFig.\ref{img:img}のような場所にパワーリサイクリング鏡とシグナルリサイクリング鏡と呼ばれる鏡をおいて共振器をつくる\cite{meers1988recycling}。1つ目のパワーリサイクリング鏡は干渉計からレーザーに戻る光を折り返してレーザーパワーを上げるための鏡である。レーザーパワーが上がると、後述するショットノイズとひずみ信号のSNRが向上する。次に2つ目のシグナルリサイクリング鏡はASポートに漏れ出たひずみ信号を増幅させるための鏡である。
+
+\subsection{Noise}
+\subsubsection{Shot Noise}
+テストマスが自由質点として外乱を受けていない理想的な場合には、Michelson干渉計のレーザー光の強度ゆらぎと周波数ゆらぎ、検出器でのショットノイズが感度を制限する。
 
 光検出器で光のパワーを検出する場合、ショットノイズと呼ばれる、光子数のゆらぎに起因するノイズをもつ。光子数のカウントはポアソン分布にしたがうが、光子数$N$が十分に大きい場合標準偏差$\sqrt{N}$のガウス分布に従う。つまり光検出器にパワー$P$の光が入射した場合、このショットノイズは
 \begin{eqnarray}
@@ -75,18 +149,11 @@ Eq.(\ref{eq:eq137})によれば、検出誤差の寄与を小さくするには$
 \end{eqnarray}
 のようなホワイトノイズをもち、ASポートでのパワーの平方根に比例したノイズをもつ。
 
-
 相対誤差はパワーの平方根に逆比例する。さらにEq.(\ref{eq:eq133})より、光検出の相対誤差は
 \begin{eqnarray}
   \frac{\Delta P_{\mathrm{AS}}}{P_{\mathrm{0}}}  \propto \frac{1}{\sqrt{P_{\mathrm{AS}}}}\ \ [1/\sqrt{\mathrm{Hz}}]  \label{eq:eq136}
 \end{eqnarray}
-にように、Michelson干渉計へ入射した光量の平方根に反比例することがわかる。つまりショットノイズ
-
-
-検出ノイズがひずみ検出に与える影響は、Eq.(\ref{eq:eq137})より、ASポートにおいた光検出器に入射するパワーの相対ゆらぎ$(\Delta P_{\mathrm{AS}}/P_{\mathrm{AS}})$で与えられる。この相対ゆらぎは、パワーの平方根に反比例するので、ASポートに入射する
-
-\subsection{Disturbance on the Test Mass}
-テストマスはさまざまな外乱によって振動しており、この振動は重力波検出においてのノイズとなる。
+にように、Michelson干渉計へ入射した光量の平方根に反比例することがわかる。つまりショットノイズを抑えるためには入射レーザーパワーを上げることが求められる。
 
 \subsubsection{Seismic Noise}
 地面振動は地上の重力波検出器においてもっとも振幅が大きい外乱である。さまざまな励起源からの弾性波が地面や構造物をつたわってテストマスを揺らす。そのため地面振動を低減するには、励起源から離れた静かな場所でテストマスを防振することが必要である。
@@ -112,27 +179,14 @@ G_{\mathrm{CB}}(f)=G_{\mathrm{SB}}(f)\left(1+\frac{2}{\sqrt{\pi}} \frac{1-2 \sig
 \end{eqnarray}
 で与えられる\cite{numata2003wide,harry2002thermal}。ここで、$d$,$\phi_{\mathrm{coat}}$はそれぞれコーティングの厚さ、loss angle である。
 
-そして最後に、鏡自身の
-
-
-
-
-\subsubsection{Resudual Gas Noise}
-
+そして最後に、
+\textcolor{red}{(サスペンションサーマルノイズを書く。揺動散逸定理を引用して。)}
 
 \section{Large-scale Terrestrial Laser Interferometers}
-\subsection{Overview}
-地上検出器の最終的な目標は、第3世代と呼ばれる、基線長が数10kmの
+\subsection{Terrestrial Laser Interferometers}
+ひずみに対する感度をあげるには長期線化は必須であり、地上のレーザー干渉計は最終的には数10kmスケールのものが建設される予定である\cite{}。この検出器は第3世代と呼ばれ、
 
-地上検出器の最終的な目標は、第3世代とよばれる、数10kmの長期線検出器である。
-
-そのために必要な要素技術の開発と実証のためにさまざまな検出器がつくられてきた。それらをTable\ref{tb:tb101}に示す\cite{chen2017brief}。
-
-第1世代検出器(TAMA\cite{ando2001stable}, GEO\cite{grote2010geo}, LIGO\cite{abbott2009ligo}, Virgo\cite{accadia2012virgo})は、
-
-第2世代検出器(KAGRA\cite{akutsu2018kagra}, Advanced Virgo\cite{acernese2014advanced}, Advanced LIGO\cite{aasi2015advanced})
-
-
+現在までにさまざまな検出器がつくられてきた。それらをTable\ref{tb:tb101}に示す\cite{chen2017brief}。
 \begin{table}[h] 
   \begin{center}
     \caption{\cite{chen2017brief,beker2013low}}\label{tb:tb101}
@@ -153,7 +207,16 @@ G_{\mathrm{CB}}(f)=G_{\mathrm{SB}}(f)\left(1+\frac{2}{\sqrt{\pi}} \frac{1-2 \sig
   \end{center}
 \end{table}
 
-\subsection{Proto Type Interferometers of KAGRA}
+
+\subsubsection{1st Generation}
+第1世代検出器(TAMA\cite{ando2001stable}, GEO\cite{grote2010geo}, LIGO\cite{abbott2009ligo}, Virgo\cite{accadia2012virgo})は、これまでの実験室スケールの干渉計とは異なり、はじめての大型検出器であった。これらの干渉計はパワーリサイクルをしたFPMIであり、
+
+\subsubsection{2nd Generation}
+第2世代検出器(KAGRA\cite{akutsu2018kagra}, Advanced Virgo\cite{acernese2014advanced}, Advanced LIGO\cite{aasi2015advanced})では、
+
+\subsubsection{3rd Generation}
+第3世代検出器では基線長をさらに10倍長くする。
+
 \subsubsection{LISM}
 LISMは世界で初めて地下に建設された20mのレーザー干渉計型の重力波検出器をつかって、干渉計の安定した運転を地下環境で実証するプロジェクトである。LISMの干渉計は20mのFabry-Perot光共振器を腕にもつマイケルソン型レーザー干渉計である。この腕共振器のフィネスは25000と非常に大きくCavity Pole は150Hzに相当する。このようにフィネスの大きい共振器にもかかわらず、DutyCycleは$99.8\,\%$であった。
 
@@ -176,6 +239,10 @@ CLIOは、LISMに引き続いて地下に建設された100mのレーザー干�
 \end{figure}
 
 \subsection{KAGRA}
-\section{Theis Outline}
+KAGRAは第2世代の干渉計であるが、他の検出器とは違い、第3世代に必要な地下環境と極低温鏡の技術を採用しており、第2.5世代とも呼ばれている。
+
+\subsubsection{KAGRA}
+
+
 
 \section{Summary of the Chapter}
