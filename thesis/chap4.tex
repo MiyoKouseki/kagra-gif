@@ -1,9 +1,30 @@
 \chapter{Geophysics Interferometer (GIF)}
+KAGRA is the only GW detector, which has a strainmeter to monitor the baseline length changes. The strainmeter is named Geophysics interferometer (GIF).
+
+GIF is a laser interferometric strainmeter, which is developed by Earthquake Research Institute, University of Tokyo. The purpose of the strainmeter is observe the geophysical phenomena such as 
+
+
+In this chapter, GIF is described.
+
+\section{Overview}
+Geophysics interferometer (GIF) is a $1500\,\mathrm{m}$ laser strainmeter constructed along the X-arm baseline of KAGRA. As shown in Fig.\ref{img:img402}, GIF is an asymmetric Michelson interferometer unlike KAGRA interferometer. Moreover, mirrors of the interferometer of GIF are fixed on the ground to monitor the baseline length changes directly. GIF is now only installed on the X-arm. GIF have been observing the baseline changes for almost 3 years.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=6.5cm]{./img_chap4/img402.png}
+  \caption{Location of geophysics interferometer (GIF). } \label{img:img402}
+\end{figure}
+
 
 \section{Working Principle}
 Section \cref{sec:12} で述べたMichelson干渉計と同じであるので動作原理は同じであるが、GIFの場合、非対称Michelson干渉計なので周波数ノイズがひずみ計測の感度を制限する。
 
-\subsection{Asynmetric Michelson Interferometer}
+\subsection{Asymmetric Michelson Interferometer}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=10.0cm]{./img_chap4/img401.png}
+  \caption{Asymmetric Michelson interferometer. Michelson interferometer which has two different arm length, $l_x\gg{l_y}$.} \label{img:img401}
+\end{figure}
+
 \cref{sec:12}で述べたとおり、マイケルソン干渉計の腕の差動成分${L_{-}}$と位相${\phi_{-}}$には、レーザーの波長を$\lambda$とすれば、${\phi}_{-} = 4\pi\frac{{L_{-}}}{\lambda}$の関係があるので、それらの微小変化には
 \begin{eqnarray}  
   \left|\Delta \phi_{-}\right| = \frac{4\pi{L_{-}}}{\lambda}\left( \left|\frac{\Delta L_{-}}{L_{-}}\right| + \left|\frac{\Delta f}{f}\right|\right) \label{eq:eq400}
@@ -60,32 +81,6 @@ Eq.(\ref{eq:eq407})で表される、基線長の異なる2つのMichelson干渉
   \end{center}
 \end{figure}
 
-
-
-\subsection{Quadrature Phase Fringe Detection}
-\begin{figure}[p]
-  \begin{center}
-    \includegraphics[width=13.0cm]{./img_chap4/img413.png}
-    \caption{Quadrature interferometer used in the GIF strainmeter. A half-wave plate (HWP) produces a p-polarization and s-polarization. A quator-wave plate (QWP) delay the optical phase of the s-polarized light with 90 degree against to the another. As a result, one can obtain the quadrature phase fringe.}\label{img:img413}
-  \end{center}
-\end{figure}
-
-We use the quadrature phase fringe detection to measure the length change of the baseline with wide dynamic range \cite{bobroff1993recent}. The optical layout for the detection is shown in Fig.(\ref{img:img413}).
-
-The quadrature phase fringes are detected by two photo detectors, these can be represented as
-\begin{eqnarray}
-  x(t) &=& x_0 + a \sin(\phi(t)+\phi_0), \\
-  y(t) &=& y_0 + b \cos(\phi(t)),
-\end{eqnarray}
-where $x$ and $y$ are the two voltage outputs from the detectors, $a$ and $b$ are the amplitudes of these fringe signals, $x_0$ and $y_0$ are the offsets, $\phi$ is optical phase, and $\phi_0$ is the phase offsets from imperfections \cite{zumberge2004resolving}.
-このとき、位相角$\phi$は
-\begin{eqnarray}
-  \phi(t) = \arctan{\left(\displaystyle\frac{\frac{b}{a}\frac{x(t)-x_0}{y(t)-y_0}-\sin(\phi_0)}{\cos(\phi_0)}\right)}
-\end{eqnarray}
-で表される。つまりある時刻$t$のときに、パラメーター$x_0,\,y_0,\,a,\,b,\,\phi_0$が与えられれば、そのときの位相$\phi(t)$は求まる。
-
-実際のパラメータの計算はSection\ref{sec33}で後述する。
-
 \subsection{Noise}
 \subsubsection{Frequency Noise}
 先述したように、GIFのような1500mと70cmの腕を持つ非対称マイケルソン干渉計は、腕の同相雑音除去が効かない。周波数ノイズは
@@ -102,13 +97,10 @@ Bcause residual gas fluctuates the optical path, length measured by interferomet
 In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum pressure should be below $1\times10^{-4}\,[\mathrm{Pa}]$. However, actual vacuum pressure is $1\times10^{-2}\,[\mathrm{Pa}]$, then strain is $\sim\times10^{-12}$.
 
 \subsubsection{Thermal fluctuation of the reference arm }
+AAAAAAA
 
 
-
-\section{Optics Design} %光学系
-...\\
-有限の距離でレーザー光を干渉させるにはTEMモードを合わせなければならない。これをモードマッチという。
-
+\section{Optics} %光学系
 \subsection{Gaussian Beam}
 理想的なレーザー光は$\mathrm{TEM}_{00}$と呼ばれる空間モードをもち、電場の位相は距離に応じて変化する。この空間モードをもつビームのことをガウシアンビームと呼ぶ。このガウシアンビームが$z$軸に伝搬する場合を考える。この電場は
 \begin{eqnarray}
@@ -158,7 +150,7 @@ In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum press
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=14cm]{./img_chap4/img416.png}
-    \caption{Schematic optics layout.}\label{img:img416}
+    \caption{Schematic optics layout}{(1) A collimator lens for input beam. (2) A flat mirror for steering mirror. (3) Two concave mirrors with a radius of curvature of $9.8\,\mathrm{m}$ for mode matching. (4) A collimator lens for output beam. The waist of the beam is at the end reflector at point A. Two reflected on the reflectors are combined at point B.}\label{img:img416}
   \end{center}
 \end{figure}
 
@@ -166,37 +158,73 @@ In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum press
 \subsection{Core Optics}
 The core optics of the Michelson interferometer are composed of two reflectors and beam splitter (BS). 
 
-\begin{figure}[p]  
+\begin{figure}[h]
+  \begin{minipage}[b]{7cm}
     \begin{center}   
-      %\includegraphics[width=11cm]{./img_chap4/img418.png} % ファイル重い
-      \includegraphics[width=11cm]{./img.png}
+      %\includegraphics[width=7cm]{./img_chap4/img418.png} % ファイル重い
+      \includegraphics[width=7cm]{./img.png}
       \subcaption{Core optics in the front vacuum chamber. }\label{img:img418}
     \end{center}
+  \end{minipage}\hspace{0.1cm}
+  \begin{minipage}[b]{7cm}
     \begin{center}   
-      %\includegraphics[width=11cm]{./img_chap4/img419.png } %ファイル重い
-      \includegraphics[width=11cm]{./img.png}      
+      %\includegraphics[width=7cm]{./img_chap4/img419.png} %ファイル重い
+      \includegraphics[width=7cm]{./img.png}      
       \subcaption{Core optics in the end vacuum chamber. }\label{img:img419}
     \end{center}
-    \caption{..}
+  \end{minipage}
+  \caption{}  
 \end{figure}
 
 
 \subsection{Frequency Stabilized Laser}
-
-周波数安定を行っている。
+Because GIF is an asymmetric Michelson interferometer, the frequency stability of the laser would limit the sensitivity of the strain, and we use the frequency stabilized laser, which is stabilized the laser frequency to the iodine absorption line \cite{araya2002iodine}. The control diagram of the frequency stabilization system is shown in Fig.\ref{img:img417}. このシステムはヨウ素分子の吸収スペクトル線の周波数とレーザーの周波数との差を利用したフィードバック制御である。エラー信号は、ポンプ光とプローブ光をつかったドップラーフリーな吸収線信号\cite{snyder1980high}をPDH法をつかって取得する。
 
 \begin{figure}[h]
   \begin{center}   
-    \includegraphics[width=11cm]{./img_chap4/img417.png}
+    \includegraphics[width=12cm]{./img_chap4/img417.png}
     \caption{Schematic diagram of the frequency-stabilization system of the GIF main laser.}\label{img:img417}
   \end{center}
 \end{figure}
 
-\section{Data Aquisition System} \label{sec:sec33}
-\subsection{Realtime Processing}
+\section{Realtime Signal  Aquisition System} \label{sec:sec33}
+\subsection{Quadrature Phase Fringe Detection}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=13.0cm]{./img_chap4/img413.png}
+    \caption{Quadrature interferometer used in the GIF strainmeter. A half-wave plate (HWP) produces a p-polarization and s-polarization. A quator-wave plate (QWP) delay the optical phase of the s-polarized light with 90 degree against to the another. As a result, one can obtain the quadrature phase fringe.}\label{img:img413}
+  \end{center}
+\end{figure}
+
+We use the quadrature phase fringe detection to measure the length change of the baseline with wide dynamic range \cite{bobroff1993recent}. The optical layout for the detection is shown in Fig.(\ref{img:img413}).
+
+The quadrature phase fringes are detected by two photo detectors, these can be represented as
+\begin{eqnarray}
+  x(t) &=& x_0 + a \sin(\phi(t)+\phi_0), \\
+  y(t) &=& y_0 + b \cos(\phi(t)),
+\end{eqnarray}
+where $x$ and $y$ are the two voltage outputs from the detectors, $a$ and $b$ are the amplitudes of these fringe signals, $x_0$ and $y_0$ are the offsets, $\phi$ is optical phase, and $\phi_0$ is the phase offsets from imperfections \cite{zumberge2004resolving}.
+このとき、位相角$\phi$は
+\begin{eqnarray}
+  \tan{\phi(t)} = \frac{1}{{\cos(\phi_0)}} \left(\displaystyle{\frac{b}{a}\frac{x(t)-x_0}{y(t)-y_0}-\sin(\phi_0)}\right)
+\end{eqnarray}
+で表される。つまりある時刻$t$のときに、パラメーター$x_0,\,y_0,\,a,\,b,\,\phi_0$が与えられれば、そのときの位相$\phi(t)$は求まる。
+
+\subsection{Realtime Data Processing}
+KAGRAのデジタルシステムをつかってリアルタイムで楕円パラメータを取得する。KAGRAのデジタルシステムでは
+
+\cite{bork2001overview}
 
 
-\subsection{...}
+GIFからの2つの干渉信号を
+
+Fig.\ref{img:img420}にひずみ変換のMatlabのSimlinkモデルを示す。
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=15.0cm]{./img_chap4/img420.png}
+  \caption{}\label{img:img420}
+\end{figure}
 
 
 

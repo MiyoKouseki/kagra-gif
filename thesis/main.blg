@@ -1,8 +1,6 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
-A level-1 auxiliary file: chap1.aux
-A level-1 auxiliary file: chap3.aux
 A level-1 auxiliary file: chap4.aux
 A level-1 auxiliary file: chap5.aux
 A level-1 auxiliary file: chap6.aux
@@ -10,56 +8,32 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 244 of file reference.bib
+I was expecting a `,' or a `}'---line 260 of file reference.bib
  : 
  : journal={Nature Astronomy},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 401 of file reference.bib
+I was expecting a `,' or a `}'---line 417 of file reference.bib
  : 
  : author={R. W. P . Drever,},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Repeated entry---line 504 of file reference.bib
- : @article{nishida2002origin
- :                           ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 544 of file reference.bib
+Repeated entry---line 560 of file reference.bib
  : @article{ciddor1996refractive
  :                              ,
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 604 of file reference.bib
+I was expecting a `,' or a `}'---line 620 of file reference.bib
  : 
  : title={Towards the SQL interferometer : length stabilization at the AEI 10 m-prototype},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Repeated entry---line 634 of file reference.bib
- : @article{naticchioni2014microseismic
- :                                     ,
-I'm skipping whatever remains of this entry
-You're missing a field name---line 755 of file reference.bib
+You're missing a field name---line 771 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--entry type for "biscans2018optimization" isn't style-file defined
---line 923 of file reference.bib
-Warning--empty journal in weiss1972electronically
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Warning--empty journal in akutsu2018kagra
-Warning--empty year in akutsu2018kagra
-Warning--empty journal in takemoto2003
-Warning--empty author in Daw_2004
-Warning--empty title in Daw_2004
-Warning--empty journal in Daw_2004
-Warning--empty year in Daw_2004
-Warning--empty booktitle in schofield2000source
-Warning--empty publisher in aki2002quantitative
+--line 939 of file reference.bib
 Warning--empty year in svelto1998principles
 Warning--empty author in drever1987outline
 Warning--empty institution in drever1987outline
@@ -68,46 +42,46 @@ Warning--empty author in sina2018towards
 Warning--empty title in sina2018towards
 Warning--empty school in sina2018towards
 Warning--empty year in sina2018towards
-You've used 69 entries,
+You've used 26 entries,
             1791 wiz_defined-function locations,
-            858 strings with 16742 characters,
-and the built_in function-call counts, 15635 in all, are:
-= -- 1191
-> -- 1006
+            608 strings with 8366 characters,
+and the built_in function-call counts, 5554 in all, are:
+= -- 428
+> -- 342
 < -- 1
-+ -- 368
-- -- 299
-* -- 1317
-:= -- 2707
-add.period$ -- 203
-call.type$ -- 69
-change.case$ -- 61
++ -- 126
+- -- 100
+* -- 455
+:= -- 959
+add.period$ -- 74
+call.type$ -- 26
+change.case$ -- 22
 chr.to.int$ -- 0
-cite$ -- 87
-duplicate$ -- 594
-empty$ -- 1386
-format.name$ -- 299
-if$ -- 3248
+cite$ -- 34
+duplicate$ -- 218
+empty$ -- 501
+format.name$ -- 100
+if$ -- 1156
 int.to.chr$ -- 0
-int.to.str$ -- 69
-missing$ -- 62
-newline$ -- 344
-num.names$ -- 65
-pop$ -- 136
+int.to.str$ -- 26
+missing$ -- 22
+newline$ -- 129
+num.names$ -- 24
+pop$ -- 61
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 206
+skip$ -- 78
 stack$ -- 0
-substring$ -- 900
-swap$ -- 61
+substring$ -- 292
+swap$ -- 24
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 18
-while$ -- 132
-width$ -- 71
-write$ -- 733
+warning$ -- 8
+while$ -- 47
+width$ -- 28
+write$ -- 271
 is.kanji.str$ -- 0
-(There were 10 error messages)
+(There were 5 error messages)
