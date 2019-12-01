@@ -40,7 +40,7 @@ gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
 # plt.savefig('hoge.png')
 # plt.close()
 #exit()
-plot = gif.plot(ylim=(-1e-7,1e-7))
+plot = gif.plot(ylim=(-1.5e-7,0.5e-7))
 plot.savefig('hoge.png')
 plot.close()
 asd = gif.asd(fftlength=2**17,overlap=2**16)
