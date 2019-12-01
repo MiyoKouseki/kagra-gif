@@ -20,7 +20,7 @@ def nan_helper(y):
 start = tconvert('Nov 13 2019 00:00:00 JST')
 start = tconvert('Nov 16 2019 00:00:00 JST')
 start = tconvert('Nov 18 2019 00:00:00 JST')
-end   = tconvert('Nov 22 2019 00:00:00 JST')
+end   = tconvert('Nov 21 2019 00:00:00 JST')
 #end   = tconvert('Nov 16 2019 03:00:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
@@ -43,7 +43,7 @@ gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
 plot = gif.plot()
 plot.savefig('hoge.png')
 plot.close()
-asd = gif.asd(fftlength=2**14,overlap=2**13)
+asd = gif.asd(fftlength=2**16,overlap=2**15)
 #asd = gif.asd(fftlength=2**10,overlap=2**9)
 plot = asd.plot()
 plot.savefig('huge.png')
