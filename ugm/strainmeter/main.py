@@ -8,12 +8,12 @@ from gwpy.spectrogram import Spectrogram
 
 import Kozapy.utils.filelist as existedfilelist
 
-start = tconvert('Dec 01 2019 00:00:00 JST')
+start = tconvert('Nov 25 2019 00:00:00 JST')
 end   = tconvert('Dec 01 2019 00:01:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
 print(fnamelist)
-data = TimeSeriesDict.read(fnamelist,chname,nproc=2)
+data = TimeSeriesDict.read(fnamelist,chname,nproc=8)
 #data = data.resample(32)
 #data = data.crop(start,end)
 plot = data.plot()

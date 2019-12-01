@@ -11,6 +11,6 @@ Error      = ./log/main.$(Process).err
 Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
 
-RequestCpus    = 2
+RequestCpus    = 8
 Arguments  = ./main.py 
 Queue
