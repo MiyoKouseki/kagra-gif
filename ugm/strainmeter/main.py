@@ -21,7 +21,7 @@ plot = data.plot()
 plot.savefig('hoge.png')
 plot.close()
 gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
-asd = gif.asd(fftlength=2**10,overlap=2**9)
+asd = gif.asd(fftlength=2**14,overlap=2**13)
 plot = asd.plot()
 plot.savefig('huge.png')
 plot.close()
