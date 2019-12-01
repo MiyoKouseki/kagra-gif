@@ -20,7 +20,7 @@ def nan_helper(y):
 start = tconvert('Nov 13 2019 00:00:00 JST')
 start = tconvert('Nov 16 2019 00:00:00 JST')
 start = tconvert('Nov 17 2019 15:00:00 JST')
-end   = tconvert('Nov 24 2019 00:00:00 JST')
+end   = tconvert('Nov 22 2019 00:00:00 JST')
 #end   = tconvert('Nov 16 2019 03:00:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
