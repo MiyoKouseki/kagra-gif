@@ -43,7 +43,7 @@ gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
 plot = gif.plot()
 plot.savefig('hoge.png')
 plot.close()
-asd = gif.asd(fftlength=2**16,overlap=2**15)
+asd = gif.asd(fftlength=2**17,overlap=2**16)
 #asd = gif.asd(fftlength=2**10,overlap=2**9)
 plot = asd.plot()
 plot.savefig('huge.png')
