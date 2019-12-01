@@ -8,8 +8,9 @@ from gwpy.spectrogram import Spectrogram
 
 import Kozapy.utils.filelist as existedfilelist
 
-start = tconvert('Nov 10 2019 00:00:00 JST')
+start = tconvert('Nov 13 2019 00:00:00 JST')
 end   = tconvert('Nov 20 2019 00:00:00 JST')
+end   = tconvert('Nov 13 2019 01:00:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
 print(fnamelist)
@@ -18,4 +19,9 @@ data = TimeSeriesDict.read(fnamelist,chname,nproc=8,pad=0.0)
 #data = data.crop(start,end)
 plot = data.plot()
 plot.savefig('hoge.png')
+plot.close()
+gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
+asd = gif.asd(fftlength=2**10,overlap=2**9)
+plot = asd.plot()
+plot.savefig('huge.png')
 plot.close()
