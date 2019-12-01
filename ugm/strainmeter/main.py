@@ -12,7 +12,7 @@ start = tconvert('Nov 13 2019 00:00:00 JST')
 end   = tconvert('Nov 20 2019 00:00:00 JST')
 #end   = tconvert('Nov 13 2019 01:00:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
-fnamelist = existedfilelist(start,end,trend='second')
+fnamelist = existedfilelist(start,end,trend='minute')
 print(fnamelist)
 data = TimeSeriesDict.read(fnamelist,chname,nproc=8,pad=0.0)
 #data = data.resample(32)
