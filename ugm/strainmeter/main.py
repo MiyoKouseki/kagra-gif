@@ -11,7 +11,8 @@ import Kozapy.utils.filelist as existedfilelist
 
 
 def nan_helper(y):
-    return np.isnan(y), lambda z: z.nonzero()[0]
+    #return np.isnan(y), lambda z: z.nonzero()[0]
+    return y==0.0, lambda z: z.nonzero()[0]
 
 start = tconvert('Nov 13 2019 00:00:00 JST')
 start = tconvert('Nov 16 2019 00:00:00 JST')
@@ -25,9 +26,12 @@ data = TimeSeriesDict.read(fnamelist,chname,nproc=8,pad=np.nan)
 #data = data.resample(32)
 #data = data.crop(start,end)
 gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
-_x,y = gif.times,gif.value
-nans, x= nan_helper(y)
+_x,_y = gif.times,gif.value
+nans, x = nan_helper(_y)
+print(True in nans)
+y = _y
 y[nans] = np.interp(x(nans), x(~nans), y[~nans])
+plt.plot(_x,_y)
 plt.plot(_x,y)
 plt.savefig('hoge.png')
 plt.close()
