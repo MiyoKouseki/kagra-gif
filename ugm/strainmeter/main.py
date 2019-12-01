@@ -8,7 +8,7 @@ from gwpy.spectrogram import Spectrogram
 
 import Kozapy.utils.filelist as existedfilelist
 
-start = tconvert('Nov 01 2019 00:00:00 JST')
+start = tconvert('Nov 10 2019 00:00:00 JST')
 end   = tconvert('Dec 01 2019 00:01:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
