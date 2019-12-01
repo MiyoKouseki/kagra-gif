@@ -20,7 +20,7 @@ def nan_helper(y):
 start = tconvert('Nov 13 2019 00:00:00 JST')
 start = tconvert('Nov 16 2019 00:00:00 JST')
 start = tconvert('Nov 17 2019 15:00:00 JST')
-end   = tconvert('Nov 19 2019 15:00:00 JST')
+end   = tconvert('Nov 20 2019 00:00:00 JST')
 #end   = tconvert('Nov 16 2019 03:00:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
@@ -30,15 +30,15 @@ data = TimeSeriesDict.read(fnamelist,chname,nproc=8,pad=np.nan)
 #data = data.resample(32)
 #data = data.crop(start,end)
 gif = data['K1:GIF-X_STRAIN_OUT_DQ.mean']
-_x,_y = gif.times,gif.value
-nans, x = nan_helper(_y)
-print(True in nans)
-y = _y
-y[nans] = np.interp(x(nans), x(~nans), y[~nans])
-plt.plot(_x,y)
-#plt.plot(_x[nans],y[nans])
-plt.savefig('hoge.png')
-plt.close()
+# _x,_y = gif.times,gif.value
+# nans, x = nan_helper(_y)
+# print(True in nans)
+# y = _y
+# y[nans] = np.interp(x(nans), x(~nans), y[~nans])
+# plt.plot(_x,y)
+# #plt.plot(_x[nans],y[nans])
+# plt.savefig('hoge.png')
+# plt.close()
 #exit()
 plot = gif.plot()
 plot.savefig('hoge.png')
