@@ -13,7 +13,7 @@ end   = tconvert('Dec 01 2019 00:01:00 JST')
 chname = ['K1:GIF-X_STRAIN_OUT_DQ.mean']
 fnamelist = existedfilelist(start,end,trend='second')
 print(fnamelist)
-data = TimeSeriesDict.read(fnamelist,chname,nproc=8)
+data = TimeSeriesDict.read(fnamelist,chname,nproc=8,pad=0.0)
 #data = data.resample(32)
 #data = data.crop(start,end)
 plot = data.plot()
