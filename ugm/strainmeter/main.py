@@ -12,7 +12,10 @@ import Kozapy.utils.filelist as existedfilelist
 
 def nan_helper(y):
     #return np.isnan(y), lambda z: z.nonzero()[0]
-    return y==0.0, lambda z: z.nonzero()[0]
+    diff = np.diff(y)
+    ans = diff > 1e-8
+    ans = y==0.0
+    return ans, lambda z: z.nonzero()[0]
 
 start = tconvert('Nov 13 2019 00:00:00 JST')
 start = tconvert('Nov 16 2019 00:00:00 JST')
@@ -30,7 +33,7 @@ _x,_y = gif.times,gif.value
 nans, x = nan_helper(_y)
 print(True in nans)
 y = _y
-#y[nans] = np.interp(x(nans), x(~nans), y[~nans])
+y[nans] = np.interp(x(nans), x(~nans), y[~nans])
 plt.plot(_x,_y)
 plt.plot(_x[nans],y[nans])
 plt.savefig('hoge.png')
