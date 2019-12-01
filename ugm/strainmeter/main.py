@@ -30,9 +30,9 @@ _x,_y = gif.times,gif.value
 nans, x = nan_helper(_y)
 print(True in nans)
 y = _y
-y[nans] = np.interp(x(nans), x(~nans), y[~nans])
+#y[nans] = np.interp(x(nans), x(~nans), y[~nans])
 plt.plot(_x,_y)
-plt.plot(_x,y)
+plt.plot(_x[nans],y[nans])
 plt.savefig('hoge.png')
 plt.close()
 exit()
