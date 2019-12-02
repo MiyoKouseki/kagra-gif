@@ -32,7 +32,7 @@ else:
     xarm = xarm - xarm.crop(int(start),int(start)+1).mean()
 
     
-fig,ax = plt.subplots(2,1,figsize=(10,10),sharex=True)
+fig,ax = plt.subplots(2,1,figsize=(8,6),sharex=True)
 ax[0].plot(gif,label='X-arm baseline',color='k')
 ax[0].set_ylim(-10,2)
 ax[0].set_xscale('auto-gps')
