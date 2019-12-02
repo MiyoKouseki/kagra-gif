@@ -22,12 +22,18 @@ if False:
     data.name = 'CALC_STRAIN'
     data.write('gif_Sep17.gwf')
 else:
-    gif = TimeSeries.read('gif_Sep17.gwf','CALC_STRAIN')
+    gif = TimeSeries.read('gif_Sep17.gwf','CALC_STRAIN')*3000*1e-6
     fnamelist = existedfilelist(start,end,trend='full')
-    xarm = TimeSeries.read(fnamelist,'K1:CAL-CS_PROC_XARM_FILT_AOM_OUT16')
+    c = 299792458 # m/sec
+    lam = 1064e-9 # m
+    xarm = TimeSeries.read(fnamelist,'K1:CAL-CS_PROC_XARM_FILT_AOM_OUT16')*3000.0/(c/lam)*1e6 # [um]
 
 fig,ax = plt.subplots(2,1,figsize=(10,10))
 ax[0].plot(gif)
+ax[0].set_ylim(-10,10)
+ax[0].set_xscale('auto-gps')
 ax[1].plot(xarm)
+ax[1].set_xscale('auto-gps')
+ax[1].set_ylim(-24,-14)
 plt.savefig('gif.png')
 plt.close()
