@@ -33,11 +33,11 @@ else:
 
     
 fig,ax = plt.subplots(2,1,figsize=(10,10),sharex=True)
-ax[0].plot(gif,label='X-arm baseline length',color='k')
+ax[0].plot(gif,label='X-arm baseline',color='k')
 ax[0].set_ylim(-10,2)
 ax[0].set_xscale('auto-gps')
 ax[0].set_ylabel('Displacement [um]')
-ax[1].plot(xarm,label='X-arm cavity length',color='k')
+ax[1].plot(xarm,label='X-arm cavity',color='k')
 ax[1].set_xscale('auto-gps')
 ax[1].set_ylabel('Displacement [um]')
 ax[1].set_ylim(-10,2)
