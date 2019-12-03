@@ -190,7 +190,7 @@ plt.close()
 
 
 # plot
-fig, (ax1,ax2) = plt.subplots(2,1,figsize=(12,12),sharex=True)
+fig, (ax1,ax2) = plt.subplots(2,1,figsize=(11,11),sharex=True)
 plt.subplots_adjust(hspace=0.06)
 #ax1.set_title(hoge,fontsize=40)
 ax1.loglog(xarm,label='X-Arm',color='b',linewidth=2)
@@ -207,7 +207,7 @@ ax1.legend(loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1,f
 ax1.set_ylim(1e-4,10)
 ax2.set_ylabel('Coherence',fontsize=20)
 ax2.semilogx(coh_gif2xarm,label='X-arm vs. GIF',linewidth=1)
-ax2.semilogx(coh_xarm2seiscomm,label='X-arm vs. Comm.',linewidth=1,linestyle='-')
+#ax2.semilogx(coh_xarm2seiscomm,label='X-arm vs. Comm.',linewidth=1,linestyle='-')
 #ax2.semilogx(coh_gif2seis,label='Diff. vs. GIF',color='k',linewidth=1)
 ax2.semilogx(coh_xarm2itmxipy,label='X-arm vs. ITMX_IP_Y_DAMP',linewidth=1)
 ax2.semilogx(coh_xarm2itmxipt,label='X-arm vs. ITMX_IP_T_DAMP',linewidth=1)
