@@ -10,6 +10,14 @@ channels = [
     'K1:CAL-CS_PROC_XARM_FILT_TM_OUT16',
     'K1:PEM-SEIS_EXV_GND_X_OUT16',
     'K1:PEM-SEIS_IXV_GND_X_OUT16',
+    'K1:VIS-ETMX_BF_DAMP_Y_OUT16',
+    'K1:VIS-ITMX_BF_DAMP_Y_OUT16',
+    'K1:VIS-ETMX_IP_DAMP_Y_OUT16',
+    'K1:VIS-ITMX_IP_DAMP_Y_OUT16',
+    'K1:VIS-ETMX_BF_DAMP_T_OUT16',
+    'K1:VIS-ITMX_BF_DAMP_T_OUT16',
+    'K1:VIS-ETMX_IP_DAMP_T_OUT16',
+    'K1:VIS-ITMX_IP_DAMP_T_OUT16',
     ]
 import argparse   
 parser = argparse.ArgumentParser(description='')
@@ -41,11 +49,11 @@ elif hoge == 'sc1_5':
     start = tconvert('Sep 06 2019 03:42:00 JST') 
     end   = tconvert('Sep 06 2019 04:42:00 JST')
 # --------------------------------------------------
-elif hoge == 'sc2_1': 
+elif hoge == 'sc2_0': 
     # 4.  Gain 0.5 
     start = tconvert('Sep 17 2019 05:26:00 JST')  
     end   = tconvert('Sep 17 2019 05:36:00 JST')
-elif hoge == 'sc2_0':
+elif hoge == 'sc2_1':
     # 5. GIF injection    
     start = tconvert('Sep 17 2019 05:39:00 JST')  
     end   = tconvert('Sep 17 2019 05:49:00 JST')
@@ -117,7 +125,7 @@ elif hoge == 'sc4_6':
 
 # setting
 tlen = int(end) - int(start)
-ave = 16
+ave = 8
 fftlen = tlen/ave
 #fftlen = 2**6
 ovlp = fftlen/2.0
@@ -131,6 +139,10 @@ gif = data['K1:VIS-ETMX_GIF_ARM_L_OUT16']
 xarm = data['K1:CAL-CS_PROC_XARM_FILT_AOM_OUT16']*3000.0/(c/lam)*1e6 # [um]
 etmx_seis = data['K1:PEM-SEIS_EXV_GND_X_OUT16']
 itmx_seis = data['K1:PEM-SEIS_IXV_GND_X_OUT16']
+etmx_ip_y = data['K1:VIS-ETMX_IP_DAMP_Y_OUT16']
+itmx_ip_y = data['K1:VIS-ITMX_IP_DAMP_Y_OUT16']
+etmx_ip_t = data['K1:VIS-ETMX_IP_DAMP_T_OUT16']
+itmx_ip_t = data['K1:VIS-ITMX_IP_DAMP_T_OUT16']
 diff_seis = etmx_seis - itmx_seis
 comm_seis = etmx_seis + itmx_seis
 
@@ -138,6 +150,10 @@ comm_seis = etmx_seis + itmx_seis
 coh_gif2xarm = gif.coherence(xarm,fftlength=fftlen,overlap=ovlp)
 coh_gif2seis = gif.coherence(diff_seis,fftlength=fftlen,overlap=ovlp)
 coh_xarm2seiscomm = xarm.coherence(comm_seis,fftlength=fftlen,overlap=ovlp)
+coh_xarm2itmxipy = xarm.coherence(itmx_ip_y,fftlength=fftlen,overlap=ovlp)
+coh_xarm2etmxipy = xarm.coherence(etmx_ip_y,fftlength=fftlen,overlap=ovlp)
+coh_xarm2itmxipt = xarm.coherence(itmx_ip_t,fftlength=fftlen,overlap=ovlp)
+coh_xarm2etmxipt = xarm.coherence(etmx_ip_t,fftlength=fftlen,overlap=ovlp)
 
 # ASD
 gif = gif.asd(fftlength=fftlen,overlap=ovlp)
@@ -155,6 +171,31 @@ ax1.set_title(hoge,fontsize=40)
 ax1.loglog(xarm,label='X-Arm',color='r',linewidth=2)
 ax1.loglog(xarm.rms(),color='r',linewidth=2,linestyle='--')
 ax1.loglog(gif,label='GIF strainmeter',color='g')
+#ax1.loglog(comm_seis,label='Seismometer comm.',color='k',linestyle='--',linewidth=1)
+ax1.loglog(diff_seis,label='Seismometer diff.',color='k',linestyle='-',linewidth=1)
+ax1.loglog(diff_seis.rms(),color='k',linestyle='--',linewidth=2)
+ax1.set_ylabel('Displacement [um/rtHz or um]',fontsize=25)
+ax1.legend(fontsize=20,loc='lower left')
+ax1.set_ylim(1e-4,10)
+ax2.set_ylabel('Coherence',fontsize=25)
+ax2.semilogx(coh_gif2xarm,label='X-arm vs. GIF',color='r',linewidth=1)
+#ax2.semilogx(coh_xarm2seiscomm,label='X-arm vs. Comm.',color='k',linewidth=1,linestyle='--')
+#ax2.semilogx(coh_gif2seis,label='Diff. vs. GIF',color='k',linewidth=1)
+ax2.legend(fontsize=20,loc='upper left')
+ax2.set_xlabel('Frequency [Hz]',fontsize=25)
+ax2.set_ylim(0,1)
+ax2.set_xlim(1e-2,8)
+plt.savefig('./{0}/{1}.png'.format(hoge.split('_')[0],hoge))
+plt.close()
+
+
+# plot
+fig, (ax1,ax2) = plt.subplots(2,1,figsize=(15,15),sharex=True)
+plt.subplots_adjust(hspace=0.06)
+ax1.set_title(hoge,fontsize=40)
+ax1.loglog(xarm,label='X-Arm',color='r',linewidth=2)
+ax1.loglog(xarm.rms(),color='r',linewidth=2,linestyle='--')
+ax1.loglog(gif,label='GIF strainmeter',color='g')
 ax1.loglog(comm_seis,label='Seismometer comm.',color='k',linestyle='--',linewidth=1)
 ax1.loglog(diff_seis,label='Seismometer diff.',color='k',linestyle='-',linewidth=1)
 ax1.loglog(diff_seis.rms(),color='k',linestyle='--',linewidth=2)
@@ -165,9 +206,14 @@ ax2.set_ylabel('Coherence',fontsize=25)
 ax2.semilogx(coh_gif2xarm,label='X-arm vs. GIF',color='r',linewidth=1)
 ax2.semilogx(coh_xarm2seiscomm,label='X-arm vs. Comm.',color='k',linewidth=1,linestyle='--')
 ax2.semilogx(coh_gif2seis,label='Diff. vs. GIF',color='k',linewidth=1)
+ax2.semilogx(coh_xarm2itmxipy,label='X-arm vs. ITMX_IP_Y_DAMP',linewidth=1)
+ax2.semilogx(coh_xarm2itmxipt,label='X-arm vs. ITMX_IP_T_DAMP',linewidth=1)
+ax2.semilogx(coh_xarm2etmxipy,label='X-arm vs. ETMX_IP_Y_DAMP',linewidth=1)
+ax2.semilogx(coh_xarm2etmxipt,label='X-arm vs. ETMX_IP_T_DAMP',linewidth=1)
+
 ax2.legend(fontsize=20,loc='upper left')
 ax2.set_xlabel('Frequency [Hz]',fontsize=25)
 ax2.set_ylim(0,1)
-ax2.set_xlim(5e-3,8)
-plt.savefig('./{0}/{1}.png'.format(hoge.split('_')[0],hoge))
+ax2.set_xlim(1e-2,8)
+plt.savefig('./{0}/{1}_commseis.png'.format(hoge.split('_')[0],hoge))
 plt.close()
