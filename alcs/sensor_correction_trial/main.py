@@ -190,7 +190,7 @@ plt.close()
 
 
 # plot
-fig, (ax1,ax2) = plt.subplots(2,1,figsize=(10,10),sharex=True)
+fig, (ax1,ax2) = plt.subplots(2,1,figsize=(12,12),sharex=True)
 plt.subplots_adjust(hspace=0.06)
 #ax1.set_title(hoge,fontsize=40)
 ax1.loglog(xarm,label='X-Arm',color='b',linewidth=2)
@@ -210,8 +210,7 @@ ax2.semilogx(coh_xarm2itmxipy,label='X-arm vs. ITMX_IP_Y_DAMP',linewidth=1)
 ax2.semilogx(coh_xarm2itmxipt,label='X-arm vs. ITMX_IP_T_DAMP',linewidth=1)
 ax2.semilogx(coh_xarm2etmxipy,label='X-arm vs. ETMX_IP_Y_DAMP',linewidth=1)
 ax2.semilogx(coh_xarm2etmxipt,label='X-arm vs. ETMX_IP_T_DAMP',linewidth=1)
-
-ax2.legend(fontsize=20,loc='upper right',alpha=0.6)
+ax2.legend(fontsize=20,loc='upper right',alpha=0.4)
 ax2.set_xlabel('Frequency [Hz]',fontsize=25)
 ax2.set_ylim(0,1)
 ax2.set_xlim(1e-2,8)
