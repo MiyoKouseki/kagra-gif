@@ -29,7 +29,7 @@ end1   = tconvert('Sep 17 2019 05:49:00 JST')
 
 # setting
 tlen = int(end1) - int(start1)
-ave = 8
+ave = 4
 fftlen = tlen/ave
 #fftlen = 2**6
 ovlp = fftlen/2.0
