@@ -190,7 +190,7 @@ plt.close()
 
 
 # plot
-fig, (ax1,ax2) = plt.subplots(2,1,figsize=(11,11),sharex=True)
+fig, (ax1,ax2) = plt.subplots(2,1,figsize=(10,10),sharex=True)
 plt.subplots_adjust(hspace=0.06)
 #ax1.set_title(hoge,fontsize=40)
 ax1.loglog(xarm,label='X-Arm',color='b',linewidth=2)
