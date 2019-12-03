@@ -11,9 +11,14 @@ Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
 
 RequestCpus    = 1
+Arguments  = ./main_sc2.py
+Queue
+
+RequestCpus    = 1
 Arguments  = ./main.py sc2_0
 Queue
 
 RequestCpus    = 1
 Arguments  = ./main.py sc2_1
 Queue
+
