@@ -67,8 +67,7 @@ xarm1 = huge(start1,end1)
 # plot
 title = 'sc2'
 fig, ax1 = plt.subplots(1,1,figsize=(7,7),sharex=True)
-#plt.subplots_adjust(hspace=0.06)
-ax1.set_title(title,fontsize=40)
+#ax1.set_title(title,fontsize=40)
 ax1.loglog(xarm0,label='OFF',color='k',linewidth=2)
 ax1.loglog(xarm0.rms(),color='k',linewidth=2,linestyle='--')
 ax1.loglog(xarm1,label='ON',color='r',linewidth=2)
