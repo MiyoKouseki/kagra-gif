@@ -1,43 +1,43 @@
 \chapter{Geophysics Interferometer (GIF)}
-KAGRA is the only GW detector, which has a strainmeter to monitor the baseline length changes. The strainmeter is named Geophysics interferometer (GIF).
+KAGRA is the only GW detector, which has a strainmeter to monitor its baseline length changes. The strainmeter is named Geophysics interferometer (GIF).
 
-GIF is a laser interferometric strainmeter, which is developed by Earthquake Research Institute, University of Tokyo. The purpose of the strainmeter is observe the geophysical phenomena such as 
+GIF is a laser interferometric strainmeter, which is developed by Earthquake Research Institute, University of Tokyo. The purpose of the strainmeter is to observe not only the earthwuake but also the earth free oscillation. Unlike a seismometer, the strainmeter has sensitivity in low-frequency. Moreover, unlike the continuous GPS (CGPS) nets, which also measures a strain ($\sim\,10^{-8}$), the strainmeter has more precision ($\sim\,10^{-12}$) \cite{araya2007broadband}.
 
+In this chapter, instruments of GIF are described. After overview of GIF in section \cref{sec:sec41}, working principles of the interferometer are described in section \cref{sec:sec42}. Optics of GIF are described in section \cref{sec:sec43}. Realtime signal aquisition system to send the strain signal to KAGRA is described in \cref{sec:sec44}
 
-In this chapter, GIF is described.
-
-\section{Overview}
+\section{Overview} \label{sec:sec41}
 Geophysics interferometer (GIF) is a $1500\,\mathrm{m}$ laser strainmeter constructed along the X-arm baseline of KAGRA. As shown in Fig.\ref{img:img402}, GIF is an asymmetric Michelson interferometer unlike KAGRA interferometer. Moreover, mirrors of the interferometer of GIF are fixed on the ground to monitor the baseline length changes directly. GIF is now only installed on the X-arm. GIF have been observing the baseline changes for almost 3 years.
 \begin{figure}[h]
   \centering
-  \includegraphics[width=6.5cm]{./img_chap4/img402.png}
-  \caption{Location of geophysics interferometer (GIF). } \label{img:img402}
+  \includegraphics[width=8cm]{./img_chap4/img402.png}
+  \caption{Location of geophysics interferometer (GIF). Whereas KAGRA is a symmetric L-shape $3000\,\mathrm{m}$ Michelson interferometer, GIF is an asymmetric $1500\,\mathrm{m}$ Michelson interferometer. GIF is only installed along the X-arm tunnel.} \label{img:img402}
 \end{figure}
 
-
-\section{Working Principle}
-Section \cref{sec:12} で述べたMichelson干渉計と同じであるので動作原理は同じであるが、GIFの場合、非対称Michelson干渉計なので周波数ノイズがひずみ計測の感度を制限する。
-
+\section{Working Principle} \label{sec:sec42}
+As described in section \cref{sec:12}, working principle of the strain measurement of GIF is the same as the GW detectors. However, the sensitivity of GIF is limited by the laser frequency noise due to the {\it asymmetric} two arm length.
 \subsection{Asymmetric Michelson Interferometer}
 \begin{figure}[h]
   \centering
   \includegraphics[width=10.0cm]{./img_chap4/img401.png}
-  \caption{Asymmetric Michelson interferometer. Michelson interferometer which has two different arm length, $l_x\gg{l_y}$.} \label{img:img401}
+  \caption{Schematic drawing of the GIF as an asymmetric Michelson interferometer, which has two different arm length, $l_x\gg{l_y}$. In this figure, the mode matching optics and the optics for signal detection are not drawn.} \label{img:img401}
 \end{figure}
 
-\cref{sec:12}で述べたとおり、マイケルソン干渉計の腕の差動成分${L_{-}}$と位相${\phi_{-}}$には、レーザーの波長を$\lambda$とすれば、${\phi}_{-} = 4\pi\frac{{L_{-}}}{\lambda}$の関係があるので、それらの微小変化には
+Fig.\ref{img:img401}に非対称マイケルソン干渉計であるGIFの略図を示す。GIFは$70\,\mathrm{cm}$の腕の長さ変化を基準として$1500\,\mathrm{m}$の腕の変化をREFL位置で干渉信号を取得する。
+
+ここで、腕の非対称さがひずみ計測にどのように影響をあたえるか考える。長さ変化による干渉光の位相$\phi$とマイケルソン干渉計の腕の差動成分${L_{-}}=L_{\mathrm{x}}-L_{\mathrm{y}}$には、レーザーの波長を$\lambda$とすれば、${\phi}_{-} = 4\pi\frac{{L_{-}}}{\lambda}$の関係がある。そしてそれらの微小変化には
 \begin{eqnarray}  
   \left|\Delta \phi_{-}\right| = \frac{4\pi{L_{-}}}{\lambda}\left( \left|\frac{\Delta L_{-}}{L_{-}}\right| + \left|\frac{\Delta f}{f}\right|\right) \label{eq:eq400}
 \end{eqnarray}
-の関係がある。なお、$f$はレーザーの周波数であり、 $\Delta{\lambda}/\lambda = \Delta{f}/f$の関係をつかった。
+の関係がある。なお、$f$はレーザーの周波数であり、 $|\frac{\Delta{\lambda}}{\lambda}| = |\frac{\Delta{f}}{f}|$の関係をつかった。
 
-ここで、2つの腕の長さ$L_{\mathrm{x}},\,L_{\mathrm{y}}$が十分に非対称、つまり$L_{\mathrm{x}} \gg L_{\mathrm{y}}$の場合を考える。また短い方の腕の長さ$L_{\mathrm{y}}$の変動が無視できるとすると、腕の差動成分は$\L_{-}\sim{L_{\mathrm{x}}}$と表すことができる。したがって、Eq.(\ref{eq:eq400})は、X腕のひずみ$h=\Delta{L_{\mathrm{x}}}/L_{\mathrm{x}}$をつかって
+ここで、2つの腕の長さ$L_{\mathrm{x}},\,L_{\mathrm{y}}$が十分に非対称、つまり$L_{\mathrm{x}} \gg L_{\mathrm{y}}$とし、また短い方の腕の長さ$L_{\mathrm{y}}$の変動が無視できるとする, because the reference arm of the interferometer is made by a super invar board. Therefore, 腕の差動成分は$\L_{-}\sim{L_{\mathrm{x}}}$と表すことができる。Eq.(\ref{eq:eq400})は、X腕のひずみ$h=\Delta{L_{\mathrm{x}}}/L_{\mathrm{x}}$をつかって
 \begin{eqnarray}  
   \left|\Delta \phi_{-}\right| = \frac{4\pi{L_{\mathrm{x}}}}{\lambda}\left( \left|h\right|  + \left|\frac{\Delta f}{f}\right|\right) \label{eq:eq400_a}
 \end{eqnarray}
-となる。つまり非対称マイケルソン干渉計の場合、周波数ゆらぎ$|\Delta{f}/f|$はそのままひずみ計速のノイズとなる。
+となる。This equation shows that 周波数ゆらぎ$|\frac{\Delta{f}}{f}|$はそのままひずみ計測のノイズとなる。
 
 \subsection{Seismic Strain Response}
+\subsubsection{Response from $u$ to $\Delta{L}$ ($H_{\mathrm{disp}}$)}
 In order to calculate the response from the seismic strain to the optical phase of the GIF interferometer, the same as the Fig.(\ref{img:img310}), it is assumed that the plane seismic waves which displacement $u(t,x)$ is represented as $u(t,x)=u_0e^{i(\omega{t}-kx)}$ with angular frequency of $\omega$ and wave number of $k$, which propagates along with the direction of the baseline of the strainmeter (right direction in this figure). First, because the length fluctuation between two mirrors sparated with $L$ can be expressed as 
 \begin{eqnarray} 
   \Delta{L(t)} &\equiv& u(t,0) - u(t,L) \\
@@ -47,6 +47,7 @@ where $\tau=L/v$ is the time delay, the transfer function from the displacement 
 \begin{eqnarray} \label{eq:eq404}
   H_{\mathrm{disp}}(s) \equiv \frac{\Delta{L(s)}}{u(s)} = \frac{u(s)\left[ 1-\exp(-\tau{s}) \right]}{u(s)} = 1 - \exp(-\tau{s})
 \end{eqnarray}
+\subsubsection{Response from $\epsilon$ to $\Delta{L}$ ($H_{\mathrm{strain}}$)}
 Moreover, because the strain amplitude $\epsilon{(x,t)}$ is defined as $\epsilon{(x,t)}\equiv\frac{du}{dx}$, the seismic strain is represented as 
 \begin{eqnarray} 
   \epsilon{(x,t)} \equiv \frac{du}{dx} = \frac{du}{dt} \frac{dt}{dx} =  \frac{du}{dt} \frac{1}{v} \label{eq:eq406}
@@ -61,12 +62,12 @@ Finary, because the transfer function from the length change of the baseline to 
 \end{eqnarray}
 Here, as a summary of these transfer function, these are related with each other as shown in Fig.(\ref{img:img411}). 
 
+\subsubsection{Improvement of the sensitivity with longer baseline}
 \begin{figure}[h]
   \centering
   \includegraphics[width=10.0cm]{./img_chap4/img411.png}
   \caption{The response from seismic strain to optical phase. $\epsilon$ is the seismic strain, $u$ is the displacement, $\Delta{L}$ is the length change of the X-arm baseline, and $\phi$ is the optical phase of the GIF interferometer. $C$ is the optical gain of the GIF interferometer given in Eq.(\ref{eq:eq401}). $H_{\mathrm{disp}}$ is the transfer function from the displacement to the length change given in Eq.(\ref{eq:eq404}). $v/s$ is the transfer function from the seismic strain to the displacement given in Eq.(\ref{eq:eq406}). } \label{img:img411}
 \end{figure}
-
 
 Eq.(\ref{eq:eq407})で表される、基線長の異なる2つのMichelson干渉計のひずみから位相への伝達関数のボード図をFig.\ref{img:img411_a}に示す。長さが倍になるとDCでのゲインも2倍になる。コーナー周波数$f_0\equiv \frac{1}{\tau}$は
 \begin{eqnarray}
@@ -96,11 +97,11 @@ Bcause residual gas fluctuates the optical path, length measured by interferomet
 \end{eqnarray}
 In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum pressure should be below $1\times10^{-4}\,[\mathrm{Pa}]$. However, actual vacuum pressure is $1\times10^{-2}\,[\mathrm{Pa}]$, then strain is $\sim\times10^{-12}$.
 
-\subsubsection{Thermal fluctuation of the reference arm }
-AAAAAAA
 
 
-\section{Optics} %光学系
+\section{Optics} \label{sec:sec43} %光学系
+これまでの議論はレーザー光を平面波として扱っていた。しかしながら実際のレーザー光は伝搬する距離で位相のずれやビームサイズの変化が生じる。このようなビームを有限の範囲でかんしょうさせるにはこれらビームプロファイルを適切に設計しなければならない。ここでは、レーザー光がガウシアンビームだとして、$1500\mathrm{m}$の非対称マイケルソン干渉計を干渉させるために必要なモードマッチについて述べる。
+
 \subsection{Gaussian Beam}
 理想的なレーザー光は$\mathrm{TEM}_{00}$と呼ばれる空間モードをもち、電場の位相は距離に応じて変化する。この空間モードをもつビームのことをガウシアンビームと呼ぶ。このガウシアンビームが$z$軸に伝搬する場合を考える。この電場は
 \begin{eqnarray}
@@ -187,7 +188,10 @@ Because GIF is an asymmetric Michelson interferometer, the frequency stability o
   \end{center}
 \end{figure}
 
-\section{Realtime Signal  Aquisition System} \label{sec:sec33}
+\section{Realtime Signal  Aquisition System} \label{sec:sec44}
+
+
+
 \subsection{Quadrature Phase Fringe Detection}
 \begin{figure}[h]
   \begin{center}

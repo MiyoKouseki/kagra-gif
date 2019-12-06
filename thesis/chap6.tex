@@ -47,39 +47,108 @@ KAGRAのメイン干渉計の図をFig.\ref{img:img601}に示す。KAGRAは他�
 \end{figure}
 
 
-KAGRAの干渉計は、おもに4つに分けられる; arm caivties, input and output mode cleaners (IMC and OMC), power resycling cavities (PRC), and signal resycling cavities (SRC).
-
-Arm cavities are composed of input test masses (ITMs) and end test masses (ETMs). また低温鏡であるITM内部でのパワーをへらすために、フィネスは1530と他の検出器とくらべて高い。
-
-IMCは入射光の空間モードの整形と周波数を安定化させるために使われ、OMCは出射光のunwanted higher-order spatial modes とfrequency sideband を落とすためにある。IMCは3つの鏡で構成される三角共振器であり、およそ1Hz以上の周波数のpre-stabilizationができるように設計されている。またOMCは4つの鏡から構成されるbow-tie cavityである。
-
-PRC はBSと共振器をつくるPRMの他にPR2とPR3鏡で構成される。この共振器で入射光のパワーを10倍増幅させる。
-
-SRCはSRMとSR2、SR3で構成される。SRCは検出器を広帯域にして重力波信号を抜き出すために使われる。This technique is more important than Advanced LIGO and Advanced Virgo, because the bandwidth is narrower than other detectors due to a high finesse arm cavity of KAGRA. 
-
-
+KAGRAの干渉計は、おもに4つに分けられる; arm caivties, input and output mode cleaners (IMC and OMC), power resycling cavities (PRC), and signal resycling cavities (SRC). Arm cavities are composed of input test masses (ITMs) and end test masses (ETMs). また低温鏡であるITM内部でのパワーをへらすために、フィネスは1530と他の検出器とくらべて高い。IMCは入射光の空間モードの整形と周波数を安定化させるために使われ、OMCは出射光のunwanted higher-order spatial modes とfrequency sideband を落とすためにある。IMCは3つの鏡で構成される三角共振器であり、およそ1Hz以上の周波数のpre-stabilizationができるように設計されている。またOMCは4つの鏡から構成されるbow-tie cavityである。PRC はBSと共振器をつくるPRMの他にPR2とPR3鏡で構成される。この共振器で入射光のパワーを10倍増幅させる。SRCはSRMとSR2、SR3で構成される。SRCは検出器を広帯域にして重力波信号を抜き出すために使われる。This technique is more important than Advanced LIGO and Advanced Virgo, because the bandwidth is narrower than other detectors due to a high finesse arm cavity of KAGRA. 
 
 \subsection{Mirror Suspension System}
+KAGRAの干渉計を構成する鏡はすべてSuspensionで懸架されており、それらは４つの種類がある; Type-A, Type-B, Type-Bp, Type-C. Type-Aはテストマス懸架するため、最も高い防振比が求められ、13.5mの9段振り子である。次に変位雑音への要求が高いシグナルリサイクリング鏡は、Type-Aの段数を減らした、Type-B Suspensionで懸架される。そしてType-Bpはさらにpre-isolatorを取り除いたSuspensionであり、Power rycycleを懸架している。最後に、Type-Cは最も簡易的な振り子でTAMAで使用されていたものを修正したSuspensionである。
+
+\begin{figure}[p]
+  \begin{center}   
+    \includegraphics[width=13cm]{./img_chap6/img604.png}
+    \caption{An overview of the Type-A suspension \cite{Okutomi2019development}. Test mass is suspend by a $13.5\,\mathrm{m}$ pendulum consisted of several mechanichal filters. The suspension point of the long pendulum is suported by the pre-isolator, which consists of inverted pendulum, on the ground through the base frame and base ring.}\label{img:img604}
+  \end{center}
+\end{figure}
+
+\begin{figure}[p]
+  \begin{minipage}{1.0\hsize}
+    \begin{center}   
+      \includegraphics[width=12cm]{./img_chap6/img603a.png}
+      \subcaption{Pre-isolator stage (PI). (1) Cantilever blade for GAS. (2) Geophone (3) Table of the top stage (4) Refernce frame rigidly connected to the base ring (5) The base ring mounted on the ground (6) LVDT and the coil magnet actuator (7) suspension wire to suspend the lower stages (8) leg of the inverted pendulum (IP). Figure is cited from figure 3.9 in \cite{Okutomi2019development}}\label{img:img603a}
+    \end{center}
+  \end{minipage}\\   
+  \begin{minipage}[b]{0.5\hsize}
+    \begin{center}
+      \includegraphics[width=8cm]{./img_chap6/img603b.png}
+      \subcaption{Leg of the inverted pendulum (IP) \cite{sekiguchi2016astudy}.}\label{img:img603b}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\hsize}
+    \begin{center}
+      \includegraphics[width=8cm]{./img_chap6/img603c.png}
+      \subcaption{Geometrical Anti-Spring \cite{sekiguchi2016astudy}.}\label{img:img603b}
+    \end{center}
+  \end{minipage}  
+  \caption{CAD drawing of the pre-isolator (top) and main mechanical components of PI; IP leg and GAS (bottom).}
+\end{figure}
+
 
 \section{KAGRA Type-A Suspension}
 \subsection{Overview}
+In order to suspend the cryogenic test mass, as shown in Fig.\ref{img:img604}, KAGRA Type-A suspension has two parts; cryogenic payload and $13.5\,\mathrm{m}$ room temperature tower pendulum \cite{Okutomi2019development}. The cryogenic payload is consisted of Platform, Marionette, Intermediate mass, Test mass. The tower is consited of 5 mechanical filter; Top filter, F1, F2, F3, and Bottom filter. Moreover, the suspension point of tower is suspended by pre-isolator stage which has a inverted pendulum.
 
-\subsection{Mechanical design}
-\subsubsection{Pre-Isolator stage (PI)}
+In terms of the low-frequency seismic attenuation, the pre-isolator is the important mechanical part.
 
-\subsection{Sensors and Actuators}
+
+
+\subsection{Pre-Isolator stage (PI)}
+Pre-iolator(PI)は振り子の懸架点を防振するための能動防振システムであり、\cref{sec:sec}でのべた地震計と変位計をもちいた能動防振である。Fig.\ref{img:img603a}に示すように、機械的には、懸架点の並進方向はIvertedPendulumで、垂直方向はGASで防振されている。
+
+\subsubsection{Inverted pendulum for horizontal vibration isolation}
+Inverted pendulum はPreisolatorの荷重を調整することで、実質的なばね定数を小さくし、共振周波数を小さくすることができる。The angluar eigenfrequency of the singla IP leg is 
+\begin{eqnarray}
+  \omega_{\mathrm{IP}}=\sqrt{\frac{g}{L}\left(\frac{k_{\mathrm{\theta}}/gL-M}{M}\right)},\\
+\end{eqnarray}
+where is the bending spring constant of the flexure, $M$ is the mass of the stage and $L$ is the length of the leg. このように、原理上はステージの質量を調整すれば、共振周波数を0にすることができることがわかる。しかし、平方根の中がマイナスの場合振り子は不安定になるので、実際の共振周波数は$100\,\mathrm{mHz}$程度に設定されている。
+
+\subsubsection{Geometric Anti-Spring for vertical vibration isolation}
+GAS は向かい合わせたcantilever blades を圧縮することで、実質的な上下方向のばね定数を小さくする機械的なフィルターである。GASの固有周波数は、
+\begin{eqnarray}
+  \omega_{\mathrm{GAS}} = \sqrt{\frac{1}{M}\left[{ k_{z}- \left(\frac{l_{0}}{x_{0}}-1\right) k_{x}}\right]},
+\end{eqnarray}
+where $M$ is the load mass, $k_{\mathrm{x}}$ and $k_{\mathrm{z}}$ are the elastic constant of the compressed catilevers, $l_{0}$ is a natural length of the blades, $x_0$ is the horizontal distance between the central keystone and the support poit of the blades. One can find that the angular eigenfrequency of the GAS is reduced when $x_{0}<l_{0}$.
+
 \subsubsection{Liner Variable Differential Transducer (LVDT)}
-\subsubsection{Geophone}
+\begin{figure}[h]
+  \begin{center}   
+    \includegraphics[width=10cm]{./img_chap6/img605.png}
+    \caption{\cite{sekiguchi2016astudy}}\label{img:img605}
+  \end{center}
+\end{figure}
+LVDT is a wide range relative position sensor composed of three coils \cite{Tariq2002hh}. shown in Fig.\ref{img:img605}. The emitter coil is mounted on the pre-isolator stage and driven with a sinusoidal signal to emit a modulated magnetic field. The two receiver coils is mounted on the reference structure, and these coils are counter-wound to each other. When the emitter coil is on the center of two reciever coils, induced voltage is not emitted from the reciever coils. On the other hand, when the pre-isolater is moved, a sinusoidal signal apprears on the reciever coils. Therefore, after demodulating this signal, amplitude of output signal is propotional to the displacement from the LVDT geometrical center.
+
 \subsubsection{Coil-magnet actuator}
-
-
-
+We use a voice-coil type wide range actuator to move the pre-isolator stage \cite{wang2002constant}.
 
 \section{Experimental Arrangement}
-\subsection{X-arm Cavity}
+\subsection{Length measurement of X-arm cavity}
+腕共振器の長さ変化は、腕共振器が共振を維持できるように周波数アクチュエータであるAOMをつかって共振を維持した状態で、その制御信号からもとめた。
+
+
+
+このとき、角度制御以外にマスアクチュエータを使っていない。
+
+
+\subsection{Control Design}
+
+
 \subsection{...}
+
+
 \section{Results}
 \subsection{...}
+基線長補償システムをいれたときのXアーム共振器の腕の長さ変化をしらべた。Fig.\ref{img:img610}に、Xアームの制御信号を示す。
+
+
+
+
+\begin{figure}[p]
+  \begin{center}   
+    \includegraphics[width=12cm]{./img_chap6/img610.png}
+    \caption{}\label{img:img610}
+  \end{center}
+\end{figure}
+
+
 \section{Discussion and Summary of the Chapter}
 \subsection{Discussion}
 \subsection{Summary}
