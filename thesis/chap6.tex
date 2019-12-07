@@ -135,18 +135,57 @@ We use a voice-coil type wide range actuator to move the pre-isolator stage \cit
 
 
 \section{Results}
-\subsection{...}
-基線長補償システムをいれたときのXアーム共振器の腕の長さ変化をしらべた。Fig.\ref{img:img610}に、Xアームの制御信号を示す。
+\subsection{Measurement Results}
+\subsubsection{Reduction of the slow motion}
+基線長補償システムをいれたときのXアーム共振器の腕の長さ変化をしらべた。Fig.\ref{img:img610}に、Xアームの制御信号とそのときの基線長伸縮を示す。12分に、補償システムをいれた。入れる前は、Xアームの長さは基線長伸縮によってゆっくりとドリフトしていたが、入れたあとは、そのドリフトはなくなっている。基線長はおよそ34分の間$8\,\mathrm{um}$ほど変化していたのに対して、補償システムをいれたあとはXアームの長さは$1\,\mathrm{um}$以下に低減されているので、およそ10分の1の低減が確認できる。
+
+\subsubsection{Reduction in the microseismic region}
+また、システムを入れる前後でRMS振幅場が小さくなっていることがわかる。システムを入れた前後の時系列データからもとめたASDをFig.\ref{img:img611}に示す。補償システムをいれたことで、0.01Hz以上の累積RMSの値が半分に減っていることがわかる。
+
+\subsection{Comparison of the models}
+測定したX-arm長変動と、モデルから期待される変動を比較する。このモデルは、Type-Aの振り子を剛体としてモデル化して得られる\cite{sekiguchi2016astudy}。
+
+\subsubsection{When the compensation system is OFF}
+補償システムがOFFのときのXアーム長変動の測定値と、そのときにモデルから期待されるものを比較する。Fig.\ref{img:img611}にその比較を示す。\cref{sec}で述べたように、補償システムを入れる前は、それぞれのPre-isolatorはそれぞれのローカルのLVDTをつかってFeedback制御されている。このときのLVDTのセンサーノイズを水色で、地面振動ノイズをオレンジ色で示す。これらノイズの二乗和のルートをTotalとし、赤色で示す。1Hz以上の、Xアーム測定の測定ノイズで埋もれている帯域を除けば、1Hz以下ではこのTotalは実際の測定値と一致していることがわかる。
+
+\subsubsection{When the compensation system is ON}
+
+
+\begin{figure}[p]
+  \begin{minipage}{15cm}
+    \begin{center}   
+      \includegraphics[width=12cm]{./img_chap6/img610.png}
+      \subcaption{Length change of both X-arm baseline and X-arm cavity when baseline compensation system is turned on or off. At 12 minutes, the control is on.}\label{img:img610} \hfill\vspace{10pt}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{15cm}
+    \begin{center}   
+      \includegraphics[width=10cm]{./img_chap6/img611.png}
+      \subcaption{ASDs of X-arm caivty length when baseline compensation system is turned on and off. }\label{img:img611}
+    \end{center}
+  \end{minipage}
+  \caption{Comparison of the reduction of the X-arm cavity length fluctuation when the baseline compensation system is turned on or off.}{}
+\end{figure}
 
 
 
 
 \begin{figure}[p]
-  \begin{center}   
-    \includegraphics[width=12cm]{./img_chap6/img610.png}
-    \caption{}\label{img:img610}
-  \end{center}
+  \begin{minipage}{15cm}
+    \begin{center}   
+      \includegraphics[width=9cm]{./img_chap6/img612.png}
+      \subcaption{Noise budget of the X-arm length fluctuation when the compensation system is OFF. Measurement is same as the black line in Fig.\ref{img:img611}. Total is the summation of all noise contributions.}\label{img:img612} \hfill\vspace{10pt}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{15cm}
+    \begin{center}   
+      \includegraphics[width=9cm]{./img_chap6/img613.png}
+      \subcaption{Noise budget of the X-arm length fluctuation when the compensation system is ON. Measurement is same as the red line in Fig.\ref{img:img611}. Total is the summation of all noise contributions assuming the reduction factor of sensor correction of 1/20.}\label{img:img613}
+    \end{center}
+  \end{minipage}
+  \caption{Noise budget of the X-arm length fluctuation when the compensation system if turned on or off.}
 \end{figure}
+
 
 
 \section{Discussion and Summary of the Chapter}
