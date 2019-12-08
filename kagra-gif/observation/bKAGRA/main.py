@@ -34,17 +34,17 @@ mich = TimeSeries.read('bKAGRA_mich_state.gwf',
                        end=tconvert('May 6 2018 09:00:00 JST')+78,   
                        format='gwf.lalframe')
 _mich = (mich >= 100).value
-print mich.t0
-print mich.dt
-print mich.shape
-print _mich.shape
-print _mich.shape[0]-16*60*60*24*8
-#print float(_mich.shape[0])/(16*60*60*24)
-_mich = np.average(_mich.reshape(16*60*60*24,_mich.shape[0]/(16*60*60*24)),axis=0)
-print _mich.shape
+# print mich.t0
+# print mich.dt
+# print mich.shape
+# print _mich.shape
+# print _mich.shape[0]-16*60*60*24*8
+print(float(_mich.shape[0])/(16*60*60*24))
+_mich = np.average(_mich.reshape(16*60*60*24,int(_mich.shape[0]/(16*60*60*24))),axis=0)
+#print _mich.shape
 #exit()
 _mich = TimeSeries(_mich,dt=3600*24*u.s,t0=mich.t0)
-print _mich
+print(_mich)
 #exit()
 plot = seis.plot(
     figsize=(15,5),

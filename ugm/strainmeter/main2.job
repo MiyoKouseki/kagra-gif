@@ -1,0 +1,16 @@
+
+Universe       = vanilla 
+GetEnv         = True
+Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/strainmeter
+Notification   = Never
++Group         = "Xc"
+request_memory = 4 GB
+
+Executable = /usr/bin/python 
+Error      = ./log/main2.$(Process).err
+Log        = ./log/main2.$(Process).log
+Output     = ./log/main2.$(Process).out
+
+RequestCpus    = 8
+Arguments  = ./main2.py 
+Queue

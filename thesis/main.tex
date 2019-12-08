@@ -2,7 +2,9 @@
 \documentclass[a4paper,twoside,12pt,openright]{book}
 \usepackage[DIV=10,BCOR=3mm,headinclude=true,footinclude=false]{typearea}
 %
+\usepackage{booktabs}
 \usepackage{jtygm}
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits}
 \usepackage{amsmath,amssymb}
 \usepackage{bm}
 \usepackage[dvipdfmx]{graphicx,color,hyperref,rotating}
@@ -45,12 +47,11 @@
 \tableofcontents
 %\listoffigures
 \include{chap1} % Background
-%\include{chap2} % KAGRA Interferometer
-\include{chap3} % Underground Seismic Noise
-\include{chap4} % Geophysics InterFerometer
-\include{chap5} % Arm Length Compensation for Global Seismic Control
-\include{chap6} % Demonstration of Arm Length Compensation
-\include{chap7} % Conculusion and Future Directions
+%% \include{chap3} % Underground Seismic Noise
+%% \include{chap4} % Geophysics InterFerometer
+%% \include{chap5} % Arm Length Compensation for Global Seismic Control
+%% \include{chap6} % Demonstration of Arm Length Compensation
+%% \include{chap7} % Conculusion and Future Directions
 \appendix
 \include{appendixA} % Theory
 \bibliography{reference}
