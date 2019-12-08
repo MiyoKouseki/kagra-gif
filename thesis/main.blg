@@ -1,71 +1,81 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
-A level-1 auxiliary file: chap6.aux
-A level-1 auxiliary file: chap7.aux
+A level-1 auxiliary file: chap1.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 271 of file reference.bib
+I was expecting a `,' or a `}'---line 320 of file reference.bib
  : 
  : journal={Nature Astronomy},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 428 of file reference.bib
+I was expecting a `,' or a `}'---line 477 of file reference.bib
  : 
  : author={R. W. P . Drever,},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 631 of file reference.bib
+I was expecting a `,' or a `}'---line 687 of file reference.bib
  : 
  : title={Towards the SQL interferometer : length stabilization at the AEI 10 m-prototype},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You're missing a field name---line 792 of file reference.bib
+You're missing a field name---line 848 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You've used 5 entries,
+Warning--can't use both volume and number fields in leaci2012searching
+Warning--empty journal in hereld1984search
+Warning--empty journal in weiss1972electronically
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Warning--empty journal in akutsu2018kagra
+Warning--empty year in akutsu2018kagra
+You've used 25 entries,
             1791 wiz_defined-function locations,
-            481 strings with 4938 characters,
-and the built_in function-call counts, 1078 in all, are:
-= -- 83
-> -- 77
-< -- 0
-+ -- 28
-- -- 23
-* -- 79
-:= -- 206
-add.period$ -- 16
-call.type$ -- 5
-change.case$ -- 3
+            612 strings with 8231 characters,
+and the built_in function-call counts, 5866 in all, are:
+= -- 455
+> -- 364
+< -- 2
++ -- 134
+- -- 109
+* -- 475
+:= -- 1021
+add.period$ -- 76
+call.type$ -- 25
+change.case$ -- 22
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 40
-empty$ -- 84
-format.name$ -- 23
-if$ -- 218
+cite$ -- 30
+duplicate$ -- 232
+empty$ -- 513
+format.name$ -- 109
+if$ -- 1228
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 3
-newline$ -- 29
-num.names$ -- 5
-pop$ -- 8
+int.to.str$ -- 25
+missing$ -- 22
+newline$ -- 128
+num.names$ -- 25
+pop$ -- 44
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 14
+skip$ -- 88
 stack$ -- 0
-substring$ -- 46
-swap$ -- 5
-text.length$ -- 0
+substring$ -- 344
+swap$ -- 38
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 8
-width$ -- 6
-write$ -- 58
+warning$ -- 5
+while$ -- 49
+width$ -- 27
+write$ -- 273
 is.kanji.str$ -- 0
-(There were 4 error messages)
+(There were 7 error messages)

@@ -142,14 +142,14 @@ We use a voice-coil type wide range actuator to move the pre-isolator stage \cit
 \subsubsection{Reduction in the microseismic region}
 また、システムを入れる前後でRMS振幅場が小さくなっていることがわかる。システムを入れた前後の時系列データからもとめたASDをFig.\ref{img:img611}に示す。補償システムをいれたことで、0.01Hz以上の累積RMSの値が半分に減っていることがわかる。
 
-\subsection{Comparison of the models}
-測定したX-arm長変動と、モデルから期待される変動を比較する。このモデルは、Type-Aの振り子を剛体としてモデル化して得られる\cite{sekiguchi2016astudy}。
+\subsection{Comparison with the rigid body model}
+Compare with the measured X-arm length fluctuation and the fluctuation estimated by the rigid body model of Type-A suspension. このモデルは、剛体モデルに基づいて力学の状態空間モデルを計算する\cite{sekiguchi2016astudy}。この状態空間モデルをつかって、地面振動からテストマスまでの伝達関数等を計算した。ただし、この伝達関数は振り子単体の伝達関数なので、ふたつの防振装置で防振される腕共振器を計算する場合、\cref{sec}で述べたように、CMRが十分大きい場合を仮定する。つまり、基線の地面振動の同相成分から腕共振器長変へのカップリングは無視できるものとする。
 
 \subsubsection{When the compensation system is OFF}
-補償システムがOFFのときのXアーム長変動の測定値と、そのときにモデルから期待されるものを比較する。Fig.\ref{img:img611}にその比較を示す。\cref{sec}で述べたように、補償システムを入れる前は、それぞれのPre-isolatorはそれぞれのローカルのLVDTをつかってFeedback制御されている。このときのLVDTのセンサーノイズを水色で、地面振動ノイズをオレンジ色で示す。これらノイズの二乗和のルートをTotalとし、赤色で示す。1Hz以上の、Xアーム測定の測定ノイズで埋もれている帯域を除けば、1Hz以下ではこのTotalは実際の測定値と一致していることがわかる。
+補償システムがOFFのときのXアーム長変動の測定値と、そのときにモデルから期待されるものを比較する。Fig.\ref{img:img612}にその比較を示す。\cref{sec}で述べたように、補償システムを入れる前は、それぞれのPre-isolatorはそれぞれのローカルのLVDTをつかってFeedback制御されている。このときのLVDTのセンサーノイズを水色で、地面振動ノイズをオレンジ色で示す。これらノイズの二乗和のルートをTotalとし、赤色で示す。1Hz以上の、Xアーム測定の測定ノイズで埋もれている帯域を除けば、1Hz以下ではこのTotalは測定値と一致していることがわかる。
 
 \subsubsection{When the compensation system is ON}
-
+補償システムがONのときの比較をFig.\ref{img:img613}示す。ただし、we assumed the reduction factor of the sensor correction of 1./20 as mentioned in \cref{sec}. 補償システムがOFFになっていたときの比較では、1Hz以下でTotalと測定値が一致していたが、ONの場合では、予測されるTotalと測定値は一致していない。
 
 \begin{figure}[p]
   \begin{minipage}{15cm}
