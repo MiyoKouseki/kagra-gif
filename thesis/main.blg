@@ -1,83 +1,86 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
-A level-1 auxiliary file: chap1.aux
+A level-1 auxiliary file: chap3.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 330 of file reference.bib
+I was expecting a `,' or a `}'---line 369 of file reference.bib
  : 
  : journal={Nature Astronomy},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 487 of file reference.bib
+I was expecting a `,' or a `}'---line 526 of file reference.bib
  : 
  : author={R. W. P . Drever,},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 709 of file reference.bib
+Repeated entry---line 629 of file reference.bib
+ : @article{nishida2002origin
+ :                           ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 748 of file reference.bib
  : 
  : title={Towards the SQL interferometer : length stabilization at the AEI 10 m-prototype},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You're missing a field name---line 870 of file reference.bib
+Repeated entry---line 788 of file reference.bib
+ : @article{naticchioni2014microseismic
+ :                                     ,
+I'm skipping whatever remains of this entry
+You're missing a field name---line 930 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--can't use both volume and number fields in leaci2012searching
-Warning--empty journal in hereld1984search
-Warning--empty journal in weiss1972electronically
-Warning--empty school in ando1999power
-Warning--empty year in ando1999power
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Warning--empty journal in akutsu2018kagra
-Warning--empty year in akutsu2018kagra
-You've used 28 entries,
+Warning--empty year in hasegawa2015jishin
+Warning--empty journal in takemoto2003
+Warning--empty author in Daw_2004
+Warning--empty title in Daw_2004
+Warning--empty journal in Daw_2004
+Warning--empty year in Daw_2004
+Warning--empty booktitle in schofield2000source
+Warning--empty publisher in aki2002quantitative
+You've used 24 entries,
             1791 wiz_defined-function locations,
-            629 strings with 8999 characters,
-and the built_in function-call counts, 6669 in all, are:
-= -- 501
-> -- 444
-< -- 2
-+ -- 162
-- -- 134
-* -- 561
-:= -- 1171
-add.period$ -- 85
-call.type$ -- 28
-change.case$ -- 24
+            611 strings with 8265 characters,
+and the built_in function-call counts, 5355 in all, are:
+= -- 412
+> -- 335
+< -- 1
++ -- 123
+- -- 99
+* -- 442
+:= -- 918
+add.period$ -- 72
+call.type$ -- 24
+change.case$ -- 21
 chr.to.int$ -- 0
-cite$ -- 35
-duplicate$ -- 257
-empty$ -- 568
-format.name$ -- 134
-if$ -- 1384
+cite$ -- 32
+duplicate$ -- 211
+empty$ -- 481
+format.name$ -- 99
+if$ -- 1117
 int.to.chr$ -- 0
-int.to.str$ -- 28
+int.to.str$ -- 24
 missing$ -- 24
-newline$ -- 143
-num.names$ -- 28
-pop$ -- 50
+newline$ -- 123
+num.names$ -- 22
+pop$ -- 56
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 96
+skip$ -- 70
 stack$ -- 0
-substring$ -- 371
-swap$ -- 41
-text.length$ -- 2
+substring$ -- 290
+swap$ -- 22
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 7
-while$ -- 54
-width$ -- 30
-write$ -- 304
+warning$ -- 8
+while$ -- 45
+width$ -- 26
+write$ -- 256
 is.kanji.str$ -- 0
-(There were 7 error messages)
+(There were 6 error messages)

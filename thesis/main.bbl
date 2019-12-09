@@ -1,112 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{einstein1916vd}
-Albert Einstein.
-\newblock {The Foundation of the General Theory of Relativity}.
-\newblock {\em Annalen Phys.}, 49(7):769--822, 1916.
-\newblock [Annalen Phys.354,no.7,769(1916)].
-
-\bibitem{abbott2019gwtc}
-BP~Abbott, R~Abbott, TD~Abbott, S~Abraham, F~Acernese, K~Ackley, C~Adams,
-  RX~Adhikari, VB~Adya, C~Affeldt, et~al.
-\newblock Gwtc-1: a gravitational-wave transient catalog of compact binary
-  mergers observed by ligo and virgo during the first and second observing
-  runs.
-\newblock {\em Physical Review X}, 9(3):031040, 2019.
-
-\bibitem{leaci2012searching}
-Paola Leaci, LIGO~Scientific Collaboration, Virgo Collaboration, et~al.
-\newblock Searching for continuous gravitational wave signals using ligo and
-  virgo detectors.
-\newblock In {\em Journal of Physics: Conference Series}, volume 354, page
-  012010. IOP Publishing, 2012.
-
-\bibitem{hereld1984search}
-Mark Hereld.
-\newblock A search for gravitational radiation from psr 1937+ 214.
-\newblock 1984.
-
-\bibitem{ott2004gravitational}
-Christian~D Ott, Adam Burrows, Eli Livne, and Rolf Walder.
-\newblock Gravitational waves from axisymmetric, rotating stellar core
-  collapse.
-\newblock {\em The Astrophysical Journal}, 600(2):834, 2004.
-
-\bibitem{starobinskii1979spectrum}
-AA~Starobinskii.
-\newblock Spectrum of relict gravitational radiation and the early state of the
-  universe.
-\newblock {\em JETP Letters}, 30:682--685, 1979.
-
-\bibitem{Christensen_2018}
-Nelson Christensen.
-\newblock Stochastic gravitational wave backgrounds.
-\newblock {\em Reports on Progress in Physics}, 82(1):016903, nov 2018.
-
-\bibitem{PhysRevD.23.347}
-Alan~H. Guth.
-\newblock Inflationary universe: A possible solution to the horizon and
-  flatness problems.
-\newblock {\em Phys. Rev. D}, 23:347--356, Jan 1981.
-
-\bibitem{weiss1972electronically}
-Rainer Weiss.
-\newblock Electronically coupled broadband gravitational antenna.
-\newblock 1972.
-
-\bibitem{ando1999power}
-Masaki Ando.
-\newblock {\em Power recycling for an interferometric gravitational wave
-  detector}.
-\newblock PhD thesis.
-
-\bibitem{meers1988recycling}
-Brian~J Meers.
-\newblock Recycling in laser-interferometric gravitational-wave detectors.
-\newblock {\em Physical Review D}, 38(8):2317, 1988.
-
-\bibitem{dan2016study}
-Dan Chen.
-\newblock {\em Study of a cryogenic suspension system for the gravitational
-  wave telescope KAGRA}.
-\newblock PhD thesis, University of Tokyo, 2016.
-
-\bibitem{levin1998internal}
-Yu. Levin.
-\newblock Internal thermal noise in the ligo test masses: A direct approach.
-\newblock {\em Phys. Rev. D}, 57:659--663, Jan 1998.
-
-\bibitem{numata2003wide}
-Kenji Numata, Masaki Ando, Kazuhiro Yamamoto, Shigemi Otsuka, and Kimio
-  Tsubono.
-\newblock Wide-band direct measurement of thermal fluctuations in an
-  interferometer.
-\newblock {\em Phys. Rev. Lett.}, 91:260602, Dec 2003.
-
-\bibitem{harry2002thermal}
-Gregory~M Harry, Andri~M Gretarsson, Peter~R Saulson, Scott~E Kittelberger,
-  Steven~D Penn, William~J Startin, Sheila Rowan, Martin~M Fejer, DRM Crooks,
-  Gianpietro Cagnoli, et~al.
-\newblock Thermal noise in interferometric gravitational wave detectors due to
-  dielectric optical coatings.
-\newblock {\em Classical and Quantum Gravity}, 19(5):897, 2002.
-
-\bibitem{chen2017brief}
-Chiang-Mei Chen, James~M Nester, and Wei-Tou Ni.
-\newblock A brief history of gravitational wave research.
-\newblock {\em Chinese Journal of Physics}, 55(1):142--169, 2017.
-
-\bibitem{beker2013low}
-Mark~G. Beker.
-\newblock {\em {Low-frequency sensitivity of next generation gravitational wave
-  detectors}}.
-\newblock PhD thesis, Vrije U., Amsterdam, 2013.
-
-\bibitem{1970449}
-新藤 静夫.
-\newblock 武蔵野台地の地下地質.
-\newblock {\em 地學雜誌}, 78(7):449--470, 1970.
-
 \bibitem{sato2004ultrastable}
 Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
   Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
@@ -115,62 +8,139 @@ Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
   observatory for gravitational waves.
 \newblock {\em Physical Review D}, 69(10):102005, 2004.
 
-\bibitem{ohashi2003design}
-M~Ohashi, K~Kuroda, S~Miyoki, T~Uchiyama, K~Yamamoto, K~Kasahara, T~Shintomi,
-  A~Yamamoto, T~Haruyama, Y~Saito, et~al.
-\newblock Design and construction status of clio.
-\newblock {\em Classical and Quantum Gravity}, 20(17):S599, 2003.
+\bibitem{punturo2010einstein}
+M~Punturo, M~Abernathy, F~Acernese, B~Allen, Nils Andersson, K~Arun, F~Barone,
+  B~Barr, M~Barsuglia, M~Beker, et~al.
+\newblock The einstein telescope: a third-generation gravitational wave
+  observatory.
+\newblock {\em Classical and Quantum Gravity}, 27(19):194002, 2010.
 
-\bibitem{ando2001stable}
-Masaki Ando, Koji Arai, Ryutaro Takahashi, Gerhard Heinzel, Seiji Kawamura,
-  Daisuke Tatsumi, Nobuyuki Kanda, Hideyuki Tagoshi, Akito Araya, Hideki Asada,
-  et~al.
-\newblock Stable operation of a 300-m laser interferometer with sufficient
-  sensitivity to detect gravitational-wave events within our galaxy.
-\newblock {\em Physical Review Letters}, 86(18):3950, 2001.
+\bibitem{abbott2017exploring}
+B~P Abbott, R~Abbott, T~D Abbott, M~R Abernathy, K~Ackley, C~Adams, P~Addesso,
+  R~X Adhikari, V~B Adya, C~Affeldt, et~al.
+\newblock Exploring the sensitivity of next generation gravitational wave
+  detectors.
+\newblock {\em Class. Quantum Grav}, 34(044001):044001, 2017.
 
-\bibitem{grote2010geo}
-Hartmut Grote, LIGO~Scientific Collaboration, et~al.
-\newblock The geo 600 status.
-\newblock {\em Classical and Quantum Gravity}, 27(8):084003, 2010.
+\bibitem{naticchioni2014microseismic}
+L~Naticchioni, M~Perciballi, F~Ricci, E~Coccia, V~Malvezzi, F~Acernese,
+  F~Barone, G~Giordano, R~Romano, M~Punturo, et~al.
+\newblock Microseismic studies of an underground site for a new interferometric
+  gravitational wave detector.
+\newblock {\em Classical and Quantum Gravity}, 31(10):105016, 2014.
 
-\bibitem{akutsu2018kagra}
-Ando M. Arai K. et~al. Akutsu, T.
-\newblock Kagra: 2.5 generation interferometric gravitational wave detector.
+\bibitem{hasegawa2015jishin}
+西村太志 長谷川昭, 佐藤春夫.
+\newblock {\em Seismology}, volume~6 of {\em Introduction to Modern Erath
+  Science Series}.
+\newblock Kyoritsu.
 
-\bibitem{acernese2014advanced}
-F~Acernese, M~Agathos, K~Agatsuma, D~Aisa, N~Allemandou, A~Allocca, J~Amarni,
-  P~Astone, G~Balestri, G~Ballardin, et~al.
-\newblock Advanced virgo: a second-generation interferometric gravitational
-  wave detector.
-\newblock {\em Classical and Quantum Gravity}, 32(2):024001, 2014.
+\bibitem{takemoto2003}
+竹本修三, 新谷昌人, 赤松純平, 森井亙, 東敏博, 福田洋一, 尾上謙介, 市川信夫,
+  川崎一朗, 大橋正健, et~al.
+\newblock 神岡鉱山における 100 メートルレーザー伸縮計について.
+\newblock 2003.
 
-\bibitem{aasi2015advanced}
-Junaid Aasi, BP~Abbott, Richard Abbott, Thomas Abbott, MR~Abernathy, Kendall
-  Ackley, Carl Adams, Thomas Adams, Paolo Addesso, RX~Adhikari, et~al.
-\newblock Advanced ligo.
-\newblock {\em Classical and quantum gravity}, 32(7):074001, 2015.
+\bibitem{bonnefoy2006nature}
+Sylvette Bonnefoy-Claudet, Fabrice Cotton, and Pierre-Yves Bard.
+\newblock The nature of noise wavefield and its applications for site effects
+  studies: A literature review.
+\newblock {\em Earth-Science Reviews}, 79(3-4):205--227, 2006.
 
-\bibitem{mullavey2012arm}
-Adam~J Mullavey, Bram~JJ Slagmolen, John Miller, Matthew Evans, Peter
-  Fritschel, Daniel Sigg, Sam~J Waldman, Daniel~A Shaddock, and David~E
-  McClelland.
-\newblock Arm-length stabilisation for interferometric gravitational-wave
-  detectors using frequency-doubled auxiliary lasers.
-\newblock {\em Optics express}, 20(1):81--89, 2012.
+\bibitem{Daw_2004}
 
-\bibitem{izumi2012multi}
-Kiwamu Izumi.
-\newblock {\em Multi-Color Interferometry for Lock Acquisition of Laser
-  Interferometric Gravitational-wave Detectors}.
-\newblock PhD thesis, University of Tokyo, 2012.
 
-\bibitem{Biscans2018control}
-S~Biscans, J~Warner, R~Mittleman, C~Buchanan, M~Coughlin, M~Evans, H~Gabbard,
-  J~Harms, B~Lantz, N~Mukund, A~Pele, C~Pezerat, P~Picart, H~Radkins, and
-  T~Shaffer.
-\newblock Control strategy to limit duty cycle impact of earthquakes on the
-  {LIGO} gravitational-wave detectors.
-\newblock {\em Classical and Quantum Gravity}, 35(5):055004, jan 2018.
+\bibitem{Beker_2012}
+M~G Beker, J~F~J van~den Brand, E~Hennes, and D~S Rabeling.
+\newblock Newtonian noise and ambient ground motion for gravitational wave
+  detectors.
+\newblock {\em Journal of Physics: Conference Series}, 363:012004, jun 2012.
+
+\bibitem{schofield2000source}
+R.~Schofield et~al.
+\newblock Source and propagation of the predominant 1-50 hz seismic signal from
+  off-site at ligo-hanford.
+\newblock In LIGO Scientific Collaboration Meeting, Hanford, August 2000.
+
+\bibitem{acernese2004properties}
+F~Acernese, P~Amico, N~Arnaud, D~Babusci, R~Barill{\'e}, F~Barone, L~Barsotti,
+  M~Barsuglia, F~Beauville, MA~Bizouard, et~al.
+\newblock Properties of seismic noise at the virgo site.
+\newblock {\em Classical and Quantum Gravity}, 21(5):S433, 2004.
+
+\bibitem{peterson1993observations}
+Jon~R Peterson.
+\newblock Observations and modeling of seismic background noise.
+\newblock Technical report, US Geological Survey, 1993.
+
+\bibitem{nishida2002origin}
+Kiwamu Nishida, Naoki Kobayashi, and Yoshio Fukao.
+\newblock Origin of earth's ground noise from 2 to 20 mhz.
+\newblock {\em Geophysical Research Letters}, 29(10):52--1, 2002.
+
+\bibitem{Bormann2012new}
+P~Bormann.
+\newblock New manual of seismological observatory practice.
+\newblock {\em GFZ German Research Centre for Geosciences}, 2012.
+\newblock
+  \href{http://bib.telegrafenberg.de/publizieren/vertrieb/nmsop/}{Link}.
+
+\bibitem{haubrich1963comparative}
+RA~Haubrich, WH~Munk, and FE~Snodgrass.
+\newblock Comparative spectra of microseisms and swell.
+\newblock {\em Bulletin of the Seismological Society of America}, 53(1):27--37,
+  1963.
+\newblock
+  \href{https://pubs.geoscienceworld.org/ssa/bssa/article/53/1/27/116108/comparative-spectra-of-microseisms-and-swell}{Link}.
+
+\bibitem{longuet1950theory}
+Michael~Selwyn Longuet-Higgins.
+\newblock A theory of the origin of microseisms.
+\newblock {\em Philosophical Transactions of the Royal Society of London.
+  Series A, Mathematical and Physical Sciences}, 243(857):1--35, 1950.
+\newblock
+  \href{https://royalsocietypublishing.org/doi/abs/10.1098/rsta.1950.0012}{Link}.
+
+\bibitem{sorrells1971earth}
+GG~Sorrells, John~A McDonald, ZA~Der, and Eugene Herrin.
+\newblock Earth motion caused by local atmospheric pressure changes.
+\newblock {\em Geophysical Journal International}, 26(1-4):83--98, 1971.
+
+\bibitem{zurn1995noise}
+W~Z{\"u}rn and R~Widmer.
+\newblock On noise reduction in vertical seismic records below 2 mhz using
+  local barometric pressure.
+\newblock {\em Geophysical Research Letters}, 22(24):3537--3540, 1995.
+
+\bibitem{araya2007broadband}
+A~ARAYA.
+\newblock Broadband observation with laser strainmeters and a strategy for high
+  resolution long-term strain observation based on quantum standard.
+\newblock {\em J. Geod. Soc. Japan}, 53:81--97, 2007.
+
+\bibitem{aki2002quantitative}
+Keiiti Aki and Paul~G Richards.
+\newblock {\em Quantitative seismology}.
+\newblock 2002.
+
+\bibitem{aki1967scaling}
+Keiiti Aki.
+\newblock Scaling law of seismic spectrum.
+\newblock {\em Journal of geophysical research}, 72(4):1217--1231, 1967.
+
+\bibitem{gutenberg1945study}
+B.~Gutenberg.
+\newblock {Amplitudes of surface waves and magnitudes of shallow earthquakes*}.
+\newblock {\em Bulletin of the Seismological Society of America}, 35(1):3--12,
+  01 1945.
+
+\bibitem{trillium120manual}
+Nanometrics Inc., 250 Herzberg Road Kanata, Ontario, Canada K2K 2A1.
+\newblock {\em Trillium 120Q/QA User Guide}, 04 2017.
+
+\bibitem{bork2001overview}
+Rolf Bork, R~Abbott, D~Barker, and J~Heefner.
+\newblock An overview of the ligo control and data acquisition system.
+\newblock {\em arXiv preprint physics/0111077}, 2001.
 
 \end{thebibliography}
