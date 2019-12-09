@@ -6,12 +6,6 @@ Albert Einstein.
 \newblock {\em Annalen Phys.}, 49(7):769--822, 1916.
 \newblock [Annalen Phys.354,no.7,769(1916)].
 
-\bibitem{einstein1918gravitationswellen}
-Albert Einstein.
-\newblock {\"U}ber gravitationswellen.
-\newblock {\em Sitzungsber. Preuss. Akad. Wiss. Berlin (Math. Phys.)},
-  1918:154--167, 1918.
-
 \bibitem{abbott2019gwtc}
 BP~Abbott, R~Abbott, TD~Abbott, S~Abraham, F~Acernese, K~Ackley, C~Adams,
   RX~Adhikari, VB~Adya, C~Affeldt, et~al.
@@ -60,11 +54,11 @@ Rainer Weiss.
 \newblock Electronically coupled broadband gravitational antenna.
 \newblock 1972.
 
-\bibitem{izumi2012multi}
-Kiwamu Izumi.
-\newblock {\em Multi-Color Interferometry for Lock Acquisition of Laser
-  Interferometric Gravitational-wave Detectors}.
-\newblock PhD thesis, University of Tokyo, 2012.
+\bibitem{ando1999power}
+Masaki Ando.
+\newblock {\em Power recycling for an interferometric gravitational wave
+  detector}.
+\newblock PhD thesis.
 
 \bibitem{meers1988recycling}
 Brian~J Meers.
@@ -108,6 +102,25 @@ Mark~G. Beker.
   detectors}}.
 \newblock PhD thesis, Vrije U., Amsterdam, 2013.
 
+\bibitem{1970449}
+新藤 静夫.
+\newblock 武蔵野台地の地下地質.
+\newblock {\em 地學雜誌}, 78(7):449--470, 1970.
+
+\bibitem{sato2004ultrastable}
+Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
+  Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
+  Collaboration, et~al.
+\newblock Ultrastable performance of an underground-based laser interferometer
+  observatory for gravitational waves.
+\newblock {\em Physical Review D}, 69(10):102005, 2004.
+
+\bibitem{ohashi2003design}
+M~Ohashi, K~Kuroda, S~Miyoki, T~Uchiyama, K~Yamamoto, K~Kasahara, T~Shintomi,
+  A~Yamamoto, T~Haruyama, Y~Saito, et~al.
+\newblock Design and construction status of clio.
+\newblock {\em Classical and Quantum Gravity}, 20(17):S599, 2003.
+
 \bibitem{ando2001stable}
 Masaki Ando, Koji Arai, Ryutaro Takahashi, Gerhard Heinzel, Seiji Kawamura,
   Daisuke Tatsumi, Nobuyuki Kanda, Hideyuki Tagoshi, Akito Araya, Hideki Asada,
@@ -120,18 +133,6 @@ Masaki Ando, Koji Arai, Ryutaro Takahashi, Gerhard Heinzel, Seiji Kawamura,
 Hartmut Grote, LIGO~Scientific Collaboration, et~al.
 \newblock The geo 600 status.
 \newblock {\em Classical and Quantum Gravity}, 27(8):084003, 2010.
-
-\bibitem{abbott2009ligo}
-BP~Abbott, R~Abbott, R~Adhikari, P~Ajith, Bruce Allen, G~Allen, RS~Amin,
-  SB~Anderson, WG~Anderson, MA~Arain, et~al.
-\newblock Ligo: the laser interferometer gravitational-wave observatory.
-\newblock {\em Reports on Progress in Physics}, 72(7):076901, 2009.
-
-\bibitem{accadia2012virgo}
-Thimoth{\'e}e Accadia, F~Acernese, M~Alshourbagy, P~Amico, F~Antonucci,
-  S~Aoudia, N~Arnaud, C~Arnault, KG~Arun, P~Astone, et~al.
-\newblock Virgo: a laser interferometer to detect gravitational waves.
-\newblock {\em Journal of Instrumentation}, 7(03):P03012, 2012.
 
 \bibitem{akutsu2018kagra}
 Ando M. Arai K. et~al. Akutsu, T.
@@ -149,5 +150,27 @@ Junaid Aasi, BP~Abbott, Richard Abbott, Thomas Abbott, MR~Abernathy, Kendall
   Ackley, Carl Adams, Thomas Adams, Paolo Addesso, RX~Adhikari, et~al.
 \newblock Advanced ligo.
 \newblock {\em Classical and quantum gravity}, 32(7):074001, 2015.
+
+\bibitem{mullavey2012arm}
+Adam~J Mullavey, Bram~JJ Slagmolen, John Miller, Matthew Evans, Peter
+  Fritschel, Daniel Sigg, Sam~J Waldman, Daniel~A Shaddock, and David~E
+  McClelland.
+\newblock Arm-length stabilisation for interferometric gravitational-wave
+  detectors using frequency-doubled auxiliary lasers.
+\newblock {\em Optics express}, 20(1):81--89, 2012.
+
+\bibitem{izumi2012multi}
+Kiwamu Izumi.
+\newblock {\em Multi-Color Interferometry for Lock Acquisition of Laser
+  Interferometric Gravitational-wave Detectors}.
+\newblock PhD thesis, University of Tokyo, 2012.
+
+\bibitem{Biscans2018control}
+S~Biscans, J~Warner, R~Mittleman, C~Buchanan, M~Coughlin, M~Evans, H~Gabbard,
+  J~Harms, B~Lantz, N~Mukund, A~Pele, C~Pezerat, P~Picart, H~Radkins, and
+  T~Shaffer.
+\newblock Control strategy to limit duty cycle impact of earthquakes on the
+  {LIGO} gravitational-wave detectors.
+\newblock {\em Classical and Quantum Gravity}, 35(5):055004, jan 2018.
 
 \end{thebibliography}

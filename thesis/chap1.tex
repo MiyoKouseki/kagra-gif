@@ -1,9 +1,8 @@
 \chapter{Background}
-本章では、重力波とその検出器について述べる。
-
+In this chapter, we describe about gravitational-wave and detector.
 
 \section{Gravitational-wave}
-重力波は光速で伝わる時空の歪みである。この歪みは一般相対性理論の結果として導き出されることがアインシュタインによって1919年に示された。しかしながらその歪は非常に小さく、およそ100年後のLIGOによる初検出まで直接検出はされなかった。
+Gravtational-wave (GW) is a ripples of the space-time, which propagates at the speed of light. GW was predicted by A. Einstein in 1918, and is a result of the general theory of relativity. However because this strain is very small, the direct discovery of GWs have not done by LIGO until 2015.
 
 \subsection{Properties of GWs}
 \subsubsection{Two polized transverse wave}
@@ -40,18 +39,18 @@ The two polization of GW are known as plus and cross polization, and these poliz
   \end{center}
 \end{figure}
 
-\subsubsection{Radiation}
-The wave amplitude $h_{\mu\nu}$ is proportional to the second time derivative of the quadrupole moment of the source \cite{einstein1918gravitationswellen};
-\begin{eqnarray}
-  h_{i j}=\frac{2}{r} \frac{G}{c^{4}} \ddot{Q}_{i j}^{T T}\left(t-\frac{r}{c}\right),
-\end{eqnarray}
-where 
-\begin{eqnarray}
-  Q_{i j}^{T T}(x)=\int \rho\left(x^{i} x^{j}-\frac{1}{3} \delta^{i j} r^{2}\right) d^{3} x
-\end{eqnarray}
-is the quadrupole.
+%% \subsubsection{Radiation}
+%% The wave amplitude $h_{\mu\nu}$ is proportional to the second time derivative of the quadrupole moment of the source \cite{einstein1918gravitationswellen};
+%% \begin{eqnarray}
+%%   h_{i j}=\frac{2}{r} \frac{G}{c^{4}} \ddot{Q}_{i j}^{T T}\left(t-\frac{r}{c}\right),
+%% \end{eqnarray}
+%% where 
+%% \begin{eqnarray}
+%%   Q_{i j}^{T T}(x)=\int \rho\left(x^{i} x^{j}-\frac{1}{3} \delta^{i j} r^{2}\right) d^{3} x
+%% \end{eqnarray}
+%% is the quadrupole.
 
-\textcolor{red}{もうすこし具体的なQuadrupoleをしめして、現実的に検出できそうな重力波の大きさを述べる。}
+%% \textcolor{red}{もうすこし具体的なQuadrupoleをしめして、現実的に検出できそうな重力波の大きさを述べる。}
 
 \subsection{Sources of Gravitational-wave}
 \subsubsection{Compact Binary Coalescence}
@@ -139,26 +138,30 @@ According to Eq.(\ref{eq:eq137b}), in order to increase the interferometric stra
 
 \newpage
 \section{Enhancement of the sensitivity}
-In order increase the sensitivity, current interferometric GW detector use the Dual-Recycled Fabry-Perot Michelson Interferometer (DRFPMI). 
-
-\begin{figure}[t]
+\begin{figure}[h]
   \begin{center}   
     \includegraphics[width=14cm]{./img_chap1/img133.png}
     \caption{Configuration of interferometric GW detector. (a) Michelson interferometer (MI) (b) Michelson interferometer with two Fabry-Perot optical cavities (FPMI). (c) Dual-Recycled FPMI (DRFPMI)} \label{img:img133}
   \end{center}
 \end{figure}
+In order increase the sensitivity, current interferometric GW detector use the Dual-Recycled Fabry-Perot Michelson Interferometer (DRFPMI). 
 
 
 \subsection{Fabry-Perot Michelson Interferometer (FPMI)}
 
 \subsubsection{Fabry-Perot Optical Cavity}
-Consider the reflectivity of the Fabry-Perot optical cavity composed of two mirrors separated by L as shown in Fig.\ref{img:img133a}. In this figure, $E_{\mathrm{in}},\,E_{\mathrm{r}},\,E_{\mathrm{t}},\,E$ are the incident, reflected, and transmitted fields respectively, $r_{j}$ and $t_{j}$ are the amplitude reflectivity and transsivity of $j$-th mirrors ($j=1,2$). The reflectivity of the optical cavity $r_\mathrm{{FP}}$ is given by
+Fabry-Perot optical cavity increase the effective baseline linegth. Consider the Fabry-Perot optical cavity composed of two mirrors separated by L as shown in Fig.\ref{img:img133a}. In this figure, $E_{\mathrm{in}},\,E_{\mathrm{r}},\,E_{\mathrm{t}},\,E$ are the incident, reflected, and transmitted fields respectively, $r_{j}$ and $t_{j}$ are the amplitude reflectivity and transsivity of $j$-th mirrors ($j=1,2$). The averaged bounce number in a Fabry-Perot cavity $\mathcal{N}_{\mathrm{FP}}$ is written as \cite{ando1999power}
 \begin{eqnarray}
-  L_{\mathrm{FWHM}} = \frac{\lambda}{2\mathcal{F}} \\
-  \mathcal{F}=\frac{\pi \sqrt{r_{1} r_{2}}}{1-r_{1} r_{2}}
+  \mathcal{N}_{\mathrm{FP}} = \frac{2\mathcal{F}}{\pi},
 \end{eqnarray}
-where $k$ is the wave number \cite{izumi2012multi}.
-
+where $\mathcal{F}$ is a finesse given as
+\begin{eqnarray}
+  \mathcal{F}=\frac{\pi \sqrt{r_{1} r_{2}}}{1-r_{1} r_{2}}.
+\end{eqnarray}
+However, in order to resonate the optical cavity, the displacement of the cavity length within linewidth calculated as the width at half maximum (FWHM) 
+\begin{eqnarray}
+  L_{\mathrm{FWHM}} = \frac{\lambda}{2\mathcal{F}}\label{eq:eq131}.
+\end{eqnarray}
 
 
 \begin{figure}[h]
@@ -179,74 +182,79 @@ where $k$ is the wave number \cite{izumi2012multi}.
 
 
 \subsection{Dual-Recycled FPMI (DRFPMI)}
+As shown in Fig.\ref{img:img133}(c), final configuration of the current GW is DRFPMI which has two recycling optical cavity \cite{meers1988recycling}.
+
 \subsubsection{Power Recycle}
-基線長を伸ばすほかに、感度の向上と観測帯域をチューニングするためにFig.\ref{img:img}のような場所にパワーリサイクリング鏡とシグナルリサイクリング鏡と呼ばれる鏡をおいて共振器をつくる\cite{meers1988recycling}。1つ目のパワーリサイクリング鏡は干渉計からレーザーに戻る光を折り返してレーザーパワーを上げるための鏡である。レーザーパワーが上がると、後述するショットノイズとひずみ信号のSNRが向上する。
+In order to decrease shot noise, power recycling technique is used. In this technique, additional mirror is installed between laser and interferometer to increase the effective laser power by recycling the reflected light from the interferometer. Increaseing the laser power, the noise to signal ratio of shot noise is decrease as mentioned later.
+
 \subsubsection{Signal Recycle}
-次に2つ目のシグナルリサイクリング鏡はASポートに漏れ出たひずみ信号を増幅させるための鏡である。
+Signal recycling mirror, which is installed on the AS port, is for tunning the frequency band. This mirror enhance the GW signal by recycling the output signal from the interferometer.
 
 \subsection{Noise}
+In terms of the interferometric GW detector, noise can be classified into two noises; detection noise and displacement noise of the testmass.
+
 \subsubsection{Shot Noise}
-テストマスが自由質点として外乱を受けていない理想的な場合には、Michelson干渉計のレーザー光の強度ゆらぎと周波数ゆらぎ、検出器でのショットノイズが感度を制限する。
+In an ideal case that the test mass is not disturbed and as the free mass, the noise of the interferometer is limited by the shot noise.
 
-光検出器で光のパワーを検出する場合、ショットノイズと呼ばれる、光子数のゆらぎに起因するノイズをもつ。光子数のカウントはポアソン分布にしたがうが、光子数$N$が十分に大きい場合標準偏差$\sqrt{N}$のガウス分布に従う。つまり光検出器にパワー$P$の光が入射した場合、このショットノイズは
+Shot noise is a noise associated with the fluctuation of the number of photons at the photo detector. In case that the number of photons $N$ are large enough ($N\gg1$), the number of photon obey the Gaussian distribution with standard deviation of $\sqrt{N}$. Therefore, if laser power $P$ incidents in the detector, shot noise has a relation with the power;
 \begin{eqnarray}
-  P_{\mathrm{shot}} \propto \sqrt{P}\ \ [W/\sqrt{\mathrm{Hz}}]  \label{eq:eq136}
+  P_{\mathrm{shot}} \propto \sqrt{P}\ \ [W/\sqrt{\mathrm{Hz}}].  \label{eq:eq136}
 \end{eqnarray}
-のようなホワイトノイズをもち、ASポートでのパワーの平方根に比例したノイズをもつ。
+One can find that shot noise is a white noise, which propotional to the square-root of the incident power.
 
-相対誤差はパワーの平方根に逆比例する。さらにEq.(\ref{eq:eq133})より、光検出の相対誤差は
+Here, according to Eq.(\ref{eq:eq133}), relative error of power at the detector is given by 
 \begin{eqnarray}
-  \frac{\Delta P_{\mathrm{AS}}}{P_{\mathrm{0}}}  \propto \frac{1}{\sqrt{P_{\mathrm{AS}}}}\ \ [1/\sqrt{\mathrm{Hz}}]  \label{eq:eq136}
+  \frac{\Delta P_{\mathrm{AS}}}{P_{\mathrm{AS}}}  \propto \frac{1}{\sqrt{P_{\mathrm{0}}}}\ \ [1/\sqrt{\mathrm{Hz}}],  \label{eq:eq136}
 \end{eqnarray}
-にように、Michelson干渉計へ入射した光量の平方根に反比例することがわかる。つまりショットノイズを抑えるためには入射レーザーパワーを上げることが求められる。
+where $P_{\mathrm{AS}},\,\Delta P_{\mathrm{AS}}$ are the power at the photo detector, $P_0$ is the power of the incident beam. This shows that we increasing the input power can decrease the shot noise.
 
 \subsubsection{Seismic Noise}
-地面振動は地上の重力波検出器においてもっとも振幅が大きい外乱である。さまざまな励起源からの弾性波が地面や構造物をつたわってテストマスを揺らす。そのため地面振動を低減するには、励起源から離れた静かな場所でテストマスを防振することが必要である。
+Seismic noise is the largest displacement noise for interferometric GW detector. Seismic waves from various excitation sources disturbe the test mass through the mechanical structures. Therefore, in order to reduce the seismic noise, it is necessary to suspend the test masses far from the excitation sources. More details are described in the next chapter.
 
 \subsubsection{Newtonian Noise}
-Newtonian Noise は、重力勾配ノイズとも呼ばれ、周囲の物体の密度ゆらぎが重力相互作用でテストマスを揺らすノイズである。この密度ゆらぎは地面を伝わる弾性波によって生じ、それが遠隔作用で空間を伝わるため防振することはできない。現在の第二世代の重力波検出器の感度では問題にはならないが、第3世代では10Hz周辺の感度を制限するとされている。
+Unlike the seismic noise mentioned above, the Newtonian noise is a noise that the density fluctuation of surrounding objects disturbes the test mass by gravitational interaction. Because this noise propagate through space, it can not isolate by using the vibration isolation scheme. Although the noise does not affects on the current 2nd generation GW detectors, it will contamintate on the next 3rd generation detectors.
 
-Newtonianノイズを低減するには、地震計アレイをもちいたFeedforward制御が提案されている。
+In order to reduce the Newtonian noise, the feedforward control using the seismometer array is proposed.
 
 \subsubsection{Thermal Noise}
-外部からの外乱以外にも、鏡の基材や表面の粒子がランダムな熱運動をして変位雑音を生み出す。この熱雑音は、1) mirror thermal noise 2) mirror coating thermal noise 3) suspension thermal noise の3つにわけることができる\cite{dan2016study}。
+In addition to external disturbances such as the seismic origin noise, the mirror substrate and surface particles cause random thermal motion generate displacement noise. This thermal noise can be classified into two; 1) mirror thermal noise 2) mirror coating thermal noise \cite{dan2016study}.
 
-温度$T$をもつ鏡の Mirror thermal noise の変位雑音は、
+The displacement noise of the mirror thermal noise of the mirror with temperature $T$ is given by \cite{levin1998internal,numata2003wide}
 \begin{eqnarray}
-  G_{\mathrm{SB}}(f)=\frac{4 k_{B} T}{\omega} \frac{1-\sigma^{2}}{\sqrt{\pi} E w_{0}} \phi_{\mathrm{sub}}(f)
+  G_{\mathrm{SB}}(f)=\frac{4 k_{B} T}{\omega} \frac{1-\sigma^{2}}{\sqrt{\pi} E w_{0}} \phi_{\mathrm{sub}}(f),
   \label{eq:eq140}
 \end{eqnarray}
-のように与えられる\cite{levin1998internal,numata2003wide}。ここで$k_{B}$はボルツマン定数、$\omega$は角周波数、$\sigma$,$E$は基材のポアソン比、ヤング率であり、$\phi_{\mathrm{sub}}$ は鏡の基材のmechanical loss angle、$\omega_0$はビーム半径である。Eq.(\ref{eq:eq140})からわかるように、この熱雑音を低減するには温度を下げるかビーム径を大きくすればよい。
+where $k_{B}$ is a Boltzmann constant, $\omega$ is angular frequency, $\sigma,\,E,\, \phi_{\mathrm{sub}}$ are a Poisson's ratio, Young's modulus, and mechanical loss angle of the bulk of the mirror respectively, and $\omega_0$ is a beam radius. One can find that the mirror thermal noise is decreased by lower temperature or increase the beam radius.
 
-鏡の熱雑音は基材よりもむしろ表面のコーティングで制限される。Corting thermal noise の変位雑音は、
+The displacement noise of coating thermal noise is given by \cite{numata2003wide,harry2002thermal}
 \begin{eqnarray}
-G_{\mathrm{CB}}(f)=G_{\mathrm{SB}}(f)\left(1+\frac{2}{\sqrt{\pi}} \frac{1-2 \sigma}{1-\sigma} \frac{\phi_{\mathrm{coat}}}{\phi_{\mathrm{sub}}} \frac{d}{w_{0}}\right)
+  G_{\mathrm{CB}}(f)=G_{\mathrm{SB}}(f)\left(1+\frac{2}{\sqrt{\pi}} \frac{1-2 \sigma}{1-\sigma} \frac{\phi_{\mathrm{coat}}}{\phi_{\mathrm{sub}}} \frac{d}{w_{0}}\right), 
 \end{eqnarray}
-で与えられる\cite{numata2003wide,harry2002thermal}。ここで、$d$,$\phi_{\mathrm{coat}}$はそれぞれコーティングの厚さ、loss angle である。
+were $d$,$\phi_{\mathrm{coat}}$ are depth and loss angle of the coating.
 
-そして最後に、
-\textcolor{red}{(サスペンションサーマルノイズを書く。揺動散逸定理を引用して。)}
 
+\newpage
 \section{Large-scale Terrestrial Laser Interferometers}
-\subsection{Terrestrial Laser Interferometers}
-ひずみに対する感度をあげるには長期線化は必須であり、地上のレーザー干渉計は最終的には数10kmスケールのものが建設される予定である\cite{}。この検出器は第3世代と呼ばれ、
+Large-scale baseline is a essential feature of interferometric GW detectors for improving the sensitivity. 
 
-現在までにさまざまな検出器がつくられてきた。それらをTable\ref{tb:tb101}に示す\cite{chen2017brief}。
+\subsection{Terrestrial Laser Interferometers}
+So far, various interferometric GW detectors are developed in many places. These detectors are listed table \ref{tb:tb101}.
+
 \begin{table}[h] 
   \begin{center}
-    \caption{\cite{chen2017brief,beker2013low}}\label{tb:tb101}
+    \caption{Terrestrial laser interferometers \cite{chen2017brief,beker2013low}}\label{tb:tb101}
     \begin{tabular}{llll} 
       \hline
-      Project & Baseline [km] & Effective Length [km] & Bedrock \\ \hline \hline
-      LISM  & 0.02    & 32  & Granite/gneiss \\
-      CLIO  & 0.1   & 190 & Granite/gneiss \\
-      TAMA  & 0.3   & 96  & - \\ 
-      GEO   & 0.6   & 1.2 & Sedimentary rock \\
-      KAGRA   & 3  & 2850  & Granite/gneiss \\
-      LIGO L1 & 4  & 1150  & Sedimentary soil \\
-      LIGO H1 & 4  & 1150  & Sedimentary rock \\
-      Virgo   & 3  & 850   & Sedimentary rock \\
-      ET      & 10 & 3200  & - \\
+      Generation &Project & Baseline [m] & Bedrock \\ \hline \hline
+      1st &LISM  & 10    & Granite/gneiss \\ 
+      &CLIO  & 100   & Granite/gneiss \\
+      &TAMA  & 300   & Sedimentary soil \cite{1970449}\\ 
+      &GEO   & 600   & Sedimentary rock \\ \hline
+      2nd &aLIGO L1 & 4000  & Sedimentary soil \\
+      &aLIGO H1 & 4000  & Sedimentary rock \\
+      &aVirgo   & 3000  & Sedimentary rock \\
+      &KAGRA   & 3000  & Granite/gneiss \\ \hline
+      3rd &ET      & 10000 & Granite/gneiss (Planning) \\
       \hline
     \end{tabular}
   \end{center}
@@ -254,13 +262,14 @@ G_{\mathrm{CB}}(f)=G_{\mathrm{SB}}(f)\left(1+\frac{2}{\sqrt{\pi}} \frac{1-2 \sig
 
 
 \subsubsection{1st Generation}
-第1世代検出器(TAMA\cite{ando2001stable}, GEO\cite{grote2010geo}, LIGO\cite{abbott2009ligo}, Virgo\cite{accadia2012virgo})は、これまでの実験室スケールの干渉計とは異なり、はじめての大型検出器であった。これらの干渉計はパワーリサイクルをしたFPMIであり、
+The first generation GW detectors (LISM \cite{sato2004ultrastable}, CLIO \cite{ohashi2003design}, TAMA \cite{ando2001stable}, GEO \cite{grote2010geo}) are small-scale detectors and for test-bench of next generation detectors.
+% LIGO\cite{abbott2009ligo}, Virgo\cite{accadia2012virgo}
 
 \subsubsection{2nd Generation}
-第2世代検出器(KAGRA\cite{akutsu2018kagra}, Advanced Virgo\cite{acernese2014advanced}, Advanced LIGO\cite{aasi2015advanced})では、
+The second generation GW detectors (KAGRA\cite{akutsu2018kagra}, Advanced Virgo\cite{acernese2014advanced}, Advanced LIGO\cite{aasi2015advanced}) are first large-scale detectors for the enough sensitivity to detect GW signal.
 
 \subsubsection{3rd Generation}
-第3世代検出器では基線長をさらに10倍長くする。
+The third generation GW detector (now ET is proposed) has a few km-scale detectors.
 
 %% \subsubsection{LISM}
 %% LISMは世界で初めて地下に建設された20mのレーザー干渉計型の重力波検出器をつかって、干渉計の安定した運転を地下環境で実証するプロジェクトである。LISMの干渉計は20mのFabry-Perot光共振器を腕にもつマイケルソン型レーザー干渉計である。この腕共振器のフィネスは25000と非常に大きくCavity Pole は150Hzに相当する。このようにフィネスの大きい共振器にもかかわらず、DutyCycleは$99.8\,\%$であった。
@@ -283,11 +292,25 @@ G_{\mathrm{CB}}(f)=G_{\mathrm{SB}}(f)\left(1+\frac{2}{\sqrt{\pi}} \frac{1-2 \sig
 %%   \end{center}
 %% \end{figure}
 
-\subsection{KAGRA}
-KAGRAは第2世代の干渉計であるが、他の検出器とは違い、第3世代に必要な地下環境と極低温鏡の技術を採用しており、第2.5世代とも呼ばれている。
+\subsection{Degradation of duty cycle }
+Large-scale baseline makes it difficult to keep the long arm cavity at the resonant state because low-frequency seismic noise disturbs the baseline length.
 
-\subsubsection{KAGRA}
+In case the short-scale baseline, the low-frequency seismic noise did not disturb the baseline length because the motion move the arm cavity as a singl object. However, in case the long-scale baseline, the seismic motion below $1\,\mathrm{Hz}$ move the two mirrors of the arm cavity with no correlation. Especially around $0.2\,\mathrm{Hz}$, amplitude of microseisms caused by ocean activities are larger than the linewidth of arm cavity. This means that the duty cycle of interferometric GW detectors are limited by these low-frequencies.
 
+\subsection{Improvement of duty cycle}
+Low-frequency seismic noise potentilally cause the lock acquisition failure or lock loss. 
+
+\subsubsection{Arm length stabilization (ALS)}
+ALS is a technique to reduce the RMS of arm cavity length using frequency-doubled auxiliary lasers before locking the cavity using main laser \cite{mullavey2012arm,izumi2012multi}. The wavelength of this auxliliary laser is half of the main infrared laser ($1064\,\mathrm{nm}$), thus linewidth is also half according to Eq.(\ref{eq:eq131}). This means that the auxiliary laser is more easy to lock the arm cavity than the main laser. Therefore, onece locking the arm cavity using auxiliary laser, ALS system can reduce the RMS of arm cavity length fluctuation using the feedback signal of the auxiliary system so that the main laser can lock the arm caivty. Owing to this system, lock aquisition takes less than 10 minutes.
+
+\subsubsection{Early earthquake alert}
+Although ALS system can bring the interferometer to the observation state in a sufficiently short time, this is used in only the lock aquisition phase not observation phase due to the control noise. In the obseravtion phase, we can only use the main laser with narrow linewidth as a sensor for measurering the baseline length. Moreover, we have to use a narrow dynamic range and weak actuator not to contaminate the GW sensitivity with the actuator noise. In this situation, if disturbance will excess the range of sensors and actuators, the cavity can not keep the locking state. 
+
+Actually, duty cycle of GW detectors are limited by the low-frequency seismic noise in which the vibration isolation system could not attenuate the motion. Especially long period earthquake limites the duty cycle \cite{Biscans2018control}. 
+
+
+\section{Outline of thesis}
+本論文では、長期線化によって引き起こされるDutyCycleの低下についての考察と、それを解決する防振システムの開発が述べられている。
 
 
 \section{Summary of the Chapter}

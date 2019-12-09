@@ -5,22 +5,22 @@ A level-1 auxiliary file: chap1.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 320 of file reference.bib
+I was expecting a `,' or a `}'---line 330 of file reference.bib
  : 
  : journal={Nature Astronomy},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 477 of file reference.bib
+I was expecting a `,' or a `}'---line 487 of file reference.bib
  : 
  : author={R. W. P . Drever,},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 687 of file reference.bib
+I was expecting a `,' or a `}'---line 709 of file reference.bib
  : 
  : title={Towards the SQL interferometer : length stabilization at the AEI 10 m-prototype},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You're missing a field name---line 848 of file reference.bib
+You're missing a field name---line 870 of file reference.bib
  : 
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
@@ -28,6 +28,8 @@ I'm skipping whatever remains of this entry
 Warning--can't use both volume and number fields in leaci2012searching
 Warning--empty journal in hereld1984search
 Warning--empty journal in weiss1972electronically
+Warning--empty school in ando1999power
+Warning--empty year in ando1999power
 Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
 while executing---line 944 of file unsrt.bst
 Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
@@ -36,46 +38,46 @@ Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry a
 while executing---line 944 of file unsrt.bst
 Warning--empty journal in akutsu2018kagra
 Warning--empty year in akutsu2018kagra
-You've used 25 entries,
+You've used 28 entries,
             1791 wiz_defined-function locations,
-            612 strings with 8231 characters,
-and the built_in function-call counts, 5866 in all, are:
-= -- 455
-> -- 364
+            629 strings with 8999 characters,
+and the built_in function-call counts, 6669 in all, are:
+= -- 501
+> -- 444
 < -- 2
-+ -- 134
-- -- 109
-* -- 475
-:= -- 1021
-add.period$ -- 76
-call.type$ -- 25
-change.case$ -- 22
++ -- 162
+- -- 134
+* -- 561
+:= -- 1171
+add.period$ -- 85
+call.type$ -- 28
+change.case$ -- 24
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 232
-empty$ -- 513
-format.name$ -- 109
-if$ -- 1228
+cite$ -- 35
+duplicate$ -- 257
+empty$ -- 568
+format.name$ -- 134
+if$ -- 1384
 int.to.chr$ -- 0
-int.to.str$ -- 25
-missing$ -- 22
-newline$ -- 128
-num.names$ -- 25
-pop$ -- 44
+int.to.str$ -- 28
+missing$ -- 24
+newline$ -- 143
+num.names$ -- 28
+pop$ -- 50
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 88
+skip$ -- 96
 stack$ -- 0
-substring$ -- 344
-swap$ -- 38
+substring$ -- 371
+swap$ -- 41
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 5
-while$ -- 49
-width$ -- 27
-write$ -- 273
+warning$ -- 7
+while$ -- 54
+width$ -- 30
+write$ -- 304
 is.kanji.str$ -- 0
 (There were 7 error messages)
