@@ -1,142 +1,66 @@
 \begin{thebibliography}{10}
 
-\bibitem{sato2004ultrastable}
-Shuichi Sato, Shinji Miyoki, Souichi Telada, Daisuke Tatsumi, Akito Araya,
-  Masatake Ohashi, Yoji Totsuka, Mitsuhiro Fukushima, Masa-Katsu Fujimoto, LISM
-  Collaboration, et~al.
-\newblock Ultrastable performance of an underground-based laser interferometer
-  observatory for gravitational waves.
-\newblock {\em Physical Review D}, 69(10):102005, 2004.
-
-\bibitem{punturo2010einstein}
-M~Punturo, M~Abernathy, F~Acernese, B~Allen, Nils Andersson, K~Arun, F~Barone,
-  B~Barr, M~Barsuglia, M~Beker, et~al.
-\newblock The einstein telescope: a third-generation gravitational wave
-  observatory.
-\newblock {\em Classical and Quantum Gravity}, 27(19):194002, 2010.
-
-\bibitem{abbott2017exploring}
-B~P Abbott, R~Abbott, T~D Abbott, M~R Abernathy, K~Ackley, C~Adams, P~Addesso,
-  R~X Adhikari, V~B Adya, C~Affeldt, et~al.
-\newblock Exploring the sensitivity of next generation gravitational wave
-  detectors.
-\newblock {\em Class. Quantum Grav}, 34(044001):044001, 2017.
-
-\bibitem{naticchioni2014microseismic}
-L~Naticchioni, M~Perciballi, F~Ricci, E~Coccia, V~Malvezzi, F~Acernese,
-  F~Barone, G~Giordano, R~Romano, M~Punturo, et~al.
-\newblock Microseismic studies of an underground site for a new interferometric
-  gravitational wave detector.
-\newblock {\em Classical and Quantum Gravity}, 31(10):105016, 2014.
-
-\bibitem{hasegawa2015jishin}
-西村太志 長谷川昭, 佐藤春夫.
-\newblock {\em Seismology}, volume~6 of {\em Introduction to Modern Erath
-  Science Series}.
-\newblock Kyoritsu.
-
-\bibitem{takemoto2003}
-竹本修三, 新谷昌人, 赤松純平, 森井亙, 東敏博, 福田洋一, 尾上謙介, 市川信夫,
-  川崎一朗, 大橋正健, et~al.
-\newblock 神岡鉱山における 100 メートルレーザー伸縮計について.
-\newblock 2003.
-
-\bibitem{bonnefoy2006nature}
-Sylvette Bonnefoy-Claudet, Fabrice Cotton, and Pierre-Yves Bard.
-\newblock The nature of noise wavefield and its applications for site effects
-  studies: A literature review.
-\newblock {\em Earth-Science Reviews}, 79(3-4):205--227, 2006.
-
-\bibitem{Daw_2004}
-
-
-\bibitem{Beker_2012}
-M~G Beker, J~F~J van~den Brand, E~Hennes, and D~S Rabeling.
-\newblock Newtonian noise and ambient ground motion for gravitational wave
-  detectors.
-\newblock {\em Journal of Physics: Conference Series}, 363:012004, jun 2012.
-
-\bibitem{schofield2000source}
-R.~Schofield et~al.
-\newblock Source and propagation of the predominant 1-50 hz seismic signal from
-  off-site at ligo-hanford.
-\newblock In LIGO Scientific Collaboration Meeting, Hanford, August 2000.
-
-\bibitem{acernese2004properties}
-F~Acernese, P~Amico, N~Arnaud, D~Babusci, R~Barill{\'e}, F~Barone, L~Barsotti,
-  M~Barsuglia, F~Beauville, MA~Bizouard, et~al.
-\newblock Properties of seismic noise at the virgo site.
-\newblock {\em Classical and Quantum Gravity}, 21(5):S433, 2004.
-
-\bibitem{peterson1993observations}
-Jon~R Peterson.
-\newblock Observations and modeling of seismic background noise.
-\newblock Technical report, US Geological Survey, 1993.
-
-\bibitem{nishida2002origin}
-Kiwamu Nishida, Naoki Kobayashi, and Yoshio Fukao.
-\newblock Origin of earth's ground noise from 2 to 20 mhz.
-\newblock {\em Geophysical Research Letters}, 29(10):52--1, 2002.
-
-\bibitem{Bormann2012new}
-P~Bormann.
-\newblock New manual of seismological observatory practice.
-\newblock {\em GFZ German Research Centre for Geosciences}, 2012.
-\newblock
-  \href{http://bib.telegrafenberg.de/publizieren/vertrieb/nmsop/}{Link}.
-
-\bibitem{haubrich1963comparative}
-RA~Haubrich, WH~Munk, and FE~Snodgrass.
-\newblock Comparative spectra of microseisms and swell.
-\newblock {\em Bulletin of the Seismological Society of America}, 53(1):27--37,
-  1963.
-\newblock
-  \href{https://pubs.geoscienceworld.org/ssa/bssa/article/53/1/27/116108/comparative-spectra-of-microseisms-and-swell}{Link}.
-
-\bibitem{longuet1950theory}
-Michael~Selwyn Longuet-Higgins.
-\newblock A theory of the origin of microseisms.
-\newblock {\em Philosophical Transactions of the Royal Society of London.
-  Series A, Mathematical and Physical Sciences}, 243(857):1--35, 1950.
-\newblock
-  \href{https://royalsocietypublishing.org/doi/abs/10.1098/rsta.1950.0012}{Link}.
-
-\bibitem{sorrells1971earth}
-GG~Sorrells, John~A McDonald, ZA~Der, and Eugene Herrin.
-\newblock Earth motion caused by local atmospheric pressure changes.
-\newblock {\em Geophysical Journal International}, 26(1-4):83--98, 1971.
-
-\bibitem{zurn1995noise}
-W~Z{\"u}rn and R~Widmer.
-\newblock On noise reduction in vertical seismic records below 2 mhz using
-  local barometric pressure.
-\newblock {\em Geophysical Research Letters}, 22(24):3537--3540, 1995.
-
 \bibitem{araya2007broadband}
 A~ARAYA.
 \newblock Broadband observation with laser strainmeters and a strategy for high
   resolution long-term strain observation based on quantum standard.
 \newblock {\em J. Geod. Soc. Japan}, 53:81--97, 2007.
 
-\bibitem{aki2002quantitative}
-Keiiti Aki and Paul~G Richards.
-\newblock {\em Quantitative seismology}.
-\newblock 2002.
+\bibitem{araya2017design}
+Akito Araya, Akiteru Takamori, Wataru Morii, Kouseki Miyo, Masatake Ohashi,
+  Kazuhiro Hayama, Takashi Uchiyama, Shinji Miyoki, and Yoshio Saito.
+\newblock Design and operation of a 1500-m laser strainmeter installed at an
+  underground site in kamioka, japan.
+\newblock {\em Earth, Planets and Space (Online)}, 69(1):1, 2017.
 
-\bibitem{aki1967scaling}
-Keiiti Aki.
-\newblock Scaling law of seismic spectrum.
-\newblock {\em Journal of geophysical research}, 72(4):1217--1231, 1967.
+\bibitem{ciddor1996refractive}
+Philip~E Ciddor.
+\newblock Refractive index of air: new equations for the visible and near
+  infrared.
+\newblock {\em Applied optics}, 35(9):1566--1573, 1996.
 
-\bibitem{gutenberg1945study}
-B.~Gutenberg.
-\newblock {Amplitudes of surface waves and magnitudes of shallow earthquakes*}.
-\newblock {\em Bulletin of the Seismological Society of America}, 35(1):3--12,
-  01 1945.
+\bibitem{bond2016interferometer}
+Charlotte Bond, Daniel Brown, Andreas Freise, and Kenneth~A Strain.
+\newblock Interferometer techniques for gravitational-wave detection.
+\newblock {\em Living reviews in relativity}, 19(1):3, 2016.
 
-\bibitem{trillium120manual}
-Nanometrics Inc., 250 Herzberg Road Kanata, Ontario, Canada K2K 2A1.
-\newblock {\em Trillium 120Q/QA User Guide}, 04 2017.
+\bibitem{svelto1998principles}
+Orazio Svelto.
+\newblock {\em Principles of lasers}, volume~4.
+\newblock Springer.
+
+\bibitem{riehle2006frequency}
+Fritz Riehle.
+\newblock {\em Frequency standards: basics and applications}.
+\newblock John Wiley \& Sons, 2006.
+
+\bibitem{miyo2017baseline}
+Kouseki Miyo.
+\newblock 重力波望遠鏡kagraのための地殻変動モニターの開発.
+\newblock Master's thesis, University of Tokyo, 2017.
+
+\bibitem{araya2002iodine}
+Akito Araya, Takashi Kunugi, Yoshio Fukao, Isao Yamada, Naoki Suda, Sumitaka
+  Maruyama, Norikatsu Mio, and Shigenori Moriwaki.
+\newblock Iodine-stabilized nd: Yag laser applied to a long-baseline
+  interferometer for wideband earth strain observations.
+\newblock {\em Review of scientific instruments}, 73(6):2434--2439, 2002.
+
+\bibitem{snyder1980high}
+James~J Snyder, Rama~K Raj, Daniel Bloch, and Martial Ducloy.
+\newblock High-sensitivity nonlinear spectroscopy using a frequency-offset
+  pump.
+\newblock {\em Optics letters}, 5(4):163--165, 1980.
+
+\bibitem{bobroff1993recent}
+Norman Bobroff.
+\newblock Recent advances in displacement measuring interferometry.
+\newblock {\em Measurement Science and Technology}, 4(9):907, 1993.
+
+\bibitem{zumberge2004resolving}
+Mark~A Zumberge, Jonathan Berger, Matthew~A Dzieciuch, and Robert~L Parker.
+\newblock Resolving quadrature fringes in real time.
+\newblock {\em Applied optics}, 43(4):771--775, 2004.
 
 \bibitem{bork2001overview}
 Rolf Bork, R~Abbott, D~Barker, and J~Heefner.
