@@ -1,9 +1,10 @@
 \chapter{Baseline Compensation System}
+Baseline compensation system is a one of the active vibration isolation system for GW detector's arm cavity. 
 
+In the section \cref{sec:51}, the passive viblation isolation is described. After that, two type of active vibration isolation system are described in the section \cref{sec:52} and \cref{sec:53}. In the section \cref{sec:54}, the baseline compensation system is described.
 
 \section{Basics in Seismic Isolation}\label{sec:51}
-重力波望遠鏡における地面振動防振の基本は振り子である。より防振比を高めるために、低共振周波数かつ多段振り子をもちいている。
-
+Essentialy, the vibration isolation system has a pendulum to attenuate the seismicnoise passively. For further the isolation performance, the pendulum have developed as a longer and multi-stage pendulum.
 
 \subsection{Single Pendulum}
 For simple example, as shown in left figure in Fig.(\ref{img:img501}), consider a one-dimentional harmonic oscillator consisting of a spring with a spring constant $k$ and mass $M$. The displacement of the suspension point and the mass are $x_0$ and $x$, respectively. Because the equation of the motion is written as
@@ -42,11 +43,11 @@ In order to increase the order of the seismic isolation, multi-stage pendulum is
     \caption{{\bf(a)} Schematic drawing of an active seismic isolation system for platform. {\bf(b)} Block diagram of the active control scheme.} \label{img:img503}
   \end{center}
 \end{figure}
-振り子をもちいた受動防振ではその共振周波数以下の地面振動は防振できない。さらに低周波で防振するために、広帯域地震計をもちいた能動防振が開発されてきた\cite{matichard2015seismic}。
+The passive vibration isolation cannot reduce the seismic noise below its pendulum's eigenfrequency. To attenuate the lower-frequency seismic noise, the active vibration isolation system using a seismometer \cite{matichard2015seismic}.
 
 The active isolation system is shown in Fig. \ref{img:img503}(a). A platform is suspended from the ground with transmisivity $H_{\mathrm{s}}$. This platfrom is fed back both signal of a inertial sensor with calibration factor $S_{\mathrm{H}}$ and signal of a relative position sensor with calibration factor $S_{\mathrm{L}}$, to the platform using actuator with actuator efficiency $P_{\mathrm{a}}$. This feedback control actively decouple the platform from the seismic disturbance from $0.1\,\mathrm{Hz}$ to a few Hz. Moreover, the platform is controled with feedforward using a seismometer with calibration factor $S_{\mathrm{wit}}$ installed on the local ground. 
 
-能動防振の制御方法はFig.\ref{img:img503}(b)に示しているとおり、フィードバック制御、センサーコレクション制御、フィードフォワード制御、が組み合わされている。順番にそれらを説明する。
+As shown in Fig. \ref{img:img503}(b), the active vibration system is integrated with a feedback control, sensor correction contorl, and feedforward control. These control schemes are described below.
 
 \subsection{Sensor Blending Technique}
 \begin{figure}[h]

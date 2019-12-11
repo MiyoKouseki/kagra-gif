@@ -205,50 +205,72 @@ As mentioned in \cref{sec:123}, because the frequency noise of the laser is limi
 
 
 
+\section{Realtime Data Aquisition System} \label{sec:sec44}
+Essentialy, the GIF is an independent instrument from the KAGRA not to interfere each other. Therefore, the data aquisition system of eachs were developed independently. However, in order to use the GIF strainmeter for baseline compensation system, we need to impliment the GIF system into the KAGRA system. 
 
+In this section, the realtime data aquisition system is described.
+In the section \cref{sec:141}, we describe the quadrature phase detection scheme for obtain the optical phase propotional to the strain on X-arm baseline. In this scheme, we need the elipse fitting to obtain the optical phase. In the section \cref{sec:142}, the realtime data aquisition system is described. This system process the fitting below $1\,\mathrm{msec}$.
 
-
-\section{Realtime Signal  Aquisition System} \label{sec:sec44}
-
-\subsection{Quadrature Phase Fringe Detection}
+\subsection{Quadrature Phase Fringe Detection} \label{sec:141}
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=13.0cm]{./img_chap4/img413.png}
-    \caption{Quadrature interferometer used in the GIF strainmeter. A half-wave plate (HWP) produces a p-polarization and s-polarization. A quator-wave plate (QWP) delay the optical phase of the s-polarized light with 90 degree against to the another. As a result, one can obtain the quadrature phase fringe.}\label{img:img413}
+    \caption{Quadrature interferometer used in the GIF strainmeter.}\label{img:img413}
   \end{center}
 \end{figure}
+We use the quadrature phase fringe detection to measure the length change of the baseline with wide dynamic range \cite{bobroff1993recent}. The optical layout for the detection is shown in Fig. \ref{img:img413}. A half-wave plate (HWP) produces a p-polarization and s-polarization. A quator-wave plate (QWP) delay the optical phase of the s-polarized light with 90 degree against to the another. As a result, one can obtain the quadrature phase fringes.
 
-We use the quadrature phase fringe detection to measure the length change of the baseline with wide dynamic range \cite{bobroff1993recent}. The optical layout for the detection is shown in Fig.(\ref{img:img413}).
-
-The quadrature phase fringes are detected by two photo detectors, these can be represented as
+The quadrature phase fringes are detected by two photo detectors, these can be represented as 
 \begin{eqnarray}
-  x(t) &=& x_0 + a \sin(\phi(t)+\phi_0), \\
-  y(t) &=& y_0 + b \cos(\phi(t)),
+  x(t) &=& x_0 + b \cos(\phi(t)), \label{eq:eq450b} \\
+  y(t) &=& y_0 + a \sin(\phi(t)+\delta), \label{eq:eq450a}  
 \end{eqnarray}
-where $x$ and $y$ are the two voltage outputs from the detectors, $a$ and $b$ are the amplitudes of these fringe signals, $x_0$ and $y_0$ are the offsets, $\phi$ is optical phase, and $\phi_0$ is the phase offsets from imperfections \cite{zumberge2004resolving}.
-このとき、位相角$\phi$は
+where $x$ and $y$ are the two voltage outputs from the detectors, $a$ and $b$ are the amplitudes of these fringe signals, $x_0$ and $y_0$ are the offsets, $\phi$ is optical phase, and $\delta$ is the phase offsets from imperfections \cite{zumberge2004resolving}. Here, the optical phase $\phi$ is given by
 \begin{eqnarray}
-  \tan{\phi(t)} = \frac{1}{{\cos(\phi_0)}} \left(\displaystyle{\frac{b}{a}\frac{x(t)-x_0}{y(t)-y_0}-\sin(\phi_0)}\right)
+  \phi = \arctan {\frac{\bar{Y}}{\bar{x}}} \label{eq:eq440c}
 \end{eqnarray}
-で表される。つまりある時刻$t$のときに、パラメーター$x_0,\,y_0,\,a,\,b,\,\phi_0$が与えられれば、そのときの位相$\phi(t)$は求まる。
+where 
+\begin{eqnarray}\label{eq:eq440a} 
+  \bar{Y} = \left(\frac{\bar{y}-\bar{x}\sin{\delta}}{\cos{\delta}}\right), \\
+  \bar{x} = \frac{x-x_0}{b}\,\,\mathrm{and}\,\,\bar{y} = \frac{y-y_0}{a}. \label{eq:eq440b}
+\end{eqnarray}
+According to Eq.(\ref{eq:eq400}), if these parameters are given in at time $t$, the optical phase $\phi(t)$ is obtained.
 
-\subsection{Realtime Data Processing}
-KAGRAのデジタルシステムをつかってリアルタイムで楕円パラメータを取得する。KAGRAのデジタルシステムでは
 
-\cite{bork2001overview}
+\subsection{Realtime Data Processing} \label{sec:142}
+All the PD signals of the GIF are taken by the analog-digital-converter (ADC) and processed in the KAGRA digital system, which is the same as LIGO \cite{bork2001overview}. The ADC converts the analog signal to the digital signal with 16 bit and $2^{16}\,\mathrm{Hz})$ sampling frequency. All the digital signals are simultaneous sampled in the digital system. 
 
-
-GIFからの2つの干渉信号を
-
-Fig.\ref{img:img420}にひずみ変換のMatlabのSimlinkモデルを示す。
-
+The realtime culculation model in the KAGRA system is shown in Fig. \ref{img:img420}. To reduce the calculation cost, the digital signal in this model is downsampled to $2^{14}\,\mathrm{Hz}$. This realtime model has three main functions; the elipse fitting function, the strain calclator function, and the unwrap function. These functions are described below.
 \begin{figure}[h]
   \centering
   \includegraphics[width=15.0cm]{./img_chap4/img420.png}
-  \caption{}\label{img:img420}
+  \caption{Realtime calculation model of the phase calculator of GIF. (1) the elipse fitting function (2) the strain calclator function (3) the unwrap function.}\label{img:img420}
 \end{figure}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=10cm]{./img_chap4/img440.png}
+  \caption{Fitting the elipse curve to the Lissajous figure. $\bar{X}$ and $\bar{y}$ are defined in Eq.(\ref{eq:eq440a},\ref{eq:eq440b}), respectively. } \label{img:img440}
+\end{figure}
 
+\subsubsection{Elipse fitting function}
+This function is for obtainning the five elipse parameters in Eq.(\ref{eq:eq450a,eq:eq450b}) by fitting the elipse curve to the Lissajous figure drawn by two PD signals. The function calculates these parameters using the least-square method with 512 data points of each two PD signal. These data points are moved every sampling time.
+
+\subsubsection{Strain calculator function}
+This function calculate the optical phase using the elipse parameters based on Eq.(\ref{eq:eq440c}). For example, Fig. \ref{img:img440} shows the fitted curve (red line) and the data points (black dots). As described above, the optical phase $\phi$ is a angle of the data point. This optical phase is depend on the power ratio $\bar{y}/\bar{x}$ and the phase offset $\delta$ because the phase is given by
+\begin{eqnarray}
+  \phi = \frac{\bar{y}}{x}\frac{1}{\cos{\delta}} - \tan{\delta}.
+\end{eqnarray}
+This means that the changes of the power ration and the phase offset are the noise of the optical phase measurement. In particular, the power ratio is sensitive at the PBS which divids the interfered two polarized lights. For this reson,  we covered this location with small house to protect winds disturbed by passengers. On the other hand, the phase offset has small fluctuation because the QWP is installed in the vacuum chamber.
+
+Although the calculation of the optical phase by measuring the angle is not affected by the input power changes, the signal noise ratio will worse in less input power. We also monitor the quality of the calculation using a parameter;
+\begin{eqnarray}
+  r = \sqrt{\bar{X}^2+{\bar{y}^2}}.
+\end{eqnarray}
+
+\subsubsection{Unwrap function}
+This function unwrap the optical phase calculated by the phase calculator function and return the continuous phase proportional to strain, because the atan2 function used in the phase calculator return between from $-\pi$ to $\pi$. 
 
 \section{Summary of the Chapter} %章のまとめ
 本章で述べたパラメータを表にまとめる。
+B
