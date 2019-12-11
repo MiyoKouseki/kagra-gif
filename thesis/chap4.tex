@@ -92,12 +92,11 @@ if the baseline length is twice, the frequency is half, which means decrease of 
 \end{figure}
 
 \subsection{Noise}
-\subsubsection{Frequency Noise}
-先述したように、GIFのような1500mと70cmの腕を持つ非対称マイケルソン干渉計は、腕の同相雑音除去が効かない。周波数ノイズは
+\subsubsection{Frequency Noise} \label{sec:123}
+As mentioned above, the noise of asymmetric interferometer is limited by the frequency noise because the commom mode rejection was not work sufficiently. The GIF, therefore, use the frequency stabilized laser by using iodine-absorption line \cite{araya2017design}. The fluctuation $\Delta{f}/f$, which coresponds to the stain, is
 \begin{eqnarray}
-  h = \frac{\Delta{f}}{f} \sim 7\times10^{-13} [\mathrm{1/\mathrm{Hz}}]
+  h = \frac{\Delta{f}}{f} \sim 7\times10^{-13} [\mathrm{1/\mathrm{Hz}}].
 \end{eqnarray}
-になる\cite{araya2017design}。
 
 \subsubsection{Residual Gas Noise}
 Bcause residual gas fluctuates the optical path, length measured by interferometer is also fluctuates. The opttical path $L_{\mathrm{opt}}$ is given by $L_{\mathrm{opt}}=nL$, where $L$ is the length of the baseline and $n$ is the refraction index in the optical path relative to the path in the vacuum. Under the pressure of $p$ in vacuum, the index $n$ is approximated as $n = 1 + c_0(p/p_0)$, where $c_0$ denotes the relattive refractive index, $p_0$ is pressure in standard air at 1 atm. The apparent strain due to the residual pressure is given as \cite{ciddor1996refractive};
@@ -107,24 +106,25 @@ Bcause residual gas fluctuates the optical path, length measured by interferomet
 In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum pressure should be below $1\times10^{-4}\,[\mathrm{Pa}]$. However, actual vacuum pressure is $1\times10^{-2}\,[\mathrm{Pa}]$, then strain is $\sim\times10^{-12}$.
 
 
-
-\section{Optics} \label{sec:sec43} %光学系
-これまでの議論はレーザー光を平面波として扱っていた。しかしながら実際のレーザー光は伝搬する距離で位相のずれやビームサイズの変化が生じる。このようなビームを有限の範囲でかんしょうさせるにはこれらビームプロファイルを適切に設計しなければならない。ここでは、レーザー光がガウシアンビームだとして、$1500\mathrm{m}$の非対称マイケルソン干渉計を干渉させるために必要なモードマッチについて述べる。
+\section{Optics} \label{sec:sec43}
+In preivious discussion, the laser light was implicitly assumed the plane wave, which does not change the optical phase and radius of the beam when it propagates, but actual beam is not. The actual beam requires a design of these beam profiles to interfer the beam within a finite scale. In this section, we assume a Gaussian beam, and describe the design for the GIF interferometer.
 
 \subsection{Gaussian Beam}
-理想的なレーザー光は$\mathrm{TEM}_{00}$と呼ばれる空間モードをもち、電場の位相は距離に応じて変化する。この空間モードをもつビームのことをガウシアンビームと呼ぶ。このガウシアンビームが$z$軸に伝搬する場合を考える。この電場は
+\subsubsection{Gaussian beam}
+Ideal Gaussian beam has the fundamental spatial mode called $\mathrm{TEM}_{00}$. The whose electric field of the beam propagating to $z$ axis is given by \cite{bond2016interferometer,svelto1998principles}
 \begin{eqnarray}
   u(x, y, z)=\sqrt{\frac{2}{\pi{w^2(z)}}} \exp \left(i\zeta(z)-\mathrm{i} k \frac{x^{2} +y^{2}}{2 R(z)}-i\frac{2\pi}{\lambda}z\right)
-  \exp \left(-\frac{x^{2}+y^{2}}{w^{2}(z)}\right)  \label{eq:eq415}
+  \exp \left(-\frac{x^{2}+y^{2}}{w^{2}(z)}\right),  \label{eq:eq415}
 \end{eqnarray}
-とかける\cite{bond2016interferometer,svelto1998principles}。ここで、$\lambda,\,w_0$はそれぞれレーザーの波長、$z=0$でのビーム径である。また
+where $\lambda,\,w_0$ are the wavelength and the beam radius at $x=0$ of the beam. In addition,
 \begin{eqnarray}
   z_0 &=& \frac{\pi{w^2_0}}{\lambda} \\ \label{eq:eq415_a}
   w(z) &=& w_0\sqrt{1+\left(\frac{z}{z_0}\right)^2}, \\ \label{eq:eq415_b}
   R(z) &=& z\left[1+\left(\frac{z_0}{z}\right)^2\right],\\ \label{eq:eq415_c}
   \phi(z) &=& \arctan\left(\frac{z}{z_0}\right) \label{eq:eq415_d}
 \end{eqnarray}
-はそれぞれ、Reyliegh length、$z$でのビーム径、曲率、Gouy位相である。このときEq.(\ref{eq:415})から、Fig.\ref{img:img415a}にしめすように、ガウシアンビームのパワー$P=|u^2|$はガウス分布をもつことがわかる。さらにビーム径はビーム強度が$1/e^2$になるときの半径とわかる。
+are Reyliegh range and radius, curvature, and Gouy phase of the beam as a function of $z$, respectively. One can find that power of the beam $|u^2|$ has a Gaussian distribution as shown in Fig. \ref{img:img415a} according to Eq.(\ref{eq:415}). 
+
 \begin{figure}[p]
   \begin{minipage}{14cm}
     \centering    
@@ -139,36 +139,34 @@ In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum press
   \caption{Gaussian beam.}
 \end{figure}
 
-
-ガウシアンビームを特徴づける$z$の関数であるパラメータEq.(\ref{eq:eq415_b,eq:eq415_c,eq:eq415_d})をFig.{\ref{img:img415}}に示す。$z=0$のとき、ビーム径は最も小さくEq.(\ref{eq:eq415})の位相は0であるため、ガウシアンビームは平面波とみなせる。一方で、$z\gg{z_0}$のときレーザー光源は点光源とみなせ、球面波としてふるまう。
-
+\subsubsection{Beam profiles}
+As shown in Fig.\ref{img:img415}, the beam profiles given by Eq.(\ref{eq:eq415_b,eq:eq415_c,eq:eq415_d}) are plotted as a function of $z$. In near-field ($z=0$), the beam can be regarded as the plane wave because the beam radius is most smallest (beam waist) and the Gouy phase is 0. On the other hand, in far-field, the beam looks like a point soruce from far distant, and it is regarded as the shperical wave.
 
 \subsection{Reflector Design}
-リフレクタの大きさを最小限にするために、GIFの干渉計はエンドミラーでビーム直径が最も小さくなるビームウエストがくるようにしている。この場合、ビームウエスト$w_0$を小さくしたいが、小さくしすぎると$L=1500\,\mathrm{m}$離れたBSとフロントリフレクタで大きくなるので、できるだけフロントでのビーム径$w(L)$はエンドのビーム径$w_0$に対してできる限り小さくしたい。つまりこれを式で表すと、
+In order to minimized the reflectors size, the beam of the GIF interferometer is designed so that the beam waist is in the end reflector as shown in Fig.\ref{img:img416}. In this case, if the beam waist $w_0$ is focused at the end reflector, the beam radius at the front reflector $w(L)$, which locates 1500 meters from the end reflector, spreads. Therefore, we need to design the beam so that
 \begin{eqnarray}
-  \argmin_{w_0} \left[w_0\times\frac{w(L)}{w_0}\right] \label{eq:eq415_e}
+  \argmin_{w_0} \left[w_0\times\frac{w(L)}{w_0}\right]. \label{eq:eq415_e}
 \end{eqnarray}
-となるような$w_0$を探せばよい。Eq.(\ref{eq:eq415_b})をEq.(\ref{eq:eq415_e})に代入して解けば
+Substituting Eq.(\ref{eq:eq415_b}) into Eq.(\ref{eq:eq415_e}), one can obtain the beam waist radius
 \begin{eqnarray}
-  w_0 = \sqrt{\frac{{L\lambda}}{\pi}}
+  w_0 = \sqrt{\frac{{L\lambda}}{\pi}} \label{eq:eq415b}
 \end{eqnarray}
-を得る。つまりビームウエストサイズ$w_0=\sqrt{{1500\,\mathrm{[m]}}\times 532\,\,\mathrm{[nm]}/\pi} = 16\,\mathrm{mm}$となる。このときのフロントリフレクタでのビーム径は$w(L)=\sqrt{2}{w_0}$になる。ちなみに、リフレクタの大きさはフロントリフレクタでのビーム径の3倍の大きさを往復できるようにするには、最低限必要なリフレクタの aperture diameter は$2\times3\times\sqrt{2}w_0\sim270\,\mathrm{mm}$となる。
+We note that the Rayleigh range is $z_0 = L$ in the case of that.
 
-\subsection{Input Output Optics}
-レーザー光源から出射されたビームを適当な大きさにして干渉計へ入射するために、input output optics と呼ばれる光学系を構築している。Fig(\ref{img:img416})にGIFのinput output optics と干渉計を示す。光源からの出射ビームは、エンドリフレクタの位置Aでビームウエストになるように、コリメータ(1)とステアリングミラー(2)、凹面鏡(3)を経てBSへと入射される。２つのリフレクタから反射してきたビームは地点Bで再結合し、２つ目の凹面鏡とコリメータ(4)をへてPDに入射する。これらopticsの調整をおこない干渉信号を得ている\cite{miyo2017baseline}。
+According to Eq.(\ref{eq:eq415b}), the beam waist radius of the GIF is
+\begin{eqnarray}
+  w_0=\sqrt{{1500\,\mathrm{[m]}}\times 532\,\,\mathrm{[nm]}/\pi} = 16\,\mathrm{mm}.
+\end{eqnarray}
+Furthermore, the beam radius at the front reflector is $w(1500)=\sqrt{2}{w_0}$. Finally, we determin the size od the reflectors as the three times of the $w(1500)$, then the mininum size of the reflector is $2\times3\times\sqrt{2}w_0\sim270\,\mathrm{mm}$.
 
-\begin{figure}[h]
+\begin{figure}[p]
   \begin{center}   
     \includegraphics[width=14cm]{./img_chap4/img416.png}
     \caption{Schematic optics layout}{(1) A collimator lens for input beam. (2) A flat mirror for steering mirror. (3) Two concave mirrors with a radius of curvature of $9.8\,\mathrm{m}$ for mode matching. (4) A collimator lens for output beam. The waist of the beam is at the end reflector at point A. Two reflected on the reflectors are combined at point B.}\label{img:img416}
   \end{center}
 \end{figure}
 
-
-\subsection{Core Optics}
-The core optics of the Michelson interferometer are composed of two reflectors and beam splitter (BS). 
-
-\begin{figure}[h]
+\begin{figure}[p]
   \begin{minipage}[b]{7cm}
     \begin{center}   
       %\includegraphics[width=7cm]{./img_chap4/img418.png} % ファイル重い
@@ -187,9 +185,16 @@ The core optics of the Michelson interferometer are composed of two reflectors a
 \end{figure}
 
 
-\subsection{Frequency Stabilized Laser}
-Because GIF is an asymmetric Michelson interferometer, the frequency stability of the laser would limit the sensitivity of the strain, and we use the frequency stabilized laser, which is stabilized the laser frequency to the iodine absorption line \cite{araya2002iodine}. The control diagram of the frequency stabilization system is shown in Fig.\ref{img:img417}. このシステムはヨウ素分子の吸収スペクトル線の周波数とレーザーの周波数との差を利用したフィードバック制御である。エラー信号は、ポンプ光とプローブ光をつかったドップラーフリーな吸収線信号\cite{snyder1980high}をPDH法をつかって取得する。
+\subsection{Input Output Optics}
+Input output optics is used for matching the beam profile of the input laser and the interferometer in order to interfere as shown in Fig. \ref{img:img416}. The output beam from the laser incident to beam splitter (BS) using (1) a colimator, (2) steering mirror, and (3) concave mirrors in order to be the beam waist at the end reflector. The reflected beams from each reflector are re-combine at the Point B, and this interferered light is incidents to the photo detector through the anothoer concave mirror and colimator. The mode matching is described in reference \cite{miyo2017baseline}.
 
+
+\subsection{Core Optics}
+The core optics of the Michelson interferometer are composed of two reflectors and beam splitter (BS). 
+
+
+\subsection{Frequency Stabilized Laser} \label{sec:sec135}
+As mentioned in \cref{sec:123}, because the frequency noise of the laser is limits the sensitivity of the strain measurement, the GIF interferometer use the frequency stabilized laser utilizing the iodine absorption line \cite{araya2002iodine}. The control diagram of the frequency stabilization system is shown in Fig.\ref{img:img417}. This control is a feedback system in order to reduce the error signal of the laser frequency and the frequency of the iodine absorption line. The error signal is obtained by PDH method from the absorption signal that is a doppler free signal by using the pump and prob light \cite{snyder1980high}.
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=12cm]{./img_chap4/img417.png}
@@ -197,9 +202,13 @@ Because GIF is an asymmetric Michelson interferometer, the frequency stability o
   \end{center}
 \end{figure}
 
+
+
+
+
+
+
 \section{Realtime Signal  Aquisition System} \label{sec:sec44}
-
-
 
 \subsection{Quadrature Phase Fringe Detection}
 \begin{figure}[h]
