@@ -56,26 +56,13 @@ Kenji Numata and Jordan Camp.
   environmental motion over long time scales.
 \newblock {\em Appl. Opt.}, 47(36):6832--6841, Dec 2008.
 
-\bibitem{araya2002iodine}
-Akito Araya, Takashi Kunugi, Yoshio Fukao, Isao Yamada, Naoki Suda, Sumitaka
-  Maruyama, Norikatsu Mio, and Shigenori Moriwaki.
-\newblock Iodine-stabilized nd: Yag laser applied to a long-baseline
-  interferometer for wideband earth strain observations.
-\newblock {\em Review of scientific instruments}, 73(6):2434--2439, 2002.
-
-\bibitem{dahl2012suspension}
-K~Dahl, G~Heinzel, B~Willke, K~A Strain, S~Go{￥ss}ler, and K~Danzmann.
-\newblock Suspension platform interferometer for the {AEI} 10 m prototype:
-  concept, design and optical layout.
-\newblock {\em Classical and Quantum Gravity}, 29(9):095024, apr 2012.
-
-\bibitem{sina2018towards}
-PhD thesis.
-
-\bibitem{manson1972frequency}
-G~Manson and G~Hoffmann de~Visme.
-\newblock The frequency spectrum of barkhausen noise.
-\newblock {\em Journal of Physics D: Applied Physics}, 5(8):1389, 1972.
+\bibitem{michimura2017mirror}
+Yuta Michimura, Tomofumi Shimoda, Takahiro Miyamoto, Ayaka Shoda, Koki Okutomi,
+  Yoshinori Fujii, Hiroki Tanaka, Mark~A Barton, Ryutaro Takahashi, Yoichi Aso,
+  et~al.
+\newblock Mirror actuation design for the interferometer control of the kagra
+  gravitational wave telescope.
+\newblock {\em Classical and Quantum Gravity}, 34(22):225001, 2017.
 
 \bibitem{aasi2015characterization}
 J~Aasi, J~Abadie, BP~Abbott, Robert Abbott, T~Abbott, MR~Abernathy, T~Accadia,
@@ -83,11 +70,6 @@ J~Aasi, J~Abadie, BP~Abbott, Robert Abbott, T~Abbott, MR~Abernathy, T~Accadia,
 \newblock Characterization of the ligo detectors during their sixth science
   run.
 \newblock {\em Classical and Quantum Gravity}, 32(11):115012, 2015.
-
-\bibitem{cote1991self}
-PJ~Cote and LV~Meisel.
-\newblock Self-organized criticality and the barkhausen effect.
-\newblock {\em Physical review letters}, 67(10):1334, 1991.
 
 \bibitem{akutsu2019first}
 T~Akutsu, M~Ando, K~Arai, Y~Arai, S~Araki, A~Araya, N~Aritomi, H~Asada, Y~Aso,
