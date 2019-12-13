@@ -1,7 +1,6 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
-A level-1 auxiliary file: chap5.aux
 A level-1 auxiliary file: chap6.aux
 A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
@@ -27,51 +26,46 @@ You're missing a field name---line 945 of file reference.bib
  : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--entry type for "biscans2018optimization" isn't style-file defined
---line 1113 of file reference.bib
-Warning--empty author in drever1987outline
-Warning--empty institution in drever1987outline
-Warning--empty year in drever1987outline
-You've used 15 entries,
+You've used 5 entries,
             1791 wiz_defined-function locations,
-            547 strings with 7184 characters,
-and the built_in function-call counts, 3451 in all, are:
-= -- 257
-> -- 247
+            481 strings with 4938 characters,
+and the built_in function-call counts, 1078 in all, are:
+= -- 83
+> -- 77
 < -- 0
-+ -- 89
-- -- 74
-* -- 290
-:= -- 617
-add.period$ -- 44
-call.type$ -- 15
-change.case$ -- 13
++ -- 28
+- -- 23
+* -- 79
+:= -- 206
+add.period$ -- 16
+call.type$ -- 5
+change.case$ -- 3
 chr.to.int$ -- 0
-cite$ -- 18
-duplicate$ -- 121
-empty$ -- 287
-format.name$ -- 74
-if$ -- 706
+cite$ -- 5
+duplicate$ -- 40
+empty$ -- 84
+format.name$ -- 23
+if$ -- 218
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 10
-newline$ -- 77
-num.names$ -- 14
-pop$ -- 29
+int.to.str$ -- 5
+missing$ -- 3
+newline$ -- 29
+num.names$ -- 5
+pop$ -- 8
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 44
+skip$ -- 14
 stack$ -- 0
-substring$ -- 187
-swap$ -- 14
+substring$ -- 46
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 3
-while$ -- 27
-width$ -- 17
-write$ -- 161
+warning$ -- 0
+while$ -- 8
+width$ -- 6
+write$ -- 58
 is.kanji.str$ -- 0
 (There were 4 error messages)

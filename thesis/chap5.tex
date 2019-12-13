@@ -152,7 +152,7 @@ As described above, the inertial sensor cannot be used for measuring the horizon
 \section{Active Baseline Seismic Isolation}
 For laser interferometric gravitational-wave detector, the baseline length should be isolate from the seismic noise, whilie it is not necessary to isolate the individual stages to the inertial frame. For this reason, the active baseline seismic isolation system using additional interferometer named suspension point interferometer (SPI) have been developed.
 
-\subsection{Suspension Point Interferometer (SPI)}
+\subsection{Suspension Point Interferometer (SPI)} \label{sec:321}
 The basic idea of the active baseline vibration isolation is proposed by Drever in 30 years ago. In this idea, the baseline length is kept by feedback or feedforward with the baseline length singal measured by the suspension point interferometer (SPI), which is installed near the suspension point of the pendulum to measure the length \cite{drever1987outline}. The advantage of this active vibration isolation system is the sensitivity of the SPI, which is better than that of the inertial sensor in low-frequency. Owing to this sensitivity, the system could attenuate the seismic noise to DC changes. Therefore, various type of the vibration isolation system have been deveolped so far.
 
 \subsubsection{Fabry-Perot Optical Cavity Type }
@@ -237,16 +237,13 @@ The reduction of the test mass actuator's load reduce the glicth noise such as t
 
 
 \section{Baseline Compensation System}\label{sec:52}
-The baseline compensation system is the active baseline seismic isolation syste ugin the GIF. 
+The baseline compensation system is the active baseline seismic isolation system uging the GIF. 
 
 \subsection{Purpose}
 The purpose of the baseline compensation system is to reduce the RMS of the cavity length fluctuation from 1 Hz to DC. In this region, the RMS motion in cavity length is mainly disturbed by the seismic noise such as the microseisms ($\sim 200\,\mathrm{mHz}$), large earthquake in distant place ($< 100\,\mathrm{mHz}$), air pressure response ($< 20\, \mathrm{mHz}$), and earth tides ($\sim 10^{-5}\,\mathrm{Hz}$). Moreover, the RMS of these seismic motion is comparable with several $1\sim100\,\mathrm{um}$, which is much greter than the test mass actuator's range. Therefore, the compensation of the cavity length disturbed by these seismic noise not only the improve stability of the detector operation but also the reduce the glitch noises in GW signal.
 
 \subsection{Concept}
-
-
-Below 1 Hz, the displacement of the 3000 m baseline is given by 2 times of that of the 1500 m baseline.
-
+The concept of the baseline compensation system is the feedforward control, which move the platform stage at X-end using the baseline length changes measured by the GIF in order to compensate the seismic disturbance as shown in Figure \ref{img:img512}. The cavity's mirrors are suspended by the pendulums, whose suspension point is fixed on the platform stage. This platform stages is also suspended by the inverted pendulums on the second fllor. The platfrom responds the seismic motion below 1 Hz, which is the target frequency to be reuced. Thus the seismic disturbance of the stage motion is attenuated by using the actuator on the stage. The control signal is given by the GIF on the fisrt floor.
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=14cm]{./img_chap5/img512.png}
@@ -254,12 +251,12 @@ Below 1 Hz, the displacement of the 3000 m baseline is given by 2 times of that 
   \end{center}
 \end{figure}
 
-
-
 \subsection{GIF as a SPI}
+The idea of this baseline compensation system is originate from the \cite{Numata2008interferometric} as mentiond in the section \ref{sec:321}. While this system used feedbac control, our system use feedforward control. The feedback control style baseline compensation system has some difficulty in terms of developing the km-scale system, because we need install the SPI, which measure the baseline length should be installed on the platform stage. This means that, in KAGRA case, additional tunnel is needed on the second floor to connect the platform stages. On the other hand, the feedforward style system does not need such facility, just reqiures the SPI, which can measure the baseline length in the tagert frequency, which is below 1 Hz.
 
+In terms of the low-frequency, difference between the length change of 1500 m baseline and that of 3000 m baseline is differd by factor 2, according to Figure \ref{img:img411_a}.
 
-\subsection{Control methods}
+\subsection{Control methods} \label{sec:444}
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=10cm]{./img_chap5/img511.png}

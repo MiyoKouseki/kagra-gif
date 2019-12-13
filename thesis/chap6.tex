@@ -1,149 +1,94 @@
 \chapter{Demonstration of Baseline Compensation}
-\textcolor{red}{基線長補償システムの性能評価をするために、KAAGRAのXアームキャビティを防振した。}
-
-\section{Overview of KAGRA}
-\subsection{Status of KAGRA}
-KAGRA is a 3km laser interferometer, constructed in Kamioka, Gifu, Japan, and is now in its final commisioning phase. The KAGRA project はこれまでに2つの試験運転を経て、今はLIGOとVirgoとの第三次共同観測(O3)にむけたphaseにいる。Table\ref{tb:tb600}にKAGRAのphaseをまとめる。1つめの試験運転はinitial KAGRA (iKAGRA) と呼ばれる、2016年の3月から4月に行われた、3kmのMichelson interferometerの試験運転である。ことのとき、テストマスは低温ではなく常温ではなかったが、3kmの長期線干渉計を地下で可動させることを実証した。そして次に2つ目の試験運転である、basekine KAGRA (bKAGRA) とよばれる、低温鏡をつかったMicelson干渉計の試験運転である。この運転では低温干渉計を稼働させることを実証した。そして2019年12月現在、LIGOとVirgoとの第三次共同観測(O3)にむけて、低温鏡を使用した Fabry-Perot Michelson interferometer (FPMI)のコミッショニングをおこなっており、中性子連星合体を$1\,\mathrm{Mpc}$で観測できる感度まで向上させるノイズハンティングを行っている。
-
-\begin{table}[h]
-  \caption{Summary of the phasec of KAGRA. MI: Michelson Interferometer, FPMI: Fabry-Perot Michelson Interferometer, DRFPMI: Dual-Recycled Fabry-Perot Michelson Interferometer, RSE: resonant sideband extraction}
-  \begin{tabular}{lllll}
-    \toprule
-    &iKAGRA& \begin{tabular}{l}bKAGRA\\Phase1\end{tabular} & \begin{tabular}{l}bKAGRA\\for O3\end{tabular}  & \begin{tabular}{l}bKAGRA\\(final)\end{tabular}  \\ \midrule
-        
-        \begin{tabular}{l}Year\end{tabular}& \begin{tabular}{l}2016\\Mar - Apr\end{tabular}&\begin{tabular}{l}2018\\Apr - May\end{tabular} & \begin{tabular}{l}2019\\Dec - \end{tabular} & \begin{tabular}{l}2020 -\\(planned)\end{tabular} \\
-              \begin{tabular}{l}Configuration\end{tabular} & \begin{tabular}{l}MI\end{tabular} & \begin{tabular}{l}MI\end{tabular} & \begin{tabular}{l}FPMI\end{tabular} & \begin{tabular}{l}DRFPMI\\(RSE)\end{tabular}\\
-                      
-                      \begin{tabular}{l}Test mass\\temperature\end{tabular} & \begin{tabular}{l}room temp.\end{tabular}& \begin{tabular}{l}18K\\room temp.\end{tabular} & \begin{tabular}{l}18K\\room temp.\end{tabular}  & \begin{tabular}{l}22K\end{tabular}             \\ \bottomrule
-  \end{tabular}
-\end{table}
-
-%% KAGRAの最終的な感度は、resonant sideband extraction thechnique をもちいた Dual-Recycled Fabry-Perot Michelson interferometer で達成される。KAGRAの設計感度をFig.\ref{img:img600}に示す。
-
-%% \begin{figure}[h]
-%%   \begin{center}   
-%%     \includegraphics[width=12cm]{./img_chap6/img600.png}
-%%     \caption{The designed sensitivity of KAAGRA \cite{akutsu2019first}}{}\label{img:img600}
-%%   \end{center}
-%% \end{figure}
-
-\subsection{Main Interferometer}
-KAGRAのメイン干渉計の図をFig.\ref{img:img601}に示す。KAGRAは他のLIGOやVirgoと同様に、腕にFabry-Perot光共振器とリサイクリング光共振器をもつマイケルソン干渉計である。ただし他とことなるのは、腕共振器の鏡は$22\,\mathrm{K}$まで冷却されていることである。この鏡にはサファイヤを使用している。なぜならば極低温下でも高いthermal conductivity と高いQ値を持ち、それぞれの特徴が熱レンズ効果と熱雑音を低減できるためである。またKAGRAその他の鏡はすべて常温のfused silica 鏡である。
-
-\begin{figure}[p]
-  \begin{minipage}{15cm}
-    \begin{center}   
-      \includegraphics[width=13cm]{./img_chap6/img601.png}
-      \subcaption{Schematic interferometer configuration of KAGRA \cite{akutsu2019first}}{}\label{img:img601} \hfill\vspace{10pt}
-    \end{center}
-  \end{minipage}
-  \begin{minipage}{15cm}
-    \begin{center}   
-      \includegraphics[width=13cm]{./img_chap6/img601b.png}
-      \subcaption{KAGRA mirror suspension system \cite{akutsu2019first}}{}\label{img:img601b}
-    \end{center}
-  \end{minipage}
-  \caption{Interferometer configuration and mirror suspension system}{}
-\end{figure}
-
-
-KAGRAの干渉計は、おもに4つに分けられる; arm caivties, input and output mode cleaners (IMC and OMC), power resycling cavities (PRC), and signal resycling cavities (SRC). Arm cavities are composed of input test masses (ITMs) and end test masses (ETMs). また低温鏡であるITM内部でのパワーをへらすために、フィネスは1530と他の検出器とくらべて高い。IMCは入射光の空間モードの整形と周波数を安定化させるために使われ、OMCは出射光のunwanted higher-order spatial modes とfrequency sideband を落とすためにある。IMCは3つの鏡で構成される三角共振器であり、およそ1Hz以上の周波数のpre-stabilizationができるように設計されている。またOMCは4つの鏡から構成されるbow-tie cavityである。PRC はBSと共振器をつくるPRMの他にPR2とPR3鏡で構成される。この共振器で入射光のパワーを10倍増幅させる。SRCはSRMとSR2、SR3で構成される。SRCは検出器を広帯域にして重力波信号を抜き出すために使われる。This technique is more important than Advanced LIGO and Advanced Virgo, because the bandwidth is narrower than other detectors due to a high finesse arm cavity of KAGRA. 
-
-\subsection{Mirror Suspension System}
-KAGRAの干渉計を構成する鏡はすべてSuspensionで懸架されており、それらは４つの種類がある; Type-A, Type-B, Type-Bp, Type-C. Type-Aはテストマス懸架するため、最も高い防振比が求められ、13.5mの9段振り子である。次に変位雑音への要求が高いシグナルリサイクリング鏡は、Type-Aの段数を減らした、Type-B Suspensionで懸架される。そしてType-Bpはさらにpre-isolatorを取り除いたSuspensionであり、Power rycycleを懸架している。最後に、Type-Cは最も簡易的な振り子でTAMAで使用されていたものを修正したSuspensionである。
-
-\begin{figure}[p]
-  \begin{center}   
-    \includegraphics[width=13cm]{./img_chap6/img604.png}
-    \caption{An overview of the Type-A suspension \cite{Okutomi2019development}. Test mass is suspend by a $13.5\,\mathrm{m}$ pendulum consisted of several mechanichal filters. The suspension point of the long pendulum is suported by the pre-isolator, which consists of inverted pendulum, on the ground through the base frame and base ring.}\label{img:img604}
-  \end{center}
-\end{figure}
-
-\begin{figure}[p]
-  \begin{minipage}{1.0\hsize}
-    \begin{center}   
-      \includegraphics[width=12cm]{./img_chap6/img603a.png}
-      \subcaption{Pre-isolator stage (PI). (1) Cantilever blade for GAS. (2) Geophone (3) Table of the top stage (4) Refernce frame rigidly connected to the base ring (5) The base ring mounted on the ground (6) LVDT and the coil magnet actuator (7) suspension wire to suspend the lower stages (8) leg of the inverted pendulum (IP). Figure is cited from figure 3.9 in \cite{Okutomi2019development}}\label{img:img603a}
-    \end{center}
-  \end{minipage}\\   
-  \begin{minipage}[b]{0.5\hsize}
-    \begin{center}
-      \includegraphics[width=8cm]{./img_chap6/img603b.png}
-      \subcaption{Leg of the inverted pendulum (IP) \cite{sekiguchi2016astudy}.}\label{img:img603b}
-    \end{center}
-  \end{minipage}
-  \begin{minipage}[b]{0.5\hsize}
-    \begin{center}
-      \includegraphics[width=8cm]{./img_chap6/img603c.png}
-      \subcaption{Geometrical Anti-Spring \cite{sekiguchi2016astudy}.}\label{img:img603b}
-    \end{center}
-  \end{minipage}  
-  \caption{CAD drawing of the pre-isolator (top) and main mechanical components of PI; IP leg and GAS (bottom).}
-\end{figure}
-
-
-\section{KAGRA Type-A Suspension}
-\subsection{Overview}
-In order to suspend the cryogenic test mass, as shown in Fig.\ref{img:img604}, KAGRA Type-A suspension has two parts; cryogenic payload and $13.5\,\mathrm{m}$ room temperature tower pendulum \cite{Okutomi2019development}. The cryogenic payload is consisted of Platform, Marionette, Intermediate mass, Test mass. The tower is consited of 5 mechanical filter; Top filter, F1, F2, F3, and Bottom filter. Moreover, the suspension point of tower is suspended by pre-isolator stage which has a inverted pendulum.
-
-In terms of the low-frequency seismic attenuation, the pre-isolator is the important mechanical part.
-
-
-
-\subsection{Pre-Isolator stage (PI)}
-Pre-iolator(PI)は振り子の懸架点を防振するための能動防振システムであり、\cref{sec:sec}でのべた地震計と変位計をもちいた能動防振である。Fig.\ref{img:img603a}に示すように、機械的には、懸架点の並進方向はIvertedPendulumで、垂直方向はGASで防振されている。
-
-\subsubsection{Inverted pendulum for horizontal vibration isolation}
-Inverted pendulum はPreisolatorの荷重を調整することで、実質的なばね定数を小さくし、共振周波数を小さくすることができる。The angluar eigenfrequency of the singla IP leg is 
-\begin{eqnarray}
-  \omega_{\mathrm{IP}}=\sqrt{\frac{g}{L}\left(\frac{k_{\mathrm{\theta}}/gL-M}{M}\right)},\\
-\end{eqnarray}
-where is the bending spring constant of the flexure, $M$ is the mass of the stage and $L$ is the length of the leg. このように、原理上はステージの質量を調整すれば、共振周波数を0にすることができることがわかる。しかし、平方根の中がマイナスの場合振り子は不安定になるので、実際の共振周波数は$100\,\mathrm{mHz}$程度に設定されている。
-
-\subsubsection{Geometric Anti-Spring for vertical vibration isolation}
-GAS は向かい合わせたcantilever blades を圧縮することで、実質的な上下方向のばね定数を小さくする機械的なフィルターである。GASの固有周波数は、
-\begin{eqnarray}
-  \omega_{\mathrm{GAS}} = \sqrt{\frac{1}{M}\left[{ k_{z}- \left(\frac{l_{0}}{x_{0}}-1\right) k_{x}}\right]},
-\end{eqnarray}
-where $M$ is the load mass, $k_{\mathrm{x}}$ and $k_{\mathrm{z}}$ are the elastic constant of the compressed catilevers, $l_{0}$ is a natural length of the blades, $x_0$ is the horizontal distance between the central keystone and the support poit of the blades. One can find that the angular eigenfrequency of the GAS is reduced when $x_{0}<l_{0}$.
-
-\subsubsection{Liner Variable Differential Transducer (LVDT)}
-\begin{figure}[h]
-  \begin{center}   
-    \includegraphics[width=10cm]{./img_chap6/img605.png}
-    \caption{\cite{sekiguchi2016astudy}}\label{img:img605}
-  \end{center}
-\end{figure}
-LVDT is a wide range relative position sensor composed of three coils \cite{Tariq2002hh}. shown in Fig.\ref{img:img605}. The emitter coil is mounted on the pre-isolator stage and driven with a sinusoidal signal to emit a modulated magnetic field. The two receiver coils is mounted on the reference structure, and these coils are counter-wound to each other. When the emitter coil is on the center of two reciever coils, induced voltage is not emitted from the reciever coils. On the other hand, when the pre-isolater is moved, a sinusoidal signal apprears on the reciever coils. Therefore, after demodulating this signal, amplitude of output signal is propotional to the displacement from the LVDT geometrical center.
-
-\subsubsection{Coil-magnet actuator}
-We use a voice-coil type wide range actuator to move the pre-isolator stage \cite{wang2002constant}.
+To demonstrate the baseline compensation system, we used X-arm cavity.
 
 \section{Experimental Arrangement}
-\subsection{Length measurement of X-arm cavity}
-腕共振器の長さ変化は、腕共振器が共振を維持できるように周波数アクチュエータであるAOMをつかって共振を維持した状態で、その制御信号からもとめた。
+Because the purpose of the baseline compensation system is to reduce the arm cavity length fluctuation, we prepared the experimental arrangement to measure the length.
 
-
-
-このとき、角度制御以外にマスアクチュエータを使っていない。
+\subsection{Measurement of X-arm cavity length}
+The length fluctuation was measured by the frequency change of the main infrared laser when the cavity is on resonance by feedback control using the acousto-optics modulator (AOM). Brief measurement procedure is shown in Figure \ref{img:img600}. (1) The deformation of the baseline cause the length change of the arm cavity length through the suspensions. Suppose that the baseline length is displaced by $\Delta{L}$ from the nominal length
+of $L$. Utilizing te PDH method, we can obtain the signal proportional to this displacement. (2) This signal is also interpreted as the frequency changes of the input laser because the frequency change $\Delta{f}$ has a relation with the baseline length change $\Delta{L}$;
+\begin{eqnarray}
+  \displaystyle -\frac{\Delta{f}}{f} = \frac{\Delta{L}}{L}.
+\end{eqnarray}
+(3) To keep the optical cavity on resonance, the signal is fed back to the AOM, which is the frequency actuator. Therefore we can measure the cavity length with the feedback signal to the AOM.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=13cm]{./img_chap6/img600.png}\label{img:img600}
+  \caption{Experimental arrangement for X-arm length measurement. X-arm cavity controled by feeding the PDH signal back to the AOM of the input laser to keep on resonance. The length change of the cavity is obtained from the feedback signal.}
+\end{figure}
 
 
 \subsection{Control Design}
+\begin{figure}[h]
+  \begin{minipage}{14cm}
+    \begin{center}   
+      \includegraphics[width=14cm]{./img_chap6/img630a.png}
+      \subcaption{Schematic contol of each platform stage. Left figure is that of the IX stage, right figure is that of the EX.}\label{img:img630a} \hfill\vspace{10pt}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{14cm}
+    \begin{center}   
+      \includegraphics[width=14cm]{./img_chap6/img630b.png}
+      \subcaption{Control block diagram of each platform stage. Left figure is that of the IX stage, right figure is that of the EX.}\label{img:img630b}
+    \end{center}
+  \end{minipage}
+  \caption{The baseline compensation control of each platform stage for demonstration.}
+\end{figure}
+
+To demonstrate the baseline compensation system using GIF, we design the simple control configuration. Although the most simple configuration is only the feedforward using the GIF, only the feedforward control cannot suppress the disturbance other than the horizontal seismic noise such as the tilt ground motion and the temperature fluctuation \cite{sekiguchi2016astudy}. Because these disturbance could move the pratform stage in horizontal direction, we need a feedback control using the position sensor to supress these disturbances. Therefore we use the sensor correction control rather than the feedfoward control.
+
+Figure \ref{img:img630a} shows the schematic control of the pratform stage for the input x-arm test mass (IX) and end x-arm test mass (EX). While the IX stage is fed back the relative postion sensor singal to the actuator on the stage, the EX stage is added the GIF stainmeter signal. In other words, while the IX stage is locked to the local IX ground, the EX stage is also locked to the local EX ground but this feedback signal is corrected by using the GIF strainmeter. The GIF measure the baseline length changes, which means the differential motion of the IX and EX gorund. Therefore, the feedback signal corrected by using GIF is the same as the feedback signal of the IX stage. Thus, the EX stage can follow the IX stage by using the corrected feedback signal.
+
+Figure \ref{img:img630b} shows the control diagram of each stage. In both stages, the displacement of the IX pratform stage $X_{\mathrm{STG}}$ is disturbed by the local seismic motion $X_{\mathrm{GND}}$ though the mechanical response of the inverted pendulum (IP) $H_{\mathrm{s}}$. Moreover the displacement of the IX testmass is also disturbed by this seismic noise through the mechanical response of the pendulum $H_{\mathrm{TM}}$. To reduce the test mass motion in low-frequency region, below 1 Hz, the platform stage is controled by the feedback control using the relative position sensor. $S_{\mathrm{L}},\,N_{\mathrm{fb}}$ and $B_{\mathrm{L}}$ are the displacement response and the noise of the relative position sensor and the low-pass filter not to inject the sensor noise to the feedback signal. The feedback signal is sent to the actuator, whose transfer function from the actuator force to the platform stage is given by $P_{\mathrm{a}}$, through the control filter $C_{\mathrm{fb}}$. On the other hand, the feedback signal of the EX stage is corrected by the GIF signal.
+
+In this situation, the each displacement of the stage are given by 
+\begin{eqnarray}
+  X_{\mathrm{STG(IX)}} &=& \displaystyle\frac{G}{1+G} X_{\mathrm{GND(IX)}} + \frac{G}{1+G} N_{L} + \frac{1}{1+G} H_{\mathrm{s}} X_{\mathrm{GND(IX)}} \\ \nonumber,
+  X_{\mathrm{STG(EX)}} &=& \displaystyle\frac{G}{1+G} \left(1- \frac{C_{\mathrm{sc}}S_{\mathrm{wit}}}{B_{\mathrm{L}}S_{\mathrm{L}}}\right) X_{\mathrm{GND(EX)}} + \frac{G}{1+G}N_{L} \\ \nonumber
+  &+& \frac{G}{1+G} \frac{C_{\mathrm{sc}}S_{\mathrm{wit}}} {B_{\mathrm{L}}S_{\mathrm{L}}} X_{\mathrm{GND(IX)}}
+  + \frac{G}{1+G} \frac{C_{\mathrm{sc}}S_{\mathrm{wit}}} {B_{\mathrm{L}}S_{\mathrm{L}}} N_{\mathrm{wit}}\\ 
+  &+& \frac{1}{1+G} H_{\mathrm{s}} X_{\mathrm{GND(EX)}},
+\end{eqnarray}
+respectively, where $G=C_{\mathrm{fb}}P_{\mathrm{a}}S_{\mathrm{L}}B_{\mathrm{L}}$ is the loop gain. Here, if $G\gg1$ and we design the sensor correction filter $C_{\mathrm{sc}}$ so that
+\begin{eqnarray}
+  \frac{C_{\mathrm{sc}}S_{\mathrm{wit}}}{B_{\mathrm{L}}S_{\mathrm{L}}} = 1,
+\end{eqnarray}
+the displacement of each stage are give as 
+\begin{eqnarray}
+  X_{\mathrm{STG(IX)}} &=& X_{\mathrm{GND(IX)}} + N_{\mathrm{L}},\\
+  X_{\mathrm{STG(EX)}} &=& X_{\mathrm{GND(IX)}} + N_{\mathrm{L}} + N_{\mathrm{wit}}.
+\end{eqnarray}
+Moreover, if the noise of the GIF, which is the wittness sensor is smaller than that of the relative position sensor, both stage motions are the same each other; $X_{\mathrm{STG(EX)}}=X_{\mathrm{STG(IX)}}$. This same motion means the reduction of the differential stage motion. Thus, the cavity length is isolated from the differential ground motion, which is the baseline length fluctuation.
 
 
-\subsection{...}
 
 
 \section{Results}
-\subsection{Measurement Results}
-\subsubsection{Reduction of the slow motion}
-基線長補償システムをいれたときのXアーム共振器の腕の長さ変化をしらべた。Fig.\ref{img:img610}に、Xアームの制御信号とそのときの基線長伸縮を示す。12分に、補償システムをいれた。入れる前は、Xアームの長さは基線長伸縮によってゆっくりとドリフトしていたが、入れたあとは、そのドリフトはなくなっている。基線長はおよそ34分の間$8\,\mathrm{um}$ほど変化していたのに対して、補償システムをいれたあとはXアームの長さは$1\,\mathrm{um}$以下に低減されているので、およそ10分の1の低減が確認できる。
 
-\subsubsection{Reduction in the microseismic region}
-また、システムを入れる前後でRMS振幅場が小さくなっていることがわかる。システムを入れた前後の時系列データからもとめたASDをFig.\ref{img:img611}に示す。補償システムをいれたことで、0.01Hz以上の累積RMSの値が半分に減っていることがわかる。
+\subsection{Demonstrasion}
 
-\subsection{Comparison with the rigid body model}
-Compare with the measured X-arm length fluctuation and the fluctuation estimated by the rigid body model of Type-A suspension. このモデルは、剛体モデルに基づいて力学の状態空間モデルを計算する\cite{sekiguchi2016astudy}。この状態空間モデルをつかって、地面振動からテストマスまでの伝達関数等を計算した。ただし、この伝達関数は振り子単体の伝達関数なので、ふたつの防振装置で防振される腕共振器を計算する場合、\cref{sec}で述べたように、CMRが十分大きい場合を仮定する。つまり、基線の地面振動の同相成分から腕共振器長変へのカップリングは無視できるものとする。
+\subsection{Results}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=12cm]{./img_chap6/img610.png}
+  \caption{Length change of both X-arm baseline and X-arm cavity when baseline compensation system is turned on or off. At 12 minutes, the control is on.}\label{img:img610}
+\end{figure}
+
+Figure \ref{img:img610} shows the length fluctuation of the arm cavity and of the baseline as a reference. At 12 minutes, the baseline compensation system was turned on. Whereas the X-arm cavity length is drifted duaring the compensation system was off, the drift is removed duaring the system was on. This drift is comparable to the earth tide. As a result, this system compensated the deformation of the baseline, and reduction ratio is almost 1/10.
+
+This result also indicate that the RMS amplitude of the X-arm cavity length is reduced. The amplitude spectrum density of the length when both the compensation system was on and off is shown in Figure \ref{img:img611}. It is crear that the acumurated RMS amplitude is reduced due to the compensation system. In the next, we compare this measured data with the rigid body model.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=10cm]{./img_chap6/img611.png}
+  \caption{ASDs of X-arm caivty length when baseline compensation system is turned on and off. }\label{img:img611}
+\end{figure}
+
+\subsection{Comparison with the model}
+Compare with the measured data and rigid body model of the KAGRA suspensions, which have been developed \cite{sekiguchi2016astudy}. Bcause this model outputs the state space model, we can calculate the transfer function. Supposing the CMRR is large enough to ignore the coupling from the common motion to the differential motion, as described in \cref{sec:}, the transfer function from the...\textcolor{red}{AAAAAA}
+
+
+このモデルは、剛体モデルに基づいて力学の状態空間モデルを計算する\cite{sekiguchi2016astudy}。この状態空間モデルをつかって、地面振動からテストマスまでの伝達関数等を計算した。ただし、この伝達関数は振り子単体の伝達関数なので、ふたつの防振装置で防振される腕共振器を計算する場合、\cref{sec}で述べたように、CMRが十分大きい場合を仮定する。つまり、基線の地面振動の同相成分から腕共振器長変へのカップリングは無視できるものとする。
 
 \subsubsection{When the compensation system is OFF}
 補償システムがOFFのときのXアーム長変動の測定値と、そのときにモデルから期待されるものを比較する。Fig.\ref{img:img612}にその比較を示す。\cref{sec}で述べたように、補償システムを入れる前は、それぞれのPre-isolatorはそれぞれのローカルのLVDTをつかってFeedback制御されている。このときのLVDTのセンサーノイズを水色で、地面振動ノイズをオレンジ色で示す。これらノイズの二乗和のルートをTotalとし、赤色で示す。1Hz以上の、Xアーム測定の測定ノイズで埋もれている帯域を除けば、1Hz以下ではこのTotalは測定値と一致していることがわかる。
@@ -151,21 +96,6 @@ Compare with the measured X-arm length fluctuation and the fluctuation estimated
 \subsubsection{When the compensation system is ON}
 補償システムがONのときの比較をFig.\ref{img:img613}示す。ただし、we assumed the reduction factor of the sensor correction of 1./20 as mentioned in \cref{sec}. 補償システムがOFFになっていたときの比較では、1Hz以下でTotalと測定値が一致していたが、ONの場合では、予測されるTotalと測定値は一致していない。
 
-\begin{figure}[p]
-  \begin{minipage}{15cm}
-    \begin{center}   
-      \includegraphics[width=12cm]{./img_chap6/img610.png}
-      \subcaption{Length change of both X-arm baseline and X-arm cavity when baseline compensation system is turned on or off. At 12 minutes, the control is on.}\label{img:img610} \hfill\vspace{10pt}
-    \end{center}
-  \end{minipage}
-  \begin{minipage}{15cm}
-    \begin{center}   
-      \includegraphics[width=10cm]{./img_chap6/img611.png}
-      \subcaption{ASDs of X-arm caivty length when baseline compensation system is turned on and off. }\label{img:img611}
-    \end{center}
-  \end{minipage}
-  \caption{Comparison of the reduction of the X-arm cavity length fluctuation when the baseline compensation system is turned on or off.}{}
-\end{figure}
 
 
 
