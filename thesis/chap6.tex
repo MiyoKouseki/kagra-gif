@@ -1,16 +1,20 @@
-\chapter{Demonstration of Baseline Compensation}
-To demonstrate the baseline compensation system, we used X-arm cavity.
+\chapter{Demonstration of Baseline Compensation System}
+In this chapter, the demonstraion of the baseline compensation system is described. The purpose of this demonstration is to compensate the deformation of the baseline and to reduce the length fluctuation of the 3-km arm cavity below 1 Hz where the passive seismic isolation cannot attenuate the seismic disturbance. 
 
-\section{Experimental Arrangement}
+In the section \cref{sec:sec51}, experimental arrangement for demonstration is descirbed. In the section \cref{sec:sec52}, result of the test is described. In the end, the discussion is described in the section \cref{sec:sec53}.
+
+\section{Experimental Arrangement} \label{sec:sec51}
 Because the purpose of the baseline compensation system is to reduce the arm cavity length fluctuation, we prepared the experimental arrangement to measure the length.
 
 \subsection{Measurement of X-arm cavity length}
-The length fluctuation was measured by the frequency change of the main infrared laser when the cavity is on resonance by feedback control using the acousto-optics modulator (AOM). Brief measurement procedure is shown in Figure \ref{img:img600}. (1) The deformation of the baseline cause the length change of the arm cavity length through the suspensions. Suppose that the baseline length is displaced by $\Delta{L}$ from the nominal length
-of $L$. Utilizing te PDH method, we can obtain the signal proportional to this displacement. (2) This signal is also interpreted as the frequency changes of the input laser because the frequency change $\Delta{f}$ has a relation with the baseline length change $\Delta{L}$;
+The length fluctuation of the X-arm cavity is measured by PDH method \cite{drever1983laser}. This method obtains the error signal proportional to the displacement from the nominal length where the cavity is on resonance. To keep the resonance, the error signal is fed back to the acousto-optics modulator (AOM), which change the input laser frequency.
+
+Brief measurement procedure is shown in Figure \ref{img:img600}. (1) The deformation of the baseline cause the length change of the arm cavity length through the suspensions. Suppose that the baseline length is displaced by $\Delta{L}$ from the nominal length
+of $L$. Utilizing te PDH method, we can obtain the error signal proportional to this displacement. (2) This signal is also interpreted as the frequency changes of the input laser because the frequency change $\Delta{f}$ has a relation with the baseline length change $\Delta{L}$ \cite{izumi2012multi};
 \begin{eqnarray}
   \displaystyle -\frac{\Delta{f}}{f} = \frac{\Delta{L}}{L}.
 \end{eqnarray}
-(3) To keep the optical cavity on resonance, the signal is fed back to the AOM, which is the frequency actuator. Therefore we can measure the cavity length with the feedback signal to the AOM.
+(3) To keep the optical cavity on resonance, the signal is fed back to the AOM, which is the frequency actuator. In this procedure, the length fluctuation is obtained from the feedback signal to the AOM.
 \begin{figure}[h]
   \centering
   \includegraphics[width=13cm]{./img_chap6/img600.png}\label{img:img600}
@@ -35,7 +39,9 @@ of $L$. Utilizing te PDH method, we can obtain the signal proportional to this d
   \caption{The baseline compensation control of each platform stage for demonstration.}
 \end{figure}
 
-To demonstrate the baseline compensation system using GIF, we design the simple control configuration. Although the most simple configuration is only the feedforward using the GIF, only the feedforward control cannot suppress the disturbance other than the horizontal seismic noise such as the tilt ground motion and the temperature fluctuation \cite{sekiguchi2016astudy}. Because these disturbance could move the pratform stage in horizontal direction, we need a feedback control using the position sensor to supress these disturbances. Therefore we use the sensor correction control rather than the feedfoward control.
+To demonstrate the baseline compensation system using GIF, we design the simple control configuration.
+
+Although the most simplest configuration is only the feedforward using the GIF, only the feedforward control cannot suppress the disturbances other than the horizontal seismic noise such as the tilt ground motion or the temperature fluctuation \cite{sekiguchi2016astudy}. Because these disturbance could move the pratform stage in horizontal direction, we need a feedback control using the position sensor to supress these disturbances. Therefore we use the sensor correction control rather than the feedfoward control. 
 
 Figure \ref{img:img630a} shows the schematic control of the pratform stage for the input x-arm test mass (IX) and end x-arm test mass (EX). While the IX stage is fed back the relative postion sensor singal to the actuator on the stage, the EX stage is added the GIF stainmeter signal. In other words, while the IX stage is locked to the local IX ground, the EX stage is also locked to the local EX ground but this feedback signal is corrected by using the GIF strainmeter. The GIF measure the baseline length changes, which means the differential motion of the IX and EX gorund. Therefore, the feedback signal corrected by using GIF is the same as the feedback signal of the IX stage. Thus, the EX stage can follow the IX stage by using the corrected feedback signal.
 
@@ -63,9 +69,8 @@ Moreover, if the noise of the GIF, which is the wittness sensor is smaller than 
 
 
 
-\section{Results}
-
-\subsection{Demonstrasion}
+\section{Results and Discussion } \label{sec:sec52}
+The performance of the baseline compensation system is evaluated when the system is rngaed.
 
 \subsection{Results}
 \begin{figure}[h]
@@ -84,40 +89,49 @@ This result also indicate that the RMS amplitude of the X-arm cavity length is r
   \caption{ASDs of X-arm caivty length when baseline compensation system is turned on and off. }\label{img:img611}
 \end{figure}
 
-\subsection{Comparison with the model}
-Compare with the measured data and rigid body model of the KAGRA suspensions, which have been developed \cite{sekiguchi2016astudy}. Bcause this model outputs the state space model, we can calculate the transfer function. Supposing the CMRR is large enough to ignore the coupling from the common motion to the differential motion, as described in \cref{sec:}, the transfer function from the...\textcolor{red}{AAAAAA}
+\subsubsection{Comparison with the model}
+Compare with the measured data and rigid body model of the KAGRA suspensions \cite{sekiguchi2016astudy}. Bcause this model outputs the state space model, we can calculate the transfer function. For example, the transfer function from the ground motion to the each stages; the pratform stage, testmass, and so on.
 
+To simplify the disucussion, suppose the CMRR is large enough to ignore the coupling from the common motion to the differential motion, as described in \cref{sec532}. It is a valid assumption below the eigen frequency of the suspensions. According to Eq.(\ref{eq:eq518}), the transfer function from the differential input to differential output is given by a single transfer function. Therefore, the differential transfer functions from the differential ground motion to the differential output of the stage and the test mass motion are given by the single transfer function of that, respectively.
 
-このモデルは、剛体モデルに基づいて力学の状態空間モデルを計算する\cite{sekiguchi2016astudy}。この状態空間モデルをつかって、地面振動からテストマスまでの伝達関数等を計算した。ただし、この伝達関数は振り子単体の伝達関数なので、ふたつの防振装置で防振される腕共振器を計算する場合、\cref{sec}で述べたように、CMRが十分大きい場合を仮定する。つまり、基線の地面振動の同相成分から腕共振器長変へのカップリングは無視できるものとする。
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=9cm]{./img_chap6/img612.png}
+  \subcaption{Noise budget of the X-arm length fluctuation when the compensation system is OFF. Measurement is same as the black line in Fig.\ref{img:img611}. Total is the summation of all noise contributions.}\label{img:img612} \hfill\vspace{10pt}
+\end{figure}
+Figure \ref{img:img612} shows the amplitude spectrum densities (ASDs) of the X-arm cavity length when the compensation system is OFF. The black line is the ASD calculated by the feedback signal of theX-arm cavity. The red line is the ASD, which is the summation of the noise contributions; the noise of the relative position sensor, named LVDT, (blue line) and the noise of the differential baseline length change measured by the GIF strainmeter (orange line). Above 1 Hz, the X-arm cavity length and the seismic noise contribution are not the signal due to the insturuments noises. Below 1 Hz, the measurement is consistent with the estimation.
 
-\subsubsection{When the compensation system is OFF}
-補償システムがOFFのときのXアーム長変動の測定値と、そのときにモデルから期待されるものを比較する。Fig.\ref{img:img612}にその比較を示す。\cref{sec}で述べたように、補償システムを入れる前は、それぞれのPre-isolatorはそれぞれのローカルのLVDTをつかってFeedback制御されている。このときのLVDTのセンサーノイズを水色で、地面振動ノイズをオレンジ色で示す。これらノイズの二乗和のルートをTotalとし、赤色で示す。1Hz以上の、Xアーム測定の測定ノイズで埋もれている帯域を除けば、1Hz以下ではこのTotalは測定値と一致していることがわかる。
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=9cm]{./img_chap6/img613.png}
+  \subcaption{Noise budget of the X-arm length fluctuation when the compensation system is ON. Measurement is same as the red line in Fig.\ref{img:img611}. Total is the summation of all noise contributions assuming the reduction factor of sensor correction of 1/20.}\label{img:img613}
+\end{figure}
+Figure \ref{img:img613} shows the ASDs of the X-arm cavity length when the compensation system is ON. The red line, which indicates the summation of the noise contribution estimated by the rigid body model, is calculated assuming the the reduction factor of the sensor correction of 1/20 as mentioned in \cref{sec:sec513}. This reduction factor is due to a relative calibration error of 5 \% between the LVDT and GIF. Although this reduction rate should be realized, the measurement is not constent with the estimation assumed the reduction rate.
 
-\subsubsection{When the compensation system is ON}
-補償システムがONのときの比較をFig.\ref{img:img613}示す。ただし、we assumed the reduction factor of the sensor correction of 1./20 as mentioned in \cref{sec}. 補償システムがOFFになっていたときの比較では、1Hz以下でTotalと測定値が一致していたが、ONの場合では、予測されるTotalと測定値は一致していない。
-
-
-
-
+\subsection{Discussion}
+As described in previous section, the reduction of the 
 
 \begin{figure}[p]
-  \begin{minipage}{15cm}
-    \begin{center}   
-      \includegraphics[width=9cm]{./img_chap6/img612.png}
-      \subcaption{Noise budget of the X-arm length fluctuation when the compensation system is OFF. Measurement is same as the black line in Fig.\ref{img:img611}. Total is the summation of all noise contributions.}\label{img:img612} \hfill\vspace{10pt}
-    \end{center}
-  \end{minipage}
-  \begin{minipage}{15cm}
-    \begin{center}   
-      \includegraphics[width=9cm]{./img_chap6/img613.png}
-      \subcaption{Noise budget of the X-arm length fluctuation when the compensation system is ON. Measurement is same as the red line in Fig.\ref{img:img611}. Total is the summation of all noise contributions assuming the reduction factor of sensor correction of 1/20.}\label{img:img613}
-    \end{center}
-  \end{minipage}
-  \caption{Noise budget of the X-arm length fluctuation when the compensation system if turned on or off.}
+  %\begin{minipage}{14cm}
+    \centering
+    \includegraphics[width=15cm]{./img_chap6/img614.png}
+    \caption{}\label{img:img614}
+    %\end{minipage}
+\end{figure}
+\begin{figure}[p]
+  %\begin{minipage}{14cm}
+    \centering 
+    \includegraphics[width=15cm]{./img_chap6/img615.png}
+    \caption{}\label{img:img615}
+  %\end{minipage}  
 \end{figure}
 
 
 
-\section{Discussion and Summary of the Chapter}
-\subsection{Discussion}
-\subsection{Summary}
+\section{Summary of the Chapter} \label{sec:sec53}
+In this chapter, the following items are described:
+\begin{itemize}
+\item a
+\end{itemize}
+
+

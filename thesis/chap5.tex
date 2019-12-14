@@ -76,7 +76,7 @@ where $X_{\mathrm{STG}},\,X_{\mathrm{GND}},\,N_{\mathrm{H}},$ and $N_{\mathrm{H}
 
 According to Eq.(\ref{eq:eq510_a}), to isolate the stage against the inertial frame, the active isolation system should design $L$ as small as possible, whereas the $H$ as the complementary filter of that must be large, which means that the inertial sensor noise introduce to the stage. Actually, the cutoff frequency of these filters are choosed at $100\,\mathrm{mHz}$ due to the inertial sensor noise, and the system cannot isolate the seismic noise below this frequency. In other words, although the active vibration syste using the inertial sensor can design the response from the ground to the stage by filter $L$, the system performance is limited by the inertial noise in low-frequency region.
 
-\subsection{Sensor Correction Technique}
+\subsection{Sensor Correction Technique} \label{sec:sec513}
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=10cm]{./img_chap5/img505.png}
@@ -263,18 +263,26 @@ In terms of the low-frequency, difference between the length change of 1500 m ba
     \caption{The block diagram of the active baseline seismic isolation system.} \label{img:img511}
   \end{center}
 \end{figure}
+We describe the general control scheme of the active baseline seismic isolation system using the feedforward type SPI. In this case, because of no feedback tyep SPI, the baseline length is controled by using the inertial sensor and relative position sensor as well as the active inertial iolation system. However, the additional control schemes such as the sensor correction and the feedforward are implimented in this new system.
 
-In this section, we describe the control method of the active baseline seismic isolation system using the SPI interferometer. According to the previous section \cref{sec532}, the differential output can be represented as the differential and common inputs. This diagram is the same as the Figure \ref{img:img503} except the input ground motion and output stage motion as shown in Figure \ref{img:img511}. In this diagram, the common component of the ground motions are ignored because of assuming the large CMRR. It that means also that the common transfer function is equal to the single one, according to Eq.(\ref{eq:eq517_a}).
+The baseline isolation system attenuates, of course, the cavity length fluctuation. This fluctuation is the differential component of the displacement of the each test mass. To simplify the discussion, we supposed the CMRR is large enough to ignore the common motion coupling. Thus, we can just consider about the only differential component of the motion in this system.
+
+The control diagram of the active baseline isolation system can be represented as shown in Figure \ref{img:img503}. Essentialy, all the terms in this figure is the same as the active inertial isolation system shown in Figure \ref{img:img503} except the input and output signals. There signals are replaced as $X_{\mathrm{d}}$ and $Y_{\mathrm{d}}$, which are the differential displacement of the ground and platform stage motions, resplectively. In this figure,  $S_{\mathrm{wit}}$ and $N_{\mathrm{ff}}$ are the frequency response and the selfnoise of the GIF, respectively. Furthermore, the noises $N_{\mathrm{H}}$ and $N_{\mathrm{L}}$ are multiplied by $\sqrt{2}$ in the case of the amplitude unit.
 
 The displacement of the differential motion of the stages is given by 
 \begin{eqnarray}\nonumber
   Y_{\mathrm{d}} &=&\frac{G}{1+G}L\Delta_{\mathrm{sc}} X_{\mathrm{d}} + \frac{1}{1+G} \Delta_{\mathrm{ff}} X_{\mathrm{d}}\\ \nonumber
   &+& \frac{G}{1+G}\left(HN_{H}+LN_{L}\right) + \frac{G}{1+G}C_{\mathrm{sc}}S_{\mathrm{wit}}N_{\mathrm{ff}} \\ 
-  &+& \frac{1}{1+G}P_{\mathrm{a}} C_{\mathrm{ff}}S_{\mathrm{wit}}N_{\mathrm{ff}} \label{eq:eq520},
+  &+& \frac{1}{1+G}P_{\mathrm{a}} C_{\mathrm{ff}}S_{\mathrm{wit}}N_{\mathrm{ff}} \label{eq:eq520}.
 \end{eqnarray}
-where $X_{\mathrm{d}}$ and $Y_{\mathrm{d}}$ are the differential ground motion and stage motion, respectively, and other terms are the same as Eq.(\ref{eq:eq518}).
-
-
-
+As described about the active inertial seismic isolation system in section \ref{sec512}, both the additional reduction factors $\Delta_{\mathrm{sc}}$ and $\Delta_{\mathrm{sc}}$ can isolate the differential ground motion $X_{\mathrm{d}}$. Although the witness sensor was the inertial sensor in the previous iolation system, the new isolation system use the GIF, which can measure the seismic noise below 1 Hz and to DC. This is the advantage.
 
 \section{Summary of the Chapter}
+In this chapter, the following items are described:
+\begin{itemize}
+\item While the passive isolation system could isolate the seismic noise above its eigen frequency, which is tipicaly around 1 Hz, the active isolation systems are needed to compensate the low-frequency seismic noise below 1 Hz by isolating the platform stage from the seismic noise.
+\item Two active isolation systems are described; the active {\it inertial} seismic isolation system attenuates the platform stages to the inertial frame, the active {\it baseline} seismic isolation system isolates the optical arm cavity's length from the deformation of the baseline.
+\item The performance of the active inertial seismic isolation system is limited by the insufficient sensitivity and the tilt-holizontal coupling of the inertial sensor below 100 mHz.
+\item Although the active baseline seismic ioslation is an effective method, the SPI which is the cavity length monitor has a difficulties in the longer scale GW detector.
+\item The baseline compensation system using the GIF strainmeter resolve these limitaions and problems because the strainmeter can measure the deformation of the baseline below 1 Hz without tilt-coupling and the strainmeter can observe the baseline fluctuation independent from independent of the GW detector.
+\end{itemize}
