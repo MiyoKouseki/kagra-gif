@@ -1,4 +1,4 @@
-\chapter{Geophysics Interferometer (GIF)}
+\chapter{Geophysics Interferometer (GIF)} \label{chap3}
 KAGRA is the only GW detector, which has a strainmeter to monitor its baseline length changes. The strainmeter is named Geophysics interferometer (GIF).
 
 GIF is a laser interferometric strainmeter, which is developed by reserchers in Earthquake Research Institute, University of Tokyo. The purpose of the strainmeter is to observe geophysical phenomena: not only earthquakes but also Earth's free oscillations. Unlike a seismometer, the strainmeter has a sensitivity in low-frequency. Moreover, unlike the continuous GPS (CGPS) nets, which also measures a strain ($\sim\,10^{-8}$), the strainmeter has more precision ($\sim\,10^{-12}$) \cite{araya2007broadband}.
@@ -87,7 +87,7 @@ if the baseline length is twice, the frequency is half, which means decrease of 
 \begin{figure}[p]
   \begin{center}
     \includegraphics[width=13.0cm]{./img_chap4/img412.png}
-    \caption{Compasison of the transfer function from strain of the baseline $\epsilon$ to the length change of that $\Delta{L}$ in the different baseline length. $3000\,\mathrm{m}$ の基線長ではその半分の$1500\,\mathrm{Hz}$よりも、DCゲインは二倍大きい一方で、コーナー周波数は \color{red}{A} になり帯域が減る。また、周波数が \color{red}{B} の条件を満たすとき、ゲインはゼロになる。なぜならば、このときひずみは基線を同相で動かし、基線長伸縮として現れないためである。}\label{img:img411_a}
+    \caption{Compasison of the transfer function from strain of the baseline $\epsilon$ to the length change of that $\Delta{L}$ in the different baseline length.}\label{img:img411_a}
   \end{center}
 \end{figure}
 
@@ -167,21 +167,21 @@ Furthermore, the beam radius at the front reflector is $w(1500)=\sqrt{2}{w_0}$. 
 \end{figure}
 
 \begin{figure}[p]
-  \begin{minipage}[b]{7cm}
+  \begin{minipage}[b]{0.5\hsize}
     \begin{center}   
-      %\includegraphics[width=7cm]{./img_chap4/img418.png} % ファイル重い
-      \includegraphics[width=7cm]{./img.png}
+      \includegraphics[width=8cm]{./img_chap4/img418.png} % ファイル重い
+      %\includegraphics[width=7cm]{./img.png}
       \subcaption{Core optics in the front vacuum chamber. }\label{img:img418}
     \end{center}
   \end{minipage}\hspace{0.1cm}
-  \begin{minipage}[b]{7cm}
+  \begin{minipage}[b]{0.5\hsize}
     \begin{center}   
-      %\includegraphics[width=7cm]{./img_chap4/img419.png} %ファイル重い
-      \includegraphics[width=7cm]{./img.png}      
+      \includegraphics[width=8cm]{./img_chap4/img419.png} %ファイル重い
+      %\includegraphics[width=7cm]{./img.png}      
       \subcaption{Core optics in the end vacuum chamber. }\label{img:img419}
     \end{center}
   \end{minipage}
-  \caption{}  
+  \caption{The picture of the core optics.}  
 \end{figure}
 
 
@@ -271,6 +271,9 @@ Although the calculation of the optical phase by measuring the angle is not affe
 \subsubsection{Unwrap function}
 This function unwrap the optical phase calculated by the phase calculator function and return the continuous phase proportional to strain, because the atan2 function used in the phase calculator return between from $-\pi$ to $\pi$. 
 
-\section{Summary of the Chapter} %章のまとめ
-本章で述べたパラメータを表にまとめる。
-B
+\section{Summary of the Chapter} 
+In this chapter, the following items are described:
+\begin{itemize}
+\item Geophysics interferometer (GIF) installed in parallel to the KAGRA X-arm has a strainsensitivity of $\sim\,10^{-12}$.
+\item The advantage of GIF is the wide dynamic range and operation without active alignment control on the mirrors. This feature realizes the long-term stable operation.
+\end{itemize}

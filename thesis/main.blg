@@ -1,6 +1,9 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
+A level-1 auxiliary file: chap1.aux
+A level-1 auxiliary file: chap3.aux
+A level-1 auxiliary file: chap4.aux
 A level-1 auxiliary file: chap5.aux
 A level-1 auxiliary file: chap6.aux
 A level-1 auxiliary file: chap7.aux
@@ -17,10 +20,22 @@ I was expecting a `,' or a `}'---line 551 of file reference.bib
  : author={R. W. P . Drever,},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
+Repeated entry---line 654 of file reference.bib
+ : @article{nishida2002origin
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 694 of file reference.bib
+ : @article{ciddor1996refractive
+ :                              ,
+I'm skipping whatever remains of this entry
 I was expecting a `,' or a `}'---line 773 of file reference.bib
  : 
  : title={Towards the SQL interferometer : length stabilization at the AEI 10 m-prototype},
 (Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Repeated entry---line 813 of file reference.bib
+ : @article{naticchioni2014microseismic
+ :                                     ,
 I'm skipping whatever remains of this entry
 You're missing a field name---line 955 of file reference.bib
  : 
@@ -29,49 +44,72 @@ You're missing a field name---line 955 of file reference.bib
 I'm skipping whatever remains of this entry
 Warning--entry type for "biscans2018optimization" isn't style-file defined
 --line 1123 of file reference.bib
+Warning--can't use both volume and number fields in leaci2012searching
+Warning--empty journal in hereld1984search
+Warning--empty journal in weiss1972electronically
+Warning--empty school in ando1999power
+Warning--empty year in ando1999power
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
+while executing---line 944 of file unsrt.bst
+Warning--empty journal in akutsu2018kagra
+Warning--empty year in akutsu2018kagra
+Warning--empty year in hasegawa2015jishin
+Warning--empty journal in takemoto2003
+Warning--empty author in Daw_2004
+Warning--empty title in Daw_2004
+Warning--empty journal in Daw_2004
+Warning--empty year in Daw_2004
+Warning--empty booktitle in schofield2000source
+Warning--empty journal in agnew2005earth
+Warning--empty publisher in aki2002quantitative
+Warning--empty year in svelto1998principles
 Warning--empty author in drever1987outline
 Warning--empty institution in drever1987outline
 Warning--empty year in drever1987outline
-You've used 17 entries,
+You've used 85 entries,
             1791 wiz_defined-function locations,
-            559 strings with 7550 characters,
-and the built_in function-call counts, 3869 in all, are:
-= -- 292
-> -- 274
-< -- 0
-+ -- 99
-- -- 82
-* -- 323
-:= -- 693
-add.period$ -- 50
-call.type$ -- 17
-change.case$ -- 14
+            944 strings with 20245 characters,
+and the built_in function-call counts, 19558 in all, are:
+= -- 1504
+> -- 1267
+< -- 5
++ -- 463
+- -- 378
+* -- 1616
+:= -- 3384
+add.period$ -- 256
+call.type$ -- 85
+change.case$ -- 73
 chr.to.int$ -- 0
-cite$ -- 20
-duplicate$ -- 137
-empty$ -- 321
-format.name$ -- 82
-if$ -- 791
+cite$ -- 105
+duplicate$ -- 758
+empty$ -- 1710
+format.name$ -- 378
+if$ -- 4082
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 11
-newline$ -- 87
-num.names$ -- 16
-pop$ -- 32
+int.to.str$ -- 85
+missing$ -- 76
+newline$ -- 427
+num.names$ -- 82
+pop$ -- 176
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 49
+skip$ -- 272
 stack$ -- 0
-substring$ -- 209
-swap$ -- 16
-text.length$ -- 0
+substring$ -- 1085
+swap$ -- 101
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 3
-while$ -- 31
-width$ -- 19
-write$ -- 183
+warning$ -- 20
+while$ -- 165
+width$ -- 87
+write$ -- 912
 is.kanji.str$ -- 0
-(There were 4 error messages)
+(There were 10 error messages)

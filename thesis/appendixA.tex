@@ -1,8 +1,7 @@
 \chapter{KAGRA}
 \section{Overview of KAGRA}
 \subsection{Status of KAGRA}
-KAGRA is a 3km laser interferometer, constructed in Kamioka, Gifu, Japan, and is now in its final commisioning phase. The KAGRA project はこれまでに2つの試験運転を経て、今はLIGOとVirgoとの第三次共同観測(O3)にむけたphaseにいる。Table\ref{tb:tb600}にKAGRAのphaseをまとめる。1つめの試験運転はinitial KAGRA (iKAGRA) と呼ばれる、2016年の3月から4月に行われた、3kmのMichelson interferometerの試験運転である。ことのとき、テストマスは低温ではなく常温ではなかったが、3kmの長期線干渉計を地下で可動させることを実証した。そして次に2つ目の試験運転である、basekine KAGRA (bKAGRA) とよばれる、低温鏡をつかったMicelson干渉計の試験運転である。この運転では低温干渉計を稼働させることを実証した。そして2019年12月現在、LIGOとVirgoとの第三次共同観測(O3)にむけて、低温鏡を使用した Fabry-Perot Michelson interferometer (FPMI)のコミッショニングをおこなっており、中性子連星合体を$1\,\mathrm{Mpc}$で観測できる感度まで向上させるノイズハンティングを行っている。
-
+KAGRA is a 3km laser interferometer constructed in Kamioka, Gifu, Japan, and is now in its final commisioning phase. KAGRA is now commisioning to observe with LIGO and Virgo in the third observation (O3), through the two test operation phase. The phases of KAGRA project is listed in Table \ref{tb:tb600}. The first test operation named initial KAGRA (iKAGRA), which is taken place from March to April 2016, was a demonstration of the 3-km Michelson interferometer. In this operation, While the test masses are not in cyogenic temperature but room temperature, KAGRA demonstrate the operation of the km-scale interferometer in the underground. Next, the second test operation named baseline KAGRA (bKAGRA) demonstrated the cryogenic Michelson interferometer from April to May 2018. Although this interferometer was not for sensitivity enhanced configuretion, the cryogenic operation, which is the key feature of KAGRA, could be demonstrated. Now, December 2019, KAGRA is faced on the O3 observation with the Michelson interferometer whose each arm have Fabry-Perot optical cavities (FPMI). To join the O3, KAGRA is now tunning the interferometer operation and hunting the sevelal technical noises.
 \begin{table}[h]
   \caption{Summary of the phasec of KAGRA. MI: Michelson Interferometer, FPMI: Fabry-Perot Michelson Interferometer, DRFPMI: Dual-Recycled Fabry-Perot Michelson Interferometer, RSE: resonant sideband extraction}
   \begin{tabular}{lllll}
@@ -26,8 +25,7 @@ KAGRA is a 3km laser interferometer, constructed in Kamioka, Gifu, Japan, and is
 %% \end{figure}
 
 \subsection{Main Interferometer}
-KAGRAのメイン干渉計の図をFig.\ref{img:img601}に示す。KAGRAは他のLIGOやVirgoと同様に、腕にFabry-Perot光共振器とリサイクリング光共振器をもつマイケルソン干渉計である。ただし他とことなるのは、腕共振器の鏡は$22\,\mathrm{K}$まで冷却されていることである。この鏡にはサファイヤを使用している。なぜならば極低温下でも高いthermal conductivity と高いQ値を持ち、それぞれの特徴が熱レンズ効果と熱雑音を低減できるためである。またKAGRAその他の鏡はすべて常温のfused silica 鏡である。
-
+The main interferometer of KAGRA is shown in Figure \ref{img:img601}. The interferometer configuration of KAGRA is also the same as other GW detectors such as advanced LIGO and advanced Virgo, the Michelson interferometer with Fabry-Perot optical cavity on each arm and two rycycling optical cavities. The different feature of these detectors is the cryogenic test masses. To cool down to cryogenic, tipicaly 22 K, the test mass mirror is made of sapphire because of the high thermal conductivity and mechanichal Q value even in cryogenic environment. These properties can reduce some problems of the interferometeric GW detectors; thermal lens effect and thermal noise.
 \begin{figure}[p]
   \begin{minipage}{15cm}
     \begin{center}   
@@ -38,18 +36,15 @@ KAGRAのメイン干渉計の図をFig.\ref{img:img601}に示す。KAGRAは他�
   \begin{minipage}{15cm}
     \begin{center}   
       \includegraphics[width=13cm]{./img_chap6/img601b.png}
-      \subcaption{KAGRA mirror suspension system \cite{akutsu2019first}}{}\label{img:img601b}
+      \subcaption{KAGRA mirror suspension system \cite{akutsu2019first}}\label{img:img601b}
     \end{center}
   \end{minipage}
   \caption{Interferometer configuration and mirror suspension system}{}
 \end{figure}
-
-
-KAGRAの干渉計は、おもに4つに分けられる; arm caivties, input and output mode cleaners (IMC and OMC), power resycling cavities (PRC), and signal resycling cavities (SRC). Arm cavities are composed of input test masses (ITMs) and end test masses (ETMs). また低温鏡であるITM内部でのパワーをへらすために、フィネスは1530と他の検出器とくらべて高い。IMCは入射光の空間モードの整形と周波数を安定化させるために使われ、OMCは出射光のunwanted higher-order spatial modes とfrequency sideband を落とすためにある。IMCは3つの鏡で構成される三角共振器であり、およそ1Hz以上の周波数のpre-stabilizationができるように設計されている。またOMCは4つの鏡から構成されるbow-tie cavityである。PRC はBSと共振器をつくるPRMの他にPR2とPR3鏡で構成される。この共振器で入射光のパワーを10倍増幅させる。SRCはSRMとSR2、SR3で構成される。SRCは検出器を広帯域にして重力波信号を抜き出すために使われる。This technique is more important than Advanced LIGO and Advanced Virgo, because the bandwidth is narrower than other detectors due to a high finesse arm cavity of KAGRA. 
+The main interferometer is divided into four parts; (1) arm caivties, (2) input and output mode cleaners (IMC and OMC), (3) power resycling cavities (PRC), (4) and signal resycling cavities (SRC). The first, the arm cavities are composed of input test masses (ITMs) and end test masses (ETMs) with high reflectivity corresponding to a finesse of 1530 not to increase the internal cavity power. The second, while IMC is used for clean out the higher-order spatial mode and stabilizing the frequency of main input laser, OMC is used for clean out the unwanted higher-order spatial modes and frequency sideband of the output beam. The IMC is the triangle optical cavity which is made to stabilize the input laser frequency above 1 Hz. The OMC is the bow-tie cavity composed of four mirrors. The third, PRC is used for increasing the input laser power by 10 times. This cavity is composed of three mirrors named PRM, PR2 and PR3, respectively. The forth, SRC is used for expand the bandwidth of GW signals.This technique is more important than Advanced LIGO and Advanced Virgo, because the bandwidth is narrower than other detectors due to a high finesse arm cavity of KAGRA. 
 
 \subsection{Mirror Suspension System}
-KAGRAの干渉計を構成する鏡はすべてSuspensionで懸架されており、それらは４つの種類がある; Type-A, Type-B, Type-Bp, Type-C. Type-Aはテストマス懸架するため、最も高い防振比が求められ、13.5mの9段振り子である。次に変位雑音への要求が高いシグナルリサイクリング鏡は、Type-Aの段数を減らした、Type-B Suspensionで懸架される。そしてType-Bpはさらにpre-isolatorを取り除いたSuspensionであり、Power rycycleを懸架している。最後に、Type-Cは最も簡易的な振り子でTAMAで使用されていたものを修正したSuspensionである。
-
+All mirrors of the interferometer are suspended by four types suspensions; Type-A, Type-B, Type-Bp, Type-C. These suspensions are shown in Figure \ref{img:img601b}. The Type-A is a 13.5 m scale 9-stage pendulum suspending the test mass mirror. The Type-B is a small size of Type-A suspension for suspending the signal recycling mirrors and beam splitter mirror. The Type-Bp is also small size of Type-B but without the pre-isolator stage, which is for the power recycling mirrors. The type-C is the simple 2-stage suspension used in TAMA300 but with minor modification.
 \begin{figure}[p]
   \begin{center}   
     \includegraphics[width=13cm]{./img_chap6/img604.png}
@@ -89,17 +84,17 @@ In terms of the low-frequency seismic attenuation, the pre-isolator is the impor
 
 
 \subsection{Pre-Isolator stage (PI)}
-Pre-iolator(PI)は振り子の懸架点を防振するための能動防振システムであり、\cref{sec:sec}でのべた地震計と変位計をもちいた能動防振である。Fig.\ref{img:img603a}に示すように、機械的には、懸架点の並進方向はIvertedPendulumで、垂直方向はGASで防振されている。
+The pre-isolator (PI) is a active seismic iolator for the suspension point of the long Type-A or Type-B suspensions. As shown in Figure \ref{img:img603a}, the suspension point is on the platform stage suported by the inverted pendlum (IP) which isolates the seismic noise in horizontal direction. For vertical direction, geometric anti-spring (GAS) suspends this point. Especially, horizontal motion of the platform stage is isolated by using the feedback control with the inertial sensor and the relative position sensor, which is described in the section \cref{sec:512}.
 
 \subsubsection{Inverted pendulum for horizontal vibration isolation}
-Inverted pendulum はPreisolatorの荷重を調整することで、実質的なばね定数を小さくし、共振周波数を小さくすることができる。The angluar eigenfrequency of the singla IP leg is 
+Inverted pendulum (IP) is the low eigenfrequency pendulum because this mechanical filter can adjust the effective spring constant to small value by tuning the load on the platform stage. The angluar eigenfrequency of the singla IP leg is given by \cite{sekiguchi2016astudy}
 \begin{eqnarray}
   \omega_{\mathrm{IP}}=\sqrt{\frac{g}{L}\left(\frac{k_{\mathrm{\theta}}/gL-M}{M}\right)},\\
 \end{eqnarray}
-where is the bending spring constant of the flexure, $M$ is the mass of the stage and $L$ is the length of the leg. このように、原理上はステージの質量を調整すれば、共振周波数を0にすることができることがわかる。しかし、平方根の中がマイナスの場合振り子は不安定になるので、実際の共振周波数は$100\,\mathrm{mHz}$程度に設定されている。
+where $k_{\theta}$ is the bending spring constant of the flexure, $M$ is the mass of the stage and $L$ is the length of the leg. Although the eigenfrequency ca be adjusted to zero in pronciple, actual eigenfrequency is designed at least 100 mHz because it is unstable when the term in square root is minus value.
 
 \subsubsection{Geometric Anti-Spring for vertical vibration isolation}
-GAS は向かい合わせたcantilever blades を圧縮することで、実質的な上下方向のばね定数を小さくする機械的なフィルターである。GASの固有周波数は、
+Geometric anti-speing is also the low eigenfrequency pendlum in vertial direction. The eigenfrequency is adjusted to small value by compressing the cantilever blades as shown in Figure \ref{img:img603b}. The angular eigenfrequency is given by 
 \begin{eqnarray}
   \omega_{\mathrm{GAS}} = \sqrt{\frac{1}{M}\left[{ k_{z}- \left(\frac{l_{0}}{x_{0}}-1\right) k_{x}}\right]},
 \end{eqnarray}

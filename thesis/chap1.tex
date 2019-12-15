@@ -1,7 +1,10 @@
-\chapter{Background}
-In this chapter, we describe about gravitational-wave and its detection principle.
+\chapter{Background} \cref{chap1}
+This chapter introduce the gravitational-wave (GW) and its detection principle, and overview the current GW detectors and problems related with duty cycle.
 
-\section{Gravitational-wave} \label{sec:sec11}
+In section \cref{sec:11}, basic properties and soruces of the gravitational-wave are described. After that, the detection principle of the GW by using the laser interferometric detectors is described in section \cref{sec:12}, and the techniques for improvement of the sensitivity are described in section \cref{sec:13}. In section \cref{sec:14}, we describe the overview of the terrestrial interferometric GW detectors is described, and raise problems of the duty cycle caused by the large-scale baseline of current GW detectors. In the end of chapter, the outline of this thesis is described in section \cref{sec:15}.
+
+
+\section{Gravitational-wave} \label{sec:11}
 Gravtational-wave (GW) is a ripples of the space-time, which propagates at the speed of light. GW was predicted by A. Einstein in 1918, and is a result of the general theory of relativity. Because this strain is very small, the direct discovery of GWs have not done by LIGO until 2015.
 
 \subsection{Properties of GWs} 
@@ -37,7 +40,7 @@ In this weak-field regime, the Einsteins's equation is reduced to a linearized w
 \end{eqnarray}
 where $\omega$ is the angluar frequency of GW, $z$ is the propagation direction of the wave, $h_{+} \text {and } h_{\times}$ are the independent polization of that. Therefore, GW is the transverse wave propagating with speed of light.
 
-The two polization of GW are known as plus and cross polization, and these polization change the distance between two points as shown in Fig.\ref{img:img131}. 
+The two polization of GW are known as plus and cross polization, and these polization change the distance between two points as shown in Figure \ref{img:img131}. 
 
 \subsection{Sources of Gravitational-wave}
 In this section, possible astrophysical GW sources are briefly described. More detail studies of the soruces can be found in reference \cite{cutler2002overview}.
@@ -60,7 +63,7 @@ The stochastic background GWs are predicted\cite{starobinskii1979spectrum,Christ
 
 
 \section{Interferometric Gravitational-wave detection} \label{sec:12}
-Basic design of a terrestrial GW detectors are Michelson interferometer \cite{weiss1972electronically}. This interferometer sensitives to the differential length change of its arms, which is changed by the plus mode of the GW as mentioned in privious section (section \ref{sec:sec11}).
+Basic design of a terrestrial GW detectors are Michelson interferometer \cite{weiss1972electronically}. This interferometer sensitives to the differential length change of its arms, which is changed by the plus mode of the GW as mentioned in privious section (section \ref{sec:11}).
 
 \subsection{Michelson Interferometer} \label{sec:121}
 \begin{figure}[h]
@@ -70,7 +73,7 @@ Basic design of a terrestrial GW detectors are Michelson interferometer \cite{we
   \end{center}
 \end{figure}
 
-Michelson interferometer converts the optical phase difference of two lights, which propagate each arm, to the amplitude modulation of a single output light. Consider about the interferometer shown in Fig. \ref{img:img132}. Incident light can be wrtten as,
+Michelson interferometer converts the optical phase difference of two lights, which propagate each arm, to the amplitude modulation of a single output light. Consider about the interferometer shown in Figure  \ref{img:img132}. Incident light can be wrtten as,
 \begin{eqnarray}
   E_{\mathrm{in}} = E_{0} e^{i\omega{t}},
 \end{eqnarray}
@@ -128,8 +131,8 @@ According to Eq.(\ref{eq:eq137b}), in order to measure the smaller strain change
 
 
 
-\newpage
-\section{Enhancement of the sensitivity}
+%\newpage
+\section{Enhancement of the sensitivity} \label{sec:13}
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=14cm]{./img_chap1/img133.png}
@@ -143,7 +146,7 @@ In order increase the sensitivity, current interferometric GW detector use the D
 According to Eq.(\ref{eq:eq134a}), we need the large-scale interferometer. Fabry-Perot optical cavity enhance the effective arm length of the interferometer.
 
 \subsubsection{Fabry-Perot Optical Cavity}
-Fabry-Perot optical cavity increase the effective baseline linegth. Consider the Fabry-Perot optical cavity composed of two mirrors separated by L as shown in Fig.\ref{img:img133a}. In this figure, $E_{\mathrm{in}},\,E_{\mathrm{r}},\,E_{\mathrm{t}},\,E$ are the incident, reflected, and transmitted fields respectively, $r_{j}$ and $t_{j}$ are the amplitude reflectivity and transsivity of $j$-th mirrors ($j=1,2$). The averaged bounce number in a Fabry-Perot cavity $\mathcal{N}_{\mathrm{FP}}$ is written as \cite{ando1999power}
+Fabry-Perot optical cavity increase the effective baseline linegth. Consider the Fabry-Perot optical cavity composed of two mirrors separated by L as shown in Figure \ref{img:img133a}. In this figure, $E_{\mathrm{in}},\,E_{\mathrm{r}},\,E_{\mathrm{t}},\,E$ are the incident, reflected, and transmitted fields respectively, $r_{j}$ and $t_{j}$ are the amplitude reflectivity and transsivity of $j$-th mirrors ($j=1,2$). The averaged bounce number in a Fabry-Perot cavity $\mathcal{N}_{\mathrm{FP}}$ is written as \cite{ando1999power}
 \begin{eqnarray}
   \mathcal{N}_{\mathrm{FP}} = \frac{2\mathcal{F}}{\pi},
 \end{eqnarray}
@@ -176,7 +179,7 @@ Here, we note that the arm length enhancement works in case that the cavity leng
 
 
 \subsection{Dual-Recycled FPMI (DRFPMI)}
-As shown in Fig.\ref{img:img133}(c), final configuration of the current GW is DRFPMI which has two recycling optical cavity \cite{meers1988recycling}.
+As shown in Figure \ref{img:img133}(c), final configuration of the current GW is DRFPMI which has two recycling optical cavity \cite{meers1988recycling}.
 
 \subsubsection{Power Recycle}
 In order to decrease shot noise, power recycling technique is used. In this technique, additional mirror is installed between laser and the interferometer to increase the effective laser power by recycling the reflected light from the interferometer. Increaseing the laser power, the noise to signal ratio of shot noise is decrease as mentioned later.
@@ -233,8 +236,8 @@ The displacement noise of coating thermal noise is given by \cite{numata2003wide
 were $d$,$\phi_{\mathrm{coat}}$ are depth and loss angle of the coating.
 
 
-\newpage
-\section{Terrestrial Laser Interferometers}
+%\newpage
+\section{Terrestrial Laser Interferometers} \label{sec:14}
 Large-scale baseline is a essential feature of interferometric GW detectors for improving the sensitivity. 
 
 \subsection{Overview of detector projects}
@@ -260,7 +263,7 @@ Various interferometric GW detectors are developed and planed. These detectors a
     \end{tabular}
   \end{center}
 \end{table}
-Cosmic Exploler (CE) \cite{abbott2017exploring}.
+
 
 \subsubsection{1st Generation}
 The first generation GW detectors (LISM \cite{sato2004ultrastable}, CLIO \cite{ohashi2003design}, TAMA \cite{ando2001stable}, GEO \cite{grote2010geo}) are small-scale detectors. Although these detectors have performed scientific operations since 1999, no gravitational wave have detected. They demonstrated the working principle of the key technology to increase the sensitivity and constrained the upper limites to several gravitational wave sources \cite{takahashi2004coincidence,Fairhurst2011}.
@@ -269,7 +272,7 @@ The first generation GW detectors (LISM \cite{sato2004ultrastable}, CLIO \cite{o
 The second generation GW detectors (KAGRA\cite{akutsu2018kagra}, Advanced Virgo\cite{acernese2014advanced}, Advanced LIGO\cite{aasi2015advanced}) are first large-scale detectors for the enough sensitivity to detect GW signal.
 
 \subsubsection{3rd Generation}
-The third generation GW detector (now ET is proposed) has a few km-scale detectors. It aims to reach a sensitivity about a factor of 10 better than the second generation detectors.
+The third generation GW detector has a few km-scale detectors. Einstein telescope (ET) and cosmic exploler (CE) \cite{abbott2017exploring} are proposed. It aims to reach a sensitivity about a factor of 10 or more better than the second generation detectors.
 
 The key features of third generation detector are the underground and cryogenic test masss. These are also the features of KAGRA, so KAGRA is also called 2.5 generation detector. Next, we mention about LISM and CLIO, which demonstrate the stable GW detector operation and reduction of the thermal noise respectively.
 
@@ -277,7 +280,7 @@ The key features of third generation detector are the underground and cryogenic 
 \subsubsection{LISM (first underground GW detector)} \label{sec:141_lism}
 LISM, Laser Interferometer gravitational-wave Small observatory in a Mine, is a first GW detector in the underground to demonstrate the stable performance of the detector. The detector of LISM is the Michelson interferometer whose arms contain $20\,\mathrm{m}$ Fabry-Perot optical cavities. This arm cavity has a high finesse of 25000. In spite of such high finesse, duty cycle was $99.8\,\%$.
 
-Such a stable operation is owing to the reduction of the baseline length fluctuation of the bedrock. This reduction effect was confirmed on the sensitivity plot of LISM as shown in Fig.\ref{img:img122}. In this figure, one can find that the sensitivity of the interferometer is less than the noise projection of the horizontal seismic noise below $6\,\mathrm{Hz}$. This reduction was caused by the short-scale baseline because the baseline was moved by the seismic motion as a single object below $6\,\mathrm{Hz}$. This is the reason why LISM performed stable operation. 
+Such a stable operation is owing to the reduction of the baseline length fluctuation of the bedrock. This reduction effect was confirmed on the sensitivity plot of LISM as shown in Figure \ref{img:img122}. In this figure, one can find that the sensitivity of the interferometer is less than the noise projection of the horizontal seismic noise below $6\,\mathrm{Hz}$. This reduction was caused by the short-scale baseline because the baseline was moved by the seismic motion as a single object below $6\,\mathrm{Hz}$. This is the reason why LISM performed stable operation. 
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=11cm]{./img_chap1/img122.png}
@@ -307,10 +310,18 @@ Although ALS system can bring the interferometer to the observation state in a s
 
 Actually, duty cycle of GW detectors are limited by the low-frequency seismic noise in which the vibration isolation system could not attenuate the motion. Especially long period earthquake limites the duty cycle \cite{Biscans2018control}. 
 
-\section{Outline of thesis}
-本論文では、長期線化によって引き起こされるDutyCycleの低下についての考察と、それを解決する防振システムの開発が述べられている。
+\section{Outline of thesis} \label{sec:15}
+In this thesis, two main topics are described. One is a study of the influence of the low-frequency seismic noise to the large-scale GW detectors. This study show that the baseline fluctuation is somehow reduced due to a correlated motion at two separated points and this correlation decrease in large-scale baseline. For this reason, large-scale GW detectors are suffering from the seismic noise. This problem is happen even in underground. Therefore, anothor topic is the develop ment of the baseline compensation system to reduce the residual motion. The feature of this new system is the feedforward control using a strainmeter installed in parallel to the KAGRA baseline, which is named geophysics interferometer (GIF). GIF has been developed for monitoring the deformation of the baseline directly with high sensitivity. The new system compensate the baseline fluctuation of the arm cavity by using the measurement of GIF strainmeter.
 
-\textcolor{red}{2章では}
-
+In chapter \cref{chap2}, the properties of the seismic noise are described. The GIF strainmeter's working principle and design are described in chapter \cref{chap3}. After that, the baseline compensation system is described comparing with the current system in chapter \cref{chap4}. In chapter \cref{chap5}, the demonstration of this new system implemented on KAGRA X-arm cavity and the result are described. In the end of thisis, chapter \cref{chap6}, conclusion and future direction are described.
 
 \section{Summary of the Chapter}
+In this chapter, the following items are described:
+\begin{itemize}
+\item GW detectors are Michelson interferometer with high finess optical cavities to enhance the sensitivity.
+\item Although the large-scale GW detectors are improved their sensitivity, the duty cycle of them is degraded because of the long baseline.
+\end{itemize}
+
+
+
+
