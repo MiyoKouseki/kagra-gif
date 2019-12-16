@@ -1,7 +1,7 @@
 %\documentclass[a4paper,twoside,12pt]{book}
 \documentclass[a4paper,oneside,12pt,openright]{book}
 %\usepackage[DIV=12,BCOR=4mm,headinclude=true,footinclude=false]{typearea}
-\usepackage[DIV=12,headinclude=true,footinclude=false]{typearea}
+\usepackage[DIV=11,headinclude=true,footinclude=false]{typearea}
 %
 \usepackage{booktabs}
 \usepackage{jtygm}
@@ -33,13 +33,13 @@
 \def\maketitle{
   \begin{center}
     \huge \@thesis \par
-    \vspace{7mm} 
+    \vspace{4mm} 
            {\LARGE \@title \par}
-    \vspace{7mm}            
+    \vspace{4mm}            
     \LARGE\@date\par
-    \vspace{7mm}                
+    \vspace{4mm}                
     \LARGE\@department\par
-    \vspace{7mm}
+    \vspace{4mm}
     \LARGE\@author
   \end{center}
 }
@@ -54,11 +54,11 @@
 %
 %
 \begin{document}
-\maketitle
 \thispagestyle{empty}
+\maketitle
 \setcounter{tocdepth}{2}
 \input{abstract_en}
-\input{abstract_jp}
+%\input{abstract_jp}
 \clearpage
 \tableofcontents
 \include{chap1} % Background

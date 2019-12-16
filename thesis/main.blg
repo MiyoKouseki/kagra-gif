@@ -37,13 +37,8 @@ Repeated entry---line 813 of file reference.bib
  : @article{naticchioni2014microseismic
  :                                     ,
 I'm skipping whatever remains of this entry
-You're missing a field name---line 955 of file reference.bib
- : 
- : % url = {https://doi.org/10.1088%2F0264-9381%2F21%2F9%2F003},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
 Warning--entry type for "biscans2018optimization" isn't style-file defined
---line 1123 of file reference.bib
+--line 1121 of file reference.bib
 Warning--can't use both volume and number fields in leaci2012searching
 Warning--empty journal in hereld1984search
 Warning--empty journal in weiss1972electronically
@@ -59,10 +54,6 @@ Warning--empty journal in akutsu2018kagra
 Warning--empty year in akutsu2018kagra
 Warning--empty year in hasegawa2015jishin
 Warning--empty journal in takemoto2003
-Warning--empty author in Daw_2004
-Warning--empty title in Daw_2004
-Warning--empty journal in Daw_2004
-Warning--empty year in Daw_2004
 Warning--empty booktitle in schofield2000source
 Warning--empty journal in agnew2005earth
 Warning--empty publisher in aki2002quantitative
@@ -72,44 +63,44 @@ Warning--empty institution in drever1987outline
 Warning--empty year in drever1987outline
 You've used 85 entries,
             1791 wiz_defined-function locations,
-            944 strings with 20245 characters,
-and the built_in function-call counts, 19558 in all, are:
-= -- 1504
-> -- 1267
+            947 strings with 20372 characters,
+and the built_in function-call counts, 19757 in all, are:
+= -- 1527
+> -- 1283
 < -- 5
-+ -- 463
-- -- 378
-* -- 1616
-:= -- 3384
-add.period$ -- 256
++ -- 468
+- -- 383
+* -- 1634
+:= -- 3425
+add.period$ -- 258
 call.type$ -- 85
-change.case$ -- 73
+change.case$ -- 74
 chr.to.int$ -- 0
-cite$ -- 105
-duplicate$ -- 758
-empty$ -- 1710
-format.name$ -- 378
-if$ -- 4082
+cite$ -- 101
+duplicate$ -- 759
+empty$ -- 1722
+format.name$ -- 383
+if$ -- 4125
 int.to.chr$ -- 0
 int.to.str$ -- 85
 missing$ -- 76
-newline$ -- 427
-num.names$ -- 82
-pop$ -- 176
+newline$ -- 429
+num.names$ -- 83
+pop$ -- 169
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 272
+skip$ -- 269
 stack$ -- 0
-substring$ -- 1085
-swap$ -- 101
+substring$ -- 1116
+swap$ -- 102
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 20
-while$ -- 165
+warning$ -- 16
+while$ -- 168
 width$ -- 87
-write$ -- 912
+write$ -- 919
 is.kanji.str$ -- 0
-(There were 10 error messages)
+(There were 9 error messages)
