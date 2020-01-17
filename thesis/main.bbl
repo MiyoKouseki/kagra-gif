@@ -29,8 +29,8 @@ Paola Leaci, LIGO~Scientific Collaboration, Virgo Collaboration, et~al.
 
 \bibitem{hereld1984search}
 Mark Hereld.
-\newblock A search for gravitational radiation from psr 1937+ 214.
-\newblock 1984.
+\newblock {\em A Search for Gravitational Radiation from PSR 1937+ 214}.
+\newblock PhD thesis, California Institute of Technology, 1984.
 
 \bibitem{ott2004gravitational}
 Christian~D Ott, Adam Burrows, Eli Livne, and Rolf Walder.
@@ -64,7 +64,7 @@ Rainer Weiss.
 Masaki Ando.
 \newblock {\em Power recycling for an interferometric gravitational wave
   detector}.
-\newblock PhD thesis.
+\newblock PhD thesis, University of Tokyo, 1998.
 
 \bibitem{meers1988recycling}
 Brian~J Meers.
@@ -164,10 +164,6 @@ Stephen Fairhurst, Gianluca~M. Guidi, Patrice Hello, John~T. Whelan, and Graham
 \newblock Current status of gravitational wave observations.
 \newblock {\em General Relativity and Gravitation}, 43(2):387--407, Feb 2011.
 
-\bibitem{akutsu2018kagra}
-Ando M. Arai K. et~al. Akutsu, T.
-\newblock Kagra: 2.5 generation interferometric gravitational wave detector.
-
 \bibitem{acernese2014advanced}
 F~Acernese, M~Agathos, K~Agatsuma, D~Aisa, N~Allemandou, A~Allocca, J~Amarni,
   P~Astone, G~Balestri, G~Ballardin, et~al.
@@ -243,13 +239,13 @@ L~Naticchioni, M~Perciballi, F~Ricci, E~Coccia, V~Malvezzi, F~Acernese,
 西村太志 長谷川昭, 佐藤春夫.
 \newblock {\em Seismology}, volume~6 of {\em Introduction to Modern Erath
   Science Series}.
-\newblock Kyoritsu.
+\newblock Kyoritsu, 2015.
 
 \bibitem{takemoto2003}
 竹本修三, 新谷昌人, 赤松純平, 森井亙, 東敏博, 福田洋一, 尾上謙介, 市川信夫,
   川崎一朗, 大橋正健, et~al.
 \newblock 神岡鉱山における 100 メートルレーザー伸縮計について.
-\newblock 2003.
+\newblock {\em 京都大学防災研究所年報}, 2003.
 
 \bibitem{bonnefoy2006nature}
 Sylvette Bonnefoy-Claudet, Fabrice Cotton, and Pierre-Yves Bard.
@@ -445,14 +441,16 @@ Christophe Collette, Stefan Janssens, Pablo Fernandez-Carmona, Kurt Artoos,
 
 \bibitem{biscans2018optimization}
 Sebastein Biscans.
-\newblock Optimization of the advanced ligo gravitational-wave detectors duty
-  cycle by reduction of parametric instabilities and environmental impacts,
-  2018.
+\newblock {\em Optimization of the Advanced LIGO gravitational-wave detectors
+  duty cycle by reduction of parametric instabilities and environmental
+  impacts}.
+\newblock PhD thesis, University of Maine, 2018.
 
 \bibitem{drever1987outline}
-Outline of a proposed design for a first receiver for installation in the
-  long-baseline facilities, of fabry-perot type.
-\newblock Technical report.
+R.~W. P~. Drever.
+\newblock Outline of a proposed design for a first receiver for installation in
+  the long-baseline facilities, of fabry-perot type.
+\newblock Technical Report T870001-00-R, LIGO Document, 9 1987.
 
 \bibitem{drever2002extension}
 Ronald~WP Drever and Steven~J Augst.

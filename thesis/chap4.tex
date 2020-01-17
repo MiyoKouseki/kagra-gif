@@ -1,12 +1,12 @@
 \chapter{Geophysics Interferometer (GIF)} \label{chap3}
 KAGRA is the only GW detector, which has a strainmeter to monitor its baseline length changes. The strainmeter is named Geophysics interferometer (GIF).
 
-GIF is a laser interferometric strainmeter, which is developed by reserchers in Earthquake Research Institute, University of Tokyo. The purpose of the strainmeter is to observe geophysical phenomena: not only earthquakes but also Earth's free oscillations. Unlike a seismometer, the strainmeter has a sensitivity in low-frequency. Moreover, unlike the continuous GPS (CGPS) nets, which also measures a strain ($\sim\,10^{-8}$), the strainmeter has more precision ($\sim\,10^{-12}$) \cite{araya2007broadband}.
+GIF is a laser interferometric strainmeter, which is developed by researchers in the Earthquake Research Institute, University of Tokyo. The purpose of the strainmeter is to observe geophysical phenomena: not only earthquakes but also Earth's free oscillations. Unlike a seismometer, the strainmeter has a sensitivity in low-frequency. Moreover, unlike the continuous GPS (CGPS) nets, which also measures a strain ($\sim\,10^{-8}$), the strainmeter has more precision ($\sim\,10^{-12}$) \cite{araya2007broadband}.
 
-In this chapter, instruments of GIF are described. After overview of GIF in section \cref{sec:sec41}, working principles of the interferometer are described in section \cref{sec:sec42}. Optics of GIF are described in section \cref{sec:sec43}. Realtime signal aquisition system to send the strain signal to KAGRA is described in \cref{sec:sec44}
+In this chapter, instruments of GIF are described. After an overview of GIF in section \cref{sec:sec41}, the working principles of the interferometer are described in section \cref{sec:sec42}. Optics of GIF is described in section \cref{sec:sec43}. Realtime signal acquisition system to send the strain signal to KAGRA is described in \cref{sec:sec44}
 
 \section{Overview} \label{sec:sec41}
-Geophysics interferometer (GIF) is a $1500\,\mathrm{m}$ laser strainmeter constructed parallel to X-arm baseline of KAGRA. As shown in Figure \ref{img:img402}, GIF is an asymmetric Michelson interferometer unlike symmetric KAGRA interferometer. Moreover, mirrors of the interferometer of GIF are fixed on the ground in order to monitor the baseline length changes directly. GIF is now only installed on the X-arm, which has been observing the baseline changes for almost 3 years.
+Geophysics interferometer (GIF) is a $1500\,\mathrm{m}$ laser strainmeter constructed parallel to the X-arm baseline of KAGRA. As shown in Figure \ref{img:img402}, GIF is an asymmetric Michelson interferometer, unlike symmetric KAGRA interferometer. Moreover, mirrors of the interferometer of GIF are fixed on the ground in order to monitor the baseline length changes directly. GIF is now only installed on the X-arm, which has been observing the baseline changes for almost three years.
 \begin{figure}[h]
   \centering
   \includegraphics[width=8cm]{./img_chap4/img402.png}
@@ -14,16 +14,16 @@ Geophysics interferometer (GIF) is a $1500\,\mathrm{m}$ laser strainmeter constr
 \end{figure}
 
 \section{Working Principle} \label{sec:sec42}
-As described in section \cref{sec:12}, working principle of the strain measurement of GIF is the same as the GW detectors. However, the sensitivity of GIF is limited by the laser frequency noise due to the asymmetric optical configuration.
+As described in section \cref{sec:12}, the working principle of the strain measurement of GIF is the same as the GW detectors. However, the sensitivity of GIF is limited by the laser frequency noise due to the asymmetric optical configuration.
 \subsection{Asymmetric Michelson Interferometer}
 \begin{figure}[h]
   \centering
   \includegraphics[width=10.0cm]{./img_chap4/img401.png}
-  \caption{Schematic drawing of the GIF as an asymmetric Michelson interferometer, which has two different arm length, $l_x\gg{l_y}$. In this figure, the mode matching optics and the optics for signal detection are not drawn.} \label{img:img401}
+  \caption{Schematic drawing of the GIF as an asymmetric Michelson interferometer, which has two different arm lengths, $l_x\gg{l_y}$. In this figure, the mode-matching optics and the optics for signal detection are not drawn.} \label{img:img401}
 \end{figure}
-A schematic optical layout of the GIF interferometer as an asymmetric Michelson interferometer is shown in Figure  \ref{img:img401}. The asymmetric interferometer measure change of baseline length $l_x$ with reference to the short arm $l_y$, and its fringe signal is obtained at the REFL port in the case of the GIF.
+A schematic optical layout of the GIF interferometer as an asymmetric Michelson interferometer is shown in Figure  \ref{img:img401}. The asymmetric interferometer measures change of baseline length $l_x$ with reference to the short arm $l_y$, and its fringe signal is obtained at the REFL port in the case of the GIF.
 
-Here, we consider how the asymmetric arms affect to the optical phase of the interferometer. The relation between of the optical phase $\phi_{-}$ and the differential of the arms length ${L_{-}}=l_{\mathrm{x}}-l_{\mathrm{y}}$ is given as ${\phi}_{-} = 4\pi\frac{{L_{-}}}{\lambda}$, where $\lambda$ is the wavelength of the laser. This relation introduce the relation of the infinitesimal changes between in these phsical parameters;
+Here, we consider how the asymmetric arms affect the optical phase of the interferometer. The relation between of the optical phase $\phi_{-}$ and the differential of the arms' length ${L_{-}}=l_{\mathrm{x}}-l_{\mathrm{y}}$ is given as ${\phi}_{-} = 4\pi\frac{{L_{-}}}{\lambda}$, where $\lambda$ is the wavelength of the laser. This relation introduces the relation of the infinitesimal changes between in these physical parameters;
 \begin{eqnarray}  
   \left|\Delta \phi_{-}\right| = \frac{4\pi{L_{-}}}{\lambda}\left( \left|\frac{\Delta L_{-}}{L_{-}}\right| + \left|\frac{\Delta f}{f}\right|\right), \label{eq:eq400}
 \end{eqnarray}
@@ -43,7 +43,7 @@ where $h = \Delta{l_{x}}/l_x$ is the strain of the baseline. It is clear that th
 Here, we consider the response from strain to the optical phase in the case that the plane seismic waves whose displacement $u(t,x)$ is represented as $u(t,x)=u_0e^{i(\omega{t}-kx)}$ with angular frequency of $\omega$ and the wavenumber of $k$. The seismic wave propagates along with the direction of the baseline of the strainmeter (right direction in this figure).
 
 \subsubsection{Response from $u$ to $\Delta{L}$, ($H_{\mathrm{disp}}$)}
-Before calculating the strain response, we calculate the response from the displacement of the seismic wave to the baseline length change. First, because the length fluctuation between two mirrors sparated with $L$ can be expressed as 
+Before calculating the strain response, we calculate the response from the displacement of the seismic wave to the baseline length change. First, because the length fluctuation between two mirrors separated with $L$ can be expressed as 
 \begin{eqnarray} 
   \Delta{L(t)} &\equiv& u(t,0) - u(t,L) \\
   &=& u(t,0) - u(t-\tau,0), \label{eq:eq403}
@@ -67,7 +67,7 @@ Finally, because the transfer function from the length change of the baseline to
   H_{\mathrm{strain}}(s) = 4\pi\frac{1}{\lambda_{\mathrm{opt}}} \left[1 - \exp(-\tau{s}) \right]\frac{v}{s}.
 \end{eqnarray}
 
-Here, as a summary of these transfer function, these are related with each other as shown in Figure (\ref{img:img411}). 
+Here, as a summary of these transfer functions, these are related to each other, as shown in figure (\ref{img:img411}). 
 
 \begin{figure}[h]
   \centering
@@ -76,13 +76,13 @@ Here, as a summary of these transfer function, these are related with each other
 \end{figure}
 
 \subsubsection{Improvement of the sensitivity with longer baseline}
-Here, we describe the length dependance of the strain response given by Eq.(\ref{eq:eq407}). Bode plot of the strain response with two different baseline length is shown in Figure  \ref{img:img411_a}, in the case that the phase velocity is $5.5\,\mathrm{km}$. One can find that the DC gain is greater for $L=3000\,\mathrm{m}$ than the gain for $L=3000\,\mathrm{m}$, and the corner frequency is lower in the case of long baseline.
+Here, we describe the length dependence of the strain response given by Eq.(\ref{eq:eq407}). The bode plot of the strain response with two different baseline lengths is shown in Figure  \ref{img:img411_a}, in the case that the phase velocity is $5.5\,\mathrm{km}$. One can find that the DC gain is greater for $L=3000\,\mathrm{m}$ than the gain for $L=3000\,\mathrm{m}$, and the corner frequency is lower in the case of long baseline.
 
 Because the corner frequency $f_0\equiv {1}/{\tau}$ is given as
 \begin{eqnarray}
   f_0 = \frac{v}{L},
 \end{eqnarray}
-if the baseline length is twice, the frequency is half, which means decrease of the observation frequency band. For example, in the case of $L=1500\,\mathrm{m}$, and assuming the phase velocity of $5.5 \mathrm{km/sec}$, the corner frequency is $f_0\sim3.7\,\mathrm{Hz}$. Below this frequency, therefore, the GIF interferometer responses the strain as the flat response.
+if the baseline length is twice, this frequency became a half value, which means a decrease of the observation frequency band. For example, in the case of $L=1500\,\mathrm{m}$, and assuming the phase velocity of $5.5 \mathrm{km/sec}$, the corner frequency is $f_0\sim3.7\,\mathrm{Hz}$. Below this frequency, therefore, the GIF interferometer responses to the strain as the flat response.
 
 \begin{figure}[p]
   \begin{center}
@@ -93,7 +93,7 @@ if the baseline length is twice, the frequency is half, which means decrease of 
 
 \subsection{Noise}
 \subsubsection{Frequency Noise} \label{sec:123}
-As mentioned above, the noise of asymmetric interferometer is limited by the frequency noise because the commom mode rejection was not work sufficiently. The GIF, therefore, use the frequency stabilized laser by using iodine-absorption line \cite{araya2017design}. The fluctuation $\Delta{f}/f$, which coresponds to the stain, is
+As mentioned above, the noise of asymmetric interferometer is limited by the frequency noise because the common mode rejection was not worked sufficiently. The GIF, therefore, uses the frequency stabilized laser by using the iodine-absorption line \cite{araya2017design}. The fluctuation $\Delta{f}/f$, which corresponds to the stain, is
 \begin{eqnarray}
   h = \frac{\Delta{f}}{f} \sim 7\times10^{-13} [\mathrm{1/\mathrm{Hz}}].
 \end{eqnarray}
@@ -107,7 +107,7 @@ In order to maintain the strain sensitivity; $3\times10^{-13}$, the vacuum press
 
 
 \section{Optics} \label{sec:sec43}
-In preivious discussion, the laser light was implicitly assumed the plane wave, which does not change the optical phase and radius of the beam when it propagates, but actual beam is not. The actual beam requires a design of these beam profiles to interfer the beam within a finite scale. In this section, we assume a Gaussian beam, and describe the design for the GIF interferometer.
+In the previous discussion, the laser light was implicitly assumed the plane wave, which does not change the optical phase and radius of the beam when it propagates, but the actual beam is not. The actual beam requires a design of these beam profiles to interfere with the beam within a finite scale. In this section, we assume a Gaussian beam and describe the design for the GIF interferometer.
 
 \subsection{Gaussian Beam}
 \subsubsection{Gaussian beam}
@@ -140,10 +140,10 @@ are Reyliegh range and radius, curvature, and Gouy phase of the beam as a functi
 \end{figure}
 
 \subsubsection{Beam profiles}
-As shown in Figure \ref{img:img415}, the beam profiles given by Eq.(\ref{eq:eq415_b},\ref{eq:eq415_c},\ref{eq:eq415_d}) are plotted as a function of $z$. In near-field ($z=0$), the beam can be regarded as the plane wave because the beam radius is most smallest (beam waist) and the Gouy phase is 0. On the other hand, in far-field, the beam looks like a point soruce from far distant, and it is regarded as the shperical wave.
+As shown in Figure \ref{img:img415}, the beam profiles given by Eq.(\ref{eq:eq415_b},\ref{eq:eq415_c},\ref{eq:eq415_d}) are plotted as a function of $z$. In near-field ($z=0$), the beam can be regarded as the plane wave because the beam radius is smallest (beam waist), and the Gouy phase is 0. On the other hand, in far-field, the beam looks like a point source from far distant, and it is regarded as the spherical wave.
 
 \subsection{Reflector Design}
-In order to minimized the reflectors size, the beam of the GIF interferometer is designed so that the beam waist is in the end reflector as shown in Figure \ref{img:img416}. In this case, if the beam waist $w_0$ is focused at the end reflector, the beam radius at the front reflector $w(L)$, which locates 1500 meters from the end reflector, spreads. Therefore, we need to design the beam so that
+In order to minimize the size of the reflectors, the beam of the GIF interferometer is designed so that the beam waist is in the end reflector, as shown in Figure \ref{img:img416}. In this case, if the beam waist $w_0$ is focused at the end reflector, the beam radius at the front reflector $w(L)$, which locates 1500 meters from the end reflector, spreads. Therefore, we need to design the beam so that
 \begin{eqnarray}
   \argmin_{w_0} \left[w_0\times\frac{w(L)}{w_0}\right]. \label{eq:eq415_e}
 \end{eqnarray}
@@ -186,15 +186,15 @@ Furthermore, the beam radius at the front reflector is $w(1500)=\sqrt{2}{w_0}$. 
 
 
 \subsection{Input Output Optics}
-Input output optics is used for matching the beam profile of the input laser and the interferometer in order to interfere as shown in Figure  \ref{img:img416}. The output beam from the laser incident to beam splitter (BS) using (1) a colimator, (2) steering mirror, and (3) concave mirrors in order to be the beam waist at the end reflector. The reflected beams from each reflector are re-combine at the Point B, and this interferered light is incidents to the photo detector through the anothoer concave mirror and colimator. The mode matching is described in reference \cite{miyo2017baseline}.
+Input-output optics is used for matching the beam profile of the input laser and the interferometer in order to interfere, as shown in Figure  \ref{img:img416}. The output beam from the laser incident to a beam splitter (BS) using (1) a collimator, (2) steering mirror, and (3) concave mirrors in order to be the beam waist at the end reflector. The reflected beams from each reflector are re-combine at Point B, and this interfered light is incidents to the photodetector through another concave mirror and collimator. The mode matching is described in reference \cite{miyo2017baseline}.
 
 
 \subsection{Core Optics}
-The core optics of the Michelson interferometer are composed of two reflectors and beam splitter (BS). 
+The core optics of the Michelson interferometer are composed of two reflectors and a beam splitter (BS). 
 
 
 \subsection{Frequency Stabilized Laser} \label{sec:sec135}
-As mentioned in \cref{sec:123}, because the frequency noise of the laser is limits the sensitivity of the strain measurement, the GIF interferometer use the frequency stabilized laser utilizing the iodine absorption line \cite{araya2002iodine}. The control diagram of the frequency stabilization system is shown in Figure \ref{img:img417}. This control is a feedback system in order to reduce the error signal of the laser frequency and the frequency of the iodine absorption line. The error signal is obtained by PDH method from the absorption signal that is a doppler free signal by using the pump and prob light \cite{snyder1980high}.
+As mentioned in \cref{sec:123}, because the frequency noise of the laser limits the sensitivity of the strain measurement, the GIF interferometer uses the frequency stabilized laser utilizing the iodine absorption line \cite{araya2002iodine}. The control diagram of the frequency stabilization system is shown in Figure \ref{img:img417}. This control is a feedback system in order to reduce the error signal of the laser frequency and the frequency of the iodine absorption line. The error signal is obtained by the PDH method from the absorption signal that is a doppler free signal by using the pump and probe light \cite{snyder1980high}.
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=12cm]{./img_chap4/img417.png}
@@ -206,10 +206,10 @@ As mentioned in \cref{sec:123}, because the frequency noise of the laser is limi
 
 
 \section{Realtime Data Aquisition System} \label{sec:sec44}
-Essentialy, the GIF is an independent instrument from the KAGRA not to interfere each other. Therefore, the data aquisition system of eachs were developed independently. However, in order to use the GIF strainmeter for baseline compensation system, we need to impliment the GIF system into the KAGRA system. 
+Essentially, the GIF is an independent instrument from the KAGRA not to interfere with each other. Therefore, the data acquisition system of each was developed independently. However, in order to use the GIF strainmeter for the baseline compensation system, we need to implement the GIF system into the KAGRA system. 
 
-In this section, the realtime data aquisition system is described.
-In the section \cref{sec:141}, we describe the quadrature phase detection scheme for obtain the optical phase propotional to the strain on X-arm baseline. In this scheme, we need the elipse fitting to obtain the optical phase. In the section \cref{sec:142}, the realtime data aquisition system is described. This system process the fitting below $1\,\mathrm{msec}$.
+In this section, the realtime data acquisition system is described.
+In section \cref{sec:141}, we describe the quadrature-phase detection scheme for obtaining the optical phase proportional to the strain on the X-arm baseline. In this scheme, we need the ellipse fitting to obtain the optical phase. In section \cref{sec:142}, the realtime data acquisition system is described. This system process the fitting below $1\,\mathrm{msec}$.
 
 \subsection{Quadrature Phase Fringe Detection} \label{sec:141}
 \begin{figure}[h]
@@ -218,9 +218,9 @@ In the section \cref{sec:141}, we describe the quadrature phase detection scheme
     \caption{Quadrature interferometer used in the GIF strainmeter.}\label{img:img413}
   \end{center}
 \end{figure}
-We use the quadrature phase fringe detection to measure the length change of the baseline with wide dynamic range \cite{bobroff1993recent}. The optical layout for the detection is shown in Figure  \ref{img:img413}. A half-wave plate (HWP) produces a p-polarization and s-polarization. A quator-wave plate (QWP) delay the optical phase of the s-polarized light with 90 degree against to the another. As a result, one can obtain the quadrature phase fringes.
+We use the quadrature-phase fringe detection to measure the length change of the baseline with a wide dynamic range \cite{bobroff1993recent}. The optical layout for the detection is shown in Figure  \ref{img:img413}. A half-wave plate (HWP) produces a p-polarization and s-polarization. A quarter-wave plate (QWP) delay the optical phase of the s-polarized light with 90 degrees against the other. As a result, one can obtain the quadrature-phase fringes.
 
-The quadrature phase fringes are detected by two photo detectors, these can be represented as 
+The quadrature-phase fringes are detected by two photodetectors, these can be represented as 
 \begin{eqnarray}
   x(t) &=& x_0 + b \cos(\phi(t)), \label{eq:eq450b} \\
   y(t) &=& y_0 + a \sin(\phi(t)+\delta), \label{eq:eq450a}  
@@ -238,9 +238,9 @@ According to Eq.(\ref{eq:eq400}), if these parameters are given in at time $t$, 
 
 
 \subsection{Realtime Data Processing} \label{sec:142}
-All the PD signals of the GIF are taken by the analog-digital-converter (ADC) and processed in the KAGRA digital system, which is the same as LIGO \cite{bork2001overview}. The ADC converts the analog signal to the digital signal with 16 bit and $2^{16}\,\mathrm{Hz})$ sampling frequency. All the digital signals are simultaneous sampled in the digital system. 
+All the PD signals of the GIF are taken by the analog-digital-converter (ADC) and processed in the KAGRA digital system, which is the same as LIGO \cite{bork2001overview}. The ADC converts the analog signal to the digital signal with 16 bit and $2^{16}\,\mathrm{Hz})$ sampling frequency. All the digital signals are simultaneously sampled in the digital system. 
 
-The realtime culculation model in the KAGRA system is shown in Figure  \ref{img:img420}. To reduce the calculation cost, the digital signal in this model is downsampled to $2^{14}\,\mathrm{Hz}$. This realtime model has three main functions; the elipse fitting function, the strain calclator function, and the unwrap function. These functions are described below.
+The realtime calculation model in the KAGRA system is shown in Figure  \ref{img:img420}. To reduce the calculation cost, the digital signal in this model is downsampled to $2^{14}\,\mathrm{Hz}$. This realtime model has three main functions; the ellipse fitting function, the strain calculator function, and the unwrap function. These functions are described below.
 \begin{figure}[h]
   \centering
   \includegraphics[width=15.0cm]{./img_chap4/img420.png}
@@ -254,26 +254,40 @@ The realtime culculation model in the KAGRA system is shown in Figure  \ref{img:
 \end{figure}
 
 \subsubsection{Elipse fitting function}
-This function is for obtainning the five elipse parameters in Eq.(\ref{eq:eq450a,eq:eq450b}) by fitting the elipse curve to the Lissajous figure drawn by two PD signals. The function calculates these parameters using the least-square method with 512 data points of each two PD signal. These data points are moved every sampling time.
+This function is for obtaining the five ellipse parameters in Eq.(\ref{eq:eq450a, eq:eq450b}) by fitting the ellipse curve to the Lissajous figure drawn by two PD signals. The function calculates these parameters using the least-square method with 512 data points of each two PD signal. These data points are moved every sampling time.
 
 \subsubsection{Strain calculator function}
-This function calculate the optical phase using the elipse parameters based on Eq.(\ref{eq:eq440c}). For example, Figure  \ref{img:img440} shows the fitted curve (red line) and the data points (black dots). As described above, the optical phase $\phi$ is a angle of the data point. This optical phase is depend on the power ratio $\bar{y}/\bar{x}$ and the phase offset $\delta$ because the phase is given by
+This function calculate the optical phase using the ellipse parameters based on Eq.(\ref{eq:eq440c}). For example, Figure  \ref{img:img440} shows the fitted curve (red line) and the data points (black dots). As described above, the optical phase $\phi$ is an angle of the data point. This optical phase depends on the power ratio $\bar{y}/\bar{x}$ and the phase offset $\delta$ because the phase is given by
 \begin{eqnarray}
   \phi = \frac{\bar{y}}{x}\frac{1}{\cos{\delta}} - \tan{\delta}.
 \end{eqnarray}
-This means that the changes of the power ration and the phase offset are the noise of the optical phase measurement. In particular, the power ratio is sensitive at the PBS which divids the interfered two polarized lights. For this reson,  we covered this location with small house to protect winds disturbed by passengers. On the other hand, the phase offset has small fluctuation because the QWP is installed in the vacuum chamber.
+This means that the changes of the power ration and the phase offset are the noise of the optical phase measurement. In particular, the power ratio is sensitive at the PBS, which divides the interfered two polarized lights. For this reason,  we covered this location with a small house to protect winds disturbed by passengers. On the other hand, the phase offset has small fluctuation because the QWP is installed in the vacuum chamber.
 
-Although the calculation of the optical phase by measuring the angle is not affected by the input power changes, the signal noise ratio will worse in less input power. We also monitor the quality of the calculation using a parameter;
+Although the calculation of the optical phase by measuring the angle is not affected by the input power changes, the signal to noise ratio will worse in less input power. We also monitor the quality of the calculation using a parameter;
 \begin{eqnarray}
   r = \sqrt{\bar{X}^2+{\bar{y}^2}}.
 \end{eqnarray}
 
 \subsubsection{Unwrap function}
-This function unwrap the optical phase calculated by the phase calculator function and return the continuous phase proportional to strain, because the atan2 function used in the phase calculator return between from $-\pi$ to $\pi$. 
+This function unwraps the optical phase calculated by the phase calculator function and returns the continuous phase proportional to strain because the atan2 function is used in the phase calculator return between from $-\pi$ to $\pi$. 
+
+\subsection{Comparison with seismometers}
+The two seismometers are installed on the corner area and X-end area, which is separated 3 km. The displacement is calculated by the differential signal of the X direction of these seismometers. On the other hand, because the GIF strainmeter directly measures the displacement of the 1.5 km baseline. Thus, the displacement of the 3 km is calculated by this strainmeter signal multiplied factor 2.
+
+Figure \ref{img:img319_a} shows the ASDs of the displacement of the baseline measured by two seismometers and GIF strainmeter. Above 0.1 Hz, seismometer could measure the displacement, but below this frequency, this is limited by self-noise, which increases in low-frequency. On the other hand, a strainmeter could measure the displacement below 1 Hz. For this reason, we use GIF strainmeter to measure the deformation of the baseline in the low-frequency region, which are the main disturbances degrading the duty cycle of GW detectors.
+
+\begin{figure}[h]
+    \begin{center}   
+      \includegraphics[width=13.0cm]{./img_chap3/img319_a.eps}
+      \caption{Baseline length fluctuation measured by two seismometers (black) and GIF strainmeter (green).}\label{img:img319_a}
+    \end{center}
+\end{figure}
+
+
 
 \section{Summary of the Chapter} 
 In this chapter, the following items are described:
 \begin{itemize}
-\item Geophysics interferometer (GIF) installed in parallel to the KAGRA X-arm has a strainsensitivity of $\sim\,10^{-12}$.
+\item Geophysics interferometer (GIF) installed in parallel to the KAGRA X-arm has a strain sensitivity of $\sim\,10^{-12}$.
 \item The advantage of GIF is the wide dynamic range and operation without active alignment control on the mirrors. This feature realizes the long-term stable operation.
 \end{itemize}

@@ -1,65 +1,63 @@
 \chapter{Background} \label{chap1}
-This chapter introduce the gravitational-wave (GW) and its detection principle, and describe overview of the current GW detectors and problems related with duty cycle.
+This chapter introduces the gravitational-wave (GW) and its detection principle and describes an overview of the current GW detectors and problems related to the duty cycle.
 
-In section \cref{sec:11}, basic properties and soruces of the gravitational-wave are described. After that, the detection principle of the GW by using an interferometer is described in section \cref{sec:12}, and the techniques for improvement of the sensitivity are described in section \cref{sec:13}. In section \cref{sec:14}, the overview of the terrestrial interferometric GW detectors is described, and this section raises some problems related with the duty cycle, which are caused by the large-scale current GW detectors. In the end of chapter, the outline of this thesis is described in section \cref{sec:15}.
+In section \cref{sec:11}, essential properties and sources of the gravitational-wave are described. After that, the detection principle of the GW by using an interferometer is described in section \cref{sec:12}, and the techniques for improvement of the sensitivity are described in section \cref{sec:13}. In section \cref{sec:14}, the overview of the terrestrial interferometric GW detectors is described, and this section raises some problems related to the duty cycle, which are caused by the large-scale current GW detectors. At the end of the chapter, the outline of this thesis is described in section \cref{sec:15}. 
 
 \section{Gravitational-wave} \label{sec:11}
-Gravtational-wave (GW) is a ripples of the space-time, which propagates at the speed of light. GW was predicted by A. Einstein in 1918, and is a result of the general theory of relativity. Because this strain is very small, the direct discovery of GWs have not done by LIGO until 2015.
+Gravitational-wave (GW) is a ripple of the space-time, which propagates at the speed of light. GW was predicted by A. Einstein in 1918 and is a result of the general theory of relativity. Because gravity interaction is weak, the direct discovery of GWs has not done by LIGO until 2015. 
 
 \subsection{Properties of GWs} 
-\subsubsection{Two polized transverse wave}
-The interval between two events in space-time is
-described with the metric tensor $g_{\mu\nu}$ as, 
+\subsubsection{Two polarized transverse waves}
+The interval between two events in space-time is described with the metric tensor $g_{\mu\nu}$ as, 
 \begin{eqnarray}
   d s^{2}=g_{\mu \nu} d x^{\mu} d x^{\nu} (\mu,\nu = 0,1,2,3),
 \end{eqnarray}
 where $dx^{\mu}$ represents the coordinate distance of the events, and $x^{\mu}$ has 4 components; $(ct,x,y,z)$.
 
-In the general relativity theory\cite{einstein1916vd}, the metric tensor $g_{\mu\nu}$ is described by the Einstein's equation;
+In the general relativity theory\cite{einstein1916vd}, the metric tensor $g_{\mu\nu}$ is described by Einstein's equation;
 \begin{eqnarray}
   R_{\mu \nu}\left(g_{\mu \nu}\right)-\frac{1}{2} g_{\mu \nu} R\left(g_{\mu \nu}\right)=\frac{8 \pi G}{c^{4}} T_{\mu \nu},
 \end{eqnarray}
-where $R_{\mu\nu}$ is the Ricci tensor, $R=g^{\mu \nu} R_{\mu \nu}$ is the Ricci scalar curvature, $T_{\mu\nu}$ is the energy-momentum tensor, $G$ is the Newton's gravitational constant, and $c$ is the speed of light.
+where $R_{\mu\nu}$ is the Ricci tensor, $R=g^{\mu \nu} R_{\mu \nu}$ is the Ricci scalar curvature, $T_{\mu\nu}$ is the energy-momentum tensor, $G$ is Newton's gravitational constant, and $c$ is the speed of light.
 
 \begin{figure}[t]
   \begin{center}   
     \includegraphics[width=11.0cm]{./img_chap1/img131.png}
-    \caption[Polization of the GW]{Polization of the GW propagating in the direction of the paper. These polization change the distance as the tidal motion.
-}\label{img:img131}
+    \caption{Polarizations of the GW propagating in the direction of the paper. These polarizations change the distance as the tidal motion. }\label{img:img131}
   \end{center}
 \end{figure}
 
-GW is derived from this Einstein's equation when the metric can be described as the perturbation $h_{\mu\nu}$ and the Minkowsky space-time $\eta_{\mu\nu}$, thus
+GW is derived from Einstein's equation when the metric can be described as the perturbation $h_{\mu\nu}$ and the Minkowsky space-time $\eta_{\mu\nu}$, thus
 \begin{eqnarray}
   g_{\mu \nu}=\eta_{\mu \nu}+h_{\mu \nu}.
 \end{eqnarray}
-In this weak-field regime, the Einsteins's equation is reduced to a linearized wave-equation whose solution is represented as
+In this weak-field regime, Einstein's equation is reduced to a linearized wave-equation whose solution is represented as
 \begin{eqnarray}
   h_{\mu \nu}(z, t)=\left(\begin{array}{cccc}{0} & {0} & {0} & {0} \\ {0} & {-h_{+}} & {h_{\times}} & {0} \\ {0} & {h_{\times}} & {h_{+}} & {0} \\ {0} & {0} & {0} & {0}\end{array}\right) \cos \left[\omega\left(\mathrm{t}-\frac{\mathrm{Z}}{\mathrm{c}}\right)\right], \label{eq:eq130}
 \end{eqnarray}
-swhere $\omega$ is the angluar frequency of GW, $\mathrm{z}$ is the propagation direction of the wave, $h_{+} \text {and } h_{\times}$ are the independent polization of that. Therefore, GW is the transverse wave propagating with speed of light.
+where $\omega$ is the angular frequency of GW, z is the propagation direction of the wave, $h_{+}$ and $h_{\times}$ are the independent polarization of that. Therefore, GW is the transverse wave propagating with the speed of light.
 
-The two polization of GW are known as plus and cross polization, and these polization change the distance between two points as shown in Figure \ref{img:img131}. 
+The two polarizations of GW are known as plus and cross polarizations, and these polarizations change the distance between two points, as shown in Figure \ref{img:img131}. 
+
 
 \subsection{Sources of Gravitational-wave}
-In this section, possible astrophysical GW sources are briefly described. More detail studies of the soruces can be found in reference \cite{cutler2002overview}.
+In this section, possible astrophysical GW sources are briefly described. More detail studies of the sources can be found in reference \cite{cutler2002overview}.
 
 \subsubsection{Compact Binary Coalescence}
-Compact binary coalescence (CBCs), such as black holes and neutron stars, emit a characteristic chirp GW signal. The frequency of a hirp GW signal increase as a function of time. This is caused by loosing the angluar momentum of the system due to the emittion of GW. 
-
-Advanced LIGO have detected the first GWs from stellar-mass binary black holes (BBHs) in the first observation run (O1), which took place from September 12, 2015 until January 19, 2016. After this observation, Virgo detector joined the Advanced LIGO detectors and this network have detected the first detection of GWs from a binary neutron star inspiral in the second observation run (O2), which ran from November 30, 2016 to August 25, 2017. Moreover, observation of GWs from a total of seven BBHs \cite{abbott2019gwtc}.
+Compact binary coalescence (CBCs), such as black holes and neutron stars, emit a characteristic chirp GW signal. The frequency of a chirp GW signal increase as a function of time. This behavior is caused by losing the angular momentum of the system due to the emission of GW. 
+Advanced LIGO has detected the first GWs from stellar-mass binary black holes (BBHs) in the first observation run (O1), which took place from September 12, 2015, until January 19, 2016. After this observation, Virgo detector joined the Advanced LIGO detectors, and this network has detected the first detection of GWs from a binary neutron star inspiral in the second observation run (O2), which ran from November 30, 2016, to August 25, 2017. Moreover, observation of GWs from a total of seven BBHs \cite{abbott2019gwtc}. 
 
 \subsubsection{Continuous GWs}
-Without rotating two objects, asymmetric spinning stars, such as neutron stars and pulsars, could produce detectable GWs which signal is also well defined \cite{leaci2012searching,hereld1984search}.
+Without rotating two objects, asymmetric spinning stars, such as neutron stars and pulsars, could produce detectable GWs, which signal is also well-defined \cite{leaci2012searching,hereld1984search}.
 
 \subsubsection{Burst GWs}
-In addition to continuous GWs, there are short duration GWs like a burst event. Supernovae are good candidates to emit te burst GWs \cite{ott2004gravitational}
+In addition to continuous GWs, there are short-duration GWs like a burst event. Supernovae are good candidates to emit te burst GWs \cite{ott2004gravitational}.
 
 \subsubsection{Stochastic GWs}
-The stochastic background GWs are predicted \cite{starobinskii1979spectrum,Christensen_2018}. This background signal is originated from quantum fluctuations during inflation \cite{PhysRevD.23.347}. Although, basically, stochastic bacground will appear like a random noise in an individual detector, it will be found like a coherent signal in two detectors.
+The stochastic background GWs are predicted \cite{starobinskii1979spectrum,Christensen_2018}. This background signal is originated from quantum fluctuations during inflation \cite{PhysRevD.23.347}. Although basically, the stochastic background will appear like random noise in an individual detector, it will be found like a coherent signal in two detectors. 
 
 \section{Interferometric Gravitational-wave detection} \label{sec:12}
-Basic design of a terrestrial GW detectors are Michelson interferometer \cite{weiss1972electronically}. This interferometer sensitives to the differential length change of its arms, which is changed by the plus mode of the GW as mentioned in privious section (section \ref{sec:11}).
+The basic design of terrestrial GW detectors is Michelson interferometer \cite{weiss1972electronically}. This interferometer is sensitive to the differential length change of its arms, which is changed by the plus mode of the GW, as mentioned in the previous section (section \ref{sec:11}).
 
 \subsection{Michelson Interferometer} \label{sec:121}
 \begin{figure}[h]
@@ -69,12 +67,12 @@ Basic design of a terrestrial GW detectors are Michelson interferometer \cite{we
   \end{center}
 \end{figure}
 
-Michelson interferometer converts from the differential optical phase of two lights, which propagate each arm, to the amplitude modulation of a single output light. Consider about the interferometer shown in Figure  \ref{img:img132}. Incident light can be wrtten as,
+Michelson interferometer converts from the differential optical phase of two lights, which propagate each arm, to the amplitude modulation of single output light. Consider about the interferometer shown in Figure  \ref{img:img132}. Incident light can be written as,
 \begin{eqnarray}
   E_{\mathrm{in}} = E_{0} e^{i\omega{t}},
 \end{eqnarray}
-where $E_0$ is the amplitude and $\omega_0$ is the angular frequency of the laser field
-. Two lights splited by the Beam Spliter (BS) interferer at the Anti-symetric (AS) port and Refrection (REFL) port. The output fieled at the AS port is represented as,
+where $E_0$ is the amplitude, and $\omega_0$ is the angular frequency of the laser field. 
+Two lights split by the Beam Splitter (BS) interfere at the Anti-symmetric (AS) port and Reflection (REFL) port. The output field at the AS port is represented as,
 \begin{eqnarray}
   E_{\mathrm{AS}} = -\frac{1}{2}rE_{0} e^{i\left(\omega_{0} t-\phi_{x}\right)}+\frac{1}{2}r E_{0} e^{i\left(\omega_{0} t-\phi_{y}\right)},
 \end{eqnarray}
@@ -139,7 +137,7 @@ In order increase the sensitivity, current interferometric GW detector use the D
 
 
 \subsection{Fabry-Perot Michelson Interferometer (FPMI)}
-According to Eq.(\ref{eq:eq134a}), we need the large-scale interferometer. Fabry-Perot optical cavity enhance the effective arm length of the interferometer.
+According to Eq.(\ref{eq:eq134a}), we need the large-scale interferometer. Fabry-Perot optical cavity enhances the effective arm length of the interferometer.
 
 \subsubsection{Fabry-Perot Optical Cavity}
 Fabry-Perot optical cavity increase the effective baseline linegth. Consider the Fabry-Perot optical cavity composed of two mirrors separated by L as shown in Figure \ref{img:img133a}. In this figure, $E_{\mathrm{in}},\,E_{\mathrm{r}},\,E_{\mathrm{t}},\,E$ are the incident, reflected, and transmitted fields respectively, $r_{j}$ and $t_{j}$ are the amplitude reflectivity and transsivity of $j$-th mirrors ($j=1,2$). The averaged bounce number in a Fabry-Perot cavity $\mathcal{N}_{\mathrm{FP}}$ is written as \cite{ando1999power}
@@ -175,55 +173,55 @@ Here, we note that the arm length enhancement can work in case that the cavity l
 
 
 \subsection{Dual-Recycled FPMI (DRFPMI)}
-As shown in Figure \ref{img:img133}(c), final configuration of the current GW is DRFPMI which has two recycling optical cavity \cite{meers1988recycling}.
+As shown in Figure \ref{img:img133}(c), the final configuration of the current GW is DRFPMI which has two recycling optical cavity \cite{meers1988recycling}.
 
 \subsubsection{Power Recycle}
-In order to decrease shot noise, power recycling technique is used. In this technique, additional mirror is installed between laser and the interferometer to increase the effective laser power by recycling the reflected light from the interferometer. Increaseing the laser power, the noise to signal ratio of shot noise is decrease as mentioned later.
+In order to decrease shot noise, the power recycling technique is used. In this technique, an additional mirror is installed between the laser and the interferometer to increase the effective laser power by recycling the reflected light from the interferometer. If we increase the laser power, the noise to signal ratio of shot noise decreases as mentioned later.
 
 \subsubsection{Signal Recycle}
-Signal recycling mirror, which is installed on the AS port, is for tunning the frequency band of GW signal. This mirror enhance the GW signal by recycling the output signal from the interferometer.
+The signal recycling mirror, which is installed on the AS port, is for tunning the frequency band of the GW signal. This mirror enhances the GW signal by recycling the output signal from the interferometer.
 
 \subsection{Noise}
 In terms of the interferometric GW detector, noise can be classified into two noises; detection noise and displacement noise of the test mass. The formar noises are, as already described in Eq.(\ref{eq:eq137b}), the detection noise  ($\Delta{P_{\mathrm{AS}}}/P_{\mathrm{AS}}$), the input laser power fluctuation  ($\Delta{P_0}/P_0$), and laser frequency fluctuation ($\Delta{f}/f$).
 
 \subsubsection{Detection noise (Shot Noise)}
-In an ideal case that the test mass is not disturbed and as the free mass, the noise of the interferometer is limited by the shot noise.
+In an ideal case that the test mass is not disturbed, and as the free mass, the noise of the interferometer is limited by the shot noise.
 
-Shot noise is a noise associated with the fluctuation of the number of photons at the photo detector. In case that the number of photons $N$ are large enough ($N\gg1$), the number of photon obey the Gaussian distribution with standard deviation of $\sqrt{N}$. Therefore, if laser power $P$ incidents in the detector, shot noise has a relation with the power;
+Shot noise is a noise associated with the fluctuation of the number of photons at the photodetector. In case that the number of photons $N$ is large enough ($N\gg1$), the number of photons obey the Gaussian distribution with the standard deviation of $\sqrt{N}$. Therefore, if laser power $P$ incidents in the detector, shot noise has a relation with the power;
 \begin{eqnarray}
   P_{\mathrm{shot}} \propto \sqrt{P}\ \ [W/\sqrt{\mathrm{Hz}}].  \label{eq:eq136}
 \end{eqnarray}
 One can find that shot noise is a white noise, which propotional to the square-root of the light power $P$.
 
-Here, according to Eq.(\ref{eq:eq133}), relative error of power at the PD is given by 
+Here, according to Eq.(\ref{eq:eq133}), the relative error of power at the PD is given by 
 \begin{eqnarray}
   \frac{\Delta P_{\mathrm{AS}}}{P_{\mathrm{AS}}}  \propto \frac{1}{\sqrt{P_{\mathrm{0}}}}\ \ [1/\sqrt{\mathrm{Hz}}],  \label{eq:eq136}
 \end{eqnarray}
 where $P_{\mathrm{AS}},\,\Delta P_{\mathrm{AS}}$ are the power at the PD, $P_0$ is the power of the incident light. This shows that the increased input laser power can decrease the shot noise. For this reason, we increase the input laser power using power recycling mirror.
 
 \subsubsection{laser frequency fluctuation}
-As mentioned in section \ref{sec:sec122}, symmetric of the each arm length is needed to reduce the laser frequency noise. However, because the actual interferometer has a asymmetricity in the arms, the frequency stabilization system is used before inputing the beam to the interferometer. This system is called input mode cleaner.
+As mentioned in section \ref{sec:sec122}, symmetric of each arm length is needed to reduce the laser frequency noise. However, because the actual interferometer has an asymmetricity in the arms, the frequency stabilization system is used before inputting the beam to the interferometer. This system is called the input mode cleaner.
 
 \subsubsection{laser power fluctuation}
-The laser power fluctuation also contaminate the sensitivity of GW detector. The intensity stabilization system (ISS) is used for reducing the noise.
+The laser power fluctuation also contaminates the sensitivity of the GW detector. The intensity stabilization system (ISS) is used for reducing the noise.
 
 \subsubsection{Seismic Noise}
-Seismic noise is the largest displacement noise for interferometric GW detector. Seismic waves from various excitation sources disturbe the test mass through the mechanical structures. Therefore, in order to reduce the seismic noise, the test masses should be suspended by pendulums and kept away from the excitation sources. More details are described in the next chapter.
+Seismic noise is the most trouble displacement noise for interferometric GW detectors. Seismic waves from various excitation sources disturb the test mass through the mechanical structures. Therefore, in order to reduce the seismic noise, the test masses should be suspended by pendulums and kept away from the excitation sources. More details are described in the next chapter.
 
-\subsubsection{Newtonian Noise}
-Unlike the seismic noise mentioned above, the Newtonian noise is a noise that the density fluctuation of surrounding objects disturbes the test mass by gravitational interaction \cite{harms2015terrestrial}. Because this noise propagate through space, it can not be isolated by using the vibration isolation. Although the noise does not affects on the current 2nd generation GW detectors, it will contamintate on the next 3rd generation detectors.
+\subsubsection{Newtonian noise}
+Unlike the seismic noise mentioned above, the Newtonian noise is a noise that the density fluctuation of surrounding objects disturbs the test mass by gravitational interaction \cite{harms2015terrestrial}. Because this noise propagates through space, it can not be isolated by using vibration isolation. Although the noise does not affect the current 2nd generation GW detectors, it will contaminate the next 3rd generation detectors.
 
 In order to reduce the Newtonian noise, the feedforward control using the seismometer array is proposed \cite{driggers2015noise}.
 
 \subsubsection{Thermal Noise}
-In addition to external disturbances such as the seismic origin noise, the mirror substrate and surface particles cause random thermal motion generate displacement noise. This thermal noise can be classified into two; mirror thermal noise and mirror coating thermal noise \cite{dan2016study}.
+In addition to external disturbances such as the seismic origin noise, the mirror substrate, and surface particles caused by the random thermal motion also generate displacement noise. This thermal noise can be classified into two; mirror thermal noise and mirror coating thermal noise \cite{dan2016study}.
 
 The displacement noise of the mirror thermal noise of the mirror with temperature $T$ is given by \cite{levin1998internal,numata2003wide}
 \begin{eqnarray}
   G_{\mathrm{SB}}(f)=\frac{4 k_{B} T}{\omega} \frac{1-\sigma^{2}}{\sqrt{\pi} E w_{0}} \phi_{\mathrm{sub}}(f),
   \label{eq:eq140}
 \end{eqnarray}
-where $k_{B}$ is a Boltzmann constant, $\omega$ is angular frequency, $\sigma,\,E,\, \phi_{\mathrm{sub}}$ are a Poisson's ratio, Young's modulus, and mechanical loss angle of the bulk of the mirror respectively, and $\omega_0$ is a beam radius. One can find that the mirror thermal noise is decreased by lower temperature or increase the beam radius.
+where $k_{B}$ is a Boltzmann constant, $\omega$ is the angular frequency, $\sigma,\,E,\, \phi_{\mathrm{sub}}$ are a Poisson's ratio, Young's modulus, and mechanical loss angle of the bulk of the mirror respectively, and $\omega_0$ is a beam radius. One can find that the mirror thermal noise is decreased by lower temperature or increase the beam radius.
 
 The displacement noise of coating thermal noise is given by \cite{numata2003wide,harry2002thermal}
 \begin{eqnarray}
@@ -234,9 +232,9 @@ were $d$,$\phi_{\mathrm{coat}}$ are depth and loss angle of the coating.
 
 %\newpage
 \section{Terrestrial Laser Interferometers} \label{sec:14}
-Large-scale baseline is the essential feature of interferometric GW detectors to improve the sensitivity. 
+A large-scale baseline is the essential feature of interferometric GW detectors to improve the sensitivity. 
 
-\subsection{Overview of detector projects}
+\subsection{ Overview of detector projects}
 Various interferometric GW detectors are developed and planed. These detectors are listed table \ref{tb:tb101}. 
 
 \begin{table}[h] 
@@ -262,21 +260,21 @@ Various interferometric GW detectors are developed and planed. These detectors a
 
 
 \subsubsection{1st Generation}
-The first generation GW detectors (LISM \cite{sato2004ultrastable}, CLIO \cite{ohashi2003design}, TAMA \cite{ando2001stable}, GEO \cite{grote2010geo}) are small-scale detectors. Although these detectors have performed scientific operations since 1999, no gravitational wave have detected. They demonstrated the working principle of the key technology to increase the sensitivity and constrained the upper limites to several gravitational wave sources \cite{takahashi2004coincidence,Fairhurst2011}.
+The first generation GW detectors (LISM \cite{sato2004ultrastable}, CLIO \cite{ohashi2003design}, TAMA \cite{ando2001stable}, GEO \cite{grote2010geo}) are small-scale detectors. Although these detectors have performed scientific operations since 1999, no gravitational wave have detected. They demonstrated the working principle of the key technology to increase the sensitivity and constrained the upper limits to several gravitational wave sources \cite{takahashi2004coincidence,Fairhurst2011}.
 
 \subsubsection{2nd Generation}
 The second generation GW detectors (KAGRA\cite{akutsu2018kagra}, Advanced Virgo\cite{acernese2014advanced}, Advanced LIGO\cite{aasi2015advanced}) are first large-scale detectors for the enough sensitivity to detect GW signal.
 
 \subsubsection{3rd Generation}
-The third generation GW detector has a few km-scale detectors. Einstein telescope (ET) and cosmic exploler (CE) \cite{abbott2017exploring} are proposed. It aims to reach a sensitivity about a factor of 10 or more better than the second generation detectors.
+The third-generation GW detector has a few km-scale detectors. Einstein Telescope (ET) and cosmic explorer (CE) \cite{abbott2017exploring} are proposed. It aims to reach a sensitivity about a factor of 10 or more better than the second-generation detectors.
 
-The key features of third generation detector are the underground and cryogenic test masss. These are also the features of KAGRA, so KAGRA is also called 2.5 generation detector. Next, we mention about LISM and CLIO, which demonstrate the stable GW detector operation and reduction of the thermal noise respectively.
+The key features of the third-generation detector are the underground and cryogenic test masses. These are also the features of KAGRA, so KAGRA is also called 2.5 generation detector. Next, we mention LISM and CLIO, which demonstrate the stable GW detector operation and reduction of the thermal noise, respectively.
 
 
 \subsubsection{LISM (first underground GW detector)} \label{sec:141_lism}
-LISM, Laser Interferometer gravitational-wave Small observatory in a Mine, is a first GW detector in the underground to demonstrate the stable performance of the detector. The detector of LISM is the Michelson interferometer whose arms contain $20\,\mathrm{m}$ Fabry-Perot optical cavities. This arm cavity has a high finesse of 25000. In spite of such high finesse, duty cycle was $99.8\,\%$.
+LISM, Laser Interferometer gravitational-wave Small observatory in a Mine, is a first GW detector in the underground to demonstrate the stable performance of the detector. The detector of LISM is the Michelson interferometer whose arms contain $20\,\mathrm{m}$ Fabry-Perot optical cavities. This arm cavity has a high finesse of 25000. Despite such high finesse, the duty cycle was $99.8\,\%$.
 
-Such a stable operation is owing to the reduction of the baseline length fluctuation of the bedrock. This reduction effect was confirmed on the sensitivity plot of LISM as shown in Figure \ref{img:img122}. In this figure, one can find that the sensitivity of the interferometer is less than the noise projection of the horizontal seismic noise below $6\,\mathrm{Hz}$. This reduction was caused by the short-scale baseline because the baseline was moved by the seismic motion as a single object below $6\,\mathrm{Hz}$. This is the reason why LISM performed stable operation. 
+Such a stable operation is owing to the reduction of the baseline length fluctuation of the bedrock. This reduction effect was confirmed on the sensitivity plot of LISM, as shown in Figure \ref{img:img122}. In this figure, one can find that the sensitivity of the interferometer is less than the noise projection of the horizontal seismic noise below $6\,\mathrm{Hz}$. This reduction was caused by the short-scale baseline because the baseline was moved by the seismic motion as a single object below $6\,\mathrm{Hz}$. This is the reason why LISM performed a stable operation. 
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=11cm]{./img_chap1/img122.png}
@@ -285,39 +283,35 @@ Such a stable operation is owing to the reduction of the baseline length fluctua
 \end{figure}
 
 
-\subsubsection{CLIO (first cyogenic GW detector)}
-CLIO, cryogenic laser interferometer observatory, is a interferometer to demonstrate the thermal noise reduction using sapphire mirrors \cite{ohashi2003design}. In order to comfirm the reduction, CLIO is also constructed in the underground to attenuate the seismic noise. Moreover, low-vibration pulse tube cryocooler has developed \cite{tomaru2004development}. Owing to these quiet environment, they demonstrated to reduce the sensitivity limited by the thermal noise using a cryogenic test masses \cite{uchiyama2012reduction}.
+\subsubsection{CLIO (first cryogenic GW detector)}
+CLIO, cryogenic laser interferometer observatory, is an interferometer to demonstrate the thermal noise reduction using sapphire mirrors \cite{ohashi2003design}. In order to confirm the reduction, CLIO is also constructed in the underground to attenuate the seismic noise. Moreover, low-vibration pulse tube cryocooler has developed \cite{tomaru2004development}. Owing to these quiet environment, they demonstrated to reduce the sensitivity limited by the thermal noise using a cryogenic test masses \cite{uchiyama2012reduction}.
 
 
 \newpage
 \subsection{Degradation of duty cycle }
-Large-scale GW detectors is difficult to to keep the long arm cavity on resonance because low-frequency seismic noise disturbes the baseline length.
+It is difficult for large-scale GW detectors to keep the long arm cavity on resonance because low-frequency seismic noise disturbs the baseline length.
 
-In case the short-scale baseline, the low-frequency seismic noise did not disturb the baseline length because the motion move the arm cavity as a singl object. However, in case the long-scale baseline, the seismic motion below $1\,\mathrm{Hz}$ move the two mirrors of the arm cavity with no correlation. Especially around $0.2\,\mathrm{Hz}$, amplitude of microseisms caused by ocean activities are larger than the linewidth of arm cavity. This means that the duty cycle of interferometric GW detectors are limited by these low-frequencies.
+In the case of the short-scale baseline, the low-frequency seismic noise did not disturb the baseline length because the motion moves the arm cavity as a single object. However, in case the long-scale baseline, the seismic motion below $1\,\mathrm{Hz}$ moves the two mirrors of the arm cavity with no correlation. Especially around $0.2\,\mathrm{Hz}$, the amplitude of microseisms caused by ocean activities exceeds the linewidth of the arm cavity. This means that the duty cycle of interferometric GW detectors is limited by these low-frequencies.
 
 \subsection{Improvement of duty cycle}
-Low-frequency seismic noise potentilally cause the lock acquisition failure or lock loss. 
+Low-frequency seismic noise potentially cause lock acquisition failure or lock loss. 
 
 \subsubsection{Arm length stabilization (ALS)}
-ALS is a technique to reduce the RMS of arm cavity length using frequency-doubled auxiliary lasers before locking the cavity using main laser \cite{mullavey2012arm,izumi2012multi}. The wavelength of this auxliliary laser is half of the main infrared laser ($1064\,\mathrm{nm}$), thus linewidth is also half according to Eq.(\ref{eq:eq131}). This means that the auxiliary laser is more easy to lock the arm cavity than the main laser. Therefore, onece locking the arm cavity using auxiliary laser, ALS system can reduce the RMS of arm cavity length fluctuation using the feedback signal of the auxiliary system so that the main laser can lock the arm caivty. Owing to this system, lock aquisition takes less than 10 minutes.
+ALS is a technique to reduce the RMS of arm cavity length using frequency-doubled auxiliary lasers before locking the cavity using the main laser \cite{mullavey2012arm,izumi2012multi}. The wavelength of this auxiliary laser is half of the main infrared laser ($1064\,\mathrm{nm}$). Thus linewidth is also half according to Eq.(\ref{eq:eq131}). This means that the auxiliary laser is more easy to lock the arm cavity than the main laser. Therefore, once locking the arm cavity using the auxiliary laser, the ALS system can reduce the RMS of arm cavity length fluctuation using the feedback signal of the auxiliary system so that the main laser can lock the arm cavity. Owing to this system, lock acquisition end within about 10 minutes.
 
 \subsubsection{Early earthquake alert}
-Although ALS system can bring the interferometer to the observation state in a sufficiently short time, this is used in only the lock aquisition phase not observation phase due to the control noise. In the obseravtion phase, we can only use the main laser with narrow linewidth as a sensor for measurering the baseline length. Moreover, we have to use a narrow dynamic range and weak actuator not to contaminate the GW sensitivity with the actuator noise. In this situation, if disturbance will excess the range of sensors and actuators, the cavity can not keep the locking state. 
+Although the ALS system can bring the interferometer to the observation state in a sufficiently short time, this is used in only the lock acquisition phase, not the observation phase due to the control noise. In the observation phase, we can only use the main laser with narrow linewidth as a sensor for measuring the baseline length. Moreover, we have to use a narrow dynamic range and weak actuator not to contaminate the GW sensitivity with the actuator noise. In this situation, if disturbance will exceed the range of sensors and actuators, the cavity can not keep the locking state. 
 
-Actually, duty cycle of GW detectors are limited by the low-frequency seismic noise in which the vibration isolation system could not attenuate the motion. Especially long period earthquake limites the duty cycle \cite{Biscans2018control}. 
+Actually, the duty cycle of GW detectors is limited by the low-frequency seismic noise in which the vibration isolation system could not attenuate the motion. Especially the long-period earthquake limits the duty cycle \cite{Biscans2018control}. 
 
 \section{Outline of thesis} \label{sec:15}
-In this thesis, two main topics are described. One is a study of the influence of the low-frequency seismic noise to the large-scale GW detectors. This study show that the baseline fluctuation is somehow reduced due to a correlated motion at two separated points and this correlation decrease in large-scale baseline. For this reason, large-scale GW detectors are suffering from the seismic noise. This problem is happen even in underground. Anothor topic is the development of the baseline compensation system to reduce the residual motion. The feature of this new system is the feedforward control using a strainmeter installed in parallel to the KAGRA baseline, which is named geophysics interferometer (GIF). GIF has been developed for monitoring the deformation of the baseline directly with high sensitivity. The new system compensate the baseline fluctuation of the arm cavity by using the measurement of GIF strainmeter.
+In this thesis, two main topics are described. One is a study of the influence of the low-frequency seismic noise to the large-scale GW detectors. This study shows that the baseline fluctuation is somehow reduced due to a correlated motion at two separated points, and this correlation decrease in the large-scale baseline. For this reason, large-scale GW detectors are suffering from seismic noise. This problem is happening even in the underground. Another topic is the development of the baseline compensation system to reduce residual motion. The feature of this new system is the feedforward control using a strainmeter installed in parallel to the KAGRA baseline, which is named geophysics interferometer (GIF). GIF has been developed for monitoring the deformation of the baseline directly with high sensitivity. The new system compensates for the baseline fluctuation of the arm cavity by using the measurement of GIF strainmeter.
 
-In \cref{chap2}, the properties of the seismic noise are described. The GIF strainmeter's working principle and design are described in \cref{chap3}. After that, the baseline compensation system is described comparing with the current system in \cref{chap4}. In \cref{chap5}, the demonstration of this new system implemented on KAGRA X-arm cavity and the result are described. In the end of thesis, \cref{chap6}, conclusion and future direction are described.
+In \cref{chap2}, the properties of the seismic noise are described. The GIF strainmeter's working principle and design are described in \cref{chap3}. After that, the baseline compensation system is described comparing with the current system in \cref{chap4}. In \cref{chap5}, the demonstration of this new system implemented on KAGRA X-arm cavity, and the result is described. At the end of the thesis, \cref{chap6}, conclusion, and future direction are described.
 
 \section{Summary of the Chapter}
 In this chapter, the following items are described:
 \begin{itemize}
-\item GW detectors are Michelson interferometer with high finess optical cavities to enhance the sensitivity.
-\item Although the large-scale GW detectors are improved their sensitivity, the duty cycle of them is degraded because of the long baseline.
+\item GW detectors are Michelson interferometer with high finesse optical cavities to enhance the sensitivity.
+\item Although the large-scale GW detectors improve their sensitivity by longer baseline, the duty cycle of them is degraded because of the long baseline.
 \end{itemize}
-
-
-
-

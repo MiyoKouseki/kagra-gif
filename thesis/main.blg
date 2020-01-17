@@ -10,97 +10,54 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 394 of file reference.bib
- : 
- : journal={Nature Astronomy},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 551 of file reference.bib
- : 
- : author={R. W. P . Drever,},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-Repeated entry---line 654 of file reference.bib
- : @article{nishida2002origin
- :                           ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 694 of file reference.bib
- : @article{ciddor1996refractive
- :                              ,
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 773 of file reference.bib
- : 
- : title={Towards the SQL interferometer : length stabilization at the AEI 10 m-prototype},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-Repeated entry---line 813 of file reference.bib
- : @article{naticchioni2014microseismic
- :                                     ,
-I'm skipping whatever remains of this entry
-Warning--entry type for "biscans2018optimization" isn't style-file defined
---line 1121 of file reference.bib
-Warning--can't use both volume and number fields in leaci2012searching
-Warning--empty journal in hereld1984search
+Warning--I didn't find a database entry for "akutsu2018kagra"
 Warning--empty journal in weiss1972electronically
-Warning--empty school in ando1999power
-Warning--empty year in ando1999power
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Too many commas in name 1 of "Akutsu, T., Ando, M., Arai, K. et al." for entry akutsu2018kagra
-while executing---line 944 of file unsrt.bst
-Warning--empty journal in akutsu2018kagra
-Warning--empty year in akutsu2018kagra
-Warning--empty year in hasegawa2015jishin
-Warning--empty journal in takemoto2003
 Warning--empty booktitle in schofield2000source
 Warning--empty journal in agnew2005earth
 Warning--empty publisher in aki2002quantitative
 Warning--empty year in svelto1998principles
-Warning--empty author in drever1987outline
-Warning--empty institution in drever1987outline
-Warning--empty year in drever1987outline
-You've used 85 entries,
+Name 1 in "R. W. P . Drever," has a comma at the end for entry drever1987outline
+while executing---line 944 of file unsrt.bst
+You've used 84 entries,
             1791 wiz_defined-function locations,
-            947 strings with 20372 characters,
-and the built_in function-call counts, 19757 in all, are:
-= -- 1527
-> -- 1283
-< -- 5
-+ -- 468
+            950 strings with 20336 characters,
+and the built_in function-call counts, 19650 in all, are:
+= -- 1533
+> -- 1282
+< -- 6
++ -- 467
 - -- 383
-* -- 1634
-:= -- 3425
+* -- 1620
+:= -- 3430
 add.period$ -- 258
-call.type$ -- 85
-change.case$ -- 74
+call.type$ -- 84
+change.case$ -- 70
 chr.to.int$ -- 0
-cite$ -- 101
-duplicate$ -- 759
-empty$ -- 1722
+cite$ -- 89
+duplicate$ -- 753
+empty$ -- 1698
 format.name$ -- 383
-if$ -- 4125
+if$ -- 4105
 int.to.chr$ -- 0
-int.to.str$ -- 85
-missing$ -- 76
-newline$ -- 429
+int.to.str$ -- 84
+missing$ -- 74
+newline$ -- 427
 num.names$ -- 83
-pop$ -- 169
+pop$ -- 148
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 269
+skip$ -- 262
 stack$ -- 0
 substring$ -- 1116
-swap$ -- 102
-text.length$ -- 5
+swap$ -- 104
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 16
+warning$ -- 5
 while$ -- 168
-width$ -- 87
-write$ -- 919
+width$ -- 86
+write$ -- 925
 is.kanji.str$ -- 0
-(There were 9 error messages)
+(There was 1 error message)

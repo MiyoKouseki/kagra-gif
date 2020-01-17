@@ -1,13 +1,13 @@
 \chapter{Baseline Compensation System} \label{chap4}
-Baseline compensation system is a one of the active vibration isolation system for GW detector's arm cavity. 
+The baseline compensation system is one of the active vibration isolation systems for the GW detector's arm cavity. 
 
 In the section \cref{sec:51}, the passive viblation isolation is described. After that, two type of active vibration isolation system are described in the section \cref{sec:52} and \cref{sec:53}. In the section \cref{sec:54}, the baseline compensation system is described.
 
 \section{Basics in Seismic Isolation}\label{sec:51}
-Essentialy, the vibration isolation system has a pendulum to attenuate the seismicnoise passively. For further the isolation performance, the pendulum have developed as a longer and multi-stage pendulum.
+Essentially, the vibration isolation system has a pendulum to attenuate the seismic noise passively.  Actually, the pendulum has developed as a longer and multi-stage pendulum to gain more isolation performance.
 
 \subsection{Single Pendulum}
-For simple example, as shown in left figure in Figure \ref{img:img501}, consider a one-dimentional harmonic oscillator consisting of a spring with a spring constant $k$ and mass $M$. The displacement of the suspension point and the mass are $x_0$ and $x$, respectively. Because the equation of the motion is written as
+For a simple example, as shown in the left figure in Figure \ref{img:img501}, consider a one-dimensional harmonic oscillator consisting of spring with a spring constant $k$ and mass $M$. The displacement of the suspension point and the mass are $x_0$ and $x$, respectively. Because the equation of the motion is written as
 \begin{eqnarray} \label{eq:eq501}
   M\ddot{x} = -k(x-x_0),
 \end{eqnarray}
@@ -17,7 +17,7 @@ the frequency transfer function from the displacement of the suspension point to
 \end{eqnarray}
 where $f_0 = (k/M)^{1/2}$ is the resonant angular frequency of the oscillator.
 
-According to Eq.(\ref{eq:eq502}), the amplitude of $H(f)$ is unity below the resonant frequency, the amplitude is approximately propotional to $(f/f_0)^{-2}$ above resonance frequency. The bode plot of $H(f)$ with various resonance frequencies are plotted in right figure in Figure \ref{img:img501} . One finds that it is better to make a low-resonance frequency oscillator in order to attenuate the seismic noise broadly. 
+According to Eq.(\ref{eq:eq502}), the amplitude of $H(f)$ is unity below the resonant frequency, the amplitude is approximately proportional to $(f/f_0)^{-2}$ above resonance frequency. The bode plot of $H(f)$ with various resonance frequencies are plotted in right figure in Figure \ref{img:img501} . One finds that it is better to make a low-resonance frequency oscillator in order to attenuate the seismic noise broadly. 
 
 \begin{figure}[h]
   \begin{center}   
@@ -27,7 +27,7 @@ According to Eq.(\ref{eq:eq502}), the amplitude of $H(f)$ is unity below the res
 \end{figure}
 
 \subsection{Multi-stage Pendulum}
-In order to increase the order of the seismic isolation, multi-stage pendulum is effective. In case of an N-stage pendulum, the transfer function from the ground to the suspended mass is propotional to $f^{-2N}$ above the resonance frequrncy of the pendulum as shown in Figure \ref{img:img502}. 
+In order to increase the order of seismic isolation, the multi-stage pendulum is effective. In the case of an N-stage pendulum, the transfer function from the ground to the suspended mass is proportional to $f^{-2N}$ above the resonance frequency of the pendulum, as shown in Figure \ref{img:img502}. 
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=10cm,height=7cm]{./img_chap5/img502.png}
@@ -45,9 +45,9 @@ In order to increase the order of the seismic isolation, multi-stage pendulum is
 \end{figure}
 The passive vibration isolation cannot reduce the seismic noise below its pendulum's eigenfrequency. To attenuate the lower-frequency seismic noise, the active vibration isolation system using a seismometer \cite{matichard2015seismic}.
 
-The active isolation system is shown in Figure \ref{img:img503}(a). A platform is suspended from the ground with transmisivity $H_{\mathrm{s}}$. This platfrom is fed back both signal of a inertial sensor with calibration factor $S_{\mathrm{H}}$ and signal of a relative position sensor with calibration factor $S_{\mathrm{L}}$, to the platform using actuator with actuator efficiency $P_{\mathrm{a}}$. This feedback control actively decouple the platform from the seismic disturbance from $0.1\,\mathrm{Hz}$ to a few Hz. Moreover, the platform is controled with feedforward using a seismometer with calibration factor $S_{\mathrm{wit}}$ installed on the local ground. 
+The active isolation system is shown in Figure \ref{img:img503}(a). A platform is suspended from the ground with transmissivity $H_{\mathrm{s}}$. This platform is fed back both signal of an inertial sensor with calibration factor $S_{\mathrm{H}}$ and signal of a relative position sensor with calibration factor $S_{\mathrm{L}}$, to the platform using actuator with actuator efficiency $P_{\mathrm{a}}$. This feedback control actively decouples the platform from the seismic disturbance from $0.1\,\mathrm{Hz}$ to a few Hz. Moreover, the platform is controlled with feedforward using a seismometer with a calibration factor of $S_{\mathrm{wit}}$ installed on the local ground. 
 
-As shown in Figure \ref{img:img503}(b), the active vibration system is integrated with a feedback control, sensor correction contorl, and feedforward control. These control schemes are described below.
+As shown in Figure \ref{img:img503}(b), the active vibration system is integrated with a feedback control, sensor correction control, and feedforward control. These control schemes are described below.
 
 \subsection{Sensor Blending Technique}
 \begin{figure}[h]
@@ -57,9 +57,9 @@ As shown in Figure \ref{img:img503}(b), the active vibration system is integrate
   \end{center}
 \end{figure}
 
-The purpose of the active inertial seismic isolation is to reduce the stage motion against the inertial frame. Thus, we use the feedback control using a inertial sensor. However, because the noise level of the inertial sensor is worse in low-frequency regison, the feedback system cannot use the inertial sensor in this region. Nevertheless, to control the DC position of the stage. In this situation, the sensor blending technique is commonly used in the active viblation system.
+The purpose of the active inertial seismic isolation is to reduce the stage motion against the inertial frame. Thus, we use feedback control using an inertial sensor. However, because the noise level of the inertial sensor is worse in the low-frequency region, the feedback system cannot use the inertial sensor in this region. Nevertheless, to control the DC position of the stage. In this situation, the sensor blending technique is commonly used in the active vibration system.
 
-As shown in Figure \ref{img:img507}, the feedback signal is belended by singals of the inertial and position sensors. The inertial sensor output is filterd with high-pass filter $B_{\mathrm{H}}$ because noise of the sensor is worse in low-frequency region. On the other hand, the position sensor is filterd with a filter $B_{\mathrm{L}}$ so that
+As shown in Figure \ref{img:img507}, the feedback signal is blended by signals of the inertial and position sensors. The inertial sensor output is filtered with high-pass filter $B_{\mathrm{H}}$ because the noise of the sensor is worse in the low-frequency region. On the other hand, the position sensor is filtered with a filter $B_{\mathrm{L}}$ so that
 \begin{eqnarray}
   B_{\mathrm{H}}S_{\mathrm{H}} + B_{\mathrm{L}}S_{\mathrm{L}} = 1,   \label{eq:eq506}
 \end{eqnarray}
@@ -74,7 +74,7 @@ where $X_{\mathrm{STG}},\,X_{\mathrm{GND}},\,N_{\mathrm{H}},$ and $N_{\mathrm{H}
   \lim_{G\to\infty} X_{\mathrm{STG}} = LX_{\mathrm{GND}} + \left(HN_{H}+LN_{L}\right) \label{eq:eq510_a}
 \end{eqnarray}
 
-According to Eq.(\ref{eq:eq510_a}), to isolate the stage against the inertial frame, the active isolation system should design $L$ as small as possible, whereas the $H$ as the complementary filter of that must be large, which means that the inertial sensor noise introduce to the stage. Actually, the cutoff frequency of these filters are choosed at $100\,\mathrm{mHz}$ due to the inertial sensor noise, and the system cannot isolate the seismic noise below this frequency. In other words, although the active vibration syste using the inertial sensor can design the response from the ground to the stage by filter $L$, the system performance is limited by the inertial noise in low-frequency region.
+According to Eq.(\ref{eq:eq510_a}), to isolate the stage against the inertial frame, the active isolation system should design $L$ as small as possible, whereas the $H$ as the complementary filter of that must be large, which means that the inertial sensor noise introduces to the stage. Actually, the cutoff frequency of these filters is chosen at $100\,\mathrm{mHz}$ due to the inertial sensor noise, and the system cannot isolate the seismic noise below this frequency. In other words, although the active vibration system using the inertial sensor can design the response from the ground to the stage by filter $L$, the system performance is limited by the inertial noise in the low-frequency region.
 
 \subsection{Sensor Correction Technique} \label{sec:sec513}
 \begin{figure}[h]
@@ -83,9 +83,9 @@ According to Eq.(\ref{eq:eq510_a}), to isolate the stage against the inertial fr
     \caption{Sensor correction scheme.} \label{img:img505}
   \end{center}
 \end{figure}
-Sensor correction technique is a method to correct the posision sensor using the additional inertial sensor on the ground \cite{hua2005low}. As mentioned above, because of the insufficient noise of the inertial sensor on the stage, the blended feedback signal use had to use the position sensor in the low-frequency. This means that the stage motion is reduced to the local ground frame not inertial frame in this frequency region. Thus, the sensor correction remove the groung motion from the position sensor by using anothor seismometer on the ground that have better sensitivity than the inertial sensor on the stage. The corrected feedback signal can compensate the performance of the inertial sensor on the stage.
+The sensor correction technique is a method to correct the position sensor using the additional inertial sensor on the ground \cite{hua2005low}. As mentioned above, because of the insufficient noise of the inertial sensor on the stage, the blended feedback signal use had to use the position sensor in the low-frequency. This means that the stage motion is reduced against the local ground frame, not the inertial frame in this frequency region. Thus, the sensor correction removes the ground motion from the position sensor by using another seismometer on the ground that has better sensitivity than the inertial sensor on the stage. The corrected feedback signal can compensate for the performance of the inertial sensor on the stage.
 
-Consider the displacement of the vibration isolated stage utilizing sensor correction technique. As shown in Figure\ref{img:img503}, the correction signal from the seismometer signal is injected at the set-point through the control filter $C_{\mathrm{sc}}$ to remove the ground motion from the feedback signal using the position sensor. The displacement of the stage is given by 
+Consider the displacement of the vibration isolated stage utilizing the sensor correction technique. As shown in Figure\ref{img:img503}, the correction signal from the seismometer signal is injected at the set-point through the control filter $C_{\mathrm{sc}}$ to remove the ground motion from the feedback signal using the position sensor. The displacement of the stage is given by 
 \begin{eqnarray}\nonumber
   X_{\mathrm{STG}} &=&\frac{G}{1+G}L\left(1-C_{\mathrm{sc}}\frac{S_{\mathrm{wit}}}{L}\right) X_{\mathrm{GND}} + \frac{1}{1+G}H_{\mathrm{s}}X_{\mathrm{GND}}\\ 
   &+& \frac{G}{1+G}\left(HN_{H}+LN_{L}\right) + \frac{G}{1+G}C_{\mathrm{sc}}S_{\mathrm{wit}}N_{\mathrm{ff}} \label{eq:eq511}
@@ -100,7 +100,7 @@ where
 \end{eqnarray}
 is the gain matching coeffient. By comparison with Eq.(\ref{eq:eq513}) and Eq.(\ref{eq:eq510_a}), the displacement of the stage can be reduced by the gain matching.
 
-Although this gain maching factor can be zero when $C_{\mathrm{sc}}=B_{\mathrm{L}}(S_{\mathrm{wit}}/S_{\mathrm{L}})$, actually, the factor is limited by the caliblation errors of the witness sensor and the inertial sensor on the stage. At least, the error can not be less than 5\%, so it is difficult to achieve the vibration isolation ratio of 20 \cite{hua2005low}.
+Although this gain match factor can be zero when $C_{\mathrm{sc}}=B_{\mathrm{L}}(S_{\mathrm{wit}}/S_{\mathrm{L}})$, actually, the factor is limited by the calibration errors of the witness sensor and the inertial sensor on the stage. At least, the error can not be less than 5\%, so it is difficult to achieve the vibration isolation ratio of 20 \cite{hua2005low}.
 
 \subsection{Feedforward Technique}
 \begin{figure}[h]
@@ -109,7 +109,7 @@ Although this gain maching factor can be zero when $C_{\mathrm{sc}}=B_{\mathrm{L
     \caption{Feedforward scheme.} \label{img:img506}
   \end{center}
 \end{figure}
-Feedforward technique is similar to sensor correction, but this technique remove the motion caused by the ground motion directly. Figure\ref{img:img506} shows the block diagram of the feedfoward control. While the stage motion $X_{\mathrm{STG}}$ is disturbed by the ground motion $X_{\mathrm{GND}}$ through the mechanical response of the platform $H_{\mathrm{s}}$, the feedforward compensates the stage motion by subtracting the disturbance with the witness sensor (in this case, seismometer) signal. This feedforward control does not depend the feedback control unlike the sensor correction. In other words, the feedforward control works in the frequency region where the feedback loop gain is small, whereas the sensor correction works in the high loop gain region. Therefore, both feedforward and sensor correction technique is used to improve the vibration isolation system in all frequency region.
+The feedforward technique is similar to sensor correction, but this technique removes the motion caused by the ground motion directly. Figure\ref{img:img506} shows the block diagram of the feedforward control. While the stage motion $X_{\mathrm{STG}}$ is disturbed by the ground motion $X_{\mathrm{GND}}$ through the mechanical response of the platform $H_{\mathrm{s}}$, the feedforward compensates the stage motion by subtracting the disturbance with the witness sensor (in this case, seismometer) signal. This feedforward control does not depend on the feedback control, unlike the sensor correction. In other words, the feedforward control works in the frequency region where the feedback loop gain is small, whereas the sensor correction works in the high loop gain region. Therefore, both feedforward and sensor correction technique is used to improve the vibration isolation system in all frequency region.
 
 
 Finally, consider the control integrated with three techniques; sensor blending, sensor correction, and feedforward. In the case that the additional feedforward signal is injected at the error-point, as shown in Figure \ref{img:img503}, the displacement of the stage motion is given by
@@ -125,7 +125,7 @@ Here,
 is defined as the gain matching coefficient of the feedforward. One can find that, in  Eq.(\ref{eq:eq514}),  the first and second terms indicating the contribution from the ground motion can be reduced by the gain matching factors: $\Delta_{\mathrm{sc}}$ and $\Delta_{\mathrm{ff}}$. This reduction works independant from the feedback loop gain.
 
 \subsection{Problem in Tilt-Horizontal Coupling}
-The inertial sensors have problem in horizontal measurement in low-frequency due to a coupling from the tilting. This is called the tilt-horizontal coupling. Because of this coupling the feedback control using the inertial sensor cannot suppress the horizontal seismic motion aggressivly.
+The inertial sensors have a problem in horizontal measurement in low-frequency due to coupling from the tilting. This is called the tilt-horizontal coupling. Because of this coupling, the feedback control using the inertial sensor cannot suppress the horizontal seismic motion aggressively.
 
 \subsubsection{Tilt-horizontal coupling}
 \begin{figure}[h]
@@ -146,14 +146,14 @@ where $W(s),\,Y(s)$, and $\Theta(s)$ are, Laplace transformed, the displacement 
 the tilt motion tends to couple to the horizontal motion. For example, in the case of the maximum tilt coupling: $\theta_0=\pi/2$, the tilt motion contaminates the horizontal motion when $f<0.5\ [\mathrm{Hz}]$.
 
 \subsubsection{Control strategy to avoid the problem}
-As described above, the inertial sensor cannot be used for measuring the horizontal motion because of the inertial sensor behaving the tilt sensor. For the reason, the active inertial seismic isolation system in LIGO use the tilt sensor to remove the tilt components in the inertial sensor for avoiding the tilt-horizontal problem \cite{biscans2018optimization}.
+As described above, the inertial sensor cannot be used for measuring the horizontal motion because of the inertial sensor behaving the tilt sensor. For a reason, the active inertial seismic isolation system in LIGO uses the tilt sensor to remove the tilt components in the inertial sensor for avoiding the tilt-horizontal problem \cite{biscans2018optimization}.
 
 
 \section{Active Baseline Seismic Isolation} \label{sec:53}
-For laser interferometric gravitational-wave detector, the baseline length should be isolate from the seismic noise, whilie it is not necessary to isolate the individual stages to the inertial frame. For this reason, the active baseline seismic isolation system using additional interferometer named suspension point interferometer (SPI) have been developed.
+For laser interferometric gravitational-wave detector, the baseline length should be isolated from the seismic noise, while it is not necessary to isolate the individual stages to the inertial frame. For this reason, the active baseline seismic isolation system using an additional interferometer named suspension point interferometer (SPI) has been developed.
 
 \subsection{Suspension Point Interferometer (SPI)} \label{sec:321}
-The basic idea of the active baseline vibration isolation is proposed by Drever in 30 years ago. In this idea, the baseline length is kept by feedback or feedforward with the baseline length singal measured by the suspension point interferometer (SPI), which is installed near the suspension point of the pendulum to measure the length \cite{drever1987outline}. The advantage of this active vibration isolation system is the sensitivity of the SPI, which is better than that of the inertial sensor in low-frequency. Owing to this sensitivity, the system could attenuate the seismic noise to DC changes. Therefore, various type of the vibration isolation system have been deveolped so far.
+The basic idea of the active baseline vibration isolation is proposed by Drever in 30 years ago. In this idea, the baseline length is kept by feedback or feedforward with the baseline length signal measured by the suspension point interferometer (SPI), which is installed near the suspension point of the pendulum to measure the length \cite{drever1987outline}. The advantage of this active vibration isolation system is the sensitivity of the SPI, which is better than that of the inertial sensor in low-frequency. Thus, this system could attenuate the seismic noise to DC changes. Therefore, various types of vibration isolation systems have been developed so far.
 
 \subsubsection{Fabry-Perot Optical Cavity Type }
 \begin{figure}[h]
@@ -162,11 +162,11 @@ The basic idea of the active baseline vibration isolation is proposed by Drever 
     \caption{Schematic arrangement for one arm of SPI.} \label{img:img508}
   \end{center}
 \end{figure}
-Initial type of the SPI is, as shown in Figure \ref{img:img508}, the Fabry-perot optical cavity on the main interferometer's arm cavity \cite{drever2002extension}. The advantage of this idea is that this sytem can suppress the baseline length fluctuation using the feedback control because the SPI is installed near the main interferometer. Thus, if we increase the feedback gain, the length of the SPI behaves as the rigid bar as shown in Figure \ref{img:img508}(b). This means that the main cavity is suspended by the single pendulum from the ground, which does not change the baseline length entirely. Soon, 2 m proto type of SPI was developed and demonstrated about 40 db of vibration attenuation below 1 Hz \cite{aso2004stabilization}.
+The initial type of the SPI is, as shown in Figure \ref{img:img508}, the Fabry-Perot optical cavity on the main interferometer's arm cavity \cite{drever2002extension}. The advantage of this idea is that this system can suppress the baseline length fluctuation using the feedback control because the SPI is installed near the main interferometer. Thus, if we increase the feedback gain, the length of the SPI behaves as the rigid bar, as shown in Figure \ref{img:img508}(b). This means that the main cavity is suspended by the single pendulum from the ground, which does not change the baseline length entirely. Soon, a 2 m prototype of SPI was developed and demonstrated about 40 dB of vibration attenuation below 1 Hz \cite{aso2004stabilization}.
 
-In general, the disadvantage of SPI is the noise coupling from the common motion due to the worse common mode rejection (CMR) above the eigenfrequency of the pendulums, because the active baseline vibration isolation system cannot attenuate the common motion of the baseline. If the mechanical response of the pendulums suspended from SPI stage have asymmetricity, the CMR is worse and the common motion couples to the baseline length change, which is the differential motion of the baseline.
+In general, the disadvantage of SPI is the noise coupling from the common motion due to the worse common-mode rejection (CMR) above the eigenfrequency of the pendulums, because the active baseline vibration isolation system cannot attenuate the common motion of the baseline. If the mechanical response of the pendulums suspended from the SPI stage has asymmetricity, the CMR is worse, and the common motion couples to the baseline length change, which is the differential motion of the baseline.
 
-The Fabry-Perot tyep SPI has problems in the km-scale GW detectors. While the displacement measurement of the Fabry-Perot cavity is precise, the linear range of the optical cavity is narrow (a few nm). Due to small dynamic range, the operation of the SPI becames unstable. As described in the section \cref{sec:sec313}, although the differential motion of short baseline is reduced efficiently, that of km-scale baseline is not reduced sufficiently. The reduction of km-scale baseline is a orders of threee greater than that of a few meter scale. Moreover, the alignment control is also difficult in the km-scale detectors.
+The Fabry-Perot type SPI has problems in the km-scale GW detectors. While the displacement measurement of the Fabry-Perot cavity is precise, the linear range of the optical cavity is narrow (a few nm). Due to a small dynamic range, the operation of the SPI becomes unstable. As described in section \cref{sec:sec313}, although the differential motion of a short baseline is reduced efficiently, that of the km-scale baseline is not reduced sufficiently. The reduction of the km-scale baseline is an order of three greater than that of a few meter scale. Moreover, the alignment control is also difficult in the km-scale detectors.
 
 \subsubsection{Michelson Interferometer Type}
 %% \begin{figure}[h]
@@ -175,7 +175,7 @@ The Fabry-Perot tyep SPI has problems in the km-scale GW detectors. While the di
 %%     \caption{Active baseline seismic isolation system using Michelson Type SPI \cite{Numata2008interferometric}. 2つのSPIで基線方向とYaw方向の制御をしている。それぞれのSPIはエンド鏡にコーナーキューブを使用している非対称マイケルソン干渉計であり、干渉信号はホモダイン検波で取得している\cite{araya2002iodine}。コーナーキューブは干渉させるためのアラインメント調整を必要としないが、その反面、角度変化と基線変化を区別できないので、SPIが2台必要になる。} \label{img:img508a}
 %%   \end{center}
 %% \end{figure}
-To resolve the narrow linear range of the Fabry-Perot type SPI, a proto type of the Michelson type SPI was developed \cite{Numata2008interferometric}. The interferometer configuration of this proto type was the same as the GIF interferometer, and the signal detecton also the same. Thus, the type had the wide dynamic range wihout alignment control to keep the operation of the SPI. The proto type demonstrate the vibration supression of 2m baseline over several hours.
+In order to resolve the narrow linear range of the Fabry-Perot type SPI, a prototype of the Michelson type SPI was developed \cite{Numata2008interferometric}. The interferometer configuration of this prototype was the same as the GIF interferometer, and the signal detection also the same. Thus, the type had a wide dynamic range without alignment control to keep the operation of the SPI. This prototype demonstrates the vibration suppression in 2 m baseline over several hours.
 
 \subsection{Limitation due to CMRR}\label{sec532}
 \begin{figure}[h]
@@ -192,7 +192,7 @@ To resolve the narrow linear range of the Fabry-Perot type SPI, a proto type of 
   \caption{comparison of two representations.}
 \end{figure}
 
-While the active inertial seismic isolation described in the section \cref{sec:512}, the active baseline seismic isolation cannot isolate the common motion. Thus, if worse common mode rejection (CMR) of the suspensions, the common ground motion couples to the differential ground motion, which is the baseline length changes.
+While the active inertial seismic isolation described in section \cref{sec:512}, the active baseline seismic isolation cannot isolate the common motion. Thus, if worse common-mode rejection (CMR) of the suspensions, the common ground motion couples to the differential ground motion, which is the baseline length changes.
 
 
 Consider the differential motion of the platform stages. As shown in Figure \ref{img:img510a}, the motion can be represented as 
@@ -219,31 +219,31 @@ the differential system can be written as
 \end{eqnarray}
 Eq.(\ref{eq:eq518}) indicates that increaseing the CMRR, the coupling from the common ground motion to the differential stage motion. In other words, the inverse of the CMRR is the coupling coefficient.
 
-According to the definition of The CMRR, this factor is sensitive to the differential of two mechanical response. Thus, if the eigenfrequecy of each pendulum, the CMRR is worse above the frequency. For example, assume that the mechanical response of the stage is the single pendulum, which transfer function from the ground to stage can be given by Eq.(\ref{eq:eq502}). In the high frequency, above the eigen frequency, the response can be approximate as $H\sim{({f_0}/{f})^2}$. In this frequency region, if the eigen frequency shifts by $\Delta{f_0}$, the gain of the response differs by $2f_0\Delta{f_0}$. This amount worse the CMRR, and the common motion contaminates the differential motion.
+According to the definition of The CMRR, this factor is sensitive to the differential of two mechanical response. Thus, if the eigenfrequency of each pendulum, the CMRR is worse above the frequency. For example, assume that the mechanical response of the stage is the single pendulum, which transfer function from the ground to the stage can be given by Eq.(\ref{eq:eq502}). In the high frequency, above the eigenfrequency, the response can be approximate as $H\sim{({f_0}/{f})^2}$. In this frequency region, if the eigenfrequency shifts by $\Delta{f_0}$, the gain of the response differs by $2f_0\Delta{f_0}$. This amount worse the CMRR, and the common motion contaminates the differential motion.
 
 
 \subsection{RMS Reduction}
-The reduction of Root-mean-square (RMS) of the differential stage motion is expected by utilizing the SPI on the active seismic isolation system. Because the SPI has a good sensitivity in low-frequency including the microseisms and earth tides, the RMS of the differential stage motion can be reduced.
+The reduction of Root-mean-square (RMS) of the differential stage motion is expected by utilizing the SPI on the active seismic isolation system. Because the SPI has good sensitivity in low-frequency, including the microseisms and earth tides, the RMS of the differential stage motion can be reduced.
 
-The reduction has some advantage for GW detectors.
+The reduction has some advantages for GW detectors.
 
 \subsubsection{Improvement of Actuator Noise}
-The RMS reduction of the differential stage motion can relax the requirement of the actuator on the test mass. The actuator on the test mass can only actuate weak force because the strong actuator would introduce the actuation noise to the sensitivity \cite{michimura2017mirror}. Therefore, the RMS reduction on the top stage can reduce the load on the test mass actuators. This means the improvement of the test mass actuator's noise directly, moreoever, means that the actuator's dynamic range can be became wider.
+The RMS reduction of the differential stage motion can relax the requirement of the actuator on the test mass. The actuator on the test mass can only actuate weak force because the strong actuator would introduce the actuation noise to the sensitivity \cite{michimura2017mirror}. Therefore, the RMS reduction on the top stage can reduce the load on the test mass actuators. This means the improvement of the test mass actuator's noise directly, moreover, means that the actuator's dynamic range can become wider.
 
 \subsubsection{Improvement of Glitch Noise}
-The reduction of the test mass actuator's load reduce the glicth noise such as the Barkhausen noise. This noise is caused by the large DC voltage on the test mass actuators and actuators above the test mass \cite{aasi2015characterization}.
+The reduction of the test mass actuator's load reduces the glitch noise, such as the Barkhausen noise. This noise is caused by the large DC voltage on the test mass actuators and actuators above the test mass \cite{aasi2015characterization}.
 
 
 
 
 \section{Baseline Compensation System}\label{sec:54}
-The baseline compensation system is the active baseline seismic isolation system uging the GIF. 
+The baseline compensation system is the active baseline seismic isolation system using the GIF. 
 
 \subsection{Purpose}
-The purpose of the baseline compensation system is to reduce the RMS of the cavity length fluctuation from 1 Hz to DC. In this region, the RMS motion in cavity length is mainly disturbed by the seismic noise such as the microseisms ($\sim 200\,\mathrm{mHz}$), large earthquake in distant place ($< 100\,\mathrm{mHz}$), air pressure response ($< 20\, \mathrm{mHz}$), and earth tides ($\sim 10^{-5}\,\mathrm{Hz}$). Moreover, the RMS of these seismic motion is comparable with several $1\sim100\,\mathrm{um}$, which is much greter than the test mass actuator's range. Therefore, the compensation of the cavity length disturbed by these seismic noise not only the improve stability of the detector operation but also the reduce the glitch noises in GW signal.
+The purpose of the baseline compensation system is to reduce the RMS of the cavity length fluctuation from 1 Hz to DC. In this region, the RMS motion in cavity length is mainly disturbed by the seismic noise such as the microseisms ($\sim 200\,\mathrm{mHz}$), large earthquake in distant place ($< 100\,\mathrm{mHz}$), air pressure response ($< 20\, \mathrm{mHz}$), and earth tides ($\sim 10^{-5}\,\mathrm{Hz}$). Moreover, the RMS of these seismic motion is comparable with several $1\sim100\,\mathrm{um}$, which is much greater than the test mass actuator's range. Therefore, the compensation of the cavity length disturbed by these seismic noises not only the improve stability of the detector operation but also reduces the glitch noises in the GW signal.
 
 \subsection{Concept}
-The concept of the baseline compensation system is the feedforward control, which move the platform stage at X-end using the baseline length changes measured by the GIF in order to compensate the seismic disturbance as shown in Figure \ref{img:img512}. The cavity's mirrors are suspended by the pendulums, whose suspension point is fixed on the platform stage. This platform stages is also suspended by the inverted pendulums on the second fllor. The platfrom responds the seismic motion below 1 Hz, which is the target frequency to be reuced. Thus the seismic disturbance of the stage motion is attenuated by using the actuator on the stage. The control signal is given by the GIF on the fisrt floor.
+The concept of the baseline compensation system is the feedforward control, which moves the platform stage at X-end using the baseline length changes measured by the GIF in order to compensate for the seismic disturbance, as shown in Figure \ref{img:img512}. The cavity's mirrors are suspended by the pendulums, whose suspension point is fixed on the platform stage. This platform stage is also suspended by the inverted pendulums on the second floor. The platform responds to the seismic motion below 1 Hz, which is the target frequency to be reduced. Thus the seismic disturbance of the stage motion is attenuated by using the actuator on the stage. The control signal is given by the GIF on the first floor.
 \begin{figure}[h]
   \begin{center}   
     \includegraphics[width=14cm]{./img_chap5/img512.png}
@@ -252,9 +252,9 @@ The concept of the baseline compensation system is the feedforward control, whic
 \end{figure}
 
 \subsection{GIF as a SPI}
-The idea of this baseline compensation system is originate from the \cite{Numata2008interferometric} as mentiond in the section \ref{sec:321}. While this system used feedbac control, our system use feedforward control. The feedback control style baseline compensation system has some difficulty in terms of developing the km-scale system, because we need install the SPI, which measure the baseline length should be installed on the platform stage. This means that, in KAGRA case, additional tunnel is needed on the second floor to connect the platform stages. On the other hand, the feedforward style system does not need such facility, just reqiures the SPI, which can measure the baseline length in the tagert frequency, which is below 1 Hz.
+The idea of this baseline compensation system originates from the \cite{Numata2008interferometric} as mentioned in section \ref{sec:321}. While this system used feedback control, our system uses feedforward control. The feedback control style baseline compensation system has some difficulty in terms of developing the km-scale system because we need to install the SPI, which measure the baseline length should be installed on the platform stage. This means that, in KAGRA case, an additional tunnel is needed on the second floor to connect the platform stages. On the other hand, the feedforward style system does not need such a facility; it just requires the SPI, which can measure the baseline length in the target frequency, which is below 1 Hz.
 
-In terms of the low-frequency, difference between the length change of 1500 m baseline and that of 3000 m baseline is differd by factor 2, according to Figure \ref{img:img411_a}.
+In terms of the low-frequency, the difference between the length change of 1500 m baseline and that of 3000 m baseline is differed by factor 2, according to Figure \ref{img:img411_a}.
 
 \subsection{Control methods} \label{sec:444}
 \begin{figure}[h]
@@ -263,11 +263,11 @@ In terms of the low-frequency, difference between the length change of 1500 m ba
     \caption{The block diagram of the active baseline seismic isolation system.} \label{img:img511}
   \end{center}
 \end{figure}
-We describe the general control scheme of the active baseline seismic isolation system using the feedforward type SPI. In this case, because of no feedback tyep SPI, the baseline length is controled by using the inertial sensor and relative position sensor as well as the active inertial iolation system. However, the additional control schemes such as the sensor correction and the feedforward are implimented in this new system.
+We describe the general control scheme of the active baseline seismic isolation system using the feedforward type SPI. In this case, because of no feedback type SPI, the baseline length is controlled by using the inertial sensor and relative position sensor as well as the active inertial isolation system. However, the additional control schemes, such as the sensor correction and the feedforward, are implemented in this new system.
 
-The baseline isolation system attenuates, of course, the cavity length fluctuation. This fluctuation is the differential component of the displacement of the each test mass. To simplify the discussion, we supposed the CMRR is large enough to ignore the common motion coupling. Thus, we can just consider about the only differential component of the motion in this system.
+The baseline isolation system attenuates, of course, the cavity length fluctuation. This fluctuation is the differential component of the displacement of each test mass. To simplify the discussion, we supposed the CMRR is large enough to ignore the common motion coupling. Thus, we can just consider the only differential component of the motion in this system.
 
-The control diagram of the active baseline isolation system can be represented as shown in Figure \ref{img:img503}. Essentialy, all the terms in this figure is the same as the active inertial isolation system shown in Figure \ref{img:img503} except the input and output signals. There signals are replaced as $X_{\mathrm{d}}$ and $Y_{\mathrm{d}}$, which are the differential displacement of the ground and platform stage motions, resplectively. In this figure,  $S_{\mathrm{wit}}$ and $N_{\mathrm{ff}}$ are the frequency response and the selfnoise of the GIF, respectively. Furthermore, the noises $N_{\mathrm{H}}$ and $N_{\mathrm{L}}$ are multiplied by $\sqrt{2}$ in the case of the amplitude unit.
+The control diagram of the active baseline isolation system can be represented as shown in Figure \ref{img:img503}. Essentially, all the terms in this figure are the same as the active inertial isolation system shown in Figure \ref{img:img503} except the input and output signals. Their signals are replaced as $X_{\mathrm{d}}$ and $Y_{\mathrm{d}}$, which are the differential displacement of the ground and platform stage motions, respectively. In this figure,  $S_{\mathrm{wit}}$ and $N_{\mathrm{ff}}$ are the frequency response and the self-noise of the GIF, respectively. Furthermore, the noises $N_{\mathrm{H}}$ and $N_{\mathrm{L}}$ are multiplied by $\sqrt{2}$ in the case of the amplitude unit.
 
 The displacement of the differential motion of the stages is given by 
 \begin{eqnarray}\nonumber
@@ -280,9 +280,9 @@ As described about the active inertial seismic isolation system in section \ref{
 \section{Summary of the Chapter}
 In this chapter, the following items are described:
 \begin{itemize}
-\item While the passive isolation system could isolate the seismic noise above its eigen frequency, which is tipicaly around 1 Hz, the active isolation systems are needed to compensate the low-frequency seismic noise below 1 Hz by isolating the platform stage from the seismic noise.
+\item While the passive isolation system could isolate the seismic noise above its eigenfrequency, which is typically around 1 Hz, the active isolation systems are needed to compensate for the low-frequency seismic noise below 1 Hz by isolating the platform stage from the seismic noise.
 \item Two active isolation systems are described; the active {\it inertial} seismic isolation system attenuates the platform stages to the inertial frame, the active {\it baseline} seismic isolation system isolates the optical arm cavity's length from the deformation of the baseline.
-\item The performance of the active inertial seismic isolation system is limited by the insufficient sensitivity and the tilt-holizontal coupling of the inertial sensor below 100 mHz.
-\item Although the active baseline seismic ioslation is an effective method, the SPI which is the cavity length monitor has a difficulties in the longer scale GW detector.
-\item The baseline compensation system using the GIF strainmeter resolve these limitaions and problems because the strainmeter can measure the deformation of the baseline below 1 Hz without tilt-coupling and the strainmeter can observe the baseline fluctuation independent from independent of the GW detector.
+\item The performance of the active inertial seismic isolation system is limited by the insufficient sensitivity and the tilt-horizontal coupling of the inertial sensor below 100 mHz.
+\item Although the active baseline seismic isolation is an effective method, the SPI, which is the cavity length monitor, has difficulties in the longer scale GW detector.
+\item The baseline compensation system using the GIF strainmeter resolves these limitations and problems because the strainmeter can measure the deformation of the baseline below 1 Hz without tilt-coupling, and the strainmeter can observe the baseline fluctuation independent from independent of the GW detector.
 \end{itemize}
