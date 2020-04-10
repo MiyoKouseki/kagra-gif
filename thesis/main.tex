@@ -1,10 +1,13 @@
 %\documentclass[a4paper,twoside,12pt]{book}
-\documentclass[a4paper,oneside,12pt,openright]{book}
+\documentclass[a4paper,oneside,12pt,openleft]{book}
+\usepackage[greek,latin,german,english]{babel}
 %\usepackage[DIV=12,BCOR=4mm,headinclude=true,footinclude=false]{typearea}
 \usepackage[DIV=12,headinclude=true,footinclude=false]{typearea}
 %
 \usepackage{booktabs}
+\usepackage{siunitx}
 \usepackage{jtygm}
+\usepackage{siunitx}
 \newcommand{\argmin}{\mathop{\rm arg~min}\limits}
 \usepackage{amsmath,amssymb}
 \usepackage{bm}
@@ -61,6 +64,10 @@
 \setcounter{tocdepth}{2}
 \input{abstract_en}
 %\input{abstract_jp}
+\chapter*{Acknowledgement}
+I am grateful to many people. My supervisor Masatake Ohashi gave me the biggest fortune to work in KAGRA. Akito Araya gave me the chance to use the geophysics interferometer for my study. Akiteru Takamori gave me a lot of advice. I have been helped a lot by Wataru Morii, Hideaki Hayakawa, Osamu Miyakawa, Takahiro Yamamoto, Takaaki Yokozawa, Ryutaro Takahashi, Yoichi Aso, Fabian Pe\~{n}a Arellano, Lucia Trozzo, Koki Okutomi, Yoshinori Fuji, Yutaro Enomoto, and many people in KAGRA collaborators. 
+
+Finally, I am thankful to my parents and grandfather for allowing me to do the research. I would like to express my gratitude to my wife, Chika, who has patiently supported me.
 \clearpage
 \tableofcontents
 \include{chap1} % Background
@@ -71,6 +78,8 @@
 \include{chap7} % Conculusion and Future Directions
 \appendix
 \include{appendixA} % Theory
+ 
+
 \clearpage
 \bibliography{reference}
 \bibliographystyle{unsrt}

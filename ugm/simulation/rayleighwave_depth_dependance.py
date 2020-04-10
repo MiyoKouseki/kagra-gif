@@ -136,8 +136,8 @@ if __name__ == '__main__':
     cp = 5.5e3
     cs = cp/np.sqrt(beta)
     cr = cp*np.sqrt(alpha/beta)
-    print 'Velocity'
-    print ' Cp:{0:3.0f} m/s\n Cs:{1:3.0f} m/s\n Cr:{2:3.0f} m/s'.format(cp,cs,cr)
+    print('Velocity')
+    print(' Cp:{0:3.0f} m/s\n Cs:{1:3.0f} m/s\n Cr:{2:3.0f} m/s'.format(cp,cs,cr))
 
     
     # ----------------------

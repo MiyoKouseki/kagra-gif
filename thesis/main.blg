@@ -10,54 +10,54 @@ A level-1 auxiliary file: chap7.aux
 A level-1 auxiliary file: appendixA.aux
 The style file: unsrt.bst
 Database file #1: reference.bib
-Warning--I didn't find a database entry for "akutsu2018kagra"
 Warning--empty journal in weiss1972electronically
 Warning--empty booktitle in schofield2000source
-Warning--empty journal in agnew2005earth
 Warning--empty publisher in aki2002quantitative
-Warning--empty year in svelto1998principles
+Warning--empty journal in agnew2005earth
+Warning--can't use both volume and number fields in Braccini2002
 Name 1 in "R. W. P . Drever," has a comma at the end for entry drever1987outline
 while executing---line 944 of file unsrt.bst
-You've used 84 entries,
+Warning--empty year in svelto1998principles
+You've used 88 entries,
             1791 wiz_defined-function locations,
-            950 strings with 20336 characters,
-and the built_in function-call counts, 19650 in all, are:
-= -- 1533
-> -- 1282
-< -- 6
-+ -- 467
-- -- 383
-* -- 1620
-:= -- 3430
-add.period$ -- 258
-call.type$ -- 84
-change.case$ -- 70
+            968 strings with 21078 characters,
+and the built_in function-call counts, 20708 in all, are:
+= -- 1619
+> -- 1340
+< -- 8
++ -- 488
+- -- 400
+* -- 1702
+:= -- 3593
+add.period$ -- 271
+call.type$ -- 88
+change.case$ -- 74
 chr.to.int$ -- 0
-cite$ -- 89
-duplicate$ -- 753
-empty$ -- 1698
-format.name$ -- 383
-if$ -- 4105
+cite$ -- 94
+duplicate$ -- 803
+empty$ -- 1794
+format.name$ -- 400
+if$ -- 4341
 int.to.chr$ -- 0
-int.to.str$ -- 84
-missing$ -- 74
-newline$ -- 427
-num.names$ -- 83
-pop$ -- 148
+int.to.str$ -- 88
+missing$ -- 79
+newline$ -- 448
+num.names$ -- 87
+pop$ -- 159
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 262
+skip$ -- 292
 stack$ -- 0
-substring$ -- 1116
-swap$ -- 104
-text.length$ -- 6
+substring$ -- 1165
+swap$ -- 122
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 5
-while$ -- 168
-width$ -- 86
-write$ -- 925
+warning$ -- 6
+while$ -- 176
+width$ -- 90
+write$ -- 972
 is.kanji.str$ -- 0
 (There was 1 error message)
