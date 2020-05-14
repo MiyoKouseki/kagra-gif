@@ -97,8 +97,10 @@ if __name__ == '__main__':
     from miyopy.gif.datatype import GifData
     source = GifData.findfiles(start,end,'PD_ABSORP_PXI01_5',prefix=prefix)[0]
     absp = get(source,'PD_ABSORP_PXI01_5',**kwargs)
+    source = [s.replace('.AD03','.AD00') for s in source]
     source = GifData.findfiles(start,end,'PD_PPOL_PXI01_5',prefix=prefix)[0]
     ppol = get(source,'PD_PPOL_PXI01_5',**kwargs)
+    source = [s.replace('.AD00','.AD01') for s in source]
     source = GifData.findfiles(start,end,'PD_SPOL_PXI01_5',prefix=prefix)[0]
     spol = get(source,'PD_SPOL_PXI01_5',**kwargs)
     # get contrast
