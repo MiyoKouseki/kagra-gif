@@ -34,7 +34,8 @@ def get_statevector(absp,c_p,c_s):
     is_good_contrast_p = c_p > 0.01*u.V
     is_good_contrast_s = c_s > 0.01*u.V
     is_ok = is_locked * is_good_contrast_p * is_good_contrast_s
-    return is_ok
+    is_good_contrast = is_good_contrast_p * is_good_contrast_s
+    return is_ok, is_locked, is_good_contrast
 
 def plot(data,**kwargs):
     ylim = kwargs.pop('ylim',(0.0,0.3))
@@ -98,23 +99,25 @@ if __name__ == '__main__':
     source = GifData.findfiles(start,end,'PD_ABSORP_PXI01_5',prefix=prefix)[0]
     absp = get(source,'PD_ABSORP_PXI01_5',**kwargs)
     source = [s.replace('.AD03','.AD00') for s in source]
-    source = GifData.findfiles(start,end,'PD_PPOL_PXI01_5',prefix=prefix)[0]
+    #source = GifData.findfiles(start,end,'PD_PPOL_PXI01_5',prefix=prefix)[0]
     ppol = get(source,'PD_PPOL_PXI01_5',**kwargs)
     source = [s.replace('.AD00','.AD01') for s in source]
-    source = GifData.findfiles(start,end,'PD_SPOL_PXI01_5',prefix=prefix)[0]
+    #source = GifData.findfiles(start,end,'PD_SPOL_PXI01_5',prefix=prefix)[0]
     spol = get(source,'PD_SPOL_PXI01_5',**kwargs)
     # get contrast
     c_p = get_contrast(ppol)
     c_s = get_contrast(spol)
     
     # get statevector
-    is_ok = get_statevector(absp,c_p,c_s)
+    is_ok, is_locked, is_good_contrast = get_statevector(absp,c_p,c_s)
     
     # DutyCycle
     dc = (float(is_ok.sum())/float(is_ok.shape[0]))
+    dc_locked = (float(is_locked.sum())/float(is_locked.shape[0]))
+    dc_good_contrast = (float(is_good_contrast.sum())/float(is_good_contrast.shape[0]))
 
     # Plot
-    title = 'Duty cycle : {0:3.2f} %'.format(dc*100)
+    title = 'Duty cycle : {0:3.2f} %, {1:3.2f} %, {2:3.2f} %'.format(dc*100,dc_locked*100,dc_good_contrast*100)
     plotkwargs = {'title':title,'start':start,'end':end,'sv':is_ok}
     plot(absp,color='k',ylim=(0,1),hlines=[0.2],**plotkwargs)
     plot(ppol,color='b',**plotkwargs)
