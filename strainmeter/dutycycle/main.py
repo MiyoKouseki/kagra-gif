@@ -10,7 +10,7 @@ def get(source,chname,**kwargs):
     return data
 
 def get_contrast(data,**kwargs):
-    pk2pk = kwargs.pop('pk2pk',True)
+    pk2pk = kwargs.pop('pk2pk',False)
     chname = data.name
     shape = data.shape[0]
     hoge = data.reshape(int(shape/300),300)
@@ -20,7 +20,7 @@ def get_contrast(data,**kwargs):
         _contrast = _max-_min
         _contrast.name = data.name+'_PK2PK'
     else:
-        _contrast = (_max**2-_min**2)/(_max**2+_min**2)
+        _contrast = (_max-_min)/(_max+_min)
         _contrast.name = data.name+'_CONTRAST'        
     _contrast.dt=60*u.s    
     return _contrast
@@ -30,9 +30,13 @@ def get_statevector(absp,c_p,c_s):
     hoge = absp.reshape(int(shape/300),300)
     absp_min = hoge.min(axis=1)    
     is_locked = absp_min > 0.200*u.V
-    is_locked.dt=60*u.s        
-    is_good_p = c_p > 0.003*u.V
-    is_good_s = c_s > 0.003*u.V
+    is_locked.dt=60*u.s
+    try:
+        is_good_p = c_p > 0.01*u.V
+        is_good_s = c_s > 0.01*u.V
+    except:
+        is_good_p = c_p > 0.02
+        is_good_s = c_s > 0.02
     is_ok = is_locked * is_good_p * is_good_s
     is_good = is_good_p * is_good_s
     return is_ok, is_locked, is_good, is_good_p, is_good_s
@@ -45,9 +49,8 @@ def plot(data,**kwargs):
     hlines = kwargs.pop('hlines',None)
     version = kwargs.pop('version',None)
     tmp = kwargs.pop('tmp',True)
-    #plot = data.plot()
     prefix = '{0}-{1}-'.format(str(from_gps(start)).split(' ')[0],
-                              str(from_gps(end)).split(' ')[0])
+                               str(from_gps(end)).split(' ')[0])
     fname = version+'_'+data.name.lower()
     plot = data.plot(ylim=ylim,epoch=start,figsize=(25,5),
                      color=color,label=data.name)
@@ -70,7 +73,7 @@ def plot(data,**kwargs):
         plot.add_segments_bar(ppol,label='p-pol')
         plot.add_segments_bar(spol,label='s-pol')    
 
-    if not tmp:
+    if not 'tmp' in version:
         yyyy = prefix.split('-')[0]
         mm = prefix.split('-')[1]
         print('./img/{0}/{1}/{2}.png'.format(yyyy,mm,fname))    
@@ -127,8 +130,9 @@ if __name__ == '__main__':
     strain = strain.resample(1)
     
     # get contrast
-    c_p = get_contrast(ppol)
-    c_s = get_contrast(spol)
+    pk2pk = True
+    c_p = get_contrast(ppol,pk2pk=pk2pk)
+    c_s = get_contrast(spol,pk2pk=pk2pk)
     
     # get statevector
     sv = get_statevector(absp,c_p,c_s) 
@@ -147,12 +151,17 @@ if __name__ == '__main__':
     _min,_max = np.nanmin(strain),np.nanmax(strain)
     _mean = np.nanmean(strain)
     _std = np.nanstd(strain)    
-    plot(strain,color='k',ylim=(_mean-4*_std,_mean+4*_std),**plotkwargs)
+    plot(strain,color='k',ylim=(_mean-2*_std,_mean+2*_std),**plotkwargs)
     plot(absp,color='g',ylim=(0,1),hlines=[0.2],**plotkwargs)
     plot(ppol,color='b',**plotkwargs)
     plot(spol,color='r',**plotkwargs)
-    plot(c_p,color='b',hlines=[0.003],ylim=(0,0.03),**plotkwargs)
-    plot(c_s,color='r',hlines=[0.003],ylim=(0,0.03),**plotkwargs)
+    if pk2pk:
+        plot(c_p,color='b',hlines=[0.01],ylim=(0,0.05),**plotkwargs)
+        plot(c_s,color='r',hlines=[0.01],ylim=(0,0.05),**plotkwargs)
+    else:
+        plot(c_p,color='b',hlines=[0.02],ylim=(0,0.2),**plotkwargs)
+        plot(c_s,color='r',hlines=[0.02],ylim=(0,0.2),**plotkwargs)
+    
     
     if False:
         ppol = ppol.value[:300]

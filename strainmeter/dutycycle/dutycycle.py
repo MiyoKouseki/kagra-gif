@@ -35,9 +35,20 @@ dc2018_v1 = dc_v1[(dc_v1['date']>=dt.datetime(2018,1,1))
                & (dc_v1['date']<dt.datetime(2019,1,1))]
 dc2019_v1 = dc_v1[(dc_v1['date']>=dt.datetime(2019,1,1))
                & (dc_v1['date']<dt.datetime(2020,1,1))]
-mean17 = dc2017_v1['total'].mean()
-mean18 = dc2018_v1['total'].mean()
-mean19 = dc2019_v1['total'].mean()
+mean17_v1 = dc2017_v1['total'].mean()
+mean18_v1 = dc2018_v1['total'].mean()
+mean19_v1 = dc2019_v1['total'].mean()
+
+dc2017_v2 = dc_v2[(dc_v2['date']>=dt.datetime(2017,1,1))
+               & (dc_v2['date']<dt.datetime(2018,1,1))]
+dc2018_v2 = dc_v2[(dc_v2['date']>=dt.datetime(2018,1,1))
+               & (dc_v2['date']<dt.datetime(2019,1,1))]
+dc2019_v2 = dc_v2[(dc_v2['date']>=dt.datetime(2019,1,1))
+               & (dc_v2['date']<dt.datetime(2020,1,1))]
+mean17_v2 = dc2017_v2['total'].mean()
+mean18_v2 = dc2018_v2['total'].mean()
+mean19_v2 = dc2019_v2['total'].mean()
+
 
 # setting
 fig, ax = plt.subplots(1,1,figsize=(10,5))
@@ -59,20 +70,33 @@ ax.plot(dc_v2['date'],dc_v2['total'],'ro-',label='Total')
 ax.plot(dc_v1['date'],dc_v1['total'],'o--',color='gray',alpha=0.5)
 
 # hlines
+kwargs = {'color':'red', 'linestyle':'--', 'alpha':1}
+ax.hlines(mean17_v2,tsp('2017-01'),tsp('2018-01'),**kwargs)
+ax.hlines(mean18_v2,tsp('2018-01'),tsp('2019-01'),**kwargs)
+ax.hlines(mean19_v2,tsp('2019-01'),tsp('2020-01'),**kwargs)
 kwargs = {'color':'gray', 'linestyle':'--', 'alpha':0.5}
-ax.hlines(mean17,tsp('2017-01'),tsp('2018-01'),**kwargs)
-ax.hlines(mean18,tsp('2018-01'),tsp('2019-01'),**kwargs)
-ax.hlines(mean19,tsp('2019-01'),tsp('2020-01'),**kwargs)
+ax.hlines(mean17_v1,tsp('2017-01'),tsp('2018-01'),**kwargs)
+ax.hlines(mean18_v1,tsp('2018-01'),tsp('2019-01'),**kwargs)
+ax.hlines(mean19_v1,tsp('2019-01'),tsp('2020-01'),**kwargs)
 
 # text
+bbox = {'facecolor':'white', 'alpha':1,"edgecolor" : "black",
+        'boxstyle':'round','pad':0.15}
+kwargs = {'color':'black','bbox':bbox,
+          'verticalalignment':'bottom','alpha':1,
+          'horizontalalignment':'right'}
+ax.text(tsp('2018-01'),mean17_v2-1,'{0:3.1f}'.format(mean17_v2),**kwargs)
+ax.text(tsp('2019-01'),mean18_v2-1,'{0:3.1f}'.format(mean18_v2),**kwargs)
+ax.text(tsp('2020-01'),mean19_v2-1,'{0:3.1f}'.format(mean19_v2),**kwargs)
+
 bbox = {'facecolor':'white', 'alpha':0.5,"edgecolor" : "gray",
         'boxstyle':'round','pad':0.15}
 kwargs = {'color':'gray','bbox':bbox,
           'verticalalignment':'top','alpha':0.5,
           'horizontalalignment':'right'}
-ax.text(tsp('2018-01'),mean17-1,'{0:3.1f}'.format(mean17),**kwargs)
-ax.text(tsp('2019-01'),mean18-1,'{0:3.1f}'.format(mean18),**kwargs)
-ax.text(tsp('2020-01'),mean19-1,'{0:3.1f}'.format(mean19),**kwargs)
+ax.text(tsp('2018-01'),mean17_v1-1,'{0:3.1f}'.format(mean17_v1),**kwargs)
+ax.text(tsp('2019-01'),mean18_v1-1,'{0:3.1f}'.format(mean18_v1),**kwargs)
+ax.text(tsp('2020-01'),mean19_v1-1,'{0:3.1f}'.format(mean19_v1),**kwargs)
 
 # save
 ax.legend(loc='lower right')
