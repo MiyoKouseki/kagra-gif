@@ -32,19 +32,16 @@
 データのダウンロード
 
 ```
-rsync -av --include="*/" --include="*.AD0*" --exclude="*" -e ssh GIF@172.16.32.201:/PXI_DATA2/PXI1_data/5Hz/2020/ ./PXI_DATA2/PXI1_data/5Hz/2020                              
+rsync -av --include="*/" --include="*.AD0*" --exclude="*" -e ssh GIF@172.16.32.201:/PXI_DATA2/PXI1_data/5Hz/2020 /Volumes/HDPF-UT/DATA/PXI_DATA2/PXI1_data/5Hz/                  
 ```
 
-* 2020/05/05, 12:26 2020/05 のデータのrsyncを開始。（自宅から。0.5MB/sec）
-* 2020/05/05, 12:30 2020 のデータのrsyncを開始。(自宅から。0.5MB/sec)
-* 2020/05/06, 18:54 2019のデータのrsyncを開始。自宅から。22:48終わった
-* 2020/05/12, 夜に2017のデータを開始。翌日みたら終わってた。
-* 2020/05/13, 19:01 2016のデータを開始。
+```
+rsync -av --include="*/" --include="*.STRAIN" --exclude="*" -e ssh GIF@172.16.32.201:/data1/PHASE/50000Hz/2020 /Volumes/HDPF-UT/DATA/data1/PHASE/50000Hz/
+```
 
-#### Memo
-
-- Apr 01 2019 - Apr 01 2020, dutycycle=0.996. 82 minutes
-
+```
+rsync -av --include="*/" --include="*.AD02" --exclude="*" -e ssh GIF@172.16.32.201:/NAS/cRIO01_data/2020 /Volumes/HDPF-UT/DATA/NAS/cRIO01_data/
+```
 
 #### バグ
 マルチプロセスにして一ヶ月程度以上のデータを選ぶと、```raise Full``` エラーが出て止まる。```~/Git/gwpy/gwpy/utils/mp.py``` の149行で起きているらしい。```nproc=1```にしてシングルプロセスにするとエラーは起きない。

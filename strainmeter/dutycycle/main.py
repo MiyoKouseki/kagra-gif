@@ -112,7 +112,8 @@ if __name__ == '__main__':
         #end   = tconvert('Feb-01-2017-00:00')
         tmp = True
 
-    prefix = '/Users/miyo/Git/kagra-gif/strainmeter/dutycycle'
+    #prefix = '/Users/miyo/Git/kagra-gif/strainmeter/dutycycle'
+    prefix = '/Volumes/HDPF-UT/DATA'    
     kwargs={'start':start,'end':end,'verbose':True,'nproc':1,    
             'format':'gif','pad':0.0}
     from miyopy.gif.datatype import GifData
