@@ -87,39 +87,51 @@ if __name__ == '__main__':
     from miyopy.gif.datatype import GifData
     from gwpy.time import tconvert, from_gps
     import argparse
+    import timeit
     #
-    if True:
-        parser = argparse.ArgumentParser(
-            prog='argparseTest.py', 
-            usage='Demonstration of argparser',
-            description='description',
-            epilog='end',
-            add_help=True,
-            )
-        parser.add_argument('-v', '--verbose', help='select mode')
-        parser.add_argument('start', help='start')
-        parser.add_argument('end', help='end')
-        parser.add_argument('version', help='version')
-        args = parser.parse_args()
-        print(args.start)    
-        start = tconvert(args.start)
-        end = tconvert(args.end)
-        version = args.version
-        tmp = False
-    else:
-        # load    
-        #start = tconvert('Jan-01-2017-00:00')
-        #end   = tconvert('Feb-01-2017-00:00')
-        tmp = True
-
-    #prefix = '/Users/miyo/Git/kagra-gif/strainmeter/dutycycle'
-    prefix = '/Volumes/HDPF-UT/DATA'    
-    kwargs={'start':start,'end':end,'verbose':True,'nproc':1,    
+    # ----------------------------------------------------------------------    
+    parser = argparse.ArgumentParser(
+        prog='main.py', 
+        #usage='%(prog)s May-01-2020-00:00JST May-01-2020-01:00JST Label',
+        usage='%(prog)s [options]',
+        description='Calculate duty cycle during specific period')
+    parser.add_argument('-v', '--verbose',action='store_true',
+                        help='Show verbose message')
+    parser.add_argument('--prefix',type=str,
+                        default='/Volumes/HDPF-UT/DATA',
+                        help='Set prefix. default is /Volumes/HDPF-UT/DATA')
+    parser.add_argument('--pk2pk',action='store_true',
+                        help='Use pk-pk. default is not use. use contrast.')    
+    parser.add_argument('start',
+                        help='Start datetime like "May-01-2020-00:00JST"')
+    parser.add_argument('end',
+                        help='End datetime like "May-01-2020-01:00JST"')
+    parser.add_argument('label',
+                        help='Label')
+    args = parser.parse_args()
+    start = tconvert(args.start)
+    end = tconvert(args.end)
+    label = args.label
+    verbose = args.verbose
+    prefix = args.prefix
+    pk2pk = args.pk2pk
+    if verbose:
+        print(args.start)        
+    print(start,end,label,verbose,prefix,pk2pk)
+    #
+    # ----------------------------------------------------------------------    
+    kwargs={'start':start,'end':end,'verbose':verbose,'nproc':1,    
             'format':'gif','pad':0.0}
     from miyopy.gif.datatype import GifData
+    loop = 5
+    print(timeit.timeit('GifData.findfiles(start,end,"PD_ABSORP_PXI01_5",'+\
+                        'prefix=prefix)[0]', globals=globals(),number=loop)/loop)
+    print(GifData.findfiles(start,end,'PD_ABSORP_PXI01_5',prefix=prefix)[0])
+
+
     
-    source = GifData.findfiles(start,end,'PD_ABSORP_PXI01_5',
-                               prefix=prefix)[0]
+    exit()
+    source = GifData.findfiles(start,end,'PD_ABSORP_PXI01_5',prefix=prefix)[0]
     absp = get(source,'PD_ABSORP_PXI01_5',**kwargs)
     source = [s.replace('.AD03','.AD00') for s in source]
     ppol = get(source,'PD_PPOL_PXI01_5',**kwargs)
@@ -127,11 +139,10 @@ if __name__ == '__main__':
     spol = get(source,'PD_SPOL_PXI01_5',**kwargs)
     source = GifData.findfiles(start,end,'CALC_STRAIN',
                                prefix=prefix)[0]    
-    strain = get(source,'CALC_STRAIN',**kwargs)    
+    strain = get(source,'CALC_STRAIN',**kwargs)
     strain = strain.resample(1)
-    
+    exit()
     # get contrast
-    pk2pk = True
     c_p = get_contrast(ppol,pk2pk=pk2pk)
     c_s = get_contrast(spol,pk2pk=pk2pk)
     
