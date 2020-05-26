@@ -20,6 +20,50 @@ LACK_OF_FILE  = 0b10    # 2
 LACK_OF_DATA  = 0b100   # 4
 NORMAL_REJECT = 0b1000  # 8
 
+fmt_total = 'select startgps,endgps from {2} '+\
+            'WHERE (startgps>={0} and endgps<={1})'
+fmt_gauss = 'select startgps,endgps from {2} '+\
+            'WHERE (flag=0)'+\
+            ' and (startgps>={0} and endgps<={1})'
+fmt_gauss_night = 'select startgps,endgps from {2} '+\
+                  'WHERE flag=0' +\
+                  ' and (startgps>={0} and endgps<={1})'+\
+                  ' and ((startgps-18)%86400)>=43200'+\
+                  ' and ((startgps-18)%86400)<86400'
+fmt_gauss_day   = 'select startgps,endgps from {2} '+\
+                  'WHERE flag=0' +\
+                  ' and (startgps>={0} and endgps<={1})' +\
+                  ' and ((startgps-18)%86400)>=0' +\
+                  ' and ((startgps-18)%86400)<43200'
+fmt_gauss_summer = 'select startgps,endgps from {2} ' +\
+                   'WHERE flag=0' +\
+                   ' and ('+\
+                   '(startgps>=1211814018 and endgps<=1219676418) or '+\
+                   '(startgps>=1243350018 and endgps<=1251212418)'+\
+                   ')'
+fmt_gauss_autumn = 'select startgps,endgps from {2} '+\
+                   'WHERE flag=0'+\
+                   ' and ('+\
+                   '(startgps>=1219762818 and endgps<=1227538818) or '+\
+                   '(startgps>=1251298818 and endgps<=1259074818)'+\
+                   ')'
+fmt_gauss_winter = 'select startgps,endgps from {2} '+\
+                   'WHERE flag=0'+\
+                   ' and ('+\
+                   '(startgps>=1227625218 and endgps<=1235314818) or '+\
+                   '(startgps>=1259161218 and endgps<=1266850818)'+\
+                   ')'
+fmt_gauss_spring = 'select startgps,endgps from {2} '+\
+                   'WHERE flag=0'+\
+                   ' and ('+\
+                   '(startgps>=1203865218 and endgps<=1211727618) or ' +\
+                   '(startgps>=1235401218 and endgps<=1243263618)'+\
+                   ')'
+fmt_gauss_2seis = 'select {2}.startgps,{2}.endgps '+\
+                  'from {2} INNER JOIN {3} '+\
+                  'ON ({2}.startgps ={3}.startgps) '+\
+                  'WHERE ({2}.flag=0 and {3}.flag=0 )'+\
+                  ' and ({2}.startgps>={0} and {2}.endgps<={1})'
 
 class DataQuality(object):
     def __init__(self,dbname):
