@@ -100,6 +100,7 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
     bandpass = kwargs.pop('bandpass',None)
     fftlen = kwargs.pop('fftlen',2**8)
     diff = kwargs.pop('diff',False)
+    fs = kwargs.pop('fs',256)
     fname_hdf5 = fname_specgram(start,end,prefix=seis,axis=axis)
 
     # Load specgram from hdf5 file
@@ -115,12 +116,12 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
         chname = get_seis_chname(start,end,axis=axis,seis=seis)[0]
         fnamelist = existedfilelist(start,end)
         data = TimeSeries.read(fnamelist,chname,nproc=nproc)
-        data = data.resample(32)
+        data = data.resample(fs)
         data = data.crop(start,end)
         if diff:
             chname2 = get_seis_chname(start,end,axis=axis,seis=seis2)[0]
             data2 = TimeSeries.read(fnamelist,chname2,nproc=nproc)
-            data2 = data2.resample(32)
+            data2 = data2.resample(fs)
             data2 = data2.crop(start,end)
             data = data - data2
     except:
@@ -195,7 +196,7 @@ def append_data(segment,blrms=False,ave=False,**kwargs):
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser = argparse.ArgumentParser(description='')
     parser.add_argument('--start',type=int,default=1211817600)
     parser.add_argument('--end',type=int,default=1245372032)
     parser.add_argument('--nproc',type=int,default=8)
@@ -210,6 +211,8 @@ if __name__ == "__main__":
     run_percentile = args.percentile
     remakedb = args.remakedb
     savespecgram = args.savespecgram
+    if savespecgram:
+        run_percentile = True
     seis = args.seis
     term = args.term
 
@@ -259,7 +262,8 @@ if __name__ == "__main__":
         save_mean(x,'X',prefix=prefix)
         save_mean(y,'Y',prefix=prefix)
         save_mean(z,'Z',prefix=prefix)
-
+    else:
+        log.debug('not run percentile culclation')
 
     # ------------------------------------------------------------
     # Band Limited RMS
