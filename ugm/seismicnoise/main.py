@@ -2,8 +2,9 @@
 #! coding:utf-8
 __author__ = 'Koseki Miyo'
 import traceback
+from tqdm import tqdm
 import os
-import numpy as np
+import astropy.units as u
 
 from gwpy.time import tconvert
 from gwpy.timeseries import TimeSeries,TimeSeriesDict
@@ -14,19 +15,21 @@ import Kozapy.utils.filelist as existedfilelist
 from lib.plot import plot_segmentlist
 import lib.logger
 log = lib.logger.Logger('main')
+
 from lib.channel import get_seis_chname
 from lib.check import check
-from lib.iofunc import fname_hdf5_percentile,fname_gwf,fname_hdf5_asd,fname_hdf5_diffasd
-
-from lib.iofunc import fname_specgram
-
-import matplotlib.pyplot as plt
+from lib.iofunc import fname_hdf5_percentile, fname_specgram
 from dataquality.dataquality import remake
+
 
 ''' Seismic Noise
 '''
 
-#--------------------------------------------------------------------------------
+START_GPS = 1211817600 # UTC: 2018-05-31 15:59:42
+END_GPS   = 1245372032 # UTC: 2019-06-24 00:40:14 (end=start+2**25)
+
+# ------------------------------------------------------------------------------
+
 def save_percentile(specgrams,percentile=50,axis='X',**kwargs):
     ''' Calculate and save a percentile with spectrogram.
 
@@ -142,158 +145,105 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
     return specgram
 
 
-def append_data(segment,blrms=False,ave=False,**kwargs):
+def append_data(segment,**kwargs):
     '''
     '''
+    blrms = kwargs.pop('blrms',False)
     n = len(segment)
+    kwargs['n'] = len(segment)
+
     # i = 0
     start,end = segment[0]
-    x = get_spectrogram(start,end,axis='X',**kwargs)
-    y = get_spectrogram(start,end,axis='Y',**kwargs)
-    z = get_spectrogram(start,end,axis='Z',**kwargs)
-    if ave :
-        x = [x.mean(axis=0)]
-        y = [y.mean(axis=0)]
-        z = [z.mean(axis=0)]
-        # x = x.mean(axis=0)
-        # y = y.mean(axis=0)
-        # z = z.mean(axis=0)
+    x = [get_spectrogram(start,end,axis='X',**kwargs).mean(axis=0)]
+    y = [get_spectrogram(start,end,axis='Y',**kwargs).mean(axis=0)]
+    z = [get_spectrogram(start,end,axis='Z',**kwargs).mean(axis=0)]
     # i > 1
     for i,(start,end) in enumerate(segment[1:]):
-        _x = get_spectrogram(start,end,axis='X',**kwargs)
-        _y = get_spectrogram(start,end,axis='Y',**kwargs)
-        _z = get_spectrogram(start,end,axis='Z',**kwargs)
-        log.debug('{0:04d}/{1:04d} : Append {2} '.format(i+2,n,start))    
-        if (not blrms): # get Long Spectrogram
-            if ave :
-                _x = _x.mean(axis=0)
-                _y = _y.mean(axis=0)
-                _z = _z.mean(axis=0)
-                x += [_x] 
-                y += [_y] 
-                z += [_z] 
-                # x.append(_x,gap='ignore')
-                # y.append(_y,gap='ignore')
-                # z.append(_z,gap='ignore')            
-            else:
-                x.append(_x,gap='ignore')
-                y.append(_y,gap='ignore')
-                z.append(_z,gap='ignore')            
-        elif blrms: # get Long BLRMS TimeSeries        
-            low,high = kwargs.pop('bandpass',None)
-            _x = _x.crop_frequencies(low,high).sum(axis=1)
-            _y = _y.crop_frequencies(low,high).sum(axis=1)
-            _z = _z.crop_frequencies(low,high).sum(axis=1)
-            x.append(_x,gap='pad',pad=0.0)
-            y.append(_y,gap='pad',pad=0.0)
-            z.append(_z,gap='pad',pad=0.0)
-    if ave:
-        x = Spectrogram.from_spectra(*x)
-        y = Spectrogram.from_spectra(*y)
-        z = Spectrogram.from_spectra(*z)
+        x += [get_spectrogram(start,end,axis='X',**kwargs).mean(axis=0)]
+        y += [get_spectrogram(start,end,axis='Y',**kwargs).mean(axis=0)]
+        z += [get_spectrogram(start,end,axis='Z',**kwargs).mean(axis=0)]
+        log.debug('{0:04d}/{1:04d} : Append {2} '.format(i+2,n,start))  
+
+    # make spectrogram
+    x = Spectrogram.from_spectra(*x)
+    y = Spectrogram.from_spectra(*y)
+    z = Spectrogram.from_spectra(*z)
     return x,y,z
 
-
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description='')
-    parser.add_argument('--start',type=int,default=1211817600)
-    parser.add_argument('--end',type=int,default=1245372032)
-    parser.add_argument('--nproc',type=int,default=8)
-    parser.add_argument('--seis',type=str,default='EXV')
-    parser.add_argument('--term',type=str,default='')
-    parser.add_argument('--percentile', action='store_true') # default False
-    parser.add_argument('--remakedb', action='store_true') # default False
-    parser.add_argument('--savespecgram', action='store_true') # default False
-    args = parser.parse_args()
-    start,end = args.start,args.end
-    nproc = args.nproc
-    run_percentile = args.percentile
-    remakedb = args.remakedb
-    savespecgram = args.savespecgram
-    if savespecgram:
-        run_percentile = True
-    seis = args.seis
-    term = args.term
-
-    # ------------------------------------------------------------
-    #  Choose Segment  
-    # ------------------------------------------------------------
+def get_segment(start,end,seis,nproc):
     from dataquality.dataquality import DataQuality, fmt_total,fmt_gauss
     with DataQuality('./dataquality/dqflag.db') as db:
         total = db.ask(fmt_total.format(start,end,'EXV_SEIS'))
         gauss = db.ask(fmt_gauss.format(start,end,'EXV_SEIS'))
+    return gauss
 
-    if remakedb:
-        import random
-        fname = './dataquality/result_{0}.txt'.format(seis)
-        if not os.path.exists(fname.split("result")[0]):
-            os.mkdir(fname.split("result")[0])
-        with open(fname,'a') as f:
-            for i,(start,end) in enumerate(total):
-            #for i,(start,end) in enumerate(random.sample(total,1)):
-                ans = check(start,end,plot=False,nproc=nproc,
-                            seis=seis,axis='X',
-                            tlen=4096,sample_rate=16,cl=0.05)
-                log.debug('{0:03d}/{1:03d} : {2} {3} {4}'.format(
-                    i+1,len(total),start,end,ans))
-                f.write('{0} {1} {2}\n'.format(start,end,ans))
-    else:
-        log.debug('Not remake.')
 
-    segment = gauss
+def updatedb(start,end,seis,nproc):
+    import random
+    fname = './dataquality/result_{0}.txt'.format(seis)
+    if not os.path.exists(fname.split("result")[0]):
+        os.mkdir(fname.split("result")[0])
+    with open(fname,'a') as f:
+        for i,(start,end) in enumerate(total):
+            kwargs = {'nproc':nproc,'plot':False,'seis':seis,
+                      'axis':'X','tlen':4096,'sample_rate':16,'cl':0.05}
+            ans = check(start,end,**kwargs)
+            log.debug('{0:03d}/{1:03d} : {2} {3} {4}'.format(
+                i+1,len(total),start,end,ans))
+            f.write('{0} {1} {2}\n'.format(start,end,ans))
 
-    # ------------------------------------------------------------
-    # Percentile
-    # ------------------------------------------------------------
-    if run_percentile:
-        x,y,z = append_data(segment,blrms=False,seis=seis,nproc=nproc,ave=True)
-        if savespecgram:
-            log.debug('Finish to save spectrogram.')
-            exit()
-        if term=='all':
-            prefix = '{0}'.format(seis)
-        else:
-            prefix = '{0}{1}'.format(seis,term)
+def balsdb():
+    remake(fname,seis)
+
+# ----------------------------------------------------------------------
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('--start',type=int,default=START_GPS)
+    parser.add_argument('--end',type=int,default=END_GPS)
+    parser.add_argument('--nproc',type=int,default=8)
+    parser.add_argument('--seis',type=str,default='EXV')
+    parser.add_argument('--asd', action='store_true') # default False
+    parser.add_argument('--remakedb', action='store_true')
+    parser.add_argument('--updatedb', action='store_true')
+    parser.add_argument('--balsdb', action='store_true')
+    parser.add_argument('--bandpass', action='store_true')
+    parser.add_argument('--savespecgram', action='store_true')
+    args = parser.parse_args()
+    start,end = args.start,args.end
+    nproc = args.nproc
+    remakedb = args.remakedb
+    savespecgram = args.savespecgram
+    seis = args.seis
+
+    #  Choose Segment  
+    segment = get_segment(start,end,seis,nproc)
+
+    #  Choose Calculation
+    if args.updatedb:
+        updatedb(start,end,seis,nproc)
+
+    if args.balsdb: 
+        bals() # inintialize db
+
+    if args.savespecgram:        
+        kwargs = {'seis':seis,'nproc':nproc}
+        x,y,z = append_data(segment,**kwargs)
+        log.debug('Finish to save spectrogram.')
+        exit()
+
+    if args.asd: # calculate asd
+        kwargs = {'seis':seis,'nproc':nproc}
+        x,y,z = append_data(segment,**kwargs)
         for pctl in [1,5,10,50,90,95,99]:
-            save_percentile(x,pctl,'X',prefix=prefix)
-            save_percentile(y,pctl,'Y',prefix=prefix)
-            save_percentile(z,pctl,'Z',prefix=prefix)
+            save_percentile(x,pctl,'X',prefix=seis)
+            save_percentile(y,pctl,'Y',prefix=seis)
+            save_percentile(z,pctl,'Z',prefix=seis)
+
         save_mean(x,'X',prefix=prefix)
         save_mean(y,'Y',prefix=prefix)
         save_mean(z,'Z',prefix=prefix)
-    else:
-        log.debug('not run percentile culclation')
-
-    # ------------------------------------------------------------
-    # Band Limited RMS
-    # ------------------------------------------------------------
-    if False:
-        bandpass = 0.2 # 1/3 oct bandpass
-        low  = bandpass/(2**(1./6)) # 1/6 oct 
-        high = bandpass*(2**(1./6)) # 1/6 oct
-        kwargs = {'nproc':nproc,'bandpass':[low,high]}
-        x,y,z = append_data(segment,blrms=False,seis=seis,
-                            bandpass=[low,high],
-                            nproc=nproc)
-        import astropy.units as u
-        x *= 1./(fftlen)*u.Hz*1.5 # enbw with hanning
-        x = x**0.5
-        fmt = './data2/LongTerm_{0}_BLRMS_{1}mHz.gwf'
-        low,high = kwargs['bandpass']
-        fname = fmt.format('X',int(bandpass*1000))
-        x.write(fname)
-        log.debug(fname)
-        y *= 1./256*u.Hz*1.5 # enbw with hanning
-        y = y**0.5
-        fname = fmt.format('Y',int(bandpass*1000))
-        y.write(fname)
-        log.debug(fname)
-        z *= 1./256*u.Hz*1.5 # enbw with hanning
-        z = z**0.5
-        fname = fmt.format('Z',int(bandpass*1000))
-        z.write(fname)
-        log.debug(fname)        
 
     # Finish!
     log.debug('Finish!')

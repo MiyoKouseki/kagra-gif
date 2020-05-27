@@ -228,6 +228,7 @@ def remake(fname,seis):
                   'Nodata_AnyNan':LACK_OF_DATA,
                   'NoData_FailedtoRead':LACK_OF_FILE,
                   'Nodata_FailedtoRead':LACK_OF_FILE,
+                  'NoData_InvalidFormat':LACK_OF_FILE,
     }
     with DataQuality('./dqflag.db') as db:
         # Remake

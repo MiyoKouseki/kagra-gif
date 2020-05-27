@@ -95,7 +95,7 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
             raise ValueError('!!!')
     except IORegistryError  as e:
         if 'Format' in e.args[0]:
-            return 'Invalid Format'
+            return 'NoData_InvalidFormat'
         else:
             log.debug(traceback.format_exc())
             raise ValueError('!!!')
