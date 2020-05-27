@@ -1,7 +1,7 @@
 
 Universe       = vanilla 
 GetEnv         = True
-Initialdir     = /home/kouseki.miyo/kagra-gif/ugm/seismicnoise
+Initialdir     = /home/kouseki.miyo/Git/kagra-gif/ugm/seismicnoise
 Notification   = Never
 +Group         = "Xc"
 request_memory = 4 GB
@@ -12,5 +12,5 @@ Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
 
 RequestCpus    = 4
-Arguments  = ./main.py --start 1211817600 --end 1245372032 --nproc 4 --seis EXV --term all --percentile
+Arguments  = ./main.py --start 1211817600 --end 1245372032 --nproc 4 --seis EXV --asd
 Queue

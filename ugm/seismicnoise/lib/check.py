@@ -16,7 +16,7 @@ log = lib.logger.Logger(__name__)
 from lib.channel import get_seis_chname
 
 import matplotlib.pyplot as plt
-
+from astropy.io.registry import IORegistryError
 
 def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EXV',axis='X'):
     ''' Return the data status of a seismometer at specified time.
@@ -93,6 +93,12 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
         else:
             log.debug(traceback.format_exc())
             raise ValueError('!!!')
+    except IORegistryError  as e:
+        if 'Format' in e.args[0]:
+            return 'NoData_InvalidFormat'
+        else:
+            log.debug(traceback.format_exc())
+            raise ValueError('!!!')
     except:
         log.debug(traceback.format_exc())
         raise ValueError('!!!')
@@ -110,18 +116,8 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
     # Check Gaussianity
     std = data.std().value
     mean = data.mean().value
-    #data = (data-mean)/std
     sw_test = False
-    #test_data = data.resample(1).value
     test_data = data.value
-    if sw_test:
-        w,p_value = stats.shapiro(test_data)
-        log.debug(w,p_value)
-    else:
-        #test_data = stats.norm.rvs(loc=mean, scale=std, size=(1000,))
-        w,p_value = stats.kstest(test_data,cdf="norm",args=(mean,std),
-                                 alternative='two-sided', mode='approx')
-    log.debug(w,p_value)
     if plot:
         _max = data.max().value
         fig = plt.figure(figsize=(19,8))
@@ -176,10 +172,4 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
         return 'Normal_Reject'
     else :
         return 'Normal'    
-    # if p_value < cl:
-    #     #return 'Normal_Reject_{0:3.2e'.format(p_value)
-    #     return 'Normal_Reject {0:3.2f}'.format(std)
-    # else :
-    #     #return 'Normal_{0:3.2e}'.format(p_value)
-    #     return 'Normal {0:3.2f}'.format(std)
     return None
