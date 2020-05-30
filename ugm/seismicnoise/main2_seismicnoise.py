@@ -50,11 +50,15 @@ def peterson_noise_model(unit='um/sec/sec'):
         lfreq, ldisp = lfreq, lacc/(2.0*np.pi*lfreq)**2
         hfreq, hdisp = hfreq, hacc/(2.0*np.pi*hfreq)**2     
         return [[lfreq,ldisp],[hfreq,hdisp]]
+    elif unit == 'm':
+        lfreq, ldisp = lfreq, lacc/(2.0*np.pi*lfreq)**2*1e-6
+        hfreq, hdisp = hfreq, hacc/(2.0*np.pi*hfreq)**2*1e-6
+        return [[lfreq,ldisp],[hfreq,hdisp]]    
     else:
         raise ValueError(unit)
 
     
-def _percentile(axis,pctl=50,unit='um/sec/sec',suffix='',_dir='',**kwargs):
+def _percentile(axis,pctl=50,unit='um',suffix='',_dir='',**kwargs):
     fname = './data2/{3}/{0}_{1}.hdf5'.format(axis,pctl,suffix,_dir)
     model = kwargs.pop('model',None)
     _asd = FrequencySeries.read(fname)**0.5    
@@ -69,16 +73,19 @@ def _percentile(axis,pctl=50,unit='um/sec/sec',suffix='',_dir='',**kwargs):
     if unit=='um':
         asd = _asd/(2.0*np.pi*_asd.frequencies.value)
         #asd.write('./LongTerm_{0}_{1}_DISP.txt'.format(axis,pctl),format='txt')
+    elif unit=='m':
+        asd = _asd/(2.0*np.pi*_asd.frequencies.value)*1e-6
+        asd.write('./{0}_{1}_DISP.txt'.format(axis,pctl),format='txt')        
     elif unit=='um/sec':
         asd = _asd
-        #asd.write('./LongTerm_{0}_{1}_VELO.txt'.format(axis,pctl),format='txt')
+        asd.write('./{0}_{1}_VELO.txt'.format(axis,pctl),format='txt')
     elif unit=='um/sec/sec':
         asd = _asd*(2.0*np.pi*_asd.frequencies.value)
-        #asd.write('./LongTerm_{0}_{1}_VELO.txt'.format(axis,pctl),format='txt')
+        #asd.write('./LongTerm_{0}_{1}_ACC.txt'.format(axis,pctl),format='txt')
     elif unit=='m/sec/sec':
         asd = _asd*(2.0*np.pi*_asd.frequencies.value)*1e-6
     else:
-        raise ValueError('!!1')
+        raise ValueError('!!1',unit)
     return asd
 
 
@@ -115,7 +122,7 @@ def huge(axis,**kwargs):
     return h01,h10,h50,h90,h99,h
 
 
-def hoge(fname=None,unit='m/sec/sec',**kwargs):
+def hoge(fname=None,unit='m',**kwargs):
     #
     kwargs['unit'] = unit
     plot_selfnoise = kwargs.pop('plot_selfnoise',True)
@@ -150,6 +157,9 @@ def hoge(fname=None,unit='m/sec/sec',**kwargs):
         
     for _data,_color,_label in zip(data,colors,label):
         asd01,asd10,asd50,asd90,asd99,asdmean = _data
+        ax.loglog(asdmean.frequencies.value,asdmean.value,color='k')
+        if '_V' in _label:
+            _color='red'
         if '90' in option:
             ax.plot_mmm(asd50,asd10,asd90,color=_color,alpha=0.3,label=_label)
         if '99' in option:
@@ -175,7 +185,7 @@ def hoge(fname=None,unit='m/sec/sec',**kwargs):
     ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_xlabel('Frequency [Hz]',fontsize=20)
-    ax.set_xlim(1e-5,10)
+    ax.set_xlim(1e-3,100)
     if unit=='um/sec/sec':
         ax.set_ylim(1e-4,1e3)
         ax.set_ylabel('Acceleration [um/sec/sec/rtHz]',fontsize=20)
@@ -189,6 +199,10 @@ def hoge(fname=None,unit='m/sec/sec',**kwargs):
         ax.set_ylim(1e-6,1e2)
         ax.set_yticks(np.logspace(-6,2,9))
         ax.set_ylabel('Displacement [um/rtHz, or um]',fontsize=20)
+    elif unit=='m':
+        ax.set_ylim(1e-13,1e-4)
+        ax.set_yticks(np.logspace(-13,-4,10))
+        ax.set_ylabel('Displacement [m/rtHz',fontsize=20)        
     ax.legend(fontsize=14)#,loc='lower left')
     ax.grid(b=True,which='major', axis='both',linestyle='-')
     ax.grid(b=True,which='minor', axis='both',linestyle='--')
@@ -199,9 +213,9 @@ def hoge(fname=None,unit='m/sec/sec',**kwargs):
     plt.close()
 
 if __name__ == '__main__':
-    fnames = ['EXV_compare_V_vs_V_with_90.png',
-              'EXV_compare_H_vs_H_with_90.png',
-              'EXV_compare_V_vs_H_with_90.png',
+    fnames = [#'EXV_compare_V_vs_V_with_90.png',
+              #'EXV_compare_H_vs_H_with_90.png',
+              'EXV_compare_H_vs_V_with_90.png',
               'EXV_compare_V_vs_V_with_90_99.png',
               'EXV_compare_H_vs_H_with_90_99.png',
               # 'IXV-IXVTEST_EXV-IXV_compare_X_vs_X_with_90.png',
