@@ -76,9 +76,12 @@ class DataQuality(object):
         fmt = 'select startgps,endgps from {seis} WHERE flag={flag}'
         seislist = ['EXV_SEIS','IXV_SEIS','IXVTEST_SEIS','EYV_SEIS',
                     'MCE_SEIS','MCF_SEIS','BS_SEIS']
+        ans = self.ask("select name from sqlite_master where type='table'")
+        
         for seis in seislist:                                
             total = len(self.ask(fmt_total.format(seis=seis)))
-            for i,flag in enumerate([0,2,4,8]):
+            #for i,flag in enumerate([0,2,4,8]): 
+            for i,flag in enumerate([0,1,2,4,8]): # removeme
                 total -= len(self.ask(fmt.format(seis=seis,flag=flag)))
             if total!=0:                
                 raise ValueError('SegmentList Error: Missmatch the number '+\
@@ -114,7 +117,8 @@ class DataQuality(object):
         #                range(1211817600+4096,1245372032+1,4096))
         segments = zip(range(1211817600     ,1245372032+1,4096),
                        range(1211817600+4096,1245372032+1,4096))
-        data = [(start,end,0) for start,end in segments]
+        #data = [(start,end,0) for start,end in segments]
+        data = [(start,end,1) for start,end in segments] # removeme
         self.cursor.executemany("insert into {0} values (?,?,?)".format(name), data)
 
         
@@ -214,11 +218,11 @@ def danger():
     pass
 
 
-
 def remake(fname,seis):
     segments = np.loadtxt(fname,dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
     statusdict = {'Normal':0b0,
                   'Normal_Reject':NORMAL_REJECT,
+                  'BadData':NORMAL_REJECT,
                   'NoData_LackofData':LACK_OF_DATA,
                   'NoData_AnyZero':LACK_OF_DATA,
                   'NoData_AllZero':LACK_OF_DATA,
@@ -232,11 +236,17 @@ def remake(fname,seis):
     }
     with DataQuality('./dqflag.db') as db:
         # Remake
-        #db.add_table(seis)
+        db.cursor.execute('drop table {0}'.format(seis))
+        db.cursor.execute('vacuum')
+        db.add_table(seis)
+        #exit()
         for start,end,status in segments:
+            print(start,end,status,statusdict[status])
             db.update_flag(seis,start,end,statusdict[status],override=True)
+    
 
 if __name__ == '__main__':
+    
     #remake('./result_MCE.txt','MCE_SEIS')
     #remake('./result_MCF.txt','MCF_SEIS')
     #remake('./result_BS.txt' ,'BS_SEIS')

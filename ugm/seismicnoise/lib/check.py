@@ -18,6 +18,10 @@ from lib.channel import get_seis_chname
 import matplotlib.pyplot as plt
 from astropy.io.registry import IORegistryError
 
+prefix = '/home/kouseki.miyo/Git/kagra-gif/ugm/seismicnoise'
+badsegment = np.loadtxt(prefix+'/dataquality/badsegment.txt',delimiter=',')
+
+
 def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EXV',axis='X'):
     ''' Return the data status of a seismometer at specified time.
 
@@ -49,14 +53,29 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
     status : `str`
         status of data
     '''
+    # Remove bad data manualy
+    if (start,end) in badsegment:        
+        return 'BadData'
+
     # Check DAQ trouble    
     try:
-        chname = get_seis_chname(start,end,seis=seis,axis=axis)[0]
-        fnamelist = existedfilelist(start,end)
-        data = TimeSeries.read(fnamelist,chname,nproc=nproc)
-        data = data.resample(sample_rate)
-        data = data.crop(start,end)
-        data = data.detrend('linear')
+        if axis=='all':
+            axes = ['X','Y','Z']
+        elif axis in ['X','Y','Z']:
+            axes = [axis]
+        else:
+            raise ValueError('Invalid axis {0}'.format(axis))
+
+        data3 = []
+        for axis in axes:
+            chname = get_seis_chname(start,end,seis=seis,axis=axis)[0]
+            fnamelist = existedfilelist(start,end)
+            data = TimeSeries.read(fnamelist,chname,nproc=nproc)
+            data = data.resample(sample_rate)
+            data = data.crop(start,end)
+            data = data.detrend('linear')
+            data3 += [data]
+
     except ValueError as e:
         if 'Cannot append discontiguous TimeSeries' in e.args[0]:
             return 'NoData_LackofData'
@@ -104,72 +123,68 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
         raise ValueError('!!!')
 
     # Check Outlier
-    if data.shape[0] != tlen*sample_rate:
-        return 'NoData_FewData'
-    if data.std().value == 0.0:
-        return 'NoData_AllZero'
-    if any(data.value==0.0):
-        return 'NoData_AnyZero'
-    if any(np.diff(data.value) == 0.0):
-        return 'WrongData_AnyConstant'
-
-    # Check Gaussianity
-    std = data.std().value
-    mean = data.mean().value
-    sw_test = False
-    test_data = data.value
+    for data in data3:
+        if data.shape[0] != tlen*sample_rate:
+            return 'NoData_FewData'
+        if data.std().value == 0.0:
+            return 'NoData_AllZero'
+        if any(data.value==0.0):
+            return 'NoData_AnyZero'
+        if any(np.diff(data.value)==0.0):
+            return 'WrongData_AnyConstant'
+    
+    # Check
     if plot:
-        _max = data.max().value
-        fig = plt.figure(figsize=(19,8))
-        gs = gridspec.GridSpec(1, 3, width_ratios=[3,1,3],wspace=0.15) 
-        ax0 = plt.subplot(gs[0])
-        ax1 = plt.subplot(gs[1:2])
-        ax2 = plt.subplot(gs[2:])
-        ax0.set_ylabel('Counts')
-        ax0.plot(data,'k')
-        ax0.hlines(mean,start,end,'k')
-        ax0.set_xscale('auto-gps')
-        ax0.set_xlim(start,end)
-        ymin,ymax = mean-std*6,mean+std*6
-        _ymin,_ymax = mean-std*5,mean+std*5
-        ax0.set_ylim(ymin,ymax)
-        mu, sigma = norm.fit(data.value)
-        y = np.linspace(ymin, ymax, 100)
-        p = norm.pdf(y, mu, sigma)
-        ax1.plot(p,y,'k', linewidth=2)
-        n, bins, patches = ax1.hist(data.value, 50, normed=1, facecolor='black',
-                                    orientation="horizontal",
-                                    alpha=0.50)
-        ax1.set_ylim(ymin,ymax)
-        ax1.set_xlim(0,1./(std*2))
-        ax1.set_xticklabels(np.arange(0.0,0.15,0.02), rotation=-90)
-        ax1.set_xlabel('Probability Density')
-        ax1.text(0.005,ymin,
-                 'mu     '+': {0:03.1f}\n'.format(mu) + \
-                 'sigma  '+': {0:03.1f}\n'.format(sigma)+\
-                 'w      '+': {0:01.2f}\n'.format(w)+\
-                 'p-value'+': {0:01.2f}'.format(p_value),
-                 verticalalignment='bottom',
-                 fontsize=17,
-                 bbox=dict(facecolor='black', alpha=0.1))
-        stats.probplot(data.value,dist='norm',plot=ax2)
-        ax2.set_ylim(ymin,ymax)
-        if p_value<cl:
-            ax1.patch.set_facecolor('red')
-            ax1.patch.set_alpha(0.3) 
-            fname = './data/{2}/img/reject/{0}_{1}.png'.format(start,end,seis)
-        else:
-            fname = './data/{2}/img/ok/{0}_{1}.png'.format(start,end,seis)
+        fig = plt.figure(figsize=(19,12))
+        gs = gridspec.GridSpec(len(data3), 3, width_ratios=[3,1,3],wspace=0.15) 
 
-        dir_name = '/'.join(fname.split('/')[:5])        
-        if not os.path.exists(dir_name):
-            os.makedirs(dir_name)
+    n = len(data3)
+    for i,data in enumerate(data3):
+        std = data.std().value
+        mean = data.mean().value
+        _max = data.abs().max().value
+        if _max > mean+std*5:
+            return 'Normal_Reject'
+        elif _max > 1000: #count
+            return 'Normal_Reject'
+        elif _max < 1: # count
+            return 'Normal_Reject'
+        else:
+            pass
+        
+        if plot:
+            ax0 = plt.subplot(gs[i,0])
+            ax1 = plt.subplot(gs[i,1:2])
+            ax2 = plt.subplot(gs[i,2:])
+            ax0.set_ylabel('Counts')
+            ax0.plot(data,'k')
+            ax0.hlines(mean,start,end,'k')
+            ax0.set_xscale('auto-gps')
+            ax0.set_xlim(start,end)
+            ymin,ymax = mean-std*6,mean+std*6
+            _ymin,_ymax = mean-std*5,mean+std*5
+            ax0.hlines(_ymin,start,end,'k')
+            ax0.hlines(_ymax,start,end,'k')
+            ax0.hlines(_max,start,end,'r',linestyle='--')
+            ax0.hlines(-1*_max,start,end,'r',linestyle='--')
+            ax0.set_ylim(ymin,ymax)
+            mu, sigma = norm.fit(data.value)
+            y = np.linspace(ymin, ymax, 100)
+            p = norm.pdf(y, mu, sigma)
+            ax1.plot(p,y,'k', linewidth=2)
+            n, bins, patches = ax1.hist(data.value, 50, normed=1, 
+                                        facecolor='black',
+                                        orientation="horizontal",
+                                        alpha=0.50)
+            ax1.set_ylim(ymin,ymax)
+            ax1.set_xlim(0,1./(std*2))
+            ax1.set_xticklabels(np.arange(0.0,0.15,0.02), rotation=-90)
+            ax1.set_xlabel('Probability Density')
+            ax2.set_ylim(ymin,ymax)
+    if plot:
+        fname = './data/{2}/{0}_{1}.png'.format(start,end,seis)
+        log.debug(fname)
         plt.savefig(fname)
         plt.close()
-        
-    _max = data.abs().max().value
-    if _max > mean+std*5:
-        return 'Normal_Reject'
-    else :
-        return 'Normal'    
-    return None
+
+    return 'Normal'

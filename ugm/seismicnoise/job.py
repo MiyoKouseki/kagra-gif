@@ -30,9 +30,9 @@ START_GPS = 1211817600 # UTC: 2018-05-31 15:59:42
 END_GPS   = 1245372032 # UTC: 2019-06-24 00:40:14 (end=start+2**25)
 
 # --- Main Job ---
-headder = tmp_headder.format(memory=4)
-que = tmp_que.format(start=1211817600,end=1245372032,
-                 nproc=4,seis=seis,term='all',
+headder = tmp_headder.format(memory=16)
+que = tmp_que.format(start=START_GPS,end=END_GPS,
+                 nproc=8,seis=seis,term='all',
                  option='--asd')
 cmd = headder + que
 with open('main.job','w') as f:
@@ -42,13 +42,13 @@ with open('main.job','w') as f:
 jobs = 128
 tlen = 2**25
 bins = tlen/jobs
-segments = zip(range(1211817600     ,1245372032+1,bins),
-               range(1211817600+bins,1245372032+1,bins))
+segments = zip(range(START_GPS     ,END_GPS+1,bins),
+               range(START_GPS+bins,END_GPS+1,bins))
 # 1. main_multi_remakedb.job
 cmd = tmp_headder.format(memory=1)
 for start,end in segments:
     cmd += tmp_que.format(start=start,end=end,
-                          nproc=1,seis=seis,option='--remakedb')
+                          nproc=1,seis=seis,option='--updatedb')
 with open('main_multi_remakedb.job','w') as f:
     f.write(cmd)
 # 2. main_multi_savespecgram.job

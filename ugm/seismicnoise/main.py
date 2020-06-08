@@ -75,7 +75,7 @@ def save_mean(specgrams,axis,**kwargs):
     -------
     asd : `gwpy.frequencyseries.FrequencySeries`
         amplitude spectrum density.
-    '''
+    '''    
     asd = specgrams.mean(axis=0)
     prefix = kwargs.pop('prefix','')
     fname = fname_hdf5_percentile(axis,'mean',prefix=prefix)
@@ -112,21 +112,12 @@ def get_spectrogram(start,end,axis='X',seis='EXV',**kwargs):
         return specgram
 
     # If no file, make specgram from timeseries data
-    if '-' in seis:
-        seis,seis2 = seis.split('-')
-        diff = True
     try:
         chname = get_seis_chname(start,end,axis=axis,seis=seis)[0]
         fnamelist = existedfilelist(start,end)
         data = TimeSeries.read(fnamelist,chname,nproc=nproc)
         data = data.resample(fs)
         data = data.crop(start,end)
-        if diff:
-            chname2 = get_seis_chname(start,end,axis=axis,seis=seis2)[0]
-            data2 = TimeSeries.read(fnamelist,chname2,nproc=nproc)
-            data2 = data2.resample(fs)
-            data2 = data2.crop(start,end)
-            data = data - data2
     except:
         log.debug(traceback.format_exc())        
         raise ValueError('!!! {0} {1}'.format(start,end))
@@ -151,7 +142,6 @@ def append_data(segment,**kwargs):
     blrms = kwargs.pop('blrms',False)
     n = len(segment)
     kwargs['n'] = len(segment)
-
     # i = 0
     start,end = segment[0]
     x = [get_spectrogram(start,end,axis='X',**kwargs).mean(axis=0)]
@@ -175,24 +165,25 @@ def get_segment(start,end,seis,nproc):
     with DataQuality('./dataquality/dqflag.db') as db:
         total = db.ask(fmt_total.format(start,end,'EXV_SEIS'))
         gauss = db.ask(fmt_gauss.format(start,end,'EXV_SEIS'))
-    return gauss
+    return total,gauss
 
 
-def updatedb(start,end,seis,nproc):
+def updatedb(segment,seis,nproc,plot=False):
     import random
     fname = './dataquality/result_{0}.txt'.format(seis)
     if not os.path.exists(fname.split("result")[0]):
         os.mkdir(fname.split("result")[0])
+        
     with open(fname,'a') as f:
-        for i,(start,end) in enumerate(total):
-            kwargs = {'nproc':nproc,'plot':False,'seis':seis,
-                      'axis':'X','tlen':4096,'sample_rate':16,'cl':0.05}
+        for i,(start,end) in enumerate(segment):
+            kwargs = {'nproc':nproc,'plot':plot,'seis':seis,
+                      'axis':'all','tlen':4096,'sample_rate':16,'cl':0.05}
             ans = check(start,end,**kwargs)
             log.debug('{0:03d}/{1:03d} : {2} {3} {4}'.format(
-                i+1,len(total),start,end,ans))
+                i+1,len(segment),start,end,ans))
             f.write('{0} {1} {2}\n'.format(start,end,ans))
 
-def balsdb():
+def balsdb(fname,seis):
     remake(fname,seis)
 
 # ----------------------------------------------------------------------
@@ -218,32 +209,33 @@ if __name__ == "__main__":
     seis = args.seis
 
     #  Choose Segment  
-    segment = get_segment(start,end,seis,nproc)
+    total,gauss = get_segment(start,end,seis,nproc)
 
     #  Choose Calculation
     if args.updatedb:
-        updatedb(start,end,seis,nproc)
-
+        #total = total[20:21]
+        updatedb(total,seis,nproc,plot=True)
+        
     if args.balsdb: 
-        bals() # inintialize db
+        bals('./dataquality/result_EXV.txt',seis)
 
     if args.savespecgram:        
         kwargs = {'seis':seis,'nproc':nproc}
-        x,y,z = append_data(segment,**kwargs)
+        x,y,z = append_data(gauss,**kwargs)
         log.debug('Finish to save spectrogram.')
         exit()
 
     if args.asd: # calculate asd
         kwargs = {'seis':seis,'nproc':nproc}
-        x,y,z = append_data(segment,**kwargs)
+        x,y,z = append_data(gauss,**kwargs)
         for pctl in [1,5,10,50,90,95,99]:
             save_percentile(x,pctl,'X',prefix=seis)
             save_percentile(y,pctl,'Y',prefix=seis)
             save_percentile(z,pctl,'Z',prefix=seis)
 
-        save_mean(x,'X',prefix=prefix)
-        save_mean(y,'Y',prefix=prefix)
-        save_mean(z,'Z',prefix=prefix)
+        save_mean(x,'X',prefix=seis)
+        save_mean(y,'Y',prefix=seis)
+        save_mean(z,'Z',prefix=seis)
 
     # Finish!
     log.debug('Finish!')
