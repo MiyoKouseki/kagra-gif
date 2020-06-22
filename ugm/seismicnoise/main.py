@@ -160,13 +160,12 @@ def append_data(segment,**kwargs):
     z = Spectrogram.from_spectra(*z)
     return x,y,z
 
-def get_segment(start,end,seis,nproc):
+def get_segment_seis(start,end,seis,nproc):
     from dataquality.dataquality import DataQuality, fmt_total,fmt_gauss
     with DataQuality('./dataquality/dqflag.db') as db:
         total = db.ask(fmt_total.format(start,end,'EXV_SEIS'))
         gauss = db.ask(fmt_gauss.format(start,end,'EXV_SEIS'))
     return total,gauss
-
 
 def updatedb(segment,seis,nproc,plot=False):
     import random
@@ -186,6 +185,29 @@ def updatedb(segment,seis,nproc,plot=False):
 def balsdb(fname,seis):
     remake(fname,seis)
 
+
+def download_seis_data(segment,seis,axis,nproc=1,fs=256):
+    '''
+    '''
+    start,end = segment
+    _chname = get_seis_chname(start,end,axis=axis,seis=seis)[0]
+    _fnamelist = existedfilelist(start,end)
+    try:
+        data = TimeSeries.read(_fnamelist,_chname,nproc=nproc,
+                               format='gwf.framecpp')
+        data = data.resample(fs)
+        data = data.crop(start,end)
+        data.override_unit('ct')
+        fname = 'tmp/{0}_{1}_{2}_{3}.gwf'.format(start,end,seis,axis)
+        if not os.path.exists('./tmp'):
+            os.mkdir('./tmp')
+        if not os.path.exists(fname):        
+            data.write(fname)
+        log.debug(fname)
+    except:
+        log.debug(traceback.format_exc())
+        raise ValueError('!!! {0} {1}'.format(start,end))
+
 # ----------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -201,30 +223,39 @@ if __name__ == "__main__":
     parser.add_argument('--balsdb', action='store_true')
     parser.add_argument('--bandpass', action='store_true')
     parser.add_argument('--savespecgram', action='store_true')
+    parser.add_argument('--download_gwf', action='store_true')
+    log.debug('!')
     args = parser.parse_args()
     start,end = args.start,args.end
     nproc = args.nproc
     remakedb = args.remakedb
     savespecgram = args.savespecgram
     seis = args.seis
-
+    
     #  Choose Segment  
-    total,gauss = get_segment(start,end,seis,nproc)
+    total,gauss = get_segment_seis(start,end,seis,nproc)
 
+    
     #  Choose Calculation
+    if args.download_gwf:
+        import random
+        total = random.sample(gauss,5)
+        [download_seis_data(segment,'EXV','X') for segment in total]            
+        exit()
+        
     if args.updatedb:
         #total = total[20:21]
         updatedb(total,seis,nproc,plot=True)
         
     if args.balsdb: 
         bals('./dataquality/result_EXV.txt',seis)
-
+        
     if args.savespecgram:        
         kwargs = {'seis':seis,'nproc':nproc}
         x,y,z = append_data(gauss,**kwargs)
         log.debug('Finish to save spectrogram.')
         exit()
-
+    
     if args.asd: # calculate asd
         kwargs = {'seis':seis,'nproc':nproc}
         x,y,z = append_data(gauss,**kwargs)

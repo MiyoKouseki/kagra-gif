@@ -5,7 +5,7 @@ import traceback
 
 from gwpy.segments import DataQualityFlag
 
-import logger
+from lib import logger
 log = logger.Logger(__name__)
 
 

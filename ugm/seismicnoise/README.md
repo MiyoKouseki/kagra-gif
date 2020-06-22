@@ -74,3 +74,12 @@ If there are no bad signal mentioned above in a segment, this segment is defined
 
 > rsync --include='*/' --include='*png' --exclude='*' --delete -av -e ssh m31-01:~/kagra-gif/ugm/seismicnoise/data/ ~/Git/k
 agra-gif/ugm/seismicnoise/data 
+
+
+## How to use
+
+ * Calclate ASDs (mean,percentile) from start to end with EXV seismometer 
+
+./main.py --start 1211817600 --end 1245372032 --nproc 8 --seis EXV --asd
+
+
