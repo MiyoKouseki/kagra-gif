@@ -167,6 +167,21 @@ def get_segment_seis(start,end,seis,nproc):
         gauss = db.ask(fmt_gauss.format(start,end,'EXV_SEIS'))
     return total,gauss
 
+def get_segment_2seis(start,end,seis1,seis2,nproc):
+    from dataquality.dataquality import DataQuality, fmt_total,fmt_gauss, fmt_gauss_2seis
+    with DataQuality('./dataquality/dqflag.db') as db:
+        total = db.ask(fmt_total.format(start,end,'EXV_SEIS'))
+        gauss = db.ask(fmt_gauss_2seis.format(start,end,seis1,seis2))
+    return total,gauss
+
+def get_segment_3seis(start,end,seis1,seis2,seis3,nproc):
+    from dataquality.dataquality import DataQuality, fmt_total,fmt_gauss, fmt_gauss_3seis
+    with DataQuality('./dataquality/dqflag.db') as db:
+        total = db.ask(fmt_total.format(start,end,'EXV_SEIS'))
+        gauss = db.ask(fmt_gauss_3seis.format(start,end,seis1,seis2,seis3))
+    return total,gauss
+
+
 def updatedb(segment,seis,nproc,plot=False):
     import random
     fname = './dataquality/result_{0}.txt'.format(seis)
@@ -234,8 +249,15 @@ if __name__ == "__main__":
     
     #  Choose Segment  
     total,gauss = get_segment_seis(start,end,seis,nproc)
+    print(len(gauss))
+    total,gauss = get_segment_2seis(start,end,'EXV_SEIS','EYV_SEIS',nproc)
+    print(len(gauss))
+    total,gauss = get_segment_2seis(start,end,'EXV_SEIS','IXV_SEIS',nproc)
+    print(len(gauss))
+    total,gauss = get_segment_3seis(start,end,'EXV_SEIS','IXV_SEIS','EYV_SEIS',nproc)
+    print(len(gauss))
+    exit()
 
-    
     #  Choose Calculation
     if args.download_gwf:
         import random

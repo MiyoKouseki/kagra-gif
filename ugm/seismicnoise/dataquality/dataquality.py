@@ -25,6 +25,7 @@ fmt_total = 'select startgps,endgps from {2} '+\
 fmt_gauss = 'select startgps,endgps from {2} '+\
             'WHERE (flag=0)'+\
             ' and (startgps>={0} and endgps<={1})'
+
 fmt_gauss_night = 'select startgps,endgps from {2} '+\
                   'WHERE flag=0' +\
                   ' and (startgps>={0} and endgps<={1})'+\
@@ -63,6 +64,14 @@ fmt_gauss_2seis = 'select {2}.startgps,{2}.endgps '+\
                   'from {2} INNER JOIN {3} '+\
                   'ON ({2}.startgps ={3}.startgps) '+\
                   'WHERE ({2}.flag=0 and {3}.flag=0 )'+\
+                  ' and ({2}.startgps>={0} and {2}.endgps<={1})'
+fmt_gauss_3seis = 'select {2}.startgps,{2}.endgps '+\
+                  'from {2} '+\
+                  'INNER JOIN {3} '+\
+                  'ON ({2}.startgps ={3}.startgps) '+\
+                  'INNER JOIN {4} '+\
+                  'ON ({2}.startgps ={4}.startgps) '+\
+                  'WHERE ({2}.flag=0 and {3}.flag=0 and {4}.flag=0)'+\
                   ' and ({2}.startgps>={0} and {2}.endgps<={1})'
 
 class DataQuality(object):
