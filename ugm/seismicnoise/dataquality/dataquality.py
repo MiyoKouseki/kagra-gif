@@ -219,20 +219,20 @@ def danger():
 
 
 def remake(fname,seis):
-    segments = np.loadtxt(fname,dtype=[('col1','i8'),('col2','i8'),('col3','S20')])
-    statusdict = {'Normal':0b0,
-                  'Normal_Reject':NORMAL_REJECT,
-                  'BadData':NORMAL_REJECT,
-                  'NoData_LackofData':LACK_OF_DATA,
-                  'NoData_AnyZero':LACK_OF_DATA,
-                  'NoData_AllZero':LACK_OF_DATA,
-                  'NoData_Empty':LACK_OF_DATA,
-                  'NoData_NoChannel':LACK_OF_DATA,
-                  'NoData_FewData':LACK_OF_DATA,
-                  'Nodata_AnyNan':LACK_OF_DATA,
-                  'NoData_FailedtoRead':LACK_OF_FILE,
-                  'Nodata_FailedtoRead':LACK_OF_FILE,
-                  'NoData_InvalidFormat':LACK_OF_FILE,
+    segments = np.loadtxt(fname,dtype=[('col1','i8'),('col2','i8'),('col3','S30')])
+    statusdict = {b'Normal':0b0,
+                  b'Normal_Reject':NORMAL_REJECT,
+                  b'BadData':NORMAL_REJECT,
+                  b'NoData_LackofData':LACK_OF_DATA,
+                  b'NoData_AnyZero':LACK_OF_DATA,
+                  b'NoData_AllZero':LACK_OF_DATA,
+                  b'NoData_Empty':LACK_OF_DATA,
+                  b'NoData_NoChannel':LACK_OF_DATA,
+                  b'NoData_FewData':LACK_OF_DATA,
+                  b'Nodata_AnyNan':LACK_OF_DATA,
+                  b'NoData_FailedtoRead':LACK_OF_FILE,
+                  b'Nodata_FailedtoRead':LACK_OF_FILE,
+                  b'NoData_InvalidFormat':LACK_OF_FILE,
     }
     with DataQuality('./dqflag.db') as db:
         # Remake
@@ -251,5 +251,6 @@ if __name__ == '__main__':
     #remake('./result_MCF.txt','MCF_SEIS')
     #remake('./result_BS.txt' ,'BS_SEIS')
     remake('./result_EXV.txt' ,'EXV_SEIS')
-    #remake('./result_IXV.txt' ,'IXV_SEIS')
+    remake('./result_IXV.txt' ,'IXV_SEIS')
+    remake('./result_EYV.txt' ,'EYV_SEIS')
     #remake('./result_IXVTEST.txt' ,'IXVTEST_SEIS')
