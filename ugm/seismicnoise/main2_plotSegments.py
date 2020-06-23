@@ -105,7 +105,7 @@ fmt_nonegauss = 'select startgps,endgps from {2} WHERE flag=8 and ' +\
                 '(startgps>={0} and endgps<={1})'
 
                 
-seislist = ['EXV_SEIS','IXV_SEIS'],['IXV_SEIS','IXVTEST_SEIS']
+seislist = ['EXV_SEIS','IXV_SEIS'],['IXV_SEIS','EYV_SEIS']
 for seis1,seis2 in seislist:
     with DataQuality('./dataquality/dqflag.db') as db:
         #
@@ -119,7 +119,7 @@ for seis1,seis2 in seislist:
     
 
 #
-seislist = ['EXV_SEIS','IXV_SEIS','IXVTEST_SEIS','MCE_SEIS','MCF_SEIS','BS_SEIS']
+seislist = ['EXV_SEIS','IXV_SEIS','EYV_SEIS']
 for seis in seislist:
     with DataQuality('./dataquality/dqflag.db') as db:
         #
