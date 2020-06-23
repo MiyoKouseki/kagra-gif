@@ -25,6 +25,11 @@ RequestCpus    = {nproc}
 Arguments  = ./main.py --start {start} --end {end} --nproc {nproc} --seis {seis} {option}
 Queue
 '''
+tmp_que2 = '''
+RequestCpus    = {nproc}
+Arguments  = ./main.py --start {start} --end {end} --nproc {nproc} {option}
+Queue
+'''
 #--------------------------------------------------------------------------------
 
 START_GPS = 1211817600 # UTC: 2018-05-31 15:59:42
@@ -37,6 +42,14 @@ que = tmp_que.format(start=START_GPS,end=END_GPS,
                  option='--asd')
 cmd = headder + que
 with open('main.job','w') as f:
+    f.write(cmd)
+
+# download
+headder = tmp_headder.format(memory=16)
+que = tmp_que2.format(start=START_GPS,end=END_GPS,
+                      nproc=8,option='--download_gwf')
+cmd = headder + que
+with open('main_download.job','w') as f:
     f.write(cmd)
 
 # --- Multi Job ---

@@ -249,20 +249,24 @@ if __name__ == "__main__":
     
     #  Choose Segment  
     total,gauss = get_segment_seis(start,end,seis,nproc)
-    print(len(gauss))
-    total,gauss = get_segment_2seis(start,end,'EXV_SEIS','EYV_SEIS',nproc)
-    print(len(gauss))
-    total,gauss = get_segment_2seis(start,end,'EXV_SEIS','IXV_SEIS',nproc)
-    print(len(gauss))
+    #total,gauss = get_segment_2seis(start,end,'EXV_SEIS','EYV_SEIS',nproc)
+    #total,gauss = get_segment_2seis(start,end,'EXV_SEIS','IXV_SEIS',nproc)
     total,gauss = get_segment_3seis(start,end,'EXV_SEIS','IXV_SEIS','EYV_SEIS',nproc)
-    print(len(gauss))
-    exit()
 
     #  Choose Calculation
     if args.download_gwf:
         import random
-        total = random.sample(gauss,5)
-        [download_seis_data(segment,'EXV','X') for segment in total]            
+        random.seed(34)
+        total = random.sample(gauss,1)
+        [download_seis_data(segment,'EXV','X') for segment in total]
+        [download_seis_data(segment,'EXV','Y') for segment in total]
+        [download_seis_data(segment,'EXV','Z') for segment in total]
+        [download_seis_data(segment,'IXV','X') for segment in total]
+        [download_seis_data(segment,'IXV','Y') for segment in total]
+        [download_seis_data(segment,'IXV','Z') for segment in total]
+        [download_seis_data(segment,'EYV','X') for segment in total]
+        [download_seis_data(segment,'EYV','Y') for segment in total]
+        [download_seis_data(segment,'EYV','Z') for segment in total]
         exit()
         
     if args.updatedb:
