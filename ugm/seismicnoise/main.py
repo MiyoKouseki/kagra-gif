@@ -245,7 +245,7 @@ if __name__ == "__main__":
         
     if args.updatedb:
         #total = total[20:21]
-        updatedb(total,seis,nproc,plot=True)
+        updatedb(total,seis,nproc,plot=False)
         
     if args.balsdb: 
         bals('./dataquality/result_EXV.txt',seis)

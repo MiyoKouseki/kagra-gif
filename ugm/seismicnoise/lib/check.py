@@ -87,6 +87,8 @@ def check(start,end,plot=False,nproc=2,cl=0.05,tlen=4096,sample_rate=16,seis='EX
             return 'Nodata_FailedtoRead'
         elif 'Creation of unknown checksum type' in e.args[0]:
             return 'Nodata_FailedtoRead'
+        elif 'TimeSeries units do not match: cnt vs cnt' in e.args[0]:
+            return 'Nodata_FailedtoRead'
         else:
             log.debug(traceback.format_exc())
             raise ValueError('!!!')

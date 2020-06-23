@@ -4,7 +4,7 @@
 # End   : 2019-06-24 09:40:14 (JST)
 #seis = 'MCF'
 seis = ['EYV','BS','EXV','IXV','IXVTEST','MCE','MCF']
-seis = seis[2]
+seis = seis[3]
 #--------------------------------------------------------------------------------
 tmp_headder = '''
 Universe       = vanilla 
@@ -14,7 +14,8 @@ Notification   = Never
 +Group         = "Xc"
 request_memory = {memory} GB
 
-Executable = /usr/bin/python 
+#Executable = /usr/bin/python 
+Executable = /home/kouseki.miyo/anaconda3/envs/miyo-py37/bin/python 
 Error      = ./log/main.$(Process).err
 Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
@@ -39,22 +40,22 @@ with open('main.job','w') as f:
     f.write(cmd)
 
 # --- Multi Job ---
-jobs = 128
-tlen = 2**25
-bins = tlen/jobs
+jobs = 256
+tlen = 33554432 #2**25
+bins = int(tlen/jobs)
 segments = zip(range(START_GPS     ,END_GPS+1,bins),
                range(START_GPS+bins,END_GPS+1,bins))
 # 1. main_multi_remakedb.job
-cmd = tmp_headder.format(memory=1)
+cmd = tmp_headder.format(memory=4)
 for start,end in segments:
     cmd += tmp_que.format(start=start,end=end,
-                          nproc=1,seis=seis,option='--updatedb')
-with open('main_multi_remakedb.job','w') as f:
+                          nproc=4,seis=seis,option='--updatedb')
+with open('main_multi_update.job','w') as f:
     f.write(cmd)
 # 2. main_multi_savespecgram.job
-cmd = tmp_headder.format(memory=1)
+cmd = tmp_headder.format(memory=4)
 for start,end in segments:
     cmd += tmp_que.format(start=start,end=end,
-                          nproc=1,seis=seis,option='--savespecgram')
+                          nproc=4,seis=seis,option='--savespecgram')
 with open('main_multi_savespecgram.job','w') as f:
     f.write(cmd)
