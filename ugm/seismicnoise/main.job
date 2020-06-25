@@ -13,5 +13,5 @@ Log        = ./log/main.$(Process).log
 Output     = ./log/main.$(Process).out
 
 RequestCpus    = 8
-Arguments  = ./main.py --start 1211817600 --end 1245372032 --nproc 8 --seis IXV --asd
+Arguments  = ./main.py --start 1211817600 --end 1278926464 --nproc 8 --seis IXV --asd
 Queue

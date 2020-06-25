@@ -114,6 +114,9 @@ class DataQuality(object):
         self.cursor.execute('vacuum')
         # Make TEST table
         self.add_table('TEST')
+        seislist = ['EXV_SEIS','IXV_SEIS','IXVTEST_SEIS','EYV_SEIS',
+                    'MCE_SEIS','MCF_SEIS','BS_SEIS']
+        [self.add_table(seis) for seis in seislist]
         
     def add_table(self,name='TEST'):
         '''
@@ -121,12 +124,12 @@ class DataQuality(object):
         # Make new table
         self.cursor.execute('create table {0}('.format(name)+
                             'startgps unique, endgps unique, flag bit)')        
-        # Insert TEST value        
-        # segments = zip(range(1211817600     ,1245372032+1,4096),
-        #                range(1211817600+4096,1245372032+1,4096))
-        segments = zip(range(1211817600     ,1245372032+1,4096),
-                       range(1211817600+4096,1245372032+1,4096))
-        #data = [(start,end,0) for start,end in segments]
+
+        START_GPS = 1211817600 # UTC: 2018-05-31 15:59:42
+        END_GPS   = 1278926464 # UTC: 2020-07-16 09:20:46 (end=start+2**26)
+        bins = 4096
+        segments = zip(range(START_GPS     ,END_GPS+1,bins),
+                       range(START_GPS+bins,END_GPS+1,bins)) 
         data = [(start,end,1) for start,end in segments] # removeme
         self.cursor.executemany("insert into {0} values (?,?,?)".format(name), data)
 
@@ -253,9 +256,13 @@ def remake(fname,seis):
             print(start,end,status,statusdict[status])
             db.update_flag(seis,start,end,statusdict[status],override=True)
     
+def bals():
+    with DataQuality('./dqflag.db') as db:
+        db.bals()
+    exit()
 
 if __name__ == '__main__':
-    
+    #bals()
     #remake('./result_MCE.txt','MCE_SEIS')
     #remake('./result_MCF.txt','MCF_SEIS')
     #remake('./result_BS.txt' ,'BS_SEIS')

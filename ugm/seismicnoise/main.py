@@ -213,7 +213,7 @@ def download_seis_data(segment,seis,axis,nproc=1,fs=256):
         data = data.resample(fs)
         data = data.crop(start,end)
         data.override_unit('ct')
-        fname = 'tmp/{0}_{1}_{2}_{3}.gwf'.format(start,end,seis,axis)
+        fname = 'tmp/{0}_{1}_{2}.gwf'.format(start,end,_chname)
         if not os.path.exists('./tmp'):
             os.mkdir('./tmp')
         if not os.path.exists(fname):        
@@ -252,7 +252,7 @@ if __name__ == "__main__":
     #total,gauss = get_segment_2seis(start,end,'EXV_SEIS','EYV_SEIS',nproc)
     #total,gauss = get_segment_2seis(start,end,'EXV_SEIS','IXV_SEIS',nproc)
     total,gauss = get_segment_3seis(start,end,'EXV_SEIS','IXV_SEIS','EYV_SEIS',nproc)
-
+    
     #  Choose Calculation
     if args.download_gwf:
         import random
@@ -289,10 +289,11 @@ if __name__ == "__main__":
             save_percentile(x,pctl,'X',prefix=seis)
             save_percentile(y,pctl,'Y',prefix=seis)
             save_percentile(z,pctl,'Z',prefix=seis)
-
+            
         save_mean(x,'X',prefix=seis)
         save_mean(y,'Y',prefix=seis)
         save_mean(z,'Z',prefix=seis)
-
+    
     # Finish!
     log.debug('Finish!')
+    
