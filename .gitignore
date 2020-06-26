@@ -16,4 +16,5 @@ kagranoisebudget
 PXI_DATA2
 data1
 data_old
-main_*job
+*job
+!main.job

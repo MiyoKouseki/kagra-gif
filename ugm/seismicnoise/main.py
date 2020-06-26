@@ -213,9 +213,9 @@ def download_seis_data(segment,seis,axis,nproc=1,fs=256):
         data = data.resample(fs)
         data = data.crop(start,end)
         data.override_unit('ct')
-        fname = 'tmp/{0}_{1}_{2}.gwf'.format(start,end,_chname)
-        if not os.path.exists('./tmp'):
-            os.mkdir('./tmp')
+        fname = './tmp/{0}_{1}/{0}_{1}_{2}.gwf'.format(start,end,_chname)
+        if not os.path.exists('./tmp/{0}_{1}'.format(start,end)):
+            os.mkdir('./tmp/{0}_{1}'.format(start,end))
         if not os.path.exists(fname):        
             data.write(fname)
         log.debug(fname)
@@ -223,7 +223,6 @@ def download_seis_data(segment,seis,axis,nproc=1,fs=256):
         log.debug(traceback.format_exc())
         raise ValueError('!!! {0} {1}'.format(start,end))
 
-# ----------------------------------------------------------------------
 
 if __name__ == "__main__":
     import argparse
@@ -246,18 +245,21 @@ if __name__ == "__main__":
     remakedb = args.remakedb
     savespecgram = args.savespecgram
     seis = args.seis
-    
+    # -------------------------------------------------------------------------
     #  Choose Segment  
+    # -------------------------------------------------------------------------
     total,gauss = get_segment_seis(start,end,seis,nproc)
     #total,gauss = get_segment_2seis(start,end,'EXV_SEIS','EYV_SEIS',nproc)
     #total,gauss = get_segment_2seis(start,end,'EXV_SEIS','IXV_SEIS',nproc)
-    total,gauss = get_segment_3seis(start,end,'EXV_SEIS','IXV_SEIS','EYV_SEIS',nproc)
+    total,gauss = get_segment_3seis(1228662018,end,'EXV_SEIS','IXV_SEIS','EYV_SEIS',nproc) # use data after Dec 12 2018 
     
+    # -------------------------------------------------------------------------
     #  Choose Calculation
+    # -------------------------------------------------------------------------
     if args.download_gwf:
         import random
         random.seed(34)
-        total = random.sample(gauss,1)
+        total = random.sample(gauss,100)
         [download_seis_data(segment,'EXV','X') for segment in total]
         [download_seis_data(segment,'EXV','Y') for segment in total]
         [download_seis_data(segment,'EXV','Z') for segment in total]
